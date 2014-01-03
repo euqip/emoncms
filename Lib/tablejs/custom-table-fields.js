@@ -159,7 +159,8 @@ var customtablefields = {
     {
         'draw': function (row,field) { 
           var icon = 'icon-eye-open'; if (table.fields[field].icon) icon = table.fields[field].icon;
-          return "<a href='"+table.fields[field].link+table.data[row]['id']+"' ><i class='"+icon+"' ></i></a>" 
+          var tooltip = '';if (table.fields[field].tooltip) tooltip = table.fields[field].tooltip
+          return "<a href='"+table.fields[field].link+table.data[row]['id']+"' title='"+tooltip+"' ><i class='"+icon+"' ></i></a>" 
         }
     },
 
@@ -167,7 +168,8 @@ var customtablefields = {
     {
         'draw': function(row,field)
         {
-            return "<i class='"+table.fields[field].icon+"' type='icon' row='"+row+"' ></i>";
+            var tooltip = '';if (table.fields[field].tooltip) tooltip = table.fields[field].tooltip
+            return "<i class='"+table.fields[field].icon+"' type='icon' row='"+row+"' title='"+tooltip+"'></i>";
         }
     }
 }

@@ -59,7 +59,8 @@ var table = {
             for (field in table.fields)
             {
               var title = field; if (table.fields[field].title!=undefined) title = table.fields[field].title;
-              html += "<th><a type='sort' field='"+field+"'>"+title+"</a></th>";
+              var tooltip = ''; if (table.fields[field].tooltip!=undefined) tooltip = table.fields[field].tooltip;
+              html += "<th><a type='sort' field='"+field+"' title=''>"+title+"</a></th>";
             }
             html += "</tr>";
             html += groups[group];
@@ -76,7 +77,11 @@ var table = {
     'draw_row': function(row)
     {
         var html = "<tr uid='"+row+"' >";
-        for (field in table.fields) html += "<td row='"+row+"' field='"+field+"' >"+table.fieldtypes[table.fields[field].type].draw(row,field)+"</td>";
+        //insert here the icon tooltips for Edit and delete
+        for (field in table.fields) {
+            var tooltip = ''; if (table.fields[field].tooltip!=undefined) tooltip = table.fields[field].tooltip;
+            html += "<td row='"+row+"' field='"+field+"' >"+table.fieldtypes[table.fields[field].type].draw(row,field)+"</td>";
+        }
         html += "</tr>";
         return html;
     },
@@ -158,8 +163,8 @@ var table = {
               if (fields_to_update[table.groupby]!=undefined) table.draw();
             }
 
-            if (mode == 'edit') {$(this).attr('mode','save'); $(this).html("<i class='icon-ok' ></i>");}
-            if (mode == 'save') {$(this).attr('mode','edit'); $(this).html("<i class='icon-pencil' ></i>");}
+            if (mode == 'edit') {$(this).attr('mode','save'); $(this).html("<i class='icon-ok' title='Save the modifications'></i>");}
+            if (mode == 'save') {$(this).attr('mode','edit'); $(this).html("<i class='icon-pencil' title='Edit the row content'></i>");}
         });
 
         // Check if events have been defined for field types.
@@ -220,7 +225,7 @@ var table = {
 
         'delete':
         {
-            'draw': function (row,field) { return "<a type='delete' row='"+row+"' uid='"+table.data[row]['id']+"' ><i class='icon-trash' ></i></a>"; }
+            'draw': function (row,field) { return "<a type='delete' title='Delete this row' row='"+row+"' uid='"+table.data[row]['id']+"' ><i class='icon-trash' ></i></a>"; }
         },
 
         'edit':

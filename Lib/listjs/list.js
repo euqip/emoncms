@@ -41,7 +41,7 @@ var list = {
             {
               list.data[field] = list.fieldtypes[list.fields[field].type].save(field);
               $(list.element+" tr[field="+field+"] td[type=value]").html(list.fieldtypes[list.fields[field].type].draw(list.data[field]));
-              $(this).html("<i class='icon-pencil' style='display:none'></i>").attr('action','edit');
+              $(this).html("<i class='icon-pencil' tooltip='Edit' style='display:none'></i>").attr('action','edit');
               $(list.element).trigger("onSave",[]);
             }
         });

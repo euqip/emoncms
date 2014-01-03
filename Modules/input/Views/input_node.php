@@ -52,9 +52,9 @@ input[type="text"] {
     'value':{'type':"value"},
 
     // Actions
-    'edit-action':{'title':'', 'type':"edit"},
-    'delete-action':{'title':'', 'type':"delete"},
-    'view-action':{'title':'', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'icon-wrench'}
+    'edit-action':{'title':'','tooltip':'Edit',  'type':"edit"},
+    'delete-action':{'title':'','tooltip':'Delete', 'type':"delete"},
+    'view-action':{'title':'','tooltip':'Edit process', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'icon-wrench'}
 
   }
 

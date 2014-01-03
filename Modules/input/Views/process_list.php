@@ -122,7 +122,7 @@ function update_list()
       } 
 
       if (i < inputprocesslist.length) {
-        out += '<a class="move-process" href="#" title="<?php echo _("Move up"); ?>" processid='+i+' moveby=1 ><i class="icon-arrow-down"></i></a>';            
+        out += '<a class="move-process" href="#" title="<?php echo _("Move down"); ?>" processid='+i+' moveby=1 ><i class="icon-arrow-down"></i></a>';            
       }
       out += '</td>';  
 

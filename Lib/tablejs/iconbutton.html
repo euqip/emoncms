@@ -36,8 +36,8 @@
         'public':{'type':"icon", 'trueicon':"icon-globe", 'falseicon':"icon-lock"},
 
         // Actions
-        'edit-action':{'title':'', 'type':"edit"},
-        'delete-action':{'title':'', 'type':"delete"}
+        'edit-action':{'title':'', 'tooltip':'Edit', 'type':"edit"},
+        'delete-action':{'title':'', 'tooltip':'Delete', 'type':"delete"}
       }
 
       table.groupby = 'tag';
@@ -48,6 +48,7 @@
         {id:3,name:'solar power',tag:'solar',datatype:1, 'public':false},
         {id:4,name:'solar kWhd',tag:'solar',datatype:2, 'public':false}
       ];
+
 
       table.draw();
 

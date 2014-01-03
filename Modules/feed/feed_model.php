@@ -163,6 +163,7 @@ class Feed
       $row = $this->redis->hGetAll("feed:$id");
       
       $lastvalue = $this->get_timevalue($id);
+            date_default_timezone_set('UTC');
       $row['time'] = strtotime($lastvalue['time']);
       $row['value'] = $lastvalue['value'];
       $feeds[] = $row;

@@ -56,12 +56,12 @@ input[type="text"] {
     'published':{'title':"<?php echo _('Published'); ?>", 'type':"icon", 'trueicon':"icon-ok", 'falseicon':"icon-remove"},
 
     // Actions
-    'clone-action':{'title':'', 'type':"iconlink", 'icon':"icon-random", 'link':path+"dashboard/clone.json?id="},
+    'clone-action':{'title':'','tooltip':"<?php echo _('Duplicate'); ?>", 'type':"iconlink", 'icon':"icon-random", 'link':path+"dashboard/clone.json?id="},
 
-    'edit-action':{'title':'', 'type':"edit"},
-    'delete-action':{'title':'', 'type':"delete"},
-    'draw-action':{'title':'', 'type':"iconlink", 'icon':"icon-edit", 'link':path+"dashboard/edit?id="},
-    'view-action':{'title':'', 'type':"iconlink", 'link':path+"dashboard/view?id="}
+    'edit-action':{'title':'','tooltip':"<?php echo _('Edit'); ?>", 'type':"edit"},
+    'delete-action':{'title':'','tooltip':"<?php echo _('Delete'); ?>", 'type':"delete"},
+    'draw-action':{'title':'','tooltip':"<?php echo _('Design'); ?>", 'type':"iconlink", 'icon':"icon-edit", 'link':path+"dashboard/edit?id="},
+    'view-action':{'title':'','tooltip':"<?php echo _('Show'); ?>", 'type':"iconlink", 'link':path+"dashboard/view?id="}
 
   }
 
@@ -105,3 +105,11 @@ input[type="text"] {
   });
 
 </script>
+<script>
+$(function () {
+    $("table a, table i, img").tooltip({
+        placement : 'top'
+    });
+});
+</script>
+

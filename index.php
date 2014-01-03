@@ -13,6 +13,8 @@
   */
   
   $ltime = microtime(true);
+  date_default_timezone_set('UTC');
+
 
   define('EMONCMS_EXEC', 1);
 

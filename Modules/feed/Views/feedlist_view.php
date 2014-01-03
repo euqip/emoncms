@@ -68,7 +68,7 @@ input[type="text"] {
     // Actions
     'edit-action':{'title':'', 'type':"edit"},
     'delete-action':{'title':'', 'type':"delete"},
-    'view-action':{'title':'', 'type':"iconlink", 'link':path+"vis/auto?feedid="}
+    'view-action':{'title':'', 'type':"iconlink", tooltip: "Preview", 'link':path+"vis/auto?feedid="}
 
   }
 
