@@ -57,7 +57,7 @@ function controller($controller_name)
             // Load language files for module
             $domain = "messages";
             bindtextdomain($domain, "Modules/".$controller_name."/locale");
-            bind_textdomain_codeset($domain, 'UTF-8');
+            //bind_textdomain_codeset($domain, 'UTF-8');
             
             
             textdomain($domain);

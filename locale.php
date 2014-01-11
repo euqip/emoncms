@@ -83,8 +83,16 @@ function set_lang($language)
 
 function set_lang_by_user($lang)
 {
-    putenv("LC_ALL=$lang");
-    setlocale(LC_ALL,$lang);    
+    //putenv("LC_ALL=$lang");
+    putenv("LANG=".$lang);
+    //gettext did not work with this change (Upbuntu 13.10 php5)
+    setlocale(LC_ALL,$lang.'.UTF-8');
+    //Because the locales are relative to execution folder
+    //Language settings may be set once 
+    //a different setting in module is always possible
+    $domain = "messages";
+    bindtextdomain($domain, 'locale');
+    bind_textdomain_codeset($domain, 'UTF-8');
 }
 
 function set_emoncms_lang($lang)
