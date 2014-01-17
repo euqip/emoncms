@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-28 02:00+0100\n"
-"PO-Revision-Date: 2013-04-28 02:04+0100\n"
+"POT-Creation-Date: 2014-01-15 17:42+0100\n"
+"PO-Revision-Date: 2014-01-15 17:44+0100\n"
 "Last-Translator: VIALAT Mickael <contact@planete-domotique.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -14,12 +14,109 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../feed_menu.php:3 ../../../Views/feedlist_view.php:19
+#: ../../../feed_model.php:211 ../../../feed_model.php:225
+#: ../../../feed_model.php:294 ../../../feed_model.php:361
+#: ../../../feed_model.php:394 ../../../feed_model.php:417
+#: ../../../feed_controller.php:104
+msgid "Feed does not exist"
+msgstr "Le flux n'existe pas"
+
+#: ../../../feed_model.php:233
+msgid "Missing field parameter"
+msgstr "Manque un paramètre"
+
+#: ../../../feed_model.php:315
+msgid "Field updated"
+msgstr "Actualisé"
+
+#: ../../../feed_model.php:317
+msgid "Field could not be updated"
+msgstr "Le champ ne peut être mis à jour"
+
+#: ../../../feed_menu.php:8 ../../../Views/feedlist_view.php:19
 msgid "Feeds"
 msgstr "Flux"
+
+#: ../../../Views/feedlist_view.php:16
+msgid "Feed API Help"
+msgstr "Aide de l'API Flux"
+
+#: ../../../Views/feedlist_view.php:24
+msgid "No feeds created"
+msgstr "Aucun flux disponible"
+
+#: ../../../Views/feedlist_view.php:25
+msgid ""
+"Feeds are where your monitoring data is stored. The recommended route for "
+"creating feeds is to start by creating inputs (see the inputs tab). Once you "
+"have inputs you can either log them straight to feeds or if you want you can "
+"add various levels of input processing to your inputs to create things like "
+"daily average data or to calibrate inputs before storage. You may want to "
+"follow the link as a guide for generating your request."
+msgstr ""
+"Les flux correspondent à l'archivage et au traitement de vos données. Créez "
+"d'abort une source de données (Onglet Sources), puis utilisez ensuite les "
+"flux pour traiter ces données avant de les archiver. Vous pouvez lire la "
+"documentation sur l'API flux pour plus d'information (en Anglais)"
+
+#: ../../../Views/feedlist_view.php:25
+msgid "Feed API helper"
+msgstr "Aide de l'API"
+
+#: ../../../Views/feedlist_view.php:35
+msgid "WARNING deleting a feed is permanent"
+msgstr "ATTENTION ! La suppression d'un flux est irréversible"
+
+#: ../../../Views/feedlist_view.php:38
+msgid "Are you sure you want to delete this feed?"
+msgstr "Etes vous sûr de vouloir supprimer ce flux ?"
+
+#: ../../../Views/feedlist_view.php:41
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../../../Views/feedlist_view.php:42
+msgid "Delete permanently"
+msgstr "Supprimer le flux ?"
+
+#: ../../../Views/feedlist_view.php:57
+msgid "Id"
+msgstr "id"
+
+#: ../../../Views/feedlist_view.php:58
+msgid "Name"
+msgstr "Nom"
+
+#: ../../../Views/feedlist_view.php:59
+msgid "Tag"
+msgstr "Tag"
+
+#: ../../../Views/feedlist_view.php:60
+msgid "Datatype"
+msgstr "Type de données"
+
+#: ../../../Views/feedlist_view.php:61
+msgid "Engine"
+msgstr "Stockage"
+
+#: ../../../Views/feedlist_view.php:62
+msgid "Public"
+msgstr "Public"
+
+#: ../../../Views/feedlist_view.php:63
+msgid "Size"
+msgstr "Taille"
+
+#: ../../../Views/feedlist_view.php:65
+msgid "Updated"
+msgstr "Actualis&eacute;"
+
+#: ../../../Views/feedlist_view.php:66
+msgid "Value"
+msgstr "Valeur"
 
 #: ../../../Views/feedapi_view.php:19
 msgid "Feed API"
@@ -89,80 +186,11 @@ msgstr "Renvoi la puissance consommée sous forme d'histogramme"
 msgid "returns id of a feed given by name"
 msgstr "Retourne l'id d'un flux à partir de son nom"
 
-#: ../../../Views/feedlist_view.php:23
-msgid "No feeds created"
-msgstr "Aucun flux disponible"
-
-#: ../../../Views/feedlist_view.php:24
-msgid ""
-"Feeds are where your monitoring data is stored. The recommended route for "
-"creating feeds is to start by creating inputs (see the inputs tab). Once you "
-"have inputs you can either log them straight to feeds or if you want you can "
-"add various levels of input processing to your inputs to create things like "
-"daily average data or to calibrate inputs before storage. You may want to "
-"follow the link as a guide for generating your request."
-msgstr ""
-"Les flux correspondent à l'archivage et au traitement de vos données. Créez "
-"d'abort une source de données (Onglet Sources), puis utilisez ensuite les "
-"flux pour traiter ces données avant de les archiver. Vous pouvez lire la "
-"documentation sur l'API flux pour plus d'information (en Anglais)"
-
-#: ../../../Views/feedlist_view.php:24
-msgid "Feed API helper"
-msgstr "Aide de l'API"
-
-#: ../../../Views/feedlist_view.php:31
-msgid "WARNING deleting a feed is permanent"
-msgstr "ATTENTION ! La suppression d'un flux est irréversible"
-
-#: ../../../Views/feedlist_view.php:34
-msgid "Are you sure you want to delete this feed?"
-msgstr "Etes vous sûr de vouloir supprimer ce flux ?"
-
-#: ../../../Views/feedlist_view.php:37
-msgid "Cancel"
-msgstr "Annuler"
-
-#: ../../../Views/feedlist_view.php:38
-msgid "Delete permanently"
-msgstr "Supprimer le flux ?"
-
-#: ../../../Views/feedlist_view.php:52
-msgid "Id"
-msgstr "id"
-
-#: ../../../Views/feedlist_view.php:53
-msgid "Name"
-msgstr "Nom"
-
-#: ../../../Views/feedlist_view.php:54
-msgid "Tag"
-msgstr "Tag"
-
-#: ../../../Views/feedlist_view.php:55
-msgid "Datatype"
-msgstr "Type de données"
-
-#: ../../../Views/feedlist_view.php:56
-msgid "Public"
-msgstr "Public"
-
-#: ../../../Views/feedlist_view.php:57
-msgid "Updated"
-msgstr "Actualis&eacute;"
-
-#: ../../../Views/feedlist_view.php:58
-msgid "Value"
-msgstr "Valeur"
-
 #~ msgid "Feed "
 #~ msgstr "Le flux"
 
 #~ msgid " deleted"
 #~ msgstr "a &eacute;t&eacute; supprim&eacute;"
-
-#~ msgid "Feed does not exist"
-#~ msgstr "Le flux n'existe pas"
 
 #, fuzzy
 #~ msgid "Delete feeds"
@@ -171,9 +199,6 @@ msgstr "Valeur"
 #, fuzzy
 #~ msgid "Deleted feeds"
 #~ msgstr "Supprimer le flux ?"
-
-#~ msgid "Size"
-#~ msgstr "Taille"
 
 #~ msgid "Emoncms database setup script"
 #~ msgstr "Script de configuration de la base de donn&eacute;e emoncms"
@@ -781,9 +806,6 @@ msgstr "Valeur"
 
 #~ msgid "Set"
 #~ msgstr "Establecer"
-
-#~ msgid "updated"
-#~ msgstr "actualizado"
 
 #~ msgid "Save current configuration"
 #~ msgstr "Guardar configuración actual"

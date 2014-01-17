@@ -1,9 +1,17 @@
 <?php
-  // Loaded like JS File, so we need to specify domain for getText translation
+
+  date_default_timezone_set('UTC');
+
+  // because langjs do not use session, $lang is unavailable
+  // changed call to here wyith a lang param in the call
+  $lang = "en_US";
+  if (isset ($_GET['lang']))  $lang = $_GET['lang'];
+  putenv("LANG=".$lang);
+  setlocale(LC_ALL,$lang.'.UTF-8');
+  //setlocale(LC_ALL,'fr_FR.UTF-8');
   $domain = "messages";
-  bindtextdomain($domain, "locale");
+  bindtextdomain($domain, dirname(__FILE__)."/locale");
   bind_textdomain_codeset($domain, 'UTF-8');
-  textdomain($domain);
 ?>
 
 // Create a Javascript associative array who contain all sentences from module  
@@ -11,6 +19,8 @@ var LANG_JS = new Array();
 
 // designer.js
 LANG_JS["Changed, press to save"]       = '<?php echo addslashes(_("Changed, press to save")); ?>';
+LANG_JS["Now"]						    = '<?php echo addslashes(_("Now")); ?>';
+LANG_JS["Hello1"]						= '<?php echo dirname(__FILE__)."/locale"; ?>';
 
 // Common Widgets
 LANG_JS["Feed"]                         = '<?php echo addslashes(_("Feed")); ?>';

@@ -98,9 +98,9 @@ function set_lang_by_user($lang)
 function set_emoncms_lang($lang)
 {	
     // If no language defined use the language browser
-    if ($lang == '')
-        set_lang(lang_http_accept());
-    else 
-        set_lang_by_user($lang);
+    if ($lang == ''){
+        set_lang(lang_http_accept());      
+    }
+    set_lang_by_user($lang);
 }
 

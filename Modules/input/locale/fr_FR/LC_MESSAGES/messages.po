@@ -2,10 +2,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-28 01:39+0100\n"
-"PO-Revision-Date: 2013-05-03 18:40+0100\n"
+"POT-Creation-Date: 2014-01-14 21:27+0100\n"
+"PO-Revision-Date: 2014-01-14 21:27+0100\n"
 "Last-Translator: Baptiste Gaultier <b.gaultier@gmail.com>\n"
-"Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste.gaultier@telecom-bretagne.eu>\n"
+"Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
+"gaultier@telecom-bretagne.eu>\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,98 +14,134 @@ msgstr ""
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.5\n"
-"X-Poedit-Language: French\n"
-"X-Poedit-Country: FRANCE\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../input_menu.php:3
+#: ../../../input_menu.php:8
 msgid "Input"
 msgstr "Sources"
 
-#: ../../../process_model.php:39
+#: ../../../process_model.php:34
 msgid "Log to feed"
 msgstr "stocker dans un flux"
 
-#: ../../../process_model.php:60
+#: ../../../process_model.php:35
+msgid "x"
+msgstr ""
+
+#: ../../../process_model.php:36
+msgid "+"
+msgstr ""
+
+#: ../../../process_model.php:37
 msgid "Power to kWh"
 msgstr "watts vers kWh"
 
-#: ../../../process_model.php:67
+#: ../../../process_model.php:38
 msgid "Power to kWh/d"
 msgstr "watts vers kWh/j"
 
-#: ../../../process_model.php:74
+#: ../../../process_model.php:39
 msgid "x input"
 msgstr " × source"
 
-#: ../../../process_model.php:81
-msgid "input on-time"
+#: ../../../process_model.php:40
+#, fuzzy
+msgid "Input on-time"
 msgstr "input on-time"
 
-#: ../../../process_model.php:88
-msgid "kWhinc to kWh/d"
+#: ../../../process_model.php:41
+#, fuzzy
+msgid "Wh increments to kWh/d"
 msgstr "kWhinc vers kWh/j"
 
-#: ../../../process_model.php:95
+#: ../../../process_model.php:42
 msgid "kWh to kWh/d (OLD)"
 msgstr "kWh vers kWh/j"
 
-#: ../../../process_model.php:102
+#: ../../../process_model.php:43
 msgid "update feed @time"
 msgstr "actualiser le flux @date"
 
-#: ../../../process_model.php:109
+#: ../../../process_model.php:44
 msgid "+ input"
 msgstr "+ source"
 
-#: ../../../process_model.php:116
+#: ../../../process_model.php:45
 msgid "/ input"
 msgstr "/ source"
 
-#: ../../../process_model.php:123
-msgid "phaseshift"
+#: ../../../process_model.php:46
+#, fuzzy
+msgid "Phaseshift"
 msgstr "déphasage"
 
-#: ../../../process_model.php:130
-msgid "accumulator"
+#: ../../../process_model.php:47
+#, fuzzy
+msgid "Accumulator"
 msgstr "accumulateur"
 
-#: ../../../process_model.php:137
-msgid "rate of change"
+#: ../../../process_model.php:48
+#, fuzzy
+msgid "Rate of change"
 msgstr "variation"
 
-#: ../../../process_model.php:144
-msgid "histogram"
+#: ../../../process_model.php:49
+#, fuzzy
+msgid "Histogram"
 msgstr "histogramme"
 
-#: ../../../process_model.php:151
-msgid "average"
+#: ../../../process_model.php:50
+#, fuzzy
+msgid "Daily Average"
 msgstr "moyenne"
 
-#: ../../../process_model.php:159
-msgid "heat flux"
+#: ../../../process_model.php:51
+#, fuzzy
+msgid "Heat flux"
 msgstr "flux air chaud"
 
-#: ../../../process_model.php:167
-msgid "power gained to kWh/d"
+#: ../../../process_model.php:52
+#, fuzzy
+msgid "Power gained to kWh/d"
 msgstr "watts vers kWh/j"
 
-#: ../../../process_model.php:175
-msgid "pulse difference"
-msgstr "différence impulsion"
+#: ../../../process_model.php:53
+msgid "Total pulse count to pulse increment"
+msgstr ""
 
-#: ../../../process_model.php:183
-msgid "KWh to Power"
+#: ../../../process_model.php:54
+#, fuzzy
+msgid "kWh to Power"
 msgstr "kWh en puissance"
 
-#: ../../../process_model.php:190
+#: ../../../process_model.php:55
 msgid "- input"
 msgstr " - source"
 
-#: ../../../process_model.php:197
+#: ../../../process_model.php:56
 msgid "kWh to kWh/d"
 msgstr "kWh vers kWh/j"
+
+#: ../../../process_model.php:57
+msgid "Allow positive"
+msgstr "Positif autorisé"
+
+#: ../../../process_model.php:58
+msgid "Allow negative"
+msgstr "Négatif autorisé"
+
+#: ../../../process_model.php:59
+msgid "Signed to unsigned"
+msgstr ""
+
+#: ../../../process_model.php:60
+msgid "Max value"
+msgstr "valeur Max"
+
+#: ../../../process_model.php:61
+msgid "Min value"
+msgstr "Valeur Min"
 
 #: ../../../Views/input_api.php:3
 msgid "Input API"
@@ -115,8 +152,13 @@ msgid "Apikey authentication"
 msgstr "Clés d'API"
 
 #: ../../../Views/input_api.php:5
-msgid "If you want to call any of the following actions when your not logged in, add an apikey to the URL of your request: &apikey=APIKEY."
-msgstr "Si vous souhaitez utiliser les liens ci-dessous alors que vous n'êtes pas connecté, veuillez ajouter votre clé d'API à la fin de l'url : <b>&apikey=APIKEY</b>."
+msgid ""
+"If you want to call any of the following actions when your not logged in, "
+"add an apikey to the URL of your request: &apikey=APIKEY."
+msgstr ""
+"Si vous souhaitez utiliser les liens ci-dessous alors que vous n'êtes pas "
+"connecté, veuillez ajouter votre clé d'API à la fin de l'url : "
+"<b>&apikey=APIKEY</b>."
 
 #: ../../../Views/input_api.php:6
 msgid "Read only:"
@@ -147,8 +189,11 @@ msgid "Available JSON commands"
 msgstr "Commandes JSON disponibles"
 
 #: ../../../Views/input_api.php:21
-msgid "To use the json api the request url needs to include .json"
-msgstr "Si vous souhaitez utiliser l'API json, veuillez ajouter <b>.json</b> à la fin de l'url"
+#, fuzzy
+msgid "To use the json api the request url needs to include <b>.json</b>"
+msgstr ""
+"Si vous souhaitez utiliser l'API json, veuillez ajouter <b>.json</b> à la "
+"fin de l'url"
 
 #: ../../../Views/input_api.php:23
 msgid "Post data"
@@ -170,13 +215,27 @@ msgstr "Associer la source à un nœud"
 msgid "Set the input entry time manually"
 msgstr "Modifier manuellement l'horodatage des données"
 
+#: ../../../Views/input_api.php:31
+msgid "APIKEY"
+msgstr ""
+
 #: ../../../Views/input_api.php:32
-msgid "To post data from a remote device you will need to include in the request url your write apikey. This give your device write access to your emoncms account, allowing it to post data."
-msgstr "Pour envoyer des données depuis un périphérique distant, vous devez ajouter votre clé d'API à la fin de l'url. Cela permet de donner les accès en écriture à votre périphérique."
+msgid ""
+"To post data from a remote device you will need to include in the request "
+"url your write apikey. This give your device write access to your emoncms "
+"account, allowing it to post data."
+msgstr ""
+"Pour envoyer des données depuis un périphérique distant, vous devez ajouter "
+"votre clé d'API à la fin de l'url. Cela permet de donner les accès en "
+"écriture à votre périphérique."
 
 #: ../../../Views/input_api.php:34
-msgid "For example using the first json type request above just add the apikey to the end like this:"
-msgstr "Par exemple, pour utiliser l'appel json ci-dessus, il suffit d'ajouter la clé API comme suit :"
+msgid ""
+"For example using the first json type request above just add the apikey to "
+"the end like this:"
+msgstr ""
+"Par exemple, pour utiliser l'appel json ci-dessus, il suffit d'ajouter la "
+"clé API comme suit :"
 
 #: ../../../Views/input_api.php:37
 msgid "Bulk data"
@@ -184,19 +243,36 @@ msgstr "Données brutes"
 
 #: ../../../Views/input_api.php:39
 msgid "You can provide data using bulk mode"
-msgstr "Vous pouvez transmettre vos données de manière brute avec un appel global"
+msgstr ""
+"Vous pouvez transmettre vos données de manière brute avec un appel global"
 
 #: ../../../Views/input_api.php:42
-msgid "The first number of each node is the time offset, so for the first node it is 0 which means the packet for the first node arrived at 0 seconds. The second node arrived at 2 seconds and 3rd 10 seconds."
-msgstr "Le premier paramètre de chaque nœud est le décalage (exprimé en seconde). Dans cet exemple : le paquet pour le premier nœud est arrivé à 0 seconde. Le second nœud est arrivé à 2 secondes et le 3ème à 10 secondes."
+msgid ""
+"The first number of each node is the time offset, so for the first node it "
+"is 0 which means the packet for the first node arrived at 0 seconds. The "
+"second node arrived at 2 seconds and 3rd 10 seconds."
+msgstr ""
+"Le premier paramètre de chaque nœud est le décalage (exprimé en seconde). "
+"Dans cet exemple : le paquet pour le premier nœud est arrivé à 0 seconde. Le "
+"second nœud est arrivé à 2 secondes et le 3ème à 10 secondes."
 
 #: ../../../Views/input_api.php:43
-msgid "The second number is the node id, this is the unqiue identifer for the wireless node."
-msgstr "Le second nombre est l'idenfiant du n&oelig;ud, c'est l'identifiant unique du capteur sans-fils."
+#, fuzzy
+msgid ""
+"The second number is the node id, this is the unique identifer for the "
+"wireless node."
+msgstr ""
+"Le second nombre est l'idenfiant du n&oelig;ud, c'est l'identifiant unique "
+"du capteur sans-fils."
 
 #: ../../../Views/input_api.php:44
-msgid "All the numbers after the first two are data values. The first node here (node 10) has three data values: 250,100 and 20."
-msgstr "Tous les nombres qui suivent les deux premiers sont les valeurs de chaque mesure à enregistrer. Par exemple, ici le nœud 10 contient 3 valeurs (250,100 et 20)."
+msgid ""
+"All the numbers after the first two are data values. The first node here "
+"(node 10) has three data values: 250,100 and 20."
+msgstr ""
+"Tous les nombres qui suivent les deux premiers sont les valeurs de chaque "
+"mesure à enregistrer. Par exemple, ici le nœud 10 contient 3 valeurs "
+"(250,100 et 20)."
 
 #: ../../../Views/input_api.php:48
 msgid "Input actions"
@@ -234,8 +310,7 @@ msgstr "Changer la position d'un traitement dans la liste"
 msgid "Reset input process list"
 msgstr "Réinitialiser les processus de traitement"
 
-#: ../../../Views/input_node.php:23
-#: ../../../Views/process_list.php:16
+#: ../../../Views/input_node.php:23 ../../../Views/process_list.php:18
 msgid "Input API Help"
 msgstr "Aide de l'API"
 
@@ -248,8 +323,14 @@ msgid "No inputs created"
 msgstr "Aucune source de données n'est disponible"
 
 #: ../../../Views/input_node.php:31
-msgid "Inputs is the main entry point for your monitoring device. Configure your device to post values here, you may want to follow the <a href=\"api\">Input API helper</a> as a guide for generating your request."
-msgstr "Les sources sont le point d'entrée pour vos capteurs. Vos capteurs doivent être configurés pour envoyer leurs données ici, veuillez consulter l'<a href=\"api\">Aide de l'API</a> afin de g&eacute;n&eacute;rer votre requ&ecirc;te."
+msgid ""
+"Inputs is the main entry point for your monitoring device. Configure your "
+"device to post values here, you may want to follow the <a href=\"api\">Input "
+"API helper</a> as a guide for generating your request."
+msgstr ""
+"Les sources sont le point d'entrée pour vos capteurs. Vos capteurs doivent "
+"être configurés pour envoyer leurs données ici, veuillez consulter l'<a href="
+"\"api\">Aide de l'API</a> afin de g&eacute;n&eacute;rer votre requ&ecirc;te."
 
 #: ../../../Views/input_node.php:47
 msgid "Node:"
@@ -267,64 +348,94 @@ msgstr "Description"
 msgid "Process list"
 msgstr "Traitements"
 
-#: ../../../Views/process_list.php:18
+#: ../../../Views/input_node.php:51
+msgid "Last updated"
+msgstr "Dernière MàJ"
+
+#: ../../../Views/input_node.php:52
+msgid "Value"
+msgstr "Valeur"
+
+#: ../../../Views/input_node.php:55
+msgid "Edit"
+msgstr "Editer"
+
+#: ../../../Views/input_node.php:56
+#, fuzzy
+msgid "Delete row"
+msgstr "Supprimer"
+
+#: ../../../Views/input_node.php:57
+#, fuzzy
+msgid "Edit Process"
+msgstr "Action"
+
+#: ../../../Views/process_list.php:20
 msgid "Input configuration:   "
 msgstr "Définition des traitements sur vos données n°"
 
-#: ../../../Views/process_list.php:19
-msgid "Input processes are executed sequentially with the result being passed back for further processing by the next processor in the input processing list."
-msgstr "Les processus de traitement de données sont exécutés séquentiellement. Le résultat de chaque étape est passé en entrée de l'étape suivante."
+#: ../../../Views/process_list.php:21
+msgid ""
+"Input processes are executed sequentially with the result being passed back "
+"for further processing by the next processor in the input processing list."
+msgstr ""
+"Les processus de traitement de données sont exécutés séquentiellement. Le "
+"résultat de chaque étape est passé en entrée de l'étape suivante."
 
-#: ../../../Views/process_list.php:25
-msgid "New"
-msgstr "Nouveau"
-
-#: ../../../Views/process_list.php:38
-msgid "add"
-msgstr "ajouter"
-
-#: ../../../Views/process_list.php:46
-msgid "Reset process list?"
-msgstr "Réinitialiser la liste des actions"
-
-#: ../../../Views/process_list.php:52
-msgid "Are you sure you want to delete input: "
-msgstr "Etes vous sûr de vouloir supprimer cette source ? "
-
-#: ../../../Views/process_list.php:56
-msgid "Delete input?"
-msgstr "Supprimer la source"
-
-#: ../../../Views/process_list.php:99
+#: ../../../Views/process_list.php:29
 msgid "Order"
 msgstr "Ordre"
 
-#: ../../../Views/process_list.php:99
+#: ../../../Views/process_list.php:30
 msgid "Process"
 msgstr "Action"
 
-#: ../../../Views/process_list.php:99
+#: ../../../Views/process_list.php:31
 msgid "Arg"
 msgstr "Param&egrave;tre"
 
-#: ../../../Views/process_list.php:99
+#: ../../../Views/process_list.php:32
 msgid "Actions"
 msgstr "Actions"
 
-#: ../../../Views/process_list.php:108
-#: ../../../Views/process_list.php:112
+#: ../../../Views/process_list.php:38
+msgid "New"
+msgstr "Nouveau"
+
+#: ../../../Views/process_list.php:49
+#, fuzzy
+msgid "Add"
+msgstr "ajouter"
+
+#: ../../../Views/process_list.php:121
 msgid "Move up"
 msgstr "Monter"
 
-#: ../../../Views/process_list.php:117
+#: ../../../Views/process_list.php:125
+#, fuzzy
+msgid "Move down"
+msgstr "Monter"
+
+#: ../../../Views/process_list.php:133
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../../../Views/process_list.php:122
+#: ../../../Views/process_list.php:139
 msgid "You have no processes defined"
 msgstr "Vous n'avez aucun processus défini"
 
-#: ../../../Views/process_list.php:151
+#: ../../../Views/process_list.php:166
 msgid "CREATE NEW:"
 msgstr "Créer un nouveau :"
 
+#~ msgid "pulse difference"
+#~ msgstr "différence impulsion"
+
+#~ msgid "Reset process list?"
+#~ msgstr "Réinitialiser la liste des actions"
+
+#~ msgid "Are you sure you want to delete input: "
+#~ msgstr "Etes vous sûr de vouloir supprimer cette source ? "
+
+#~ msgid "Delete input?"
+#~ msgstr "Supprimer la source"

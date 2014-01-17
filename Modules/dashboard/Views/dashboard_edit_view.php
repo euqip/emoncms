@@ -8,14 +8,17 @@ See COPYRIGHT.txt and LICENSE.txt.
 Emoncms - open source energy visualisation
 Part of the OpenEnergyMonitor project:
 http://openenergymonitor.org
+
+
+Ask for user (session) Language when loading dashboard_langjs.php
 */
 
 global $session,$path; 
 
 if (!$dashboard['height']) $dashboard['height'] = 400;
 ?>
-  <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard_langjs.php"></script>
-
+  <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard_langjs.php?lang=<?php echo $session['lang']; ?>"></script>
+    
   <link href="<?php echo $path; ?>Modules/dashboard/Views/js/widget.css" rel="stylesheet">
 
   <script type="text/javascript" src="<?php echo $path; ?>Lib/flot/jquery.flot.min.js"></script>

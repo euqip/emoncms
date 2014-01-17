@@ -208,7 +208,7 @@ class Feed
   public function get($id)
   {
     $id = (int) $id;
-    if (!$this->exist($id)) return array('success'=>false, 'message'=>'Feed does not exist');
+    if (!$this->exist($id)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
     $row = $this->redis->hGetAll("feed:$id");
   
@@ -222,7 +222,7 @@ class Feed
   public function get_field($id,$field)
   {
     $id = (int) $id;
-    if (!$this->exist($id)) return array('success'=>false, 'message'=>'Feed does not exist');
+    if (!$this->exist($id)) return array('success'=>false, 'message'=>_('Feed does not exist'));
     
     if ($field!=NULL) // if the feed exists
     {
@@ -230,7 +230,7 @@ class Feed
       $val = $this->redis->hget("feed:$id",$field);      
       if ($val) return $val; else return 0;
     }
-    else return array('success'=>false, 'message'=>'Missing field parameter');
+    else return array('success'=>false, 'message'=>_('Missing field parameter'));
   }
 
   public function get_timevalue($id)
@@ -291,7 +291,7 @@ class Feed
   public function set_feed_fields($id,$fields)
   {
     $id = (int) $id;
-    if (!$this->exist($id)) return array('success'=>false, 'message'=>'Feed does not exist');
+    if (!$this->exist($id)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
     $fields = json_decode(stripslashes($fields));
 
@@ -312,9 +312,9 @@ class Feed
     if (isset($fields->public)) $this->redis->hset("feed:$id",'public',$fields->public);
 
     if ($this->mysqli->affected_rows>0){
-      return array('success'=>true, 'message'=>'Field updated');
+      return array('success'=>true, 'message'=>_('Field updated'));
     } else {
-      return array('success'=>false, 'message'=>'Field could not be updated');
+      return array('success'=>false, 'message'=>_('Field could not be updated'));
     }
   }
 
@@ -358,7 +358,7 @@ class Feed
   public function update_data($feedid,$updatetime,$feedtime,$value)
   {
     $feedid = (int) $feedid;
-    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
     
     if ($feedtime == null) $feedtime = time();
     $updatetime = intval($updatetime);
@@ -391,7 +391,7 @@ class Feed
   public function get_data($feedid,$start,$end,$dp)
   {
     $feedid = (int) $feedid;
-    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
     
     $engine = $this->redis->hget("feed:$feedid",'engine');
     if ($engine==Engine::TIMESTORE) return $this->timestore->get_data($feedid,$start,$end);
@@ -414,7 +414,7 @@ class Feed
   public function delete($feedid)
   {
     $feedid = (int) $feedid;
-    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
     
     $engine = $this->redis->hget("feed:$feedid",'engine');
     if ($engine==Engine::TIMESTORE) $this->timestore->delete($feedid);

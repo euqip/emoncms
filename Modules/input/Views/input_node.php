@@ -46,15 +46,15 @@ input[type="text"] {
     //'id':{'type':"fixed"},
     'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed"},
     'name':{'title':'<?php echo _("name"); ?>','type':"text"},
-    'description':{'title':'<?php echo _('Description'); ?>','type':"text"},
-    'processList':{'title':'<?php echo _('Process list'); ?>','type':"processlist"},
-    'time':{'title':'last updated', 'type':"updated"},
-    'value':{'type':"value"},
+    'description':{'title':'<?php echo _("Description"); ?>','type':"text"},
+    'processList':{'title':'<?php echo _("Process list"); ?>','type':"processlist"},
+    'time':{'title':'<?php echo _("Last updated"); ?>', 'type':"updated"},
+    'value':{'title':'<?php echo _("Value"); ?>','type':"value"},
 
     // Actions
-    'edit-action':{'title':'','tooltip':'Edit',  'type':"edit"},
-    'delete-action':{'title':'','tooltip':'Delete', 'type':"delete"},
-    'view-action':{'title':'','tooltip':'Edit process', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'icon-wrench'}
+    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>',  'type':"edit"},
+    'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete"},
+    'view-action':{'title':'','tooltip':'<?php echo _("Edit Process"); ?>', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'icon-wrench'}
 
   }
 
@@ -78,7 +78,7 @@ input[type="text"] {
     }
   }
 
-  var updater = setInterval(update, 10000);
+  var updater = setInterval(update, 1000);
 
   $("#table").bind("onEdit", function(e){
     clearInterval(updater);
@@ -86,7 +86,7 @@ input[type="text"] {
 
   $("#table").bind("onSave", function(e,id,fields_to_update){
     input.set(id,fields_to_update); 
-    updater = setInterval(update, 10000);
+    updater = setInterval(update, 1000);
   });
 
   $("#table").bind("onDelete", function(e,id){
