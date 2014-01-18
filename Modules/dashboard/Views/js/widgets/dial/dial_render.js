@@ -18,6 +18,7 @@ function dial_widgetlist()
     {
       "offsetx":-80,"offsety":-80,"width":160,"height":160,
       "menu":"Widgets",
+      "itemname":_Tr("dial"),
       "options":["feed","max","scale","units","type"],
       "optionstype":["feed","value","value","value","value"],
       "optionsname":[_Tr("Feed"),_Tr("Max value"),_Tr("Scale"),_Tr("Units"),_Tr("Type")],

@@ -236,17 +236,16 @@ var designer = {
       
       for (z in widgets)
       {        
-        var menu = widgets[z]['menu'];
-        
-        if (typeof select[menu] === "undefined")
-          select[menu] = "<li><a id='"+z+"' class='widget-button'>"+z+"</a></li>";
+         var menu = widgets[z]['menu'];
+         if (typeof select[menu] === "undefined")
+          select[menu] = "<li><a id='"+z+"' class='widget-button'>"+widgets[z]['itemname']+"</a></li>";
         else    
-          select[menu] += "<li><a id='"+z+"' class='widget-button'>"+z+"</a></li>";
+          select[menu] += "<li><a id='"+z+"' class='widget-button'>"+widgets[z]['itemname']+"</a></li>";
       }
 
       for (z in select)
       {               
-        widget_html += "<div class='btn-group'><button class='btn dropdown-toggle widgetmenu' data-toggle='dropdown'>"+z+"&nbsp<span class='caret'></span></button>";
+        widget_html += "<div class='btn-group'><button class='btn dropdown-toggle widgetmenu' data-toggle='dropdown'>"+_Tr(z)+"&nbsp<span class='caret'></span></button>";
         widget_html += "<ul class='dropdown-menu' name='d'>"+select[z]+"</ul>";
       }
       $("#widget-buttons").html(widget_html);

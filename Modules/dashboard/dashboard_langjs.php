@@ -19,8 +19,6 @@ var LANG_JS = new Array();
 
 // designer.js
 LANG_JS["Changed, press to save"]       = '<?php echo addslashes(_("Changed, press to save")); ?>';
-LANG_JS["Now"]						    = '<?php echo addslashes(_("Now")); ?>';
-LANG_JS["Hello1"]						= '<?php echo dirname(__FILE__)."/locale"; ?>';
 
 // Common Widgets
 LANG_JS["Feed"]                         = '<?php echo addslashes(_("Feed")); ?>';
@@ -77,6 +75,48 @@ LANG_JS["Ufac"]                         = '<?php echo addslashes(_("Ufac")); ?>'
 LANG_JS["Ufac value"]                   = '<?php echo addslashes(_("Ufac value")); ?>';    
 LANG_JS["Mid"]                          = '<?php echo addslashes(_("Mid")); ?>';
 LANG_JS["Mid value"]                    = '<?php echo addslashes(_("Mid value")); ?>';  
+
+//dashboard menu
+// widgetlist.js
+LANG_JS["Text"]                         = '<?php echo addslashes(_("Text")); ?>';
+LANG_JS["Containers"]                   = '<?php echo addslashes(_("Containers")); ?>';
+LANG_JS["paragraph"]                    = '<?php echo addslashes(_("paragraph")); ?>';
+LANG_JS["heading"]                    = '<?php echo addslashes(_("heading")); ?>';
+LANG_JS["heading-center"]                    = '<?php echo addslashes(_("heading-center")); ?>';
+LANG_JS["html-list"]                    = '<?php echo addslashes(_("html-list")); ?>';
+LANG_JS["html-image"]                    = '<?php echo addslashes(_("html-image")); ?>';
+LANG_JS["Container-Grey"]                    = '<?php echo addslashes(_("Container-Grey")); ?>';
+LANG_JS["Container-White"]                    = '<?php echo addslashes(_("Container-White")); ?>';
+LANG_JS["Container-BlueLine"]                    = '<?php echo addslashes(_("Container-BlueLine")); ?>';
+LANG_JS["Container-Black"]                    = '<?php echo addslashes(_("Container-Black")); ?>';
+
+//spred into the different widgets renderers
+LANG_JS["Widgets"]                    = '<?php echo addslashes(_("Widgets")); ?>';
+LANG_JS["button"]                    = '<?php echo addslashes(_("button")); ?>';
+LANG_JS["cylinder"]                    = '<?php echo addslashes(_("cylinder")); ?>';
+LANG_JS["feedvalue"]                    = '<?php echo addslashes(_("feedvalue")); ?>';
+LANG_JS["dial"]                    = '<?php echo addslashes(_("dial")); ?>';
+LANG_JS["jgauge"]                    = '<?php echo addslashes(_("jgauge")); ?>';
+LANG_JS["led"]                    = '<?php echo addslashes(_("led")); ?>';
+
+
+LANG_JS["Visualizations"]                    = '<?php echo addslashes(_("Visualizations")); ?>';
+LANG_JS["realtime"]                    = '<?php echo addslashes(_("realtime")); ?>';
+LANG_JS["rawdata"]                    = '<?php echo addslashes(_("rawdata")); ?>';
+LANG_JS["bargraph"]                    = '<?php echo addslashes(_("bargraph")); ?>';
+LANG_JS["timestoredaily"]                    = '<?php echo addslashes(_("timestoredaily")); ?>';
+LANG_JS["zoom"]                    = '<?php echo addslashes(_("zoom")); ?>';
+LANG_JS["simplezoom"]                    = '<?php echo addslashes(_("simplezoom")); ?>';
+LANG_JS["histgraph"]                    = '<?php echo addslashes(_("histgraph")); ?>';
+LANG_JS["threshold"]                    = '<?php echo addslashes(_("threshold")); ?>';
+LANG_JS["orderthreshold"]                    = '<?php echo addslashes(_("orderthreshold")); ?>';
+LANG_JS["orderbars"]                    = '<?php echo addslashes(_("orderbars")); ?>';
+LANG_JS["stacked"]                    = '<?php echo addslashes(_("stacked")); ?>';
+LANG_JS["stackedsolar"]                    = '<?php echo addslashes(_("stackedsolar")); ?>';
+LANG_JS["smoothie"]                    = '<?php echo addslashes(_("smoothie")); ?>';
+LANG_JS["multigraph"]                    = '<?php echo addslashes(_("multigraph")); ?>';
+
+
 
 
 function _Tr(key)

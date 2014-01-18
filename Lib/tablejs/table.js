@@ -60,7 +60,7 @@ var table = {
             {
               var title = field; if (table.fields[field].title!=undefined) title = table.fields[field].title;
               var tooltip = ''; if (table.fields[field].tooltip!=undefined) tooltip = table.fields[field].tooltip;
-              html += "<th><a type='sort' field='"+field+"' title=''>"+title+"</a></th>";
+              html += "<th><a type='sort' field='"+field+"' title='"+tooltip+"'>"+title+"</a></th>";
             }
             html += "</tr>";
             html += groups[group];
@@ -79,7 +79,8 @@ var table = {
         var html = "<tr uid='"+row+"' >";
         //insert here the icon tooltips for Edit and delete
         for (field in table.fields) {
-            var tooltip = ''; if (table.fields[field].tooltip!=undefined) tooltip = table.fields[field].tooltip;
+            var tooltip = '';
+            if (table.fields[field].tooltip!=undefined) tooltip = table.fields[field].tooltip;
             html += "<td row='"+row+"' field='"+field+"' >"+table.fieldtypes[table.fields[field].type].draw(row,field)+"</td>";
         }
         html += "</tr>";
@@ -163,8 +164,8 @@ var table = {
               if (fields_to_update[table.groupby]!=undefined) table.draw();
             }
 
-            if (mode == 'edit') {$(this).attr('mode','save'); $(this).html("<i class='icon-ok' title='Save the modifications'></i>");}
-            if (mode == 'save') {$(this).attr('mode','edit'); $(this).html("<i class='icon-pencil' title='Edit the row content'></i>");}
+            if (mode == 'edit') {$(this).attr('mode','save'); $(this).html("<i class='icon-ok' title='"+($(this).attr('alt'))+"'></i>");}
+            if (mode == 'save') {$(this).attr('mode','edit'); $(this).html("<i class='icon-pencil' title='"+($(this).attr('title'))+"'></i>");}
         });
 
         // Check if events have been defined for field types.
@@ -220,17 +221,35 @@ var table = {
         {
             'draw': function (row,field) { return table.data[row][field] },
             'edit': function (row,field) { return "<input type='checkbox'>" },
-            'save': function (row,field) { return $("[row="+row+"][field="+field+"] input").prop('checked') },
+            'save': function (row,field) { return $("[row="+row+"][field="+field+"] input").prop('checked')},
         },
 
         'delete':
         {
-            'draw': function (row,field) { return "<a type='delete' title='Delete this row' row='"+row+"' uid='"+table.data[row]['id']+"' ><i class='icon-trash' ></i></a>"; }
+            'draw': function (row,field) { 
+                var title= (table.fields['delete-action']);                
+                return "<a type='delete' title='"+title['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' ><i class='icon-trash' ></i></a>"; 
+            }
         },
 
         'edit':
         {
-            'draw': function (row,field) { return "<a type='edit' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><i class='icon-pencil' ></i></a>"; }
+            'draw': function (row,field) { 
+                var field= (table.fields['edit-action']);                
+                return "<a type='edit' title='"+field['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><i class='icon-pencil' ></i></a>"; 
+            }
+        },
+
+        'save':
+        {
+            'draw': function (row,field) { 
+                var field= (table.fields['save-action']);                
+                if (field['class']=="hidden"){
+                    return"";
+                } else {
+                    return "<a type='save' title='"+field['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><i class='icon-ok' ></i></a>"; 
+                }                
+            }
         },
     }
 }

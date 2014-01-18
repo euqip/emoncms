@@ -16,6 +16,7 @@ function button_widgetlist()
     {
       "offsetx":-40,"offsety":-40,"width":80,"height":80,
       "menu":"Widgets",
+      "itemname":_Tr("button"),
       "options":["feed","value"],
       "optionstype":["feed","value"],
       "optionsname":[_Tr("Feed"),_Tr("Value")],

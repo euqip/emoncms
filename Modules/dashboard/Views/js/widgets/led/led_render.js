@@ -18,6 +18,7 @@ function led_widgetlist()
     {
       "offsetx":-40,"offsety":-40,"width":80,"height":80,
       "menu":"Widgets",
+      "itemname":_Tr("led"),
       "options":["feed"],
       "optionstype":["feed"],
       "optionsname":[_Tr("Feed")],

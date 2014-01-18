@@ -64,6 +64,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   var apikey = "";
   var feedlist = feed.list();
   var userid = <?php echo $session['userid']; ?>;
+  var lang = '<?php echo $session['lang']; ?>';
 
   $("#testo").hide();
 

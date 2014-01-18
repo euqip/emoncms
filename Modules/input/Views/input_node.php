@@ -52,7 +52,8 @@ input[type="text"] {
     'value':{'title':'<?php echo _("Value"); ?>','type':"value"},
 
     // Actions
-    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>',  'type':"edit"},
+    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>', 'type':"edit"},
+    //'save-action':{'title':'','tooltip':'<?php echo _("Save"); ?>', 'type':"save", 'class':"hidden"},
     'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete"},
     'view-action':{'title':'','tooltip':'<?php echo _("Edit Process"); ?>', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'icon-wrench'}
 

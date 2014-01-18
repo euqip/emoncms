@@ -22,6 +22,7 @@ function jgauge_widgetlist()
     {
       "offsetx":-80,"offsety":-80,"width":160,"height":160,
       "menu":"Widgets",
+      "itemname":_Tr("jgauge"),
       "options":["feed", "max", "units"],
       "optionstype":["feed","value","value"],
       "optionsname":[_Tr("Feed"),_Tr("Max value"),_Tr("Units")],

@@ -18,6 +18,7 @@ function feedvalue_widgetlist()
     {
       "offsetx":-40,"offsety":-30,"width":80,"height":60,
       "menu":"Widgets",
+      "itemname":_Tr("feedvalue"),
       "options":["feedname","units"],
       "optionstype":["feed","value"],
       "optionsname":[_Tr("Feed"),_Tr("Units")],

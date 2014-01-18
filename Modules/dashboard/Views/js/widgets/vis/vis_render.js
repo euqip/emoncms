@@ -18,6 +18,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("realtime"),
       "options":["feedid"],
       "optionstype":["feedid"],
       "optionsname":[_Tr("Feed")],
@@ -29,6 +30,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("rawdata"),
       "options":["feedid","fill","units"],
       "optionstype":["feedid","value","value"],
       "optionsname":[_Tr("Feed"),_Tr("Fill"),_Tr("Units")],
@@ -40,6 +42,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("bargraph"),
       "options":["feedid"],
       "optionstype":["feedid"],
       "optionsname":[_Tr("Feed")],
@@ -51,6 +54,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("timestoredaily"),
       "options":["feedid","units"],
       "optionstype":["feedid","value"],
       "optionsname":[_Tr("Feed"),_Tr("Units")],
@@ -62,6 +66,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("zoom"),
       "options":["power","kwhd","currency","currency_after_val","pricekwh"],
       "optionstype":["feedid","feedid","value","value","value"],
       "optionsname":[_Tr("Power"),_Tr("kwhd"),_Tr("Currency"),_Tr("Currency position"),_Tr("Kwh price")],
@@ -73,6 +78,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("simplezoom"),
       "options":["power","kwhd"],
       "optionstype":["feedid","feedid"],
       "optionsname":[_Tr("Power"),_Tr("kwhd")],
@@ -84,6 +90,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("histgraph"),
       "options":["feedid"],
       "optionstype":["feedid"],
       "optionsname":[_Tr("Feed")],
@@ -95,6 +102,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("threshold"),
       "options":["feedid","thresholdA","thresholdB"],
       "optionstype":["feedid","value","value"],
       "optionsname":[_Tr("Feed"),_Tr("Threshold A"),_Tr("Threshold B")],
@@ -106,6 +114,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("orderthreshold"),
       "options":["feedid","power","thresholdA","thresholdB"],
       "optionstype":["feedid","feedid","value","value"],
       "optionsname":[_Tr("Feed"),_Tr("Power"),_Tr("Threshold A"),_Tr("Threshold B")],
@@ -117,6 +126,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("orderbars"),
       "options":["feedid"],
       "optionstype":["feedid"],
       "optionsname":[_Tr("Feed")],
@@ -128,6 +138,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("stacked"),
       "options":["bottom","top"],
       "optionstype":["feedid","feedid"],
       "optionsname":[_Tr("Bottom"),_Tr("Top")],
@@ -139,6 +150,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("stackedsolar"),
       "options":["solar","consumption"],
       "optionstype":["feedid","feedid"],
       "optionsname":[_Tr("Solar"),_Tr("Consumption")],
@@ -150,6 +162,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("smoothie"),
       "options":["feedid","ufac"],
       "optionstype":["feedid","value"],
       "optionsname":[_Tr("Feed"),_Tr("Ufac")],
@@ -161,6 +174,7 @@ function vis_widgetlist()
     {
       "offsetx":0,"offsety":0,"width":400,"height":300,
       "menu":"Visualisations",
+      "itemname":_Tr("multigraph"),
       "options":["mid"],
       "optionstype":["multigraph"],
       "optionsname":[_Tr("Mid")],

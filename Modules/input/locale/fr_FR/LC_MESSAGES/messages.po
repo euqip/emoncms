@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: emoncms\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-14 21:27+0100\n"
-"PO-Revision-Date: 2014-01-14 21:27+0100\n"
-"Last-Translator: Baptiste Gaultier <b.gaultier@gmail.com>\n"
+"PO-Revision-Date: 2014-01-18 17:43+0100\n"
+"Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
 "Language: fr_FR\n"
@@ -82,19 +82,16 @@ msgid "Accumulator"
 msgstr "accumulateur"
 
 #: ../../../process_model.php:48
-#, fuzzy
 msgid "Rate of change"
-msgstr "variation"
+msgstr "taux de variation"
 
 #: ../../../process_model.php:49
-#, fuzzy
 msgid "Histogram"
-msgstr "histogramme"
+msgstr "Histogramme"
 
 #: ../../../process_model.php:50
-#, fuzzy
 msgid "Daily Average"
-msgstr "moyenne"
+msgstr "moyenne jour"
 
 #: ../../../process_model.php:51
 #, fuzzy
@@ -111,9 +108,8 @@ msgid "Total pulse count to pulse increment"
 msgstr ""
 
 #: ../../../process_model.php:54
-#, fuzzy
 msgid "kWh to Power"
-msgstr "kWh en puissance"
+msgstr "kWh vers puissance"
 
 #: ../../../process_model.php:55
 msgid "- input"
@@ -361,14 +357,12 @@ msgid "Edit"
 msgstr "Editer"
 
 #: ../../../Views/input_node.php:56
-#, fuzzy
 msgid "Delete row"
-msgstr "Supprimer"
+msgstr "Supprimer la ligne"
 
 #: ../../../Views/input_node.php:57
-#, fuzzy
 msgid "Edit Process"
-msgstr "Action"
+msgstr "Les acctions"
 
 #: ../../../Views/process_list.php:20
 msgid "Input configuration:   "
@@ -403,18 +397,16 @@ msgid "New"
 msgstr "Nouveau"
 
 #: ../../../Views/process_list.php:49
-#, fuzzy
 msgid "Add"
-msgstr "ajouter"
+msgstr "Ajouter"
 
 #: ../../../Views/process_list.php:121
 msgid "Move up"
 msgstr "Monter"
 
 #: ../../../Views/process_list.php:125
-#, fuzzy
 msgid "Move down"
-msgstr "Monter"
+msgstr "Descendre"
 
 #: ../../../Views/process_list.php:133
 msgid "Delete"

@@ -19,6 +19,7 @@ function cylinder_widgetlist()
     {
       "offsetx":-80,"offsety":-165,"width":160,"height":330,
       "menu":"Widgets",
+      "itemname":_Tr("cylinder"),
       "options":["topfeed","botfeed"],
       "optionstype":["feed","feed"],
       "optionsname":[_Tr("Feed"),_Tr("Feed")],
