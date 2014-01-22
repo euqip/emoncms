@@ -44,18 +44,18 @@ input[type="text"] {
 
   table.fields = {
     //'id':{'type':"fixed"},
-    'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed"},
-    'name':{'title':'<?php echo _("name"); ?>','type':"text"},
-    'description':{'title':'<?php echo _("Description"); ?>','type':"text"},
-    'processList':{'title':'<?php echo _("Process list"); ?>','type':"processlist"},
+    'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':""},
+    'name':{'title':'<?php echo _("name"); ?>','type':"text",'colwidth':""},
+    'description':{'title':'<?php echo _("Description"); ?>','type':"text",'colwidth':""},
+    'processList':{'title':'<?php echo _("Process list"); ?>','type':"processlist",'colwidth':"span2"},
     'time':{'title':'<?php echo _("Last updated"); ?>', 'type':"updated"},
     'value':{'title':'<?php echo _("Value"); ?>','type':"value"},
 
     // Actions
-    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>', 'type':"edit"},
-    //'save-action':{'title':'','tooltip':'<?php echo _("Save"); ?>', 'type':"save", 'class':"hidden"},
-    'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete"},
-    'view-action':{'title':'','tooltip':'<?php echo _("Edit Process"); ?>', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'icon-wrench'}
+    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes"},
+    //'save-action':{'title':'','tooltip':'<?php echo _("Save"); ?>', 'type':"save", 'display':"no"},
+    'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete", 'display':"yes"},
+    'view-action':{'title':'','tooltip':'<?php echo _("Edit Process"); ?>', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'icon-wrench', 'display':"yes"}
 
   }
 

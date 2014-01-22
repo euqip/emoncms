@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-18 12:56+0100\n"
-"PO-Revision-Date: 2014-01-18 12:57+0100\n"
+"POT-Creation-Date: 2014-01-19 14:12+0100\n"
+"PO-Revision-Date: 2014-01-19 14:13+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -21,51 +21,47 @@ msgstr ""
 msgid "Changed, press to save"
 msgstr "Modifié, cliquez pour sauver"
 
-#: ../../../dashboard_langjs.php:22
-msgid "Now"
-msgstr "Mantenant"
-
-#: ../../../dashboard_langjs.php:26
+#: ../../../dashboard_langjs.php:24
 msgid "Feed"
 msgstr "Flux"
 
-#: ../../../dashboard_langjs.php:27
+#: ../../../dashboard_langjs.php:25
 msgid "Feed value"
 msgstr "Valeur du flux"
 
-#: ../../../dashboard_langjs.php:29
+#: ../../../dashboard_langjs.php:27
 msgid "Value"
 msgstr "Valeur"
 
-#: ../../../dashboard_langjs.php:30
+#: ../../../dashboard_langjs.php:28
 msgid "Value to show"
 msgstr "Valeur à affiche"
 
-#: ../../../dashboard_langjs.php:32
+#: ../../../dashboard_langjs.php:30
 msgid "Units"
 msgstr "Unités"
 
-#: ../../../dashboard_langjs.php:33
+#: ../../../dashboard_langjs.php:31
 msgid "Units to show"
 msgstr "Unités à afficher"
 
-#: ../../../dashboard_langjs.php:35
+#: ../../../dashboard_langjs.php:33
 msgid "Type"
 msgstr "Type"
 
-#: ../../../dashboard_langjs.php:36
+#: ../../../dashboard_langjs.php:34
 msgid "Type to show"
 msgstr "Type à afficher"
 
-#: ../../../dashboard_langjs.php:38
+#: ../../../dashboard_langjs.php:36
 msgid "Max value"
 msgstr "Valeur maximum"
 
-#: ../../../dashboard_langjs.php:39
+#: ../../../dashboard_langjs.php:37
 msgid "Max value to show"
 msgstr "Valeur maximum à afficher"
 
-#: ../../../dashboard_langjs.php:43
+#: ../../../dashboard_langjs.php:41
 msgid ""
 "Feed to set, control with caution, make sure device being controlled can "
 "operate safely in event of emoncms failure."
@@ -73,251 +69,251 @@ msgstr ""
 "Définir le flux. Bien vérifier que le périphérique peut continuer à "
 "fonctionner correctement en cas de défaillance de EmonCMS."
 
-#: ../../../dashboard_langjs.php:44
+#: ../../../dashboard_langjs.php:42
 msgid "Starting value"
 msgstr "Valeur d'origine"
 
-#: ../../../dashboard_langjs.php:47
+#: ../../../dashboard_langjs.php:45
 msgid "Bottom"
 msgstr "Bas"
 
-#: ../../../dashboard_langjs.php:48
+#: ../../../dashboard_langjs.php:46
 msgid "Top"
 msgstr "Haut"
 
-#: ../../../dashboard_langjs.php:49
+#: ../../../dashboard_langjs.php:47
 msgid "Bottom feed value"
 msgstr "Valeur du flux pour le bas"
 
-#: ../../../dashboard_langjs.php:50
+#: ../../../dashboard_langjs.php:48
 msgid "Top feed value"
 msgstr "Valeur du flux pour le haut"
 
-#: ../../../dashboard_langjs.php:53
+#: ../../../dashboard_langjs.php:51
 msgid "Scale"
 msgstr "Echelle"
 
-#: ../../../dashboard_langjs.php:54
+#: ../../../dashboard_langjs.php:52
 msgid "Scale to show"
 msgstr "Echelle à afficher"
 
-#: ../../../dashboard_langjs.php:58
+#: ../../../dashboard_langjs.php:56
 msgid "Fill"
 msgstr "Remplissage"
 
-#: ../../../dashboard_langjs.php:59
+#: ../../../dashboard_langjs.php:57
 msgid "Fill value"
 msgstr "Valeur de remplissage"
 
-#: ../../../dashboard_langjs.php:60
+#: ../../../dashboard_langjs.php:58
 msgid "Currency"
 msgstr "Devise"
 
-#: ../../../dashboard_langjs.php:61
+#: ../../../dashboard_langjs.php:59
 msgid "Currency to show"
 msgstr "Monnaie / Devise à afficher"
 
-#: ../../../dashboard_langjs.php:62
+#: ../../../dashboard_langjs.php:60
 msgid "Kwh price"
 msgstr "Prix du kWh"
 
-#: ../../../dashboard_langjs.php:63
+#: ../../../dashboard_langjs.php:61
 msgid "Set kwh price"
 msgstr "Définir le prix du kWh"
 
-#: ../../../dashboard_langjs.php:64
+#: ../../../dashboard_langjs.php:62
 msgid "kwhd"
 msgstr "kwhd"
 
-#: ../../../dashboard_langjs.php:65
+#: ../../../dashboard_langjs.php:63
 msgid "kwhd source"
 msgstr "source de kwhd"
 
-#: ../../../dashboard_langjs.php:66
+#: ../../../dashboard_langjs.php:64
 msgid "Power"
 msgstr "Puissance"
 
-#: ../../../dashboard_langjs.php:67
+#: ../../../dashboard_langjs.php:65
 msgid "Power to show"
 msgstr "Puissance à afficher"
 
-#: ../../../dashboard_langjs.php:68
+#: ../../../dashboard_langjs.php:66
 msgid "Threshold A"
 msgstr "Seuil A"
 
-#: ../../../dashboard_langjs.php:69
+#: ../../../dashboard_langjs.php:67
 msgid "Threshold B"
 msgstr "Seuil B"
 
-#: ../../../dashboard_langjs.php:70
+#: ../../../dashboard_langjs.php:68
 msgid "Threshold A used"
 msgstr "Le Seuil A à utiliser"
 
-#: ../../../dashboard_langjs.php:71
+#: ../../../dashboard_langjs.php:69
 msgid "Threshold B used"
 msgstr "Le Seuil B à utiliser"
 
-#: ../../../dashboard_langjs.php:72
+#: ../../../dashboard_langjs.php:70
 msgid "Consumption"
 msgstr "Consommation"
 
-#: ../../../dashboard_langjs.php:73
+#: ../../../dashboard_langjs.php:71
 msgid "Solar"
 msgstr "Solaire"
 
-#: ../../../dashboard_langjs.php:74
+#: ../../../dashboard_langjs.php:72
 msgid "Consumption feed value"
 msgstr "Flux contenant la consommation"
 
-#: ../../../dashboard_langjs.php:75
+#: ../../../dashboard_langjs.php:73
 msgid "Solar feed value"
 msgstr "Flux de valeur solaire"
 
-#: ../../../dashboard_langjs.php:76
+#: ../../../dashboard_langjs.php:74
 msgid "Ufac"
 msgstr "Ufac"
 
-#: ../../../dashboard_langjs.php:77
+#: ../../../dashboard_langjs.php:75
 msgid "Ufac value"
 msgstr "Valeur d'Ufac"
 
-#: ../../../dashboard_langjs.php:78
+#: ../../../dashboard_langjs.php:76
 msgid "Mid"
 msgstr "Milieu"
 
-#: ../../../dashboard_langjs.php:79
+#: ../../../dashboard_langjs.php:77
 msgid "Mid value"
 msgstr "Valeur du milieu"
 
-#: ../../../dashboard_langjs.php:83
+#: ../../../dashboard_langjs.php:81
 msgid "Text"
-msgstr "Divers-Textes"
+msgstr "Textes HTML"
 
-#: ../../../dashboard_langjs.php:84
+#: ../../../dashboard_langjs.php:82
 msgid "Containers"
 msgstr "Conteneurs"
 
-#: ../../../dashboard_langjs.php:85
+#: ../../../dashboard_langjs.php:83
 msgid "paragraph"
 msgstr "Paragraphe"
 
-#: ../../../dashboard_langjs.php:86
+#: ../../../dashboard_langjs.php:84
 msgid "heading"
 msgstr "Titre"
 
-#: ../../../dashboard_langjs.php:87
+#: ../../../dashboard_langjs.php:85
 msgid "heading-center"
 msgstr "Titre-centré"
 
-#: ../../../dashboard_langjs.php:88
+#: ../../../dashboard_langjs.php:86
 msgid "html-list"
 msgstr "Liste-HTML"
 
-#: ../../../dashboard_langjs.php:89
+#: ../../../dashboard_langjs.php:87
 msgid "html-image"
 msgstr "Image-HTML"
 
-#: ../../../dashboard_langjs.php:90
+#: ../../../dashboard_langjs.php:88
 msgid "Container-Grey"
 msgstr "Fond-gris"
 
-#: ../../../dashboard_langjs.php:91
+#: ../../../dashboard_langjs.php:89
 msgid "Container-White"
 msgstr "Fond-blanc"
 
-#: ../../../dashboard_langjs.php:92
+#: ../../../dashboard_langjs.php:90
 msgid "Container-BlueLine"
 msgstr "Contour-Bleu"
 
-#: ../../../dashboard_langjs.php:93
+#: ../../../dashboard_langjs.php:91
 msgid "Container-Black"
 msgstr "Fond-noir"
 
-#: ../../../dashboard_langjs.php:96
+#: ../../../dashboard_langjs.php:94
 msgid "Widgets"
 msgstr "Gadgets"
 
-#: ../../../dashboard_langjs.php:97
+#: ../../../dashboard_langjs.php:95
 msgid "button"
 msgstr "Bouton"
 
-#: ../../../dashboard_langjs.php:98
+#: ../../../dashboard_langjs.php:96
 msgid "cylinder"
 msgstr "Boiler"
 
-#: ../../../dashboard_langjs.php:99
+#: ../../../dashboard_langjs.php:97
 msgid "feedvalue"
 msgstr "Valeur-du-flux"
 
-#: ../../../dashboard_langjs.php:100
+#: ../../../dashboard_langjs.php:98
 msgid "dial"
 msgstr "Indicateur-circulaire"
 
-#: ../../../dashboard_langjs.php:101
+#: ../../../dashboard_langjs.php:99
 msgid "jgauge"
 msgstr "Jauge Grapfique"
 
-#: ../../../dashboard_langjs.php:102
+#: ../../../dashboard_langjs.php:100
 msgid "led"
-msgstr ""
+msgstr "Led"
 
-#: ../../../dashboard_langjs.php:105
+#: ../../../dashboard_langjs.php:103
 msgid "Visualizations"
 msgstr "Graphiques"
 
-#: ../../../dashboard_langjs.php:106
+#: ../../../dashboard_langjs.php:104
 msgid "realtime"
 msgstr "Temps réel"
 
-#: ../../../dashboard_langjs.php:107
+#: ../../../dashboard_langjs.php:105
 msgid "rawdata"
 msgstr "données brutes"
 
-#: ../../../dashboard_langjs.php:108
+#: ../../../dashboard_langjs.php:106
 msgid "bargraph"
 msgstr "Barres graphe"
 
-#: ../../../dashboard_langjs.php:109
+#: ../../../dashboard_langjs.php:107
 msgid "timestoredaily"
 msgstr ""
 
-#: ../../../dashboard_langjs.php:110
+#: ../../../dashboard_langjs.php:108
 msgid "zoom"
-msgstr ""
+msgstr "Zoom"
 
-#: ../../../dashboard_langjs.php:111
+#: ../../../dashboard_langjs.php:109
 msgid "simplezoom"
-msgstr ""
+msgstr "Zoom simple"
 
-#: ../../../dashboard_langjs.php:112
+#: ../../../dashboard_langjs.php:110
 msgid "histgraph"
 msgstr ""
 
-#: ../../../dashboard_langjs.php:113
+#: ../../../dashboard_langjs.php:111
 msgid "threshold"
 msgstr "Seuil"
 
-#: ../../../dashboard_langjs.php:114
+#: ../../../dashboard_langjs.php:112
 msgid "orderthreshold"
 msgstr "Seuil Ordonné"
 
-#: ../../../dashboard_langjs.php:115
+#: ../../../dashboard_langjs.php:113
 msgid "orderbars"
 msgstr ""
 
-#: ../../../dashboard_langjs.php:116
+#: ../../../dashboard_langjs.php:114
 msgid "stacked"
 msgstr "Empilé"
 
-#: ../../../dashboard_langjs.php:117
+#: ../../../dashboard_langjs.php:115
 msgid "stackedsolar"
 msgstr ""
 
-#: ../../../dashboard_langjs.php:118
+#: ../../../dashboard_langjs.php:116
 msgid "smoothie"
 msgstr ""
 
-#: ../../../dashboard_langjs.php:119
+#: ../../../dashboard_langjs.php:117
 msgid "multigraph"
 msgstr "Multi graphe"
 
@@ -493,3 +489,6 @@ msgstr "Nouveau"
 #: ../../../Views/dashboard_menu.php:64
 msgid "List view"
 msgstr "Liste"
+
+#~ msgid "Now"
+#~ msgstr "Mantenant"

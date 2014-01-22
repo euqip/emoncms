@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-14 21:27+0100\n"
-"PO-Revision-Date: 2014-01-18 17:43+0100\n"
+"POT-Creation-Date: 2014-01-22 18:36+0100\n"
+"PO-Revision-Date: 2014-01-22 18:37+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -356,11 +356,15 @@ msgstr "Valeur"
 msgid "Edit"
 msgstr "Editer"
 
-#: ../../../Views/input_node.php:56
+#: ../../../Views/input_node.php:55 ../../../Views/input_node.php:56
+msgid "Save"
+msgstr "Enregistrer"
+
+#: ../../../Views/input_node.php:57
 msgid "Delete row"
 msgstr "Supprimer la ligne"
 
-#: ../../../Views/input_node.php:57
+#: ../../../Views/input_node.php:58
 msgid "Edit Process"
 msgstr "Les acctions"
 

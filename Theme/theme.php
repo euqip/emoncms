@@ -78,6 +78,7 @@
         <script type="text/javascript" src="<?php echo $path; ?>Lib/jquery-1.9.0.min.js"></script>
         <link href="<?php echo $path; ?>Lib/bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="<?php echo $path; ?>Lib/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="<?php echo $path; ?>Theme/theme.css" rel="stylesheet">
 
         <!-- Thanks to Baptiste Gaultier for the emoncms dial icon http://bit.ly/zXgScz -->
         <link rel="shortcut icon" href="<?php echo $path; ?>Theme/favicon.png" />

@@ -58,9 +58,14 @@ var table = {
             html += "<tbody id='"+group+"' style='"+visible+"'><tr>";
             for (field in table.fields)
             {
-              var title = field; if (table.fields[field].title!=undefined) title = table.fields[field].title;
-              var tooltip = ''; if (table.fields[field].tooltip!=undefined) tooltip = table.fields[field].tooltip;
-              html += "<th><a type='sort' field='"+field+"' title='"+tooltip+"'>"+title+"</a></th>";
+              var fld = table.fields[field];
+              var title = field; if (fld.title!=undefined) title = fld.title;
+              var tooltip = ''; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
+              var colwidth = ''; if (fld.colwidth!=undefined) colwidth = "class='"+fld.colwidth+"'";
+              var display = 'yes'; if (fld.display!=undefined) display = fld.display;
+              if (display =="yes"){
+                  html += "<th><a type='sort' field='"+field+"' title='"+tooltip+" '"+colwidth+">"+title+"</a></th>";
+              }
             }
             html += "</tr>";
             html += groups[group];
@@ -79,9 +84,14 @@ var table = {
         var html = "<tr uid='"+row+"' >";
         //insert here the icon tooltips for Edit and delete
         for (field in table.fields) {
-            var tooltip = '';
-            if (table.fields[field].tooltip!=undefined) tooltip = table.fields[field].tooltip;
-            html += "<td row='"+row+"' field='"+field+"' >"+table.fieldtypes[table.fields[field].type].draw(row,field)+"</td>";
+            var fld = table.fields[field];
+            var tooltip = ''; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
+            var colwidth = ''; if (fld.colwidth!=undefined) colwidth = "class='"+fld.colwidth+"'";
+            var display = 'yes'; if (fld.display!=undefined) display = fld.display;
+            if (display =="yes"){
+                html += "<td row='"+row+"' field='"+field+"'"+colwidth+" >"
+                html += table.fieldtypes[fld.type].draw(row,field)+"</td>";
+            }
         }
         html += "</tr>";
         return html;
@@ -164,6 +174,8 @@ var table = {
               if (fields_to_update[table.groupby]!=undefined) table.draw();
             }
 
+            //toggle the Edit / save icons and funtions depending on node state
+
             if (mode == 'edit') {$(this).attr('mode','save'); $(this).html("<i class='icon-ok' title='"+($(this).attr('alt'))+"'></i>");}
             if (mode == 'save') {$(this).attr('mode','edit'); $(this).html("<i class='icon-pencil' title='"+($(this).attr('title'))+"'></i>");}
         });
@@ -236,19 +248,15 @@ var table = {
         {
             'draw': function (row,field) { 
                 var field= (table.fields['edit-action']);                
-                return "<a type='edit' title='"+field['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><i class='icon-pencil' ></i></a>"; 
+                return "<a type='edit' title='"+field['tooltip']+"'  alt='"+field['alt']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><i class='icon-pencil' ></i></a>"; 
             }
         },
 
         'save':
         {
             'draw': function (row,field) { 
-                var field= (table.fields['save-action']);                
-                if (field['class']=="hidden"){
-                    return"";
-                } else {
-                    return "<a type='save' title='"+field['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><i class='icon-ok' ></i></a>"; 
-                }                
+                var field= (table.fields['save-action']); 
+                return "<a type='save' title='"+field['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='save'><i class='icon-ok' ></i></a>"; 
             }
         },
     }
