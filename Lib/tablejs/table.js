@@ -44,9 +44,9 @@ var table = {
         for (group in groups) 
         {
             // Minimized group persistance, see lines: 4,92,93
-            var visible = '', symbol ='<i class="icon-minus-sign"></i>'; 
+            var visible = '', symbol ='<span class="glyphicon glyphicon-minus-sign"></span>'; 
             if (table.groupshow[group]==undefined) table.groupshow[group]=true;
-            if (table.groupshow[group]==false) {symbol = '<i class="icon-plus-sign"></i>'; visible = "display:none";}
+            if (table.groupshow[group]==false) {symbol = '<span class="glyphicon glyphicon-plus-sign"></span>'; visible = "display:none";}
 
             if (group_num>1) {
               html += "<tr><th colspan='2'><a class='MINMAX' group='"+group+"' >"+symbol+"</a> "+table.groupprefix+group+"</th>";
@@ -124,8 +124,8 @@ var table = {
         $(table.element).on('click', '.MINMAX', function() {
             var group = $(this).attr('group');
             var state = table.groupshow[group];
-            if (state == true) { $("#"+group).hide(); $(this).html('<i class="icon-plus-sign"></i>'); table.groupshow[group] = false; }
-            if (state == false) { $("#"+group).show(); $(this).html('<i class="icon-minus-sign"></i>'); table.groupshow[group] = true; }
+            if (state == true) { $("#"+group).hide(); $(this).html('<span class="glyphicon glyphicon-plus-sign"></span>'); table.groupshow[group] = false; }
+            if (state == false) { $("#"+group).show(); $(this).html('<span class="glyphicon glyphicon-minus-sign"></span>'); table.groupshow[group] = true; }
         });
 
         // Event: sort by field
@@ -176,8 +176,8 @@ var table = {
 
             //toggle the Edit / save icons and funtions depending on node state
 
-            if (mode == 'edit') {$(this).attr('mode','save'); $(this).html("<i class='icon-ok' title='"+($(this).attr('alt'))+"'></i>");}
-            if (mode == 'save') {$(this).attr('mode','edit'); $(this).html("<i class='icon-pencil' title='"+($(this).attr('title'))+"'></i>");}
+            if (mode == 'edit') {$(this).attr('mode','save'); $(this).html("<span class='glyphicon glyphicon-floppy-save' title='"+($(this).attr('alt'))+"'></span>");}
+            if (mode == 'save') {$(this).attr('mode','edit'); $(this).html("<span class='glyphicon glyphicon-pencil' title='"+($(this).attr('title'))+"'></span>");}
         });
 
         // Check if events have been defined for field types.
@@ -240,7 +240,7 @@ var table = {
         {
             'draw': function (row,field) { 
                 var title= (table.fields['delete-action']);                
-                return "<a type='delete' title='"+title['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' ><i class='icon-trash' ></i></a>"; 
+                return "<a type='delete' title='"+title['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' ><span class='glyphicon glyphicon-trash' ></span></a>"; 
             }
         },
 
@@ -248,7 +248,7 @@ var table = {
         {
             'draw': function (row,field) { 
                 var field= (table.fields['edit-action']);                
-                return "<a type='edit' title='"+field['tooltip']+"'  alt='"+field['alt']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><i class='icon-pencil' ></i></a>"; 
+                return "<a type='edit' title='"+field['tooltip']+"'  alt='"+field['alt']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><span class='glyphicon glyphicon-pencil' ></span></a>"; 
             }
         },
 
@@ -256,7 +256,7 @@ var table = {
         {
             'draw': function (row,field) { 
                 var field= (table.fields['save-action']); 
-                return "<a type='save' title='"+field['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='save'><i class='icon-ok' ></i></a>"; 
+                return "<a type='save' title='"+field['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='save'><span class='glyphicon glyphicon-floppy-save' ></span></a>"; 
             }
         },
     }

@@ -51,16 +51,16 @@ input[type="text"] {
     'name':{'title':"<?php echo _('Name'); ?>", 'type':"text"},
     'alias':{'title':"<?php echo _('Alias'); ?>", 'type':"text"},
    // 'description':{'title':"<?php echo _('Description'); ?>", 'type':"text"},
-    'main':{'title':"<?php echo _('Main'); ?>", 'type':"icon", 'trueicon':"icon-star", 'falseicon':"icon-star-empty"},
-    'public':{'title':"<?php echo _('Public'); ?>", 'type':"icon", 'trueicon':"icon-globe", 'falseicon':"icon-lock"},
-    'published':{'title':"<?php echo _('Published'); ?>", 'type':"icon", 'trueicon':"icon-ok", 'falseicon':"icon-remove"},
+    'main':{'title':"<?php echo _('Main'); ?>", 'tooltip':"<?php echo _('set as main'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-star", 'falseicon':"glyphicon glyphicon-star-empty"},
+    'public':{'title':"<?php echo _('Public'); ?>", 'tooltip':"<?php echo _('make dashbord public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock"},
+    'published':{'title':"<?php echo _('Published'); ?>",  'tooltip':"<?php echo _('publish dashbord'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-floppy-save", 'falseicon':"glyphicon glyphicon-remove"},
 
     // Actions
-    'clone-action':{'title':'','tooltip':"<?php echo _('Duplicate'); ?>", 'type':"iconlink", 'icon':"icon-random", 'link':path+"dashboard/clone.json?id="},
+    'clone-action':{'title':'','tooltip':"<?php echo _('Duplicate'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-random", 'link':path+"dashboard/clone.json?id="},
 
     'edit-action':{'title':'','tooltip':"<?php echo _('Edit'); ?>", 'type':"edit"},
     'delete-action':{'title':'','tooltip':"<?php echo _('Delete'); ?>", 'type':"delete"},
-    'draw-action':{'title':'','tooltip':"<?php echo _('Design'); ?>", 'type':"iconlink", 'icon':"icon-edit", 'link':path+"dashboard/edit?id="},
+    'draw-action':{'title':'','tooltip':"<?php echo _('Design'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-edit", 'link':path+"dashboard/edit?id="},
     'view-action':{'title':'','tooltip':"<?php echo _('Show'); ?>", 'type':"iconlink", 'link':path+"dashboard/view?id="}
 
   }

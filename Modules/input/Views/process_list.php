@@ -118,11 +118,11 @@ function update_list()
       // Move process up or down                           
       out += '<td>';                   
       if (i > 1) {
-        out += '<a class="move-process" href="#" title="<?php echo _("Move up"); ?>" processid='+i+' moveby=-1 ><i class="icon-arrow-up"></i></a>';           
+        out += '<a class="move-process" href="#" title="<?php echo _("Move up"); ?>" processid='+i+' moveby=-1 ><span class="glyphicon glyphicon-arrow-up"></span></a>';           
       } 
 
       if (i < inputprocesslist.length) {
-        out += '<a class="move-process" href="#" title="<?php echo _("Move down"); ?>" processid='+i+' moveby=1 ><i class="icon-arrow-down"></i></a>';            
+        out += '<a class="move-process" href="#" title="<?php echo _("Move down"); ?>" processid='+i+' moveby=1 ><span class="glyphicon glyphicon-arrow-down"></span></a>';            
       }
       out += '</td>';  
 
@@ -130,7 +130,7 @@ function update_list()
       out += "<td>"+i+"</td><td>"+inputprocesslist[z][0]+"</td><td>"+inputprocesslist[z][1]+"</td>";
       
       // Delete process button (icon)
-      out += '<td><a href="#" class="delete-process" title="<?php echo _('Delete'); ?>" processid='+i+'><i class="icon-trash"></i></a></td>';
+      out += '<td><a href="#" class="delete-process" title="<?php echo _('Delete'); ?>" processid='+i+'><span class="glyphicon glyphicon-trash"></span></a></td>';
     
     out += '</tr>';  
   }

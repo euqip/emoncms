@@ -14,14 +14,16 @@ var customtablefields = {
     {
         'draw': function(row,field)
         {
-            if (table.data[row][field] == true) return "<i class='"+table.fields[field].trueicon+"' type='input' ></i>";
-            if (table.data[row][field] == false) return "<i class='"+table.fields[field].falseicon+"' type='input' ></i>";
+            var fld=table.fields[field];
+            var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
+            if (table.data[row][field] == true) return "<span class='"+fld.trueicon+"' type='input' title='"+fld.tooltip+"'></span>";
+            if (table.data[row][field] == false) return "<span class='"+fld.falseicon+"' type='input' title='"+fld.tooltip+"'></span>";
         },
 
         'event': function()
         {
             // Event code for clickable switch state icon's
-            $(table.element).on('click', 'i[type=input]', function() {
+            $(table.element).on('click', 'span[type=input]', function() {
                 var row = $(this).parent().attr('row');
                 var field = $(this).parent().attr('field');
                 table.data[row][field] = !table.data[row][field];
@@ -158,9 +160,10 @@ var customtablefields = {
     'iconlink':
     {
         'draw': function (row,field) { 
-          var icon = 'icon-eye-open'; if (table.fields[field].icon) icon = table.fields[field].icon;
-          var tooltip = '';if (table.fields[field].tooltip) tooltip = table.fields[field].tooltip
-          return "<a href='"+table.fields[field].link+table.data[row]['id']+"' title='"+tooltip+"' ><i class='"+icon+"' ></i></a>" 
+          var fld=table.fields[field];
+          var icon = 'glyphicon glyphicon-eye-open'; if (fld.icon) icon = fld.icon;
+          var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
+          return "<a href='"+fld.link+table.data[row]['id']+"' title='"+tooltip+"' ><span class='"+icon+"' ></span></a>" 
         }
     },
 
@@ -168,8 +171,9 @@ var customtablefields = {
     {
         'draw': function(row,field)
         {
-            var tooltip = '';if (table.fields[field].tooltip) tooltip = table.fields[field].tooltip
-            return "<i class='"+table.fields[field].icon+"' type='icon' row='"+row+"' title='"+tooltip+"'></i>";
+          var fld=table.fields[field];
+          var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
+          return "<span class='"+fld.icon+"' type='icon' row='"+row+"' title='"+tooltip+"'></span>";
         }
     }
 }

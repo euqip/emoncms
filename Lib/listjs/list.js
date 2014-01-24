@@ -19,10 +19,12 @@ var list = {
         var table = $('<table class="table table-hover" />'),
             tr;
         for (field in list.fields) {
+            var fld= list.fields[field];
+            var tooltip = 'Edit'; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
             tr = $("<tr />").attr("field", field);
-            tr.append('  <td type="name" class="muted" style="width:150px;">'+list.fields[field].title+'</td>');
-            tr.append('  <td type="value">'+(list.fieldtypes[list.fields[field].type].draw(list.data[field])||'N/A')+'</td>');
-            tr.append('  <td type="edit" action="edit"><i class="icon-pencil" style="display:none"></i></td>');
+            tr.append('  <td type="name" class="muted" style="width:150px;">'+fld.title+'</td>');
+            tr.append('  <td type="value">'+(list.fieldtypes[fld.type].draw(list.data[field])||'N/A')+'</td>');
+            tr.append('  <td type="edit" title = "'+tooltip+'" action="edit"> <span class="glyphicon glyphicon-pencil" style="display:none"> </span></td>');
             table.append(tr);
         }
         $(list.element).html(table);
@@ -30,18 +32,21 @@ var list = {
         $(list.element+" td[type=edit]").click(function() {
             var action = $(this).attr('action');
             var field = $(this).parent().attr('field');
+            var fld = list.fields[field];
 
             if (action=='edit')
             {
+              var tooltip = ''; if (fld.alt!=undefined) tooltip = fld.alt;
               $(list.element+" tr[field="+field+"] td[type=value]").html(list.fieldtypes[list.fields[field].type].edit(field,list.data[field]));
-              $(this).html("<a>Save</a>").attr('action','save');
+              $(this).html('<a><span class="glyphicon glyphicon-floppy-save"></span></a>').attr('action','save');
             }
 
             if (action=='save')
             {
-              list.data[field] = list.fieldtypes[list.fields[field].type].save(field);
+              list.data[field] = list.fieldtypes[fld.type].save(field);
+              var tooltip = ''; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
               $(list.element+" tr[field="+field+"] td[type=value]").html(list.fieldtypes[list.fields[field].type].draw(list.data[field]));
-              $(this).html("<i class='icon-pencil' tooltip='Edit' style='display:none'></i>").attr('action','edit');
+              $(this).html("<span class='glyphicon glyphicon-pencil'  title = '"+tooltip+"' style='display:none'></span>").attr('action','edit');
               $(list.element).trigger("onSave",[]);
             }
         });
@@ -49,10 +54,10 @@ var list = {
         // Show edit button only on hover
         $(list.element+" tr").hover(
           function() {
-            $(this).find("td:last > i").show();
+            $(this).find("td:last > span").show();
           },
           function() {
-            $(this).find("td:last > i").hide();
+            $(this).find("td:last > span").hide();
           }
         );
     },

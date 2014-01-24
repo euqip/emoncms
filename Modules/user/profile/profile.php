@@ -31,25 +31,31 @@ function languagecodetotext()
 
 <div class="row">
 
-  <div class="span4">
+  <div class="col-md-5">
    <h3><?php echo _('My account'); ?></h3>
 
   <div id="account" style="width:230px;">
     <p>
       <span class="muted"><?php echo _('Username'); ?></span>
-      <span id="username-view"><br><span class="username"></span> <a id="edit-username" style="float:right"><?php echo _('Edit'); ?></a></span>
+      <span id="username-view">
+        <br />
+        <span class="username"></span>
+       <a id="edit-username" style="float:right"> <span class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span></a></span>
       <div id="edit-username-form" class="input-append" style="display:none">
-        <input class="span2" id="appendedInputButton" type="text" style="width:150px">
-        <button class="btn" type="button"><?php echo _('Save'); ?></button>
+        <input class="col-md-2" id="appendedInputButton" type="text" style="width:150px">
+        <button class="" type="button"> <span class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Save'); ?>></span></button>
       </div>
       <div id="change-username-error" class="alert alert-error" style="display:none; width:170px"></div>
     </p>
     <p>
       <span class="muted"><?php echo _('Email'); ?></span>
-      <span id="email-view"><br><span class="email"></span> <a id="edit-email" style="float:right"><?php echo _('Edit'); ?></a></span>
+      <span id="email-view">
+        <br />
+        <span class="email"></span>
+         <a id="edit-email" style="float:right"> <span class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span></a></span>
       <div id="edit-email-form" class="input-append" style="display:none">
-        <input class="span2" id="appendedInputButton" type="text" style="width:150px">
-        <button class="btn" type="button"><?php echo _('Save'); ?></button>
+        <input class="col-md-2" id="appendedInputButton" type="text" style="width:150px">
+        <button class="" type="button"> <span class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Save'); ?>></span></button>
       </div>
       <div id="change-email-error" class="alert alert-error" style="display:none; width:170px"></div>
     </p>
@@ -78,7 +84,7 @@ function languagecodetotext()
 
   </div>
 
-  <div class="span8">
+  <div class="col-md-7">
     <h3><?php echo _('My Profile'); ?></h3>
     <div id="table"></div>
   </div>
@@ -101,6 +107,14 @@ function languagecodetotext()
       'timezone':{'title':"<?php echo _('Timezone'); ?>", 'type':'timezone'},
       'language':{'title':"<?php echo _('Language'); ?>", 'type':'select', 'options':lang},
       'bio':{'title':"<?php echo _('Bio'); ?>", 'type':'text'}
+
+      // Actions
+      //'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes"},
+      //'save-action':{'title':'','tooltip':'<?php echo _("Save"); ?>', 'type':"save", 'display':"no"},
+      //'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete", 'display':"yes"},
+      //'view-action':{'title':'','tooltip':'<?php echo _("Edit Process"); ?>', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'glyphicon glyphicon-wrench', 'display':"yes"}
+
+
     }
 
     list.init();

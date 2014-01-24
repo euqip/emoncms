@@ -21,13 +21,9 @@
   if (!$session['write']) $menu_right[] = array('name'=>"Log In", 'path'=>"user/login", 'order' => -1 );
 ?>
 
-<style>
-  #mainnav li:first-child a { padding-left: 0px; }
-</style>
 
-  <ul class="nav">
-    <?php
-
+  <ul class="nav navbar-nav">
+  <?php
     foreach ($menu_left as $item) 
     { 
       if (isset($item['session'])) {
@@ -37,11 +33,14 @@
       } else {
         echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
       }
-    } 
-
+    }
     ?>
+  </ul>
 
-    <?php if (count($menu_dropdown) && $session['read']) { ?>
+    <?php
+  //dropdown menu items
+
+  if (count($menu_dropdown) && $session['read']) { ?>
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras <b class="caret"></b></a>
       <ul class="dropdown-menu">
@@ -53,11 +52,11 @@
       </ul>
     </li>
     <?php } ?>
-  </ul>
 
-  <ul class="nav pull-right">
+
+
+  <ul class="nav navbar-nav navbar-right">
     <?php
-
     foreach ($menu_right as $item) 
     { 
       if (isset($item['session'])) {
@@ -68,7 +67,9 @@
         echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
       }
     } 
-
     ?>
   </ul>
+
+
+
 

@@ -26,7 +26,7 @@ input[type="text"] {
     </div>
     
     <hr>
-    <button id="refreshfeedsize" class="btn btn-small" >Refresh feed size <i class="icon-refresh" ></i></button>
+    <button id="refreshfeedsize" class="btn btn-small" >Refresh feed size <i class="glyphicon glyphicon-refresh" ></i></button>
 </div>
 
 <div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
@@ -59,16 +59,16 @@ input[type="text"] {
     'tag':{'title':"<?php echo _('Tag'); ?>", 'type':"text"},
     'datatype':{'title':"<?php echo _('Datatype'); ?>", 'type':"select", 'options':['','REALTIME','DAILY','HISTOGRAM']},
     'engine':{'title':"<?php echo _('Engine'); ?>", 'type':"select", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE']},
-    'public':{'title':"<?php echo _('Public'); ?>", 'type':"icon", 'trueicon':"icon-globe", 'falseicon':"icon-lock"},
+    'public':{'title':"<?php echo _('Public'); ?>", 'tooltip': "<?php echo _('Make feed public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock"},
     'size':{'title':"<?php echo _('Size'); ?>", 'type':"fixed"},
     
     'time':{'title':"<?php echo _('Updated'); ?>", 'type':"updated"},
     'value':{'title':"<?php echo _('Value'); ?>",'type':"value"},
 
     // Actions
-    'edit-action':{'title':'', 'type':"edit"},
-    'delete-action':{'title':'', 'type':"delete"},
-    'view-action':{'title':'', 'type':"iconlink", tooltip: "Preview", 'link':path+"vis/auto?feedid="}
+    'edit-action':{'title':'', 'type':"edit", 'tooltip': "<?php echo _('Edit'); ?>", 'alt': "<?php echo _('Save'); ?>"},
+    'delete-action':{'title':'', 'type':"delete", 'tooltip': "<?php echo _('Delete'); ?>"},
+    'view-action':{'title':'', 'type':"iconlink", 'tooltip': "<?php echo _('Preview'); ?>", 'link':path+"vis/auto?feedid="}
 
   }
 
