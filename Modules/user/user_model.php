@@ -418,8 +418,8 @@ class User
         // Validation
         $userid = intval($userid);
         $gravatar = preg_replace('/[^\w\s-.@]/','',$data->gravatar);
-        $name = preg_replace('/[^\w\s-.]/','',$data->name);
-        $location = preg_replace('/[^\w\s-.]/','',$data->location);
+        $name = preg_replace('/[^\s\p{L}]/u','',$data->name);
+        $location = preg_replace('/[^\s\p{L}]/u','',$data->location);
         $timezone = intval($data->timezone);
         $language = preg_replace('/[^\w\s-.]/','',$data->language); $_SESSION['lang'] = $language;
         $bio = preg_replace('/[^\w\s-.]/','',$data->bio);
