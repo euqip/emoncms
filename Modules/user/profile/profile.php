@@ -24,7 +24,7 @@ function languagecodetotext()
 }
 
 ?>
-
+    <script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/profile.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/md5.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/user.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/listjs/list.js"></script>
@@ -34,55 +34,65 @@ function languagecodetotext()
   <div class="col-md-5">
    <h3><?php echo _('My account'); ?></h3>
 
-  <div id="account" style="width:230px;">
-    <p>
-      <span class="muted"><?php echo _('Username'); ?></span>
-      <span id="username-view">
-        <br />
+  <div id="account">
+
+      <span class="text-muted"><?php echo _('Username'); ?></span>
+      <span id ="edit-username" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span>
+      <span id ="save-username" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Edit'); ?>></span>
+
+      <p>
+      <div id="username-view" style="display:inline">
         <span class="username"></span>
-       <a id="edit-username" style="float:right"> <span class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span></a></span>
-      <div id="edit-username-form" class="input-append" style="display:none">
-        <input class="col-md-2" id="appendedInputButton" type="text" style="width:150px">
-        <button class="" type="button"> <span class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Save'); ?>></span></button>
       </div>
-      <div id="change-username-error" class="alert alert-error" style="display:none; width:170px"></div>
-    </p>
-    <p>
-      <span class="muted"><?php echo _('Email'); ?></span>
-      <span id="email-view">
-        <br />
+      <div id="edit-username-form" style="display:none">
+        <input class="username form-control" type="text" size ="40">
+      </div>
+      </p>
+      <div id="change-username-error" class="alert alert-error" style="display:none; width:100%"></div> 
+
+
+      <span class="text-muted"><?php echo _('Email'); ?></span>
+        <span id ="edit-email" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span>
+        <span id ="save-email" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Edit'); ?>></span>
+      <p>
+      <div id="email-view" style="display:inline">
         <span class="email"></span>
-         <a id="edit-email" style="float:right"> <span class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span></a></span>
-      <div id="edit-email-form" class="input-append" style="display:none">
-        <input class="col-md-2" id="appendedInputButton" type="text" style="width:150px">
-        <button class="" type="button"> <span class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Save'); ?>></span></button>
       </div>
-      <div id="change-email-error" class="alert alert-error" style="display:none; width:170px"></div>
-    </p>
+      <div id="edit-email-form" style="display:none">
+        <input class="email form-control" type="email" size="40">
+      </div>
+      </p>
+      <div id="change-email-error" class="alert alert-error" style="display:none; width:100%"></div> 
+
+
+
+
     <p>
       <a id="changedetails"><?php echo _('Change Password'); ?></a>
     </p>
   </div>
 
-  <div id="change-password-form" style="display:none">
-    <p>
-      <span class="muted"><?php echo _('Current password'); ?></span>
-      <br><input id="oldpassword" type="password" />
-    </p>
-    <p>
-      <span class="muted"><?php echo _('New password'); ?></span>
-      <br><input id="newpassword" type="password" />
-    </p>
-    <p>
-      <span class="muted"><?php echo _('Repeat new password'); ?></span>
-      <br><input id="repeatnewpassword" type="password" />
-    </p>
-    <div id="change-password-error" class="alert alert-error" style="display:none; width:170px"></div>
-    <input id="change-password-submit" type="submit" class="btn btn-primary" value="<?php echo _('Save'); ?>" />
-    <input id="change-password-cancel" type="submit" class="btn" value="<?php echo _('Cancel'); ?>" />
-  </div>
+        <div id="change-password-form" style="display:none">
+          <div  class="form-group">
+            <label for="oldpassword" class="text-muted"><?php echo _('Current password'); ?></label>
+            <input id="oldpassword" type="password" class="form-control" placeholder="'<?php echo _("type Current password"); ?>'"/>
+          </div>
+          <div  class="form-group">
+            <label for="newpassword" class="text-muted"><?php echo _('New password'); ?></label>
+            <input id="newpassword" type="password" class="form-control" placeholder="'<?php echo _("type New password"); ?>'"/>
+          </div>
+          <div  class="form-group">
+            <label for="repeatnewpassword" class="text-muted"><?php echo _('Repeat new password'); ?></label>
+            <input id="repeatnewpassword" type="password" class="form-control" placeholder="'<?php echo _("retype New password"); ?>'"/>
+          </div>
+          <div id="change-password-error" class="alert alert-error" style="display:none"></div>
+          <input id="change-password-submit" type="submit" class="btn btn-primary" value="<?php echo _('Save'); ?>" />
+          <input id="change-password-cancel" type="submit" class="btn" value="<?php echo _('Cancel'); ?>" />
+        </div>
 
   </div>
+
+
 
   <div class="col-md-7">
     <h3><?php echo _('My Profile'); ?></h3>
@@ -108,172 +118,9 @@ function languagecodetotext()
       'language':{'title':"<?php echo _('Language'); ?>", 'type':'select', 'options':lang},
       'bio':{'title':"<?php echo _('Bio'); ?>", 'type':'text'}
 
-      // Actions
-      //'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes"},
-      //'save-action':{'title':'','tooltip':'<?php echo _("Save"); ?>', 'type':"save", 'display':"no"},
-      //'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete", 'display':"yes"},
-      //'view-action':{'title':'','tooltip':'<?php echo _("Edit Process"); ?>', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'glyphicon glyphicon-wrench', 'display':"yes"}
-
-
     }
-
-    list.init();
-
-    $("#table").bind("onSave", function(e){
-      user.set(list.data);
-
-      // refresh the page if the language has been changed.
-      if (list.data.language!=currentlanguage) window.location.href = path+"user/view";
-    });
-
-    //------------------------------------------------------
-    // Username
-    //------------------------------------------------------
-    $(".username").html(list.data['username']);
-    $("#input-username").val(list.data['username']);
-
-    $("#edit-username").click(function(){
-      $("#username-view").hide();
-      $("#edit-username-form").show();
-      $("#edit-username-form input").val(list.data.username);
-    });
-
-    $("#edit-username-form button").click(function(){
-
-      var username = $("#edit-username-form input").val();
-
-      if (username!=list.data.username)
-      {
-        $.ajax({
-          url: path+"user/changeusername.json",
-          data: "&username="+username,
-          dataType: 'json',
-          success: function(result)
-          {
-            if (result.success)
-            {
-              $("#username-view").show();
-              $("#edit-username-form").hide();
-              list.data.username = username;
-              $(".username").html(list.data.username);
-              $("#change-username-error").hide();
-            }
-            else
-            {
-              $("#change-username-error").html(result.message).show();
-            }
-          }
-        });
-      }
-      else
-      {
-        $("#username-view").show();
-        $("#edit-username-form").hide();
-        $("#change-username-error").hide();
-      }
-    });
-
-    //------------------------------------------------------
-    // Email
-    //------------------------------------------------------
-    $(".email").html(list.data['email']);
-    $("#input-email").val(list.data['email']);
-
-    $("#edit-email").click(function(){
-      $("#email-view").hide();
-      $("#edit-email-form").show();
-      $("#edit-email-form input").val(list.data.email);
-    });
-
-    $("#edit-email-form button").click(function(){
-
-      var email = $("#edit-email-form input").val();
-
-      if (email!=list.data.email)
-      {
-        $.ajax({
-          url: path+"user/changeemail.json",
-          data: "&email="+email,
-          dataType: 'json',
-          success: function(result)
-          {
-            if (result.success)
-            {
-              $("#email-view").show();
-              $("#edit-email-form").hide();
-              list.data.email = email;
-              $(".email").html(list.data.email);
-              $("#change-email-error").hide();
-            }
-            else
-            {
-              $("#change-email-error").html(result.message).show();
-            }
-          }
-        });
-      }
-      else
-      {
-        $("#email-view").show();
-        $("#edit-email-form").hide();
-        $("#change-email-error").hide();
-      }
-    });
-
-    //------------------------------------------------------
-    // Password
-    //------------------------------------------------------
-    $("#changedetails").click(function(){
-      $("#changedetails").hide();
-      $("#change-password-form").show();
-    });
-
-    $("#change-password-submit").click(function(){
-
-      var oldpassword = $("#oldpassword").val();
-      var newpassword = $("#newpassword").val();
-      var repeatnewpassword = $("#repeatnewpassword").val();
-
-      if (newpassword != repeatnewpassword) 
-      {
-        $("#change-password-error").html("<?php echo _('Passwords do not match'); ?>").show();
-      }
-      else
-      {
-        $.ajax({
-          url: path+"user/changepassword.json",
-          data: "old="+oldpassword+"&new="+newpassword,
-          dataType: 'json',
-          success: function(result)
-          {
-            if (result.success)
-            {
-              $("#oldpassword").val('');
-              $("#newpassword").val('');
-              $("#repeatnewpassword").val('');
-              $("#change-password-error").hide();
-
-              $("#change-password-form").hide();
-              $("#changedetails").show();
-            }
-            else
-            {
-              $("#change-password-error").html(result.message).show();
-            }
-          }
-        });
-      }
-    });
-
-    $("#change-password-cancel").click(function(){
-      $("#oldpassword").val('');
-      $("#newpassword").val('');
-      $("#repeatnewpassword").val('');
-      $("#change-password-error").hide();
-
-      $("#change-password-form").hide();
-      $("#changedetails").show();
-    });
+      $(startprofile);
+    </script>
 
 
-</script>
+

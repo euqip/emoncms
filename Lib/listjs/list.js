@@ -22,9 +22,9 @@ var list = {
             var fld= list.fields[field];
             var tooltip = 'Edit'; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
             tr = $("<tr />").attr("field", field);
-            tr.append('  <td type="name" class="muted" style="width:150px;">'+fld.title+'</td>');
-            tr.append('  <td type="value">'+(list.fieldtypes[fld.type].draw(list.data[field])||'N/A')+'</td>');
-            tr.append('  <td type="edit" title = "'+tooltip+'" action="edit"> <span class="glyphicon glyphicon-pencil" style="display:none"> </span></td>');
+            tr.append('  <td type="name" class="text-muted" style="width:150px;">'+fld.title+'</td>');
+            tr.append('  <td type="edit" title = "'+tooltip+'" action="edit" style="width:32px;"> <span class="glyphicon glyphicon-pencil" style="display:none"> </span></td>');
+            tr.append('  <td type="value" class="">'+(list.fieldtypes[fld.type].draw(list.data[field])||'N/A')+'</td>');
             table.append(tr);
         }
         $(list.element).html(table);
@@ -38,7 +38,7 @@ var list = {
             {
               var tooltip = ''; if (fld.alt!=undefined) tooltip = fld.alt;
               $(list.element+" tr[field="+field+"] td[type=value]").html(list.fieldtypes[list.fields[field].type].edit(field,list.data[field]));
-              $(this).html('<a><span class="glyphicon glyphicon-floppy-save"></span></a>').attr('action','save');
+              $(this).html('<span class="glyphicon glyphicon-floppy-save"></span>').attr('action','save');
             }
 
             if (action=='save')
@@ -54,10 +54,10 @@ var list = {
         // Show edit button only on hover
         $(list.element+" tr").hover(
           function() {
-            $(this).find("td:last > span").show();
+            $(this).find(".glyphicon").show();
           },
           function() {
-            $(this).find("td:last > span").hide();
+            $(this).find(".glyphicon").hide();
           }
         );
     },
@@ -67,7 +67,7 @@ var list = {
         'text':
         {
           'draw':function(value) { return value; },
-          'edit':function(field,value) { return "<input type='text' value='"+(value||'')+"' / >"; },
+          'edit':function(field,value) { return "<input type='text' class='form-control' value='"+(value||'')+"' / >"; },
           'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
         },
 
@@ -82,7 +82,7 @@ var list = {
               var selected = ""; if (list.fields[field].options[i] == value) selected = 'selected';
               options += "<option value="+list.fields[field].options[i]+" "+selected+">"+list.fields[field].options[i]+"</option>";
             }
-            return "<select>"+options+"</select>";
+            return "<select class='form-control'>"+options+"</select>";
           },
           'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
         },
@@ -96,7 +96,7 @@ var list = {
           },
           'edit':function(field,value) 
           {
-            var select = $('<select />'),
+            var select = $('<select class="form-control"/>'),
                 selectedIndex = null,
                 sign;
                 
@@ -121,7 +121,7 @@ var list = {
         'gravatar':
         {
           'draw':function(value) { return "<img style='border: 1px solid #ccc; padding:2px;' src='http://www.gravatar.com/avatar/"+CryptoJS.MD5(value)+"'/ >" },
-          'edit':function(field,value) { return "<input type='text' value='"+value+"' / >" },
+          'edit':function(field,value) { return "<input class='form-control' type='text' value='"+value+"' / >" },
           'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
         }
     }
