@@ -48,7 +48,7 @@ function languagecodetotext()
         <input class="username form-control" type="text" size ="40">
       </div>
       </p>
-      <div id="change-username-error" class="alert alert-error" style="display:none; width:100%"></div> 
+      <div id="change-username-error" class="alert-danger" style="display:none; width:100%"></div> 
 
 
       <span class="text-muted"><?php echo _('Email'); ?></span>
@@ -62,7 +62,7 @@ function languagecodetotext()
         <input class="email form-control" type="email" size="40">
       </div>
       </p>
-      <div id="change-email-error" class="alert alert-error" style="display:none; width:100%"></div> 
+      <div id="change-email-error" class="alert-danger" style="display:none; width:100%"></div> 
 
 
 
@@ -70,25 +70,28 @@ function languagecodetotext()
     <p>
       <a id="changedetails"><?php echo _('Change Password'); ?></a>
     </p>
+    <div id="password-changed" class="alert text-success" style="display:none"><?php echo _('Password is updated!'); ?></div>
+
   </div>
 
         <div id="change-password-form" style="display:none">
           <div  class="form-group">
-            <label for="oldpassword" class="text-muted"><?php echo _('Current password'); ?></label>
+            <label for="oldpassword" class="text-muted"><?php echo _("Current password"); ?></label>
             <input id="oldpassword" type="password" class="form-control" placeholder="'<?php echo _("type Current password"); ?>'"/>
           </div>
           <div  class="form-group">
-            <label for="newpassword" class="text-muted"><?php echo _('New password'); ?></label>
+            <label for="newpassword" class="text-muted"><?php echo _("New password"); ?></label>
             <input id="newpassword" type="password" class="form-control" placeholder="'<?php echo _("type New password"); ?>'"/>
           </div>
           <div  class="form-group">
-            <label for="repeatnewpassword" class="text-muted"><?php echo _('Repeat new password'); ?></label>
+            <label for="repeatnewpassword" class="text-muted"><?php echo _("Repeat new password"); ?></label>
             <input id="repeatnewpassword" type="password" class="form-control" placeholder="'<?php echo _("retype New password"); ?>'"/>
           </div>
-          <div id="change-password-error" class="alert alert-error" style="display:none"></div>
-          <input id="change-password-submit" type="submit" class="btn btn-primary" value="<?php echo _('Save'); ?>" />
+          <div id="change-password-error" class="alert alert-danger" style="display:none;"><?php echo _('Passwords do not match'); ?></div>
+          <input id="change-password-submit" type="submit" class="btn btn-primary active" value="<?php echo _('Save'); ?>" />
           <input id="change-password-cancel" type="submit" class="btn" value="<?php echo _('Cancel'); ?>" />
         </div>
+
 
   </div>
 
@@ -119,7 +122,7 @@ function languagecodetotext()
       'bio':{'title':"<?php echo _('Bio'); ?>", 'type':'text'}
 
     }
-      $(startprofile);
+    $(startprofile);
     </script>
 
 

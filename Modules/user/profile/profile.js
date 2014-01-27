@@ -42,10 +42,12 @@ function startprofile(){
               list.data.username = username;
               $(".username").html(list.data.username);
               $("#change-username-error").hide();
+              $("#password-changed").show();
             }
             else
             {
               $("#change-username-error").html(result.message).show();
+              $("#password-changed").hide();
             }
           }
         });
@@ -117,6 +119,8 @@ function startprofile(){
     $("#changedetails").click(function(){
       $("#changedetails").hide();
       $("#change-password-form").show();
+      $("#password-changed").hide();
+
     });
 
     $("#change-password-submit").click(function(){
@@ -127,7 +131,7 @@ function startprofile(){
 
       if (newpassword != repeatnewpassword) 
       {
-        $("#change-password-error").html("<?php echo _('Passwords do not match'); ?>").show();
+        $("#change-password-error").show();
       }
       else
       {
@@ -143,6 +147,7 @@ function startprofile(){
               $("#newpassword").val('');
               $("#repeatnewpassword").val('');
               $("#change-password-error").hide();
+              $("#password-changed").show();
 
               $("#change-password-form").hide();
               $("#changedetails").show();
@@ -161,6 +166,7 @@ function startprofile(){
       $("#newpassword").val('');
       $("#repeatnewpassword").val('');
       $("#change-password-error").hide();
+              $("#password-changed").hide();
 
       $("#change-password-form").hide();
       $("#changedetails").show();
