@@ -26,27 +26,29 @@ global $path, $allowusersregister, $enable_rememberme;
   <div class="login-container">
 
     <div id="login-form"  class="well" style="text-align:left">
-      <p>
-        <?php echo _('Username:'); ?><br/>
-        <input type="text" tabindex="1" name="username" style="width:94%"/>
-      </p>
 
-      <p class="register-item" style="display:none">
-        <?php echo _('Email:'); ?>   
-        <input type="text" name="email" style="width:94%" tabindex="2"/>
-      </p>
+      <div class ="form-group" tabindex="1">
+        <label for="username" class="text-muted"><?php echo _('Username:'); ?></label>
+        <input type="text" class="form-control" id="username" placeholder="<?php echo _('Enter your Username'); ?>" />
+      </div>
 
-      <p>
-        <?php echo _('Password:'); ?><br/>
-        <input type="password" tabindex="3" name="password" style="width:94%"/>
-      </p>
+      <div class ="form-group register-item" tabindex="2"  style="display:none">
+        <label for="email" class="text-muted"><?php echo _('Email:'); ?></label>
+        <input type="email" class="form-control" id="email" placeholder="<?php echo _('Enter your Email address'); ?>" />
+      </div>
 
-      <p class="register-item" style="display:none">
-        <?php echo _('Confirm password:'); ?><br/>
-        <input type="password" name="confirm-password" style="width:94%" tabindex="4"/>
-      </p>
+      <div class ="form-group" tabindex="3">
+        <label for="password" class="text-muted"><?php echo _('Password:'); ?></label>
+        <input type="password" class="form-control" id="password" placeholder="<?php echo _('Enter your password'); ?>" />
+      </div>
 
-      <div id="error" class="alert alert-error" style="display:none;"></div>
+      <div class ="form-group register-item" style="display:none" tabindex="4">
+        <label for="password-confirm" class="text-muted"><?php echo _('Confirm password:'); ?></label>
+        <input type="password" class="form-control" id="password-confirm" placeholder="<?php echo _('Confirm your password'); ?>" />
+      </div>
+
+
+      <div id="error" class="alert-danger" style="display:none;"><?php echo _('Passwords do not match'); ?></div>
 
       <p class="login-item">
         <?php if ($enable_rememberme) { ?><label class="checkbox"><input type="checkbox" tabindex="5" id="rememberme" value="1" name="rememberme"><?php echo '&nbsp;'._('Remember me'); ?></label><br /><?php } ?>
@@ -98,10 +100,9 @@ $("input").keypress(function(event) {
 });
 
 function login(){
-  var username = $("input[name='username']").val();
-  var password = $("input[name='password']").val();
+  var username = $("#username").val();
+  var password = $("#password").val();
   var rememberme = 0; if ($("#rememberme").is(":checked")) rememberme = 1;
-
   var result = user.login(username,password,rememberme);
 
 	if (result.success) 
@@ -115,14 +116,14 @@ function login(){
 }
 
 function register(){
-  var username = $("input[name='username']").val();
-  var password = $("input[name='password']").val();
-  var confirmpassword = $("input[name='confirm-password']").val();
-  var email = $("input[name='email']").val();
+  var username = $("#username").val();
+  var password = $("#password").val();
+  var confirmpassword = $("#password-confirm").val();
+  var email = $("#email").val();
 
   if (password != confirmpassword) 
   {
-    $("#error").html("Passwords do not match").show();
+    $("#error").show();
   }
   else
   {
