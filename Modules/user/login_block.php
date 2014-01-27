@@ -48,7 +48,7 @@ global $path, $allowusersregister, $enable_rememberme;
       </div>
 
 
-      <div id="error" class="alert-danger" style="display:none;"><?php echo _('Passwords do not match'); ?></div>
+      <div id="error" class="alert-danger" style="display:none;"><?php echo _('Password or user name do not match'); ?></div>
 
       <p class="login-item">
         <?php if ($enable_rememberme) { ?><label class="checkbox"><input type="checkbox" tabindex="5" id="rememberme" value="1" name="rememberme"><?php echo '&nbsp;'._('Remember me'); ?></label><br /><?php } ?>
