@@ -20,7 +20,10 @@ global $path, $session, $default_engine;
 <h2><?php echo _('Input configuration:   '); ?><span id="inputname"></span> (<?php echo $inputid; ?>)</h2>
 <p><?php echo _('Input processes are executed sequentially with the result being passed back for further processing by the next processor in the input processing list.'); ?></p>
 
-<div class="alert alert-info"><b>Feed intervals: </b>When selecting the feed interval select an interval that is the same as, or longer than the update rate that is set in your monitoring equipment. Setting the interval rate to be shorter than the update rate of the equipment causes un-needed disk space to be used up.</div>
+<div class="alert alert-info"><b> <?php echo _('Feed intervals:')?> </b>
+
+  <?php echo _('When selecting the feed interval select an interval that is the same as, or longer than the update rate that is set in your monitoring equipment. Setting the interval rate to be shorter than the update rate of the equipment causes un-needed disk space to be used up.')?></div>
+
 
 <table class="table">
 

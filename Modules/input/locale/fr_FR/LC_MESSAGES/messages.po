@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-22 18:36+0100\n"
-"PO-Revision-Date: 2014-01-22 18:37+0100\n"
+"POT-Creation-Date: 2014-01-28 19:07+0100\n"
+"PO-Revision-Date: 2014-01-28 19:09+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -77,9 +77,8 @@ msgid "Phaseshift"
 msgstr "déphasage"
 
 #: ../../../process_model.php:47
-#, fuzzy
 msgid "Accumulator"
-msgstr "accumulateur"
+msgstr "Accumulateur"
 
 #: ../../../process_model.php:48
 msgid "Rate of change"
@@ -94,9 +93,8 @@ msgid "Daily Average"
 msgstr "moyenne jour"
 
 #: ../../../process_model.php:51
-#, fuzzy
 msgid "Heat flux"
-msgstr "flux air chaud"
+msgstr "flux de chaleur"
 
 #: ../../../process_model.php:52
 #, fuzzy
@@ -253,13 +251,12 @@ msgstr ""
 "second nœud est arrivé à 2 secondes et le 3ème à 10 secondes."
 
 #: ../../../Views/input_api.php:43
-#, fuzzy
 msgid ""
 "The second number is the node id, this is the unique identifer for the "
 "wireless node."
 msgstr ""
-"Le second nombre est l'idenfiant du n&oelig;ud, c'est l'identifiant unique "
-"du capteur sans-fils."
+"Le second nombre est l'identifiant du noeud, c'est l'identifiant unique du "
+"capteur sans-fils."
 
 #: ../../../Views/input_api.php:44
 msgid ""
@@ -380,47 +377,63 @@ msgstr ""
 "Les processus de traitement de données sont exécutés séquentiellement. Le "
 "résultat de chaque étape est passé en entrée de l'étape suivante."
 
-#: ../../../Views/process_list.php:29
+#: ../../../Views/process_list.php:23
+msgid "Feed intervals:"
+msgstr "Intervalle de Flux:"
+
+#: ../../../Views/process_list.php:25
+msgid ""
+"When selecting the feed interval select an interval that is the same as, or "
+"longer than the update rate that is set in your monitoring equipment. "
+"Setting the interval rate to be shorter than the update rate of the "
+"equipment causes un-needed disk space to be used up."
+msgstr ""
+"Lorsqu'on sélectionne un intervalle pour un flux, sélectionner un intervalle "
+"plus long ou égal à celui de l'équipement de collecte de données. Un "
+"intervalle plus court générera un surplus de données inutiles, et donc de "
+"l'occupation disque inutile"
+
+#: ../../../Views/process_list.php:32
 msgid "Order"
 msgstr "Ordre"
 
-#: ../../../Views/process_list.php:30
+#: ../../../Views/process_list.php:33
 msgid "Process"
 msgstr "Action"
 
-#: ../../../Views/process_list.php:31
+#: ../../../Views/process_list.php:34
 msgid "Arg"
 msgstr "Param&egrave;tre"
 
-#: ../../../Views/process_list.php:32
+#: ../../../Views/process_list.php:35
 msgid "Actions"
 msgstr "Actions"
 
-#: ../../../Views/process_list.php:38
+#: ../../../Views/process_list.php:41
 msgid "New"
 msgstr "Nouveau"
 
-#: ../../../Views/process_list.php:49
+#: ../../../Views/process_list.php:52
 msgid "Add"
 msgstr "Ajouter"
 
-#: ../../../Views/process_list.php:121
+#: ../../../Views/process_list.php:124
 msgid "Move up"
 msgstr "Monter"
 
-#: ../../../Views/process_list.php:125
+#: ../../../Views/process_list.php:128
 msgid "Move down"
 msgstr "Descendre"
 
-#: ../../../Views/process_list.php:133
+#: ../../../Views/process_list.php:136
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../../../Views/process_list.php:139
+#: ../../../Views/process_list.php:142
 msgid "You have no processes defined"
 msgstr "Vous n'avez aucun processus défini"
 
-#: ../../../Views/process_list.php:166
+#: ../../../Views/process_list.php:169
 msgid "CREATE NEW:"
 msgstr "Créer un nouveau :"
 

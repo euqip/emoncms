@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-17 17:46+0100\n"
-"PO-Revision-Date: 2014-01-17 17:46+0100\n"
-"Last-Translator: VIALAT Mickael <contact@planete-domotique.com>\n"
+"POT-Creation-Date: 2014-01-28 18:55+0100\n"
+"PO-Revision-Date: 2014-01-28 18:55+0100\n"
+"Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
 "Language: fr_FR\n"
@@ -106,6 +106,10 @@ msgstr "Stockage"
 msgid "Public"
 msgstr "Public"
 
+#: ../../../Views/feedlist_view.php:62
+msgid "Make feed public"
+msgstr "Rendre ce flux public"
+
 #: ../../../Views/feedlist_view.php:63
 msgid "Size"
 msgstr "Taille"
@@ -117,6 +121,22 @@ msgstr "Actualis&eacute;"
 #: ../../../Views/feedlist_view.php:66
 msgid "Value"
 msgstr "Valeur"
+
+#: ../../../Views/feedlist_view.php:69
+msgid "Edit"
+msgstr "modifier"
+
+#: ../../../Views/feedlist_view.php:69
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: ../../../Views/feedlist_view.php:70
+msgid "Delete"
+msgstr "Supprimer"
+
+#: ../../../Views/feedlist_view.php:71
+msgid "Preview"
+msgstr "Vista previa"
 
 #: ../../../Views/feedapi_view.php:19
 msgid "Feed API"
@@ -467,9 +487,6 @@ msgstr "Retourne l'id d'un flux à partir de son nom"
 #~ msgid "Notification recipiants (To): "
 #~ msgstr "Destinataire : "
 
-#~ msgid "Save"
-#~ msgstr "Sauvegarder"
-
 #~ msgid "Notify "
 #~ msgstr "Notifier"
 
@@ -610,14 +627,8 @@ msgstr "Retourne l'id d'un flux à partir de son nom"
 #~ msgid "Make dashboard private"
 #~ msgstr "Rendre ce tableau de bord privé"
 
-#~ msgid "Make dashboard public"
-#~ msgstr "Rendre ce tableau de bord public"
-
 #~ msgid "Draw"
 #~ msgstr "&Eacute;diter"
-
-#~ msgid "Delete"
-#~ msgstr "Supprimer"
 
 #~ msgid "Public share URL"
 #~ msgstr "Adresse de partage (public)"
@@ -751,9 +762,6 @@ msgstr "Retourne l'id d'un flux à partir de son nom"
 #~ msgid "Old password:"
 #~ msgstr "Mot de passe actuel : "
 
-#~ msgid "CKEditor"
-#~ msgstr "&Eacute;diter"
-
 #~ msgid "delete"
 #~ msgstr "supprimer"
 
@@ -764,9 +772,6 @@ msgstr "Retourne l'id d'un flux à partir de son nom"
 #~ msgstr ""
 #~ "Lo siento, necesitas una clave válida o estar loggeado para ver esta "
 #~ "página"
-
-#~ msgid "Preview"
-#~ msgstr "Vista previa"
 
 #~ msgid "Reset"
 #~ msgstr "Resetear"
