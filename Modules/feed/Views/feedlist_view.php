@@ -105,7 +105,7 @@ input[type="text"] {
     }
   }
 
-  var updater = setInterval(update, 5000);
+  var updater = setInterval(update,5000);
 
   $("#table").bind("onEdit", function(e){
     clearInterval(updater);

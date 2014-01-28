@@ -16,14 +16,14 @@ var customtablefields = {
         {
             var fld=table.fields[field];
             var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
-            if (table.data[row][field] == true) return "<span class='"+fld.trueicon+"' type='input' title='"+fld.tooltip+"'></span>";
-            if (table.data[row][field] == false) return "<span class='"+fld.falseicon+"' type='input' title='"+fld.tooltip+"'></span>";
+            if (table.data[row][field] == true) return "<a class='"+fld.trueicon+"' type='input' title='"+fld.tooltip+"'></a>";
+            if (table.data[row][field] == false) return "<a class='"+fld.falseicon+"' type='input' title='"+fld.tooltip+"'></a>";
         },
 
         'event': function()
         {
             // Event code for clickable switch state icon's
-            $(table.element).on('click', 'span[type=input]', function() {
+            $(table.element).on('click', 'a[type=input]', function() {
                 var row = $(this).parent().attr('row');
                 var field = $(this).parent().attr('field');
                 table.data[row][field] = !table.data[row][field];
