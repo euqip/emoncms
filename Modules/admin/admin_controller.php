@@ -19,6 +19,7 @@ function admin_controller()
     // Allow for special admin session if updatelogin property is set to true in settings.php 
     // Its important to use this with care and set updatelogin to false or remove from settings 
     // after the update is complete.
+    $sessionadmin = false;
     if ($updatelogin || $session['admin']) $sessionadmin = true;
 
     if ($sessionadmin)

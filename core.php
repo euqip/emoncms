@@ -65,6 +65,16 @@ function controller($controller_name)
             require $controllerScript;
             $output = $controller();
         }
+        else{
+            //return permanent redirection to the root path
+            $host  = $_SERVER['HTTP_HOST'];
+            $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+            $extra = '';
+            header('Status: 301 Moved Permanently', false, 301);
+            header("Location: http://$host$uri/$extra");
+            exit();
+            
+        }
     }
     return $output;
 }

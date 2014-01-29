@@ -73,7 +73,6 @@
 
   if (get('embed')==1) $embed = 1; else $embed = 0;
 
-  // If no route specified use defaults 
   if (!$route->controller && !$route->action)
   {
     // Non authenticated defaults
