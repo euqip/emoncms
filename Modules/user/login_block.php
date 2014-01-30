@@ -15,6 +15,12 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 global $path, $allowusersregister, $enable_rememberme;
 
 ?>
+<style>
+#flags img{
+  width:16px;
+  height:16px;  
+}
+</style>
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/user.js"></script>
 
@@ -26,7 +32,10 @@ global $path, $allowusersregister, $enable_rememberme;
   <div class="login-container">
 
     <div id="login-form"  class="well" style="text-align:left">
+      <!-- thanks to koppi / iso-country-flags-svg-collection   https://github.com/koppi/iso-country-flags-svg-collection -->
+      <?php echo (flagselector($path,__FILE__)); ?>
 
+      
       <div class ="form-group" tabindex="1">
         <label for="username" class="text-muted"><?php echo _('Username:'); ?></label>
         <input type="text" class="form-control" id="username" placeholder="<?php echo _('Enter your Username'); ?>" />

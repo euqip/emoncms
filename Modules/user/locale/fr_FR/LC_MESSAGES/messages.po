@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-27 19:41+0100\n"
-"PO-Revision-Date: 2014-01-27 19:41+0100\n"
+"POT-Creation-Date: 2014-01-30 18:23+0100\n"
+"PO-Revision-Date: 2014-01-30 18:25+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -63,13 +63,11 @@ msgstr ""
 "lettres [a-z], vous pouvez modifier votre nom d'utilisateur depuis la page "
 "de configuration de votre profil."
 
-#: ../../../user_model.php:202
-msgid "Username does not exist"
-msgstr "Cet utilisateur n'existe pas"
-
-#: ../../../user_model.php:209
+#: ../../../user_model.php:202 ../../../user_model.php:209
+#, fuzzy
 msgid ""
-"Incorrect password, if your sure its correct try clearing your browser cache"
+"Incorrect username - password, if you are sure its correct try clearing your "
+"browser cache"
 msgstr ""
 "Mot de passe incorrect, si vous êtes sûr de votre mot de passe, "
 "rafraîchissez le cache de votre navigateur"
@@ -115,63 +113,64 @@ msgstr "Mon Compte"
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: ../../../login_block.php:31
+#: ../../../login_block.php:40
 msgid "Username:"
 msgstr "Identifiant : "
 
-#: ../../../login_block.php:32
+#: ../../../login_block.php:41
 msgid "Enter your Username"
 msgstr "Entrer votre identifiant"
 
-#: ../../../login_block.php:36
+#: ../../../login_block.php:45
 msgid "Email:"
 msgstr "Adresse email :"
 
-#: ../../../login_block.php:37
+#: ../../../login_block.php:46
 msgid "Enter your Email address"
 msgstr "Entrer votre adresse courriel"
 
-#: ../../../login_block.php:41
+#: ../../../login_block.php:50
 msgid "Password:"
 msgstr "Mot de passe : "
 
-#: ../../../login_block.php:42
+#: ../../../login_block.php:51
 msgid "Enter your password"
 msgstr "Entrer votre nouveau mot de passe"
 
-#: ../../../login_block.php:46
+#: ../../../login_block.php:55
 msgid "Confirm password:"
 msgstr "Confirmation du mot de passe : "
 
-#: ../../../login_block.php:47
+#: ../../../login_block.php:56
 msgid "Confirm your password"
 msgstr "Confirmation du mot de passe"
 
-#: ../../../login_block.php:51 ../../../profile/profile.php:90
-msgid "Passwords do not match"
+#: ../../../login_block.php:60
+#, fuzzy
+msgid "Password or user name do not match"
 msgstr "Les mots de passe ne correspondent pas"
 
-#: ../../../login_block.php:54
+#: ../../../login_block.php:63
 msgid "Remember me"
 msgstr "Se souvenir de moi"
 
-#: ../../../login_block.php:55
+#: ../../../login_block.php:64
 msgid "Login"
 msgstr "Connexion"
 
-#: ../../../login_block.php:56 ../../../login_block.php:60
+#: ../../../login_block.php:65 ../../../login_block.php:69
 msgid "or"
 msgstr "ou"
 
-#: ../../../login_block.php:56
+#: ../../../login_block.php:65
 msgid "register"
 msgstr "S'inscrire"
 
-#: ../../../login_block.php:60
+#: ../../../login_block.php:69
 msgid "Register"
 msgstr "S'inscrire"
 
-#: ../../../login_block.php:61
+#: ../../../login_block.php:70
 msgid "cancel"
 msgstr "annuler"
 
@@ -183,90 +182,121 @@ msgstr "Espagnol"
 msgid "fr_FR"
 msgstr "Français"
 
-#: ../../../profile/profile.php:35
+#: ../../../profile/profile.php:24
+msgid "en_EN"
+msgstr "Anglais"
+
+#: ../../../profile/profile.php:25
+msgid "nl_NL"
+msgstr "N&eacute;erlandais"
+
+#: ../../../profile/profile.php:26
+msgid "nl_BE"
+msgstr "Flamand"
+
+#: ../../../profile/profile.php:27
+msgid "da_DK"
+msgstr "Danois"
+
+#: ../../../profile/profile.php:28
+msgid "it_IT"
+msgstr "Italien"
+
+#: ../../../profile/profile.php:29
+msgid "cy_GB"
+msgstr ""
+
+#: ../../../profile/profile.php:41
 msgid "My account"
 msgstr "Mon Compte"
 
-#: ../../../profile/profile.php:39
+#: ../../../profile/profile.php:45
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: ../../../profile/profile.php:40 ../../../profile/profile.php:41
-#: ../../../profile/profile.php:55 ../../../profile/profile.php:56
+#: ../../../profile/profile.php:46 ../../../profile/profile.php:47
+#: ../../../profile/profile.php:61 ../../../profile/profile.php:62
 msgid "Edit"
 msgstr "Editer"
 
-#: ../../../profile/profile.php:54
+#: ../../../profile/profile.php:60
 msgid "Email"
 msgstr "Adresse email"
 
-#: ../../../profile/profile.php:71
+#: ../../../profile/profile.php:77
 msgid "Change Password"
 msgstr "Modifier le mot de passe"
 
-#: ../../../profile/profile.php:73
+#: ../../../profile/profile.php:79
 msgid "Password is updated!"
 msgstr "Le mot de passe est modifié"
 
-#: ../../../profile/profile.php:79
+#: ../../../profile/profile.php:85
 msgid "Current password"
 msgstr "Ancien mot de passe : "
 
-#: ../../../profile/profile.php:80
+#: ../../../profile/profile.php:86
 msgid "type Current password"
 msgstr "Mot de passe actuel"
 
-#: ../../../profile/profile.php:83
+#: ../../../profile/profile.php:89
 msgid "New password"
 msgstr "Nouveau mot de passe : "
 
-#: ../../../profile/profile.php:84
+#: ../../../profile/profile.php:90
 msgid "type New password"
 msgstr "Nouveau mot de passe "
 
-#: ../../../profile/profile.php:87
+#: ../../../profile/profile.php:93
 msgid "Repeat new password"
 msgstr "Répétez le mot de passe :"
 
-#: ../../../profile/profile.php:88
+#: ../../../profile/profile.php:94
 msgid "retype New password"
 msgstr "Répétez le nouveau mot de passe"
 
-#: ../../../profile/profile.php:91
+#: ../../../profile/profile.php:96
+msgid "Passwords do not match"
+msgstr "Les mots de passe ne correspondent pas"
+
+#: ../../../profile/profile.php:97
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: ../../../profile/profile.php:92
+#: ../../../profile/profile.php:98
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../../../profile/profile.php:101
+#: ../../../profile/profile.php:107
 msgid "My Profile"
 msgstr "Mon profil"
 
-#: ../../../profile/profile.php:117
+#: ../../../profile/profile.php:123
 msgid "Gravatar"
 msgstr "Gravatar"
 
-#: ../../../profile/profile.php:118
+#: ../../../profile/profile.php:124
 msgid "Name"
 msgstr "Nom"
 
-#: ../../../profile/profile.php:119
+#: ../../../profile/profile.php:125
 msgid "Location"
 msgstr "Localisation"
 
-#: ../../../profile/profile.php:120
+#: ../../../profile/profile.php:126
 msgid "Timezone"
 msgstr "Timezone"
 
-#: ../../../profile/profile.php:121
+#: ../../../profile/profile.php:127
 msgid "Language"
 msgstr "Langage"
 
-#: ../../../profile/profile.php:122
+#: ../../../profile/profile.php:128
 msgid "Bio"
 msgstr "Bio"
+
+#~ msgid "Username does not exist"
+#~ msgstr "Cet utilisateur n'existe pas"
 
 #~ msgid ""
 #~ "Or if you are new enter a username and password above and click register"
@@ -321,15 +351,6 @@ msgstr "Bio"
 
 #~ msgid "Change"
 #~ msgstr "Modifier"
-
-#~ msgid "en_EN"
-#~ msgstr "Anglais"
-
-#~ msgid "nl_BE"
-#~ msgstr "Flamand"
-
-#~ msgid "nl_NL"
-#~ msgstr "N&eacute;erlandais"
 
 #~ msgid "Emoncms database setup script"
 #~ msgstr "Script de configuration de la base de donn&eacute;e emoncms"

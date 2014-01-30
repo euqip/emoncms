@@ -153,3 +153,24 @@ function load_menu()
 function menu_sort($a,$b) {
     return $a['order']>$b['order'];
 }
+
+
+function flagselector($path,$dir){
+  $languages= directoryLocaleScan(dirname($dir));
+  $html='<div id ="flags">';
+  foreach ($languages as $k => $v) {
+
+    //code...build a flags div to select login block language
+    // use iso country codes (flags images are 96px)
+
+    $country= strtolower(substr($v,-2));
+    $pth = 'Theme/flags_96/';
+    //zz is a black flag, used to show undefined country
+    if (!file_exists($pth.$country.'.png')){$country="zz";}
+    $html .= '<a href="';
+    $html .= $path.'user/login/lang='.$v.'">';
+    $html .= '<img title= "'._($v).'" src="'.$path.$pth.$country.'.png"></a>';
+  }
+  $html .= '</div>';
+  return $html;
+}

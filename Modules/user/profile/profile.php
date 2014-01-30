@@ -21,7 +21,15 @@ function languagecodetotext()
 {
   _('es_ES');
   _('fr_FR');
+  _('en_EN');
+  _('nl_NL');
+  _('nl_BE');
+  _('da_DK');
+  _('it_IT');
+  _('cy_GB');
 }
+
+
 
 ?>
     <script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/profile.js"></script>
