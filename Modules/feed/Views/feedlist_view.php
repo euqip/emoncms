@@ -26,7 +26,7 @@ input[type="text"] {
     </div>
     
     <hr>
-    <button id="refreshfeedsize" class="btn btn-small" >Refresh feed size <i class="glyphicon glyphicon-refresh" ></i></button>
+    <button id="refreshfeedsize" class="btn btn-small" ><?php echo _('Refresh feed size')?> <span class="glyphicon glyphicon-refresh" ></span></button>
 </div>
 
 <div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
