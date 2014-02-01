@@ -3,13 +3,20 @@
 <h2><?php echo _('Input API'); ?></h2>
 <h3><?php echo _('Apikey authentication'); ?></h3>
 <p><?php echo _('If you want to call any of the following actions when your not logged in, add an apikey to the URL of your request: &apikey=APIKEY.'); ?></p>
-<p><b><?php echo _('Read only:'); ?></b><br>
-<input type="text" style="width:255px" readonly="readonly" value="<?php echo $user->get_apikey_read($session['userid']); ?>" />
-</p>
-<p><b><?php echo _('Read & Write:'); ?></b><br>
-<input type="text" style="width:255px" readonly="readonly" value="<?php echo $user->get_apikey_write($session['userid']); ?>" />
-</p>
-
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="readonlyapi" class="col-sm-4 control-label"><b><?php echo _('Read only:'); ?></b></label>
+    <div class="col-sm-4">
+      <p type="text" class="form-control" id="readonlyapi"><?php echo $user->get_apikey_read($session['userid']); ?></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="writeyapi" class="col-sm-4 control-label"><b><?php echo _('Read & Write:'); ?></b></label>
+    <div class="col-sm-4">
+      <p type="text" class="form-control" id="writeyapi"><?php echo $user->get_apikey_write($session['userid']); ?><p/>
+    </div>
+  </div>
+</form>
 <h3><?php echo _('Available HTML URLs'); ?></h3>
 <table class="table">
   <tr><td><?php echo _('The input list view'); ?></td><td><a href="<?php echo $path; ?>input/node"><?php echo $path; ?>input/node</a></td></tr>

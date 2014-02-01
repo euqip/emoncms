@@ -10,7 +10,10 @@
 <div id="apihelphead"><p class="text-right"><a href="api"><?php echo _('Input API Help'); ?></a></p></div>
 
 <div class="container">
-    <div id="localheading"><h2><?php echo _('Inputs'); ?></h2></div>
+    <div id="localheading"><h2><?php echo _('Inputs'); ?>
+      <a href="api"><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Input API Help'); ?>"></span></a>
+      </h2>    
+    </div>
     <div id="table"></div>
 
     <div id="noinputs" class="alert alert-block hide">
