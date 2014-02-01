@@ -45,3 +45,18 @@ padding-top:10px;
 color: #77b4d9;
 text-decoration: none;
 }
+
+.float-right
+{
+    float: right;
+}
+
+.float-center
+{
+    float: center;
+}
+
+.float-left
+{
+    float: left;
+}

@@ -84,8 +84,17 @@
         </div>
 
         <div id="footer">
-            <?php echo _('Powered by '); ?>
-            <a href="http://openenergymonitor.org">openenergymonitor.org</a> 
+            <span class="text-left">
+              <?php echo _('Powered by '); ?>
+              <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a> 
+            </span>
+            <span>
+                ---  
+            </span>
+            <span class="text-right">
+              <a href="http://glyphicons.com/" target = "_blank"><?php echo _('With Glyphicons support');?></a>
+            </span>
+
         </div>
 
         <script src="<?php echo $path; ?>Lib/bootstrap/js/bootstrap.js"></script>
