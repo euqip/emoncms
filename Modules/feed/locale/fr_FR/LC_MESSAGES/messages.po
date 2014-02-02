@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-28 18:55+0100\n"
-"PO-Revision-Date: 2014-01-28 18:55+0100\n"
+"POT-Creation-Date: 2014-02-01 16:48+0100\n"
+"PO-Revision-Date: 2014-02-01 16:49+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -36,33 +36,38 @@ msgstr "Actualisé"
 msgid "Field could not be updated"
 msgstr "Le champ ne peut être mis à jour"
 
-#: ../../../feed_menu.php:8 ../../../Views/feedlist_view.php:19
+#: ../../../feed_menu.php:8 ../../../Views/feedlist_view.php:12
 msgid "Feeds"
 msgstr "Flux"
 
-#: ../../../Views/feedlist_view.php:16
+#: ../../../Views/feedlist_view.php:8
 msgid "Feed API Help"
 msgstr "Aide de l'API Flux"
 
-#: ../../../Views/feedlist_view.php:24
+#: ../../../Views/feedlist_view.php:14 ../../../Views/feedlist_view.php:29
+msgid "Refresh feed size"
+msgstr "Actualiser les tailles des flux"
+
+#: ../../../Views/feedlist_view.php:22
 msgid "No feeds created"
 msgstr "Aucun flux disponible"
 
-#: ../../../Views/feedlist_view.php:25
+#: ../../../Views/feedlist_view.php:23
+#, fuzzy
 msgid ""
 "Feeds are where your monitoring data is stored. The recommended route for "
 "creating feeds is to start by creating inputs (see the inputs tab). Once you "
 "have inputs you can either log them straight to feeds or if you want you can "
 "add various levels of input processing to your inputs to create things like "
 "daily average data or to calibrate inputs before storage. You may want to "
-"follow the link as a guide for generating your request."
+"follow the link as a guide for generating your request. "
 msgstr ""
 "Les flux correspondent à l'archivage et au traitement de vos données. Créez "
 "d'abort une source de données (Onglet Sources), puis utilisez ensuite les "
 "flux pour traiter ces données avant de les archiver. Vous pouvez lire la "
 "documentation sur l'API flux pour plus d'information (en Anglais)"
 
-#: ../../../Views/feedlist_view.php:25
+#: ../../../Views/feedlist_view.php:24
 msgid "Feed API helper"
 msgstr "Aide de l'API"
 

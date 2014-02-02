@@ -55,7 +55,7 @@ var table = {
               html += "</tr>";
             }
 
-            html += "<tbody id='"+group+"' style='"+visible+"'><tr>";
+            html += "<tbody id='"+group+"'><tr>";
             for (field in table.fields)
             {
               var fld = table.fields[field];
@@ -74,7 +74,10 @@ var table = {
 
         $(table.element).html("<table class='table table-hover'>"+html+"</table>");
 
-        if (table.eventsadded==false) {table.add_events(); table.eventsadded = true}
+        if (table.eventsadded==false) {
+            table.add_events();
+            table.eventsadded = true
+        }
         
         $(table.element).trigger("onDraw");
     },
@@ -203,14 +206,14 @@ var table = {
         'text':
         {
             'draw': function (row,field) { return table.data[row][field] },
-            'edit': function (row,field) { return "<input type='text' style='width:120px' value='"+table.data[row][field]+"' / >" },
+            'edit': function (row,field) { return "<input type='text' style='width:120px;' value='"+table.data[row][field]+"' / >" },
             'save': function (row,field) { return $("[row="+row+"][field="+field+"] input").val() },
         },
 
         'textlink':
         {
             'draw': function (row,field) { return "<a href='"+table.fields[field].link+table.data[row]['id']+"' >"+table.data[row][field]+"</a>" },
-            'edit': function (row,field) { return "<input type='text' style='width:120px' value='"+table.data[row][field]+"' / >" },
+            'edit': function (row,field) { return "<input type='text' style='width:120px;' value='"+table.data[row][field]+"' / >" },
             'save': function (row,field) { return $("[row="+row+"][field="+field+"] input").val() },
         },
 

@@ -45,6 +45,14 @@ padding-top:10px;
 color: #77b4d9;
 text-decoration: none;
 }
+.alert-block{
+  background-color: #EABBA5;
+  opacity:1;
+  border-radius: 10px;
+  padding:10px;
+
+}
+
 
 .float-right
 {

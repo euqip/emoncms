@@ -28,7 +28,9 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="apple-touch-startup-image" href="<?php echo $path; ?>Theme/ios_load.png">
         <link rel="apple-touch-icon" href="<?php echo $path; ?>Theme/logo_normal.png">
-        <title>Emoncms</title>
+        <link href="<?php echo $path; ?>Lib//bootstrap-dialog/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
+        <script src="<?php echo $path; ?>Lib//bootstrap-dialog/js/bootstrap-dialog.js"></script>
+                <title>Emoncms</title>
     </head>
 
     <body>

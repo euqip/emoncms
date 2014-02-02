@@ -11,7 +11,7 @@
 
 <div class="container">
     <div id="localheading"><h2><?php echo _('Inputs'); ?>
-      <a href="api"><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Input API Help'); ?>"></span></a>
+      <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Input API Help'); ?>"></span></small></a>
       </h2>    
     </div>
     <div id="table"></div>
@@ -20,7 +20,6 @@
         <h4 class="alert-heading"><?php echo _('No inputs created'); ?></h4>
         <p><?php echo _('Inputs is the main entry point for your monitoring device. Configure your device to post values here, you may want to follow the <a href="api">Input API helper</a> as a guide for generating your request.'); ?></p>
     </div>
-
 </div>
 
 <script>
@@ -33,7 +32,6 @@
   table.element = "#table";
 
   table.fields = {
-    //'id':{'type':"fixed"},
     'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':""},
     'name':{'title':'<?php echo _("name"); ?>','type':"text",'colwidth':""},
     'description':{'title':'<?php echo _("Description"); ?>','type':"text",'colwidth':""},
