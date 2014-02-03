@@ -24,6 +24,7 @@
         <p><a href="api"><?php echo _('Feed API helper'); ?></a></p>
         </p>
     </div>
+    <button id="refreshfeedsize" class="btn btn-small" ><?php echo _('Refresh feed size')?> <span class="glyphicon glyphicon-refresh" ></span></button>
 </div>
 
 <script>
