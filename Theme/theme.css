@@ -68,3 +68,9 @@ text-decoration: none;
 {
     float: left;
 }
+.container {
+padding-right: 15px;
+padding-left: 15px;
+margin-right: 0px;
+margin-left: 0px;
+}
