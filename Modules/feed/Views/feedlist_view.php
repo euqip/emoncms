@@ -7,7 +7,7 @@
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/custom-table-fields.js"></script>
 
 
-<div id="apihelphead"><p class="text-right"><a href="api"><?php echo _('Feed API Help'); ?></a></p></div>
+<div id="apihelphead"><p class="text-right"><a href="api"><?php echo _('Input API Help'); ?></a></p></div>
 
 <div class="container">
     <div id="localheading"><h2><?php echo _('Feeds'); ?>
@@ -16,7 +16,6 @@
         </a>
       </h2>    
     </div>
-
     <div id="table"></div>
 
     <div id="nofeeds" class="alert alert-block hide">      
@@ -25,18 +24,12 @@
         <p><a href="api"><?php echo _('Feed API helper'); ?></a></p>
         </p>
     </div>
-    
-    <button id="refreshfeedsize" class="btn btn-small" ><?php echo _('Refresh feed size')?> <span class="glyphicon glyphicon-refresh" ></span></button>
 </div>
+
 <script>
-var path = "<?php echo $path; ?>";
 
-$(document).ready(function(){
-  console.log("ready");
-});
+  var path = "<?php echo $path; ?>";
 
-  
-  console.log('start drawing table');
   // Extend table library field types
   for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
 
@@ -49,8 +42,7 @@ $(document).ready(function(){
     'datatype':{'title':"<?php echo _('Datatype'); ?>", 'type':"select", 'options':['','REALTIME','DAILY','HISTOGRAM']},
     'engine':{'title':"<?php echo _('Engine'); ?>", 'type':"select", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE']},
     'public':{'title':"<?php echo _('Public'); ?>", 'tooltip': "<?php echo _('Make feed public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock"},
-    'size':{'title':"<?php echo _('Size'); ?>", 'type':"fixed"},
-    
+    'size':{'title':"<?php echo _('Size'); ?>", 'type':"fixed"},    
     'time':{'title':"<?php echo _('Updated'); ?>", 'type':"updated"},
     'value':{'title':"<?php echo _('Value'); ?>",'type':"value"},
 
@@ -63,14 +55,11 @@ $(document).ready(function(){
   table.groupby = 'tag';
   table.deletedata = false;
 
-  table.draw();
-
   update();
 
   function update()
   {
     table.data = feed.list();
-    
     for (z in table.data)
     {
       if (table.data[z].size<1024*100) {
@@ -82,19 +71,19 @@ $(document).ready(function(){
       }
     }
     table.draw();
-    if (table.data.length = 0) {
-      $("#nofeeds").show();
-      $("#apihelphead").show();      
-      $("#localheading").hide();      
-    } else {
+    if (table.data.length != 0) {
       $("#nofeeds").hide();
-      $("#apihelphead").hide(); 
+      $("#apihelphead").hide();      
       $("#localheading").show();
+    } else {
+      $("#nofeeds").show();
+      $("#apihelphead").show(); 
+      $("#localheading").hide();
     }
   }
 
-  var updateinterval = 5000;
-  var updater = setInterval(update,updateinterval);
+  var updateinterval = 10000;
+  var updater = setInterval(update, updateinterval);
 
   $("#table").bind("onEdit", function(e){
     clearInterval(updater);
@@ -103,6 +92,17 @@ $(document).ready(function(){
   $("#table").bind("onSave", function(e,id,fields_to_update){
     feed.set(id,fields_to_update); 
     updater = setInterval(update, updateinterval);
+  });
+
+  $("#table").bind("onDelete", function(e,id){
+    feed.remove(id); 
+    update();
+  });
+  $("#refreshfeedsize").click(function(){
+    $.ajax({ url: path+"feed/updatesize.json", success: function(data){update();} });
+  });
+  $("#refreshfeedsizetop").click(function(){
+    $.ajax({ url: path+"feed/updatesize.json", success: function(data){update();} });
   });
 
   $("#table").bind("onDelete", function(e,id,row){
@@ -129,24 +129,5 @@ $(document).ready(function(){
         }]
 
     });
-  });
-
-
-  $("#confirmdelete").click(function()
-  {
-    var id = $('#myModal').attr('feedid');
-    var row = $('#myModal').attr('feedrow');
-    feed.remove(id); 
-    table.remove(row);
-    update();
-
-    $('#myModal').modal('hide');
-  });
-  
-  $("#refreshfeedsize").click(function(){
-    $.ajax({ url: path+"feed/updatesize.json", success: function(data){update();} });
-  });
-  $("#refreshfeedsizetop").click(function(){
-    $.ajax({ url: path+"feed/updatesize.json", success: function(data){update();} });
   });
 </script>
