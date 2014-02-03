@@ -29,10 +29,14 @@
     <button id="refreshfeedsize" class="btn btn-small" ><?php echo _('Refresh feed size')?> <span class="glyphicon glyphicon-refresh" ></span></button>
 </div>
 <script>
+var path = "<?php echo $path; ?>";
 
+$(document).ready(function(){
+  console.log("ready");
+});
 
-  var path = "<?php echo $path; ?>";
-
+  
+  console.log('start drawing table');
   // Extend table library field types
   for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
 
@@ -145,5 +149,4 @@
   $("#refreshfeedsizetop").click(function(){
     $.ajax({ url: path+"feed/updatesize.json", success: function(data){update();} });
   });
-
 </script>
