@@ -169,7 +169,8 @@ var designer = {
       var optionshint = widgets[widget]["optionshint"];   
                  
       // Build options table html            
-      var options_html = "<table>";
+      var options_html = "";
+      options_html += "<table>";
       for (z in box_options)
       {
         var val = $("#"+designer.selected_box).attr(box_options[z]);
@@ -179,27 +180,27 @@ var designer = {
 
         if (options_type && options_type[z] == "feed") 
         {
-          options_html += "<td><select id='"+box_options[z]+"' class='options' >";
+          options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
           for (i in feedlist)
           {
             var selected = ""; if (val == feedlist[i]['name'].replace(/\s/g, '-')) selected = "selected";
-            options_html += "<option value='"+feedlist[i]['name'].replace(/\s/g, '-')+"' "+selected+" >"+feedlist[i]['name']+"</option>";
+            options_html += "<option  class='form-control' value='"+feedlist[i]['name'].replace(/\s/g, '-')+"' "+selected+" >"+feedlist[i]['name']+"</option>";
           }        
         }
 
         else if (options_type && options_type[z] == "feedid") 
         {
-          options_html += "<td><select id='"+box_options[z]+"' class='options' >";
+          options_html += "<td><select id='"+box_options[z]+"'  class='form-control options' >";
           for (i in feedlist)
           {
             var selected = ""; if (val == feedlist[i]['id']) selected = "selected";
-            options_html += "<option value='"+feedlist[i]['id']+"' "+selected+" >"+feedlist[i]['id']+": "+feedlist[i]['name']+"</option>";
+            options_html += "<option class='form-control' value='"+feedlist[i]['id']+"' "+selected+" >"+feedlist[i]['id']+": "+feedlist[i]['name']+"</option>";
           }
         }
 
         else if (options_type && options_type[z] == "multigraph") 
         {
-          options_html += "<td><select id='"+box_options[z]+"' class='options' >";
+          options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
           for (i in multigraphs)
           {
             var selected = ""; if (val == multigraphs[i]['id']) selected = "selected";
@@ -210,22 +211,23 @@ var designer = {
         else if (options_type && options_type[z] == "html") 
         {  
           val = $("#"+designer.selected_box).html();
-          options_html += "<td><textarea class='options' id='"+box_options[z]+"' >"+val+"</textarea>"
+          options_html += "<td><textarea class='form-control options' id='"+box_options[z]+"' >"+val+"</textarea>"
         }
 
         else
         {
-          options_html += "<td><input class='options' id='"+box_options[z]+"' type='text' value='"+val+"'/ >"
+          options_html += "<td><input class='form-control options' id='"+box_options[z]+"' type='text' value='"+val+"'/ >"
         }     
         
-        options_html += "</td><td><small><p class='muted'>"+optionshint[z]+"</p></small></td></tr>";   
+        options_html += "</td><td><small><p class='text-muted'>"+optionshint[z]+"</p></small></td></tr>";   
        
       }      
       
       options_html += "</table>";
       
       // Fill the modal configuration window with options
-      $("#widget_options_body").html(options_html);      
+      //$("#widget_options_body").html(options_html);      
+      return options_html;
       
     },
 
@@ -417,10 +419,5 @@ var designer = {
           }
         });
 
-        $("#options-button").click(function(event) { 
-          if (designer.selected_box){
-            designer.draw_options($("#"+designer.selected_box).attr("class"));
-          }
-        });
     }
 }

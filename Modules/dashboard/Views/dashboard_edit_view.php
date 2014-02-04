@@ -17,35 +17,25 @@ global $session,$path;
 
 if (!$dashboard['height']) $dashboard['height'] = 400;
 ?>
-  <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard_langjs.php?lang=<?php echo $session['lang']; ?>"></script>
-    
   <link href="<?php echo $path; ?>Modules/dashboard/Views/js/widget.css" rel="stylesheet">
 
+
+  <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard_langjs.php?lang=<?php echo $session['lang']; ?>"></script>
   <script type="text/javascript" src="<?php echo $path; ?>Lib/flot/jquery.flot.min.js"></script>
   <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/Views/js/widgetlist.js"></script>
   <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/Views/js/render.js"></script>
-
   <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
 
   <?php require_once "Modules/dashboard/Views/loadwidgets.php"; ?>
 
 <div id="dashboardpage">
     
-<div id="widget_options" class="modal hide keyboard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  <h3><?php echo _('Configure element'); ?></h3></div>
-  <div id="widget_options_body" class="modal-body"></div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
-    <button id="options-save" class="btn btn-primary"><?php echo _('Save changes'); ?></button>
-  </div>  
-  </div>  
 </div>
 
 <div style="background-color:#ddd; padding:4px;">
   <span id="widget-buttons"></span>
   <span id="when-selected">
-    <button id="options-button" class="btn" data-toggle="modal" data-target="#widget_options"><i class="icon-wrench"></i><?php echo _('Configure'); ?></button>      
+    <button id="options-button" class="btn" title="<?php echo _('configure selected widget'); ?>"><span class="glyphicon glyphicon-wrench"></span><?php echo _('Configure'); ?></button>      
     <button id="delete-button" class="btn btn-danger"><i class="icon-trash"></i><?php echo _('Delete'); ?></button>  
   </span> 
   <button id="save-dashboard" class="btn btn-success" style="float:right"><?php echo _('Not modified'); ?></button> 
@@ -114,4 +104,41 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   $(window).resize(function(){
     designer.draw();
   });
+
+          $("#options-button").click(function(event) { 
+          if (designer.selected_box){
+            html= designer.draw_options($("#"+designer.selected_box).attr("class"));
+
+            BootstrapDialog.show({
+                message: html,
+                title:"<?php echo _('Configure element'); ?>",
+                closable: false,
+                buttons: [{
+                    label: "<?php echo _('Cancel'); ?>",
+                    action: function(dialog){
+                        dialog.close();
+                      }
+                }, {
+                    icon: 'glyphicon glyphicon-ok',
+                    label: "<?php echo _('Save changes'); ?>",
+                    cssClass: 'btn-primary',
+                    action: function(dialog){
+                        saveoptions();
+ 
+                        update();
+                        dialog.close();
+                    }
+                }]
+
+            });
+
+          }
+        });
+function saveoptions(){
+          $(".options").each(function() {
+            if ($(this).attr("id")!="html") $("#"+designer.selected_box).attr($(this).attr("id"), $(this).val());
+            if ($(this).attr("id")=="html") $("#"+designer.selected_box).html($(this).val());    
+          });          
+
+}
 </script>

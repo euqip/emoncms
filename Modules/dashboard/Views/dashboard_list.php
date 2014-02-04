@@ -25,8 +25,6 @@
       <span> <?php echo _("Add new dashbord")?></span>
       <span class="glyphicon glyphicon-plus"></span>
     </button>
-
-    <a href="#" onclick="$.ajax({type: 'POST',url:'<?php echo $path; ?>dashboard/create.json',success: function(){update();} });"><span class="glyphicon glyphicon-plus"></span></a>
   </div>
 
 </div>
