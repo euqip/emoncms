@@ -5,37 +5,32 @@
 <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/custom-table-fields.js"></script>
-<style>
-input[type="text"] {
-     width: 88%; 
-}
-</style>
 
 <div class="container">
-    <div id="localheading"><h2><?php echo _('Dashboard'); ?></h2></div>
-    <div id="table"></div>
-
-    <div id="nodashboards" class="alert alert-block hide">
-      <h4 class="alert-heading"><?php echo _('No dashboards created'); ?></h4>
-      <p><?php echo _('Maybe you would like to add your first dashboard using the button') ?> 
-      <a href="#" onclick="$.ajax({type: 'POST',url:'<?php echo $path; ?>dashboard/create.json',success: function(){update();} });"><i class="icon-plus-sign"></i></a>
+    <div id="localheading">
+      <h2><?php echo _('Dashboard'); ?>
+        <a href="#" id="adddashboardtop">
+          <small><span class = "glyphicon glyphicon-plus" title = '<?php echo _("Add new dashbord")?>'></span></small>
+        </a>
+      </h2>    
     </div>
 
+
+  <div id="table"></div>
+
+  <div id="nodashboards" class="alert alert-block">
+    <h4 class="alert-heading"><?php echo _('No dashboards created'); ?></h4>
+    <p><?php echo _('Maybe you would like to add your first dashboard using the button') ?> 
+    <button type="button" id ="adddashboard" class="btn btn-default btn-lg">
+      <span> <?php echo _("Add new dashbord")?></span>
+      <span class="glyphicon glyphicon-plus"></span>
+    </button>
+
+    <a href="#" onclick="$.ajax({type: 'POST',url:'<?php echo $path; ?>dashboard/create.json',success: function(){update();} });"><span class="glyphicon glyphicon-plus"></span></a>
+  </div>
+
 </div>
 
-<div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel"><?php echo _('WARNING deleting a dashboard is permanent') ?></h3>
-  </div>
-  <div class="modal-body">
-    <p><?php echo _('Are you sure you want to delete this dashboard?'); ?></p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
-    <button id="confirmdelete" class="btn btn-primary"><?php echo _('Delete permanently'); ?></button>
-  </div>
-</div>
 
 <script>
 
@@ -88,21 +83,45 @@ input[type="text"] {
   });
 
   $("#table").bind("onDelete", function(e,id,row){
-    $('#myModal').modal('show');
-    $('#myModal').attr('feedid',id);
-    $('#myModal').attr('feedrow',row);
+    BootstrapDialog.show({
+        message: "<?php echo _('WARNING deleting a dashboard is permanent'); ?>",
+        title:"<?php echo _('Are you sure you want to delete this dashboard?'); ?>",
+        type:BootstrapDialog.TYPE_DANGER,
+        closable: false,
+        buttons: [{
+            label: "<?php echo _('Cancel'); ?>",
+            action: function(dialog){
+                dialog.close();
+              }
+        }, {
+            icon: 'glyphicon glyphicon-trash',
+            label: "<?php echo _('Delete permanently'); ?>",
+            cssClass: 'btn-danger',
+            action: function(dialog){
+                dashboard.remove(id); 
+                table.remove(row);
+                update();
+                dialog.close();
+            }
+        }]
+
+    });
   });
 
-  $("#confirmdelete").click(function()
-  {
-    var id = $('#myModal').attr('feedid');
-    var row = $('#myModal').attr('feedrow');
-    dashboard.remove(id); 
-    table.remove(row);
-    update();
-
-    $('#myModal').modal('hide');
+  $("#adddashboardtop").click(function(){
+    $.ajax({type: 'POST',
+      url:'<?php echo $path; ?>dashboard/create.json',
+      success: function(){update();}
+       });
   });
+  $("#adddashboard").click(function(){
+    $.ajax({type: 'POST',
+      url:'<?php echo $path; ?>dashboard/create.json',
+      success: function(){update();}
+       });
+  });
+
+
 
 </script>
 <script>
