@@ -19,7 +19,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <script type="text/javascript" src="<?php echo $path; ?>Lib/jquery-1.9.0.min.js"></script>
         <link href="<?php echo $path; ?>Lib/bootstrap/css/bootstrap.css" rel="stylesheet">
-        <link href="<?php echo $path; ?>Theme/theme.css" rel="stylesheet">
+        <link href="<?php echo $path; ?>Lib//bootstrap-dialog/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
+        <script src="<?php echo $path; ?>Lib//bootstrap-dialog/js/bootstrap-dialog.js"></script>
 
         <!-- Thanks to Baptiste Gaultier for the emoncms dial icon http://bit.ly/zXgScz -->
         <link rel="shortcut icon" href="<?php echo $path; ?>Theme/favicon.png" />
@@ -28,8 +29,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="apple-touch-startup-image" href="<?php echo $path; ?>Theme/ios_load.png">
         <link rel="apple-touch-icon" href="<?php echo $path; ?>Theme/logo_normal.png">
-        <link href="<?php echo $path; ?>Lib//bootstrap-dialog/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
-        <script src="<?php echo $path; ?>Lib//bootstrap-dialog/js/bootstrap-dialog.js"></script>
+        <link href="<?php echo $path; ?>Theme/theme.css" rel="stylesheet">
                 <title>Emoncms</title>
     </head>
 
