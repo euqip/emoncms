@@ -10,7 +10,7 @@
     <div id="localheading">
       <h2><?php echo _('Dashboard'); ?>
         <a href="#" id="adddashboardtop">
-          <small><span class = "glyphicon glyphicon-plus" title = '<?php echo _("Add new dashbord")?>'></span></small>
+          <small><span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Add new dashbord")?>'></span></small>
         </a>
       </h2>    
     </div>
@@ -49,8 +49,8 @@
     'published':{'title':"<?php echo _('Published'); ?>",  'tooltip':"<?php echo _('publish dashbord'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-floppy-save", 'falseicon':"glyphicon glyphicon-remove"},
 
     // Actions
-    'clone-action':{'title':'','tooltip':"<?php echo _('Duplicate'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-random", 'link':path+"dashboard/clone.json?id="},
-
+    //'clone-action':{'title':'','tooltip':"<?php echo _('Duplicate'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-random", 'link':path+"dashboard/clone.json?id="},
+    'clone-action':{'title':'','tooltip':"<?php echo _('Duplicate'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-random", 'link':path+"dashboard/clone?id="},
     'edit-action':{'title':'','tooltip':"<?php echo _('Edit'); ?>", 'type':"edit"},
     'delete-action':{'title':'','tooltip':"<?php echo _('Delete'); ?>", 'type':"delete"},
     'draw-action':{'title':'','tooltip':"<?php echo _('Design'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-edit", 'link':path+"dashboard/edit?id="},
@@ -118,6 +118,13 @@
       success: function(){update();}
        });
   });
+  function duplcate(id){
+    $.ajax({type : 'POST',
+      url :  path + 'dashboard/clone.json?id='+id,
+      data : '',
+      dataType : 'json',
+      success : location.reload()});
+  }
 
 
 

@@ -71,6 +71,15 @@
             $menu = $dashboard->build_menu($session['userid'],"edit");
             $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('id'=>$dash['id'], 'menu'=>$menu, 'type'=>"edit"));
         }
+        if ($route->action == "clone" && $session['write']) {
+            //iconlink action is changed to html presentation
+            $result = $dashboard->dashclone($session['userid'], get('id'));
+            $result = view("Modules/dashboard/Views/dashboard_list.php",array());
+
+            $menu = $dashboard->build_menu($session['userid'],"view"); 
+            $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('menu'=>$menu, 'type'=>"view"));
+          }
+
     }
 
     if ($route->format == 'json')
@@ -82,7 +91,11 @@
         if ($route->action=='delete' && $session['write']) $result = $dashboard->delete(get('id'));
 
         if ($route->action=='create' && $session['write']) $result = $dashboard->create($session['userid']);
-        if ($route->action=='clone' && $session['write']) $result = $dashboard->dashclone($session['userid'], get('id'));
+        if ($route->action=='clone' && $session['write']) {
+            // this action will return the record id only see html response , it will redraw the list 
+            // with new duplicated dasboard 
+            $result = $dashboard->dashclone($session['userid'], get('id'));
+        }
     }
 
     // $result = $dashboard->get_main($session['userid'])
