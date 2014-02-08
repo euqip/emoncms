@@ -430,13 +430,9 @@ class Feed
   public function get_data($feedid,$start,$end,$dp)
   {
     $feedid = (int) $feedid;
-<<<<<<< HEAD
+
     if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
     
-=======
-    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
-
->>>>>>> 95f69c463e86203e4b60748117aab1408d098cf4
     $engine = $this->redis->hget("feed:$feedid",'engine');
     if ($engine==Engine::TIMESTORE) return $this->timestore->get_data($feedid,$start,$end);
     if ($engine==Engine::MYSQL) return $this->mysqltimeseries->get_data($feedid,$start,$end,$dp);
@@ -448,7 +444,7 @@ class Feed
   public function get_timestore_average($feedid,$start,$end,$interval)
   {
     $feedid = (int) $feedid;
-    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist');
     
     $engine = $this->redis->hget("feed:$feedid",'engine');
     if ($engine==Engine::TIMESTORE) return $this->timestore->get_average($feedid,$start,$end,$interval);
