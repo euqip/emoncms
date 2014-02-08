@@ -41,9 +41,16 @@
     'name':{'title':"<?php echo _('Name'); ?>", 'type':"text",'colwidth':""},
     'tag':{'title':"<?php echo _('Tag'); ?>", 'type':"text",'colwidth':""},
     'datatype':{'title':"<?php echo _('Datatype'); ?>", 'type':"select", 'options':['','REALTIME','DAILY','HISTOGRAM']},
-    'engine':{'title':"<?php echo _('Engine'); ?>", 'type':"select", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE']},
+<<<<<<< HEAD
+    'engine':{'title':"<?php echo _('Engine'); ?>", 'type':"select", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE','PHPTIMESTORE']},
     'public':{'title':"<?php echo _('Public'); ?>", 'tooltip': "<?php echo _('Make feed public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock"},
     'size':{'title':"<?php echo _('Size'); ?>", 'type':"fixed"},    
+=======
+    'engine':{'title':"<?php echo _('Engine'); ?>", 'type':"select", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE','PHPTIMESTORE']},
+    'public':{'title':"<?php echo _('Public'); ?>", 'type':"icon", 'trueicon':"icon-globe", 'falseicon':"icon-lock"},
+    'size':{'title':"<?php echo _('Size'); ?>", 'type':"fixed"},
+    
+>>>>>>> 95f69c463e86203e4b60748117aab1408d098cf4
     'time':{'title':"<?php echo _('Updated'); ?>", 'type':"updated"},
     'value':{'title':"<?php echo _('Value'); ?>",'type':"value"},
 
