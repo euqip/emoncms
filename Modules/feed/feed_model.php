@@ -444,7 +444,7 @@ class Feed
   public function get_timestore_average($feedid,$start,$end,$interval)
   {
     $feedid = (int) $feedid;
-    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist');
+    if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
     
     $engine = $this->redis->hget("feed:$feedid",'engine');
     if ($engine==Engine::TIMESTORE) return $this->timestore->get_average($feedid,$start,$end,$interval);
