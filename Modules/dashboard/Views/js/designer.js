@@ -166,8 +166,11 @@ var designer = {
       var box_options = widgets[widget]["options"];
       var options_type = widgets[widget]["optionstype"];
       var options_name = widgets[widget]["optionsname"];   
-      var optionshint = widgets[widget]["optionshint"];   
-      var helptext = widgets[widget]["helptext"];   
+      var optionshint = widgets[widget]["optionshint"];
+      var helptext = '';
+      if   (!widgets[widget]["helptext"]== undefined){
+        helptext = widgets[widget]["helptext"];   
+      } 
                  
       // Build options table html            
       var options_html = "";
