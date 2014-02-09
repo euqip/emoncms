@@ -27,10 +27,15 @@
         require_once WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_widget.php";
         $widgets[] = $dir[$i];
       }
-      else if (is_file(WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_render.js"))
+      if (is_file(WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_render.js"))
       {
         echo "<script type='text/javascript' src='".$path.WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_render.js'></script>";
         $widgets[] = $dir[$i];
+      }
+      if (is_file(WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_widget.css"))
+      {
+       echo "<link href='".$path.WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_widget.css' type='text/css'>";
+       $widgets[] = $dir[$i];
       }
     }
   }
