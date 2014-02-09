@@ -12,36 +12,7 @@
 global $path, $session, $useckeditor;
 ?>
 
-<style>
-
-.greydashmenu {
-  display: block;
-  list-style: none outside none;
-  margin: 0;
-  padding: 0;
-}
-
-.greydashmenu li {
-  list-style: none outside none;
-  margin: 0;
-  padding: 0;
-  border-right: 1px solid #eee;
-  float: left;
-}
-
-.greydashmenu li a {
-  display: block;
-  margin: 0;
-  padding: 0 12px;
-  border-right: 1px solid #ccc;
-  text-decoration: none;
-  font: 13px/27px sans-serif;
-  text-transform: none;
-}
-
-</style>
-
-<span style="float:left; color:#888; font: 13px/27px sans-serif; font-weight:bold; "><?php echo _("Dashboards:"); ?></span>
+<span class="dashlist"><?php echo _("Dashboards:"); ?></span>
 
 <ul class="greydashmenu">
   <?php echo $menu; ?>

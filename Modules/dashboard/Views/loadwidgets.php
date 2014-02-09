@@ -22,6 +22,10 @@
   {
     if (filetype(WIDGETS_PATH_EXT.$dir[$i])=='dir') 
     {
+      if (is_file(WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_widget.css"))
+      {
+       echo "<link href='".$path.WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_widget.css' rel='stylesheet'>";
+     }
       if (is_file(WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_widget.php"))
       {
         require_once WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_widget.php";
@@ -31,11 +35,6 @@
       {
         echo "<script type='text/javascript' src='".$path.WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_render.js'></script>";
         $widgets[] = $dir[$i];
-      }
-      if (is_file(WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_widget.css"))
-      {
-       echo "<link href='".$path.WIDGETS_PATH_EXT.$dir[$i]."/".$dir[$i]."_widget.css' type='text/css'>";
-       $widgets[] = $dir[$i];
       }
     }
   }

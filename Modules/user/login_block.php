@@ -15,12 +15,6 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 global $path, $allowusersregister, $enable_rememberme;
 
 ?>
-<style>
-#flags img{
-  width:16px;
-  height:16px;  
-}
-</style>
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/user.js"></script>
 

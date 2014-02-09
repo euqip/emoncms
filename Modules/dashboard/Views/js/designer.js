@@ -167,6 +167,7 @@ var designer = {
       var options_type = widgets[widget]["optionstype"];
       var options_name = widgets[widget]["optionsname"];   
       var optionshint = widgets[widget]["optionshint"];   
+      var helptext = widgets[widget]["helptext"];   
                  
       // Build options table html            
       var options_html = "";
@@ -224,6 +225,7 @@ var designer = {
       }      
       
       options_html += "</table>";
+      options_html += "<p>"+helptext+"</p>";
       
       // Fill the modal configuration window with options
       //$("#widget_options_body").html(options_html);      

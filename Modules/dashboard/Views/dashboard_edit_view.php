@@ -18,6 +18,7 @@ global $session,$path;
 if (!$dashboard['height']) $dashboard['height'] = 400;
 ?>
   <link href="<?php echo $path; ?>Modules/dashboard/Views/js/widget.css" rel="stylesheet">
+<!-- comment in the dashboard edit view fil -->
 
 
   <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard_langjs.php?lang=<?php echo $session['lang']; ?>"></script>
