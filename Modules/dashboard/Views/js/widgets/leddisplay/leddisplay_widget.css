@@ -1,0 +1,748 @@
+/* source file is an vector graphic
+/ export to png with 2562x1080 resolution 180
+*/
+
+.sprites {
+  display:inline-block;
+  background:url('g20519.png') no-repeat;
+  height:120px;
+  width:80px;
+}
+
+.sprites.sprites-sm {
+  margin: 0px;
+  zoom: 0.2;
+}
+
+.sprites.sprites-lg {
+  margin:-4px;
+  zoom: 0.5;
+}
+.sprites.sprites-md {
+  margin:-7px;
+  zoom: 0.3;
+}
+
+
+.digit-display{
+  border:3px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 3px 0px;
+  padding: 5px;
+  width: 160px;
+  height: 44px;
+  background-color: #450100; 
+
+}
+
+span.panelunit{
+  font-size: 20px;
+  font-weight: bold;
+  text-align: right;
+  color:white;
+}
+.panelfeed{
+  font-size: 10px; 
+  margin-top :-8px;
+  color:  white ;
+}
+
+.sprites.green.numfull {
+  background-position: -0px 0px;
+}
+.sprites.green.numblank {
+  background-position: -80px 0px;
+}
+.sprites.green.num0 {
+  background-position: -160px 0px;
+}
+.sprites.green.num1 {
+  background-position: -241px 0px;
+}
+.sprites.green.num2 {
+  background-position: -322px 0px;
+}
+.sprites.green.num3 {
+  background-position: -401px 0px;
+}
+.sprites.green.num4 {
+  background-position: -481px 0px;
+}
+.sprites.green.num5 {
+  background-position: -561px 0px;
+}
+.sprites.green.num6 {
+  background-position: -641px 0px;
+}
+.sprites.green.num7 {
+  background-position: -725px 0px;
+}
+.sprites.green.num8 {
+  background-position: -801px 0px;
+}
+.sprites.green.num9 {
+  background-position: -881px 0px;
+}
+.sprites.green.numa {
+  background-position: -961px 0px;
+}
+.sprites.green.numb {
+  background-position: -1041px 0px;
+}
+.sprites.green.numc {
+  background-position: -1121px 0px;
+}
+.sprites.green.numd {
+  background-position: -1202px 0px;
+}
+.sprites.green.nume {
+  background-position: -1282px 0px;
+}
+.sprites.green.numf {
+  background-position: -1360px 0px;
+}
+.sprites.green.numh {
+  background-position: -1441px 0px;
+}
+.sprites.green.numj {
+  background-position: -1521px 0px;
+}
+.sprites.green.numl {
+  background-position: -1598px 0px;
+}
+.sprites.green.numn {
+  background-position: -1681px 0px;
+}
+.sprites.green.numo {
+  background-position: -1761px 0px;
+}
+.sprites.green.nump {
+  background-position: -1841px 0px;
+}
+.sprites.green.numu {
+  background-position: -1921px 0px;
+}
+.sprites.green.num- {
+  background-position: -2001px 0px;
+}
+.sprites.green.numdeg {
+  background-position: -2081px 0px;
+}
+.sprites.green.numeq {
+  background-position: -2162px 0px;
+}
+
+
+
+
+.sprites.green.dot.numfull {
+  background-position: -0px -121px;
+}
+.sprites.green.dot.numblank {
+  background-position: -80px -121px;
+}
+.sprites.green.dot.num0 {
+  background-position: -160px -121px;
+}
+.sprites.green.dot.num1 {
+  background-position: -241px -121px;
+}
+.sprites.green.dot.num2 {
+  background-position: -322px -121px;
+}
+.sprites.green.dot.num3 {
+  background-position: -401px -121px;
+}
+.sprites.green.dot.num4 {
+  background-position: -481px -121px;
+}
+.sprites.green.dot.num5 {
+  background-position: -561px -121px;
+}
+.sprites.green.dot.num6 {
+  background-position: -641px -121px;
+}
+.sprites.green.dot.num7 {
+  background-position: -725px -121px;
+}
+.sprites.green.dot.num8 {
+  background-position: -801px -121px;
+}
+.sprites.green.dot.num9 {
+  background-position: -881px -121px;
+}
+.sprites.green.dot.numa {
+  background-position: -961px -121px;
+}
+.sprites.green.dot.numb {
+  background-position: -1041px -121px;
+}
+.sprites.green.dot.numc {
+  background-position: -1121px -121px;
+}
+.sprites.green.dot.numd {
+  background-position: -1202px -121px;
+}
+.sprites.green.dot.nume {
+  background-position: -1282px -121px;
+}
+.sprites.green.dot.numf {
+  background-position: -1360px -121px;
+}
+.sprites.green.dot.numh {
+  background-position: -1441px -121px;
+}
+.sprites.green.dot.numj {
+  background-position: -1521px -121px;
+}
+.sprites.green.dot.numl {
+  background-position: -1598px -121px;
+}
+.sprites.green.dot.numn {
+  background-position: -1681px -121px;
+}
+.sprites.green.dot.numo {
+  background-position: -1761px -121px;
+}
+.sprites.green.dot.nump {
+  background-position: -1841px -121px;
+}
+.sprites.green.dot.numu {
+  background-position: -1921px -121px;
+}
+.sprites.green.dot.num- {
+  background-position: -2001px -121px;
+}
+.sprites.green.dot.numdeg {
+  background-position: -2081px -121px;
+}
+.sprites.green.dot.numeq {
+  background-position: -2162px -121px;
+}
+
+
+
+/* amber settings
+*/
+
+.sprites.amber.numfull {
+  background-position: -0px -240px;
+}
+.sprites.amber.numblank {
+  background-position: -80px -240px;
+}
+.sprites.amber.num0 {
+  background-position: -160px -240px;
+}
+.sprites.amber.num1 {
+  background-position: -241px -240px;
+}
+.sprites.amber.num2 {
+  background-position: -322px -240px;
+}
+.sprites.amber.num3 {
+  background-position: -401px -240px;
+}
+.sprites.amber.num4 {
+  background-position: -481px -240px;
+}
+.sprites.amber.num5 {
+  background-position: -561px -240px;
+}
+.sprites.amber.num6 {
+  background-position: -641px -240px;
+}
+.sprites.amber.num7 {
+  background-position: -725px -240px;
+}
+.sprites.amber.num8 {
+  background-position: -801px -240px;
+}
+.sprites.amber.num9 {
+  background-position: -881px -240px;
+}
+.sprites.amber.numa {
+  background-position: -961px -240px;
+}
+.sprites.amber.numb {
+  background-position: -1041px -240px;
+}
+.sprites.amber.numc {
+  background-position: -1121px -240px;
+}
+.sprites.amber.numd {
+  background-position: -1202px -240px;
+}
+.sprites.amber.nume {
+  background-position: -1282px -240px;
+}
+.sprites.amber.numf {
+  background-position: -1360px -240px;
+}
+.sprites.amber.numh {
+  background-position: -1441px -240px;
+}
+.sprites.amber.numj {
+  background-position: -1521px -240px;
+}
+.sprites.amber.numl {
+  background-position: -1598px -240px;
+}
+.sprites.amber.numn {
+  background-position: -1681px -240px;
+}
+.sprites.amber.numo {
+  background-position: -1761px -240px;
+}
+.sprites.amber.nump {
+  background-position: -1841px -240px;
+}
+.sprites.amber.numu {
+  background-position: -1921px -240px;
+}
+.sprites.amber.num- {
+  background-position: -2001px -240px;
+}
+.sprites.amber.numdeg {
+  background-position: -2081px -240px;
+}
+.sprites.amber.numeq {
+  background-position: -2162px -240px;
+}
+
+
+
+.sprites.amber.dot.numfull {
+  background-position: -0px -361px;
+}
+.sprites.amber.dot.numblank {
+  background-position: -80px -361px;
+}
+.sprites.amber.dot.num0 {
+  background-position: -160px -361px;
+}
+.sprites.amber.dot.num1 {
+  background-position: -241px -361px;
+}
+.sprites.amber.dot.num2 {
+  background-position: -322px -361px;
+}
+.sprites.amber.dot.num3 {
+  background-position: -401px -361px;
+}
+.sprites.amber.dot.num4 {
+  background-position: -481px -361px;
+}
+.sprites.amber.dot.num5 {
+  background-position: -561px -361px;
+}
+.sprites.amber.dot.num6 {
+  background-position: -641px -361px;
+}
+.sprites.amber.dot.num7 {
+  background-position: -725px -361px;
+}
+.sprites.amber.dot.num8 {
+  background-position: -801px -361px;
+}
+.sprites.amber.dot.num9 {
+  background-position: -881px -361px;
+}
+.sprites.amber.dot.numa {
+  background-position: -961px -361px;
+}
+.sprites.amber.dot.numb {
+  background-position: -1041px -361px;
+}
+.sprites.amber.dot.numc {
+  background-position: -1121px -361px;
+}
+.sprites.amber.dot.numd {
+  background-position: -1202px -361px;
+}
+.sprites.amber.dot.nume {
+  background-position: -1282px -361px;
+}
+.sprites.amber.dot.numf {
+  background-position: -1360px -361px;
+}
+.sprites.amber.dot.numh {
+  background-position: -1441px -361px;
+}
+.sprites.amber.dot.numj {
+  background-position: -1521px -361px;
+}
+.sprites.amber.dot.numl {
+  background-position: -1598px -361px;
+}
+.sprites.amber.dot.numn {
+  background-position: -1681px -361px;
+}
+.sprites.amber.dot.numo {
+  background-position: -1761px -361px;
+}
+.sprites.amber.dot.nump {
+  background-position: -1841px -361px;
+}
+.sprites.amber.dot.numu {
+  background-position: -1921px -361px;
+}
+.sprites.amber.dot.num- {
+  background-position: -2001px -361px;
+}
+.sprites.amber.dot.numdeg {
+  background-position: -2081px -361px;
+}
+.sprites.amber.dot.numeq {
+  background-position: -2162px -361px;
+}
+
+/*  red digits settings
+*/
+
+.sprites.red.numfull {
+  background-position: -0px -479px;
+}
+.sprites.red.numblank {
+  background-position: -80px -479px;
+}
+.sprites.red.num0 {
+  background-position: -160px -479px;
+}
+.sprites.red.num1 {
+  background-position: -241px -479px;
+}
+.sprites.red.num2 {
+  background-position: -322px -479px;
+}
+.sprites.red.num3 {
+  background-position: -401px -479px;
+}
+.sprites.red.num4 {
+  background-position: -481px -479px;
+}
+.sprites.red.num5 {
+  background-position: -561px -479px;
+}
+.sprites.red.num6 {
+  background-position: -641px -479px;
+}
+.sprites.red.num7 {
+  background-position: -725px -479px;
+}
+.sprites.red.num8 {
+  background-position: -801px -479px;
+}
+.sprites.red.num9 {
+  background-position: -881px -479px;
+}
+.sprites.red.numa {
+  background-position: -961px -479px;
+}
+.sprites.red.numb {
+  background-position: -1041px -479px;
+}
+.sprites.red.numc {
+  background-position: -1121px -479px;
+}
+.sprites.red.numd {
+  background-position: -1202px -479px;
+}
+.sprites.red.nume {
+  background-position: -1282px -479px;
+}
+.sprites.red.numf {
+  background-position: -1360px -479px;
+}
+.sprites.red.numh {
+  background-position: -1441px -479px;
+}
+.sprites.red.numj {
+  background-position: -1521px -479px;
+}
+.sprites.red.numl {
+  background-position: -1598px -479px;
+}
+.sprites.red.numn {
+  background-position: -1681px -479px;
+}
+.sprites.red.numo {
+  background-position: -1761px -479px;
+}
+.sprites.red.nump {
+  background-position: -1841px -479px;
+}
+.sprites.red.numu {
+  background-position: -1921px -479px;
+}
+.sprites.red.num- {
+  background-position: -2001px -479px;
+}
+.sprites.red.numdeg {
+  background-position: -2081px -479px;
+}
+.sprites.red.numeq {
+  background-position: -2162px -479px;
+}
+
+
+.sprites.red.dot.numfull {
+  background-position: -0px -598px;
+}
+.sprites.red.dot.numblank {
+  background-position: -80px -598px;
+}
+.sprites.red.dot.num0 {
+  background-position: -160px -598px;
+}
+.sprites.red.dot.num1 {
+  background-position: -241px -598px;
+}
+.sprites.red.dot.num2 {
+  background-position: -322px -598px;
+}
+.sprites.red.dot.num3 {
+  background-position: -401px -598px;
+}
+.sprites.red.dot.num4 {
+  background-position: -481px -598px;
+}
+.sprites.red.dot.num5 {
+  background-position: -561px -598px;
+}
+.sprites.red.dot.num6 {
+  background-position: -641px -598px;
+}
+.sprites.red.dot.num7 {
+  background-position: -725px -598px;
+}
+.sprites.red.dot.num8 {
+  background-position: -801px -598px;
+}
+.sprites.red.dot.num9 {
+  background-position: -881px -598px;
+}
+.sprites.red.dot.numa {
+  background-position: -961px -598px;
+}
+.sprites.red.dot.numb {
+  background-position: -1041px -598px;
+}
+.sprites.red.dot.numc {
+  background-position: -1121px -598px;
+}
+.sprites.red.dot.numd {
+  background-position: -1202px -598px;
+}
+.sprites.red.dot.nume {
+  background-position: -1282px -598px;
+}
+.sprites.red.dot.numf {
+  background-position: -1360px -598px;
+}
+.sprites.red.dot.numh {
+  background-position: -1441px -598px;
+}
+.sprites.red.dot.numj {
+  background-position: -1521px -598px;
+}
+.sprites.red.dot.numl {
+  background-position: -1598px -598px;
+}
+.sprites.red.dot.numn {
+  background-position: -1681px -598px;
+}
+.sprites.red.dot.numo {
+  background-position: -1761px -598px;
+}
+.sprites.red.dot.nump {
+  background-position: -1841px -598px;
+}
+.sprites.red.dot.numu {
+  background-position: -1921px -598px;
+}
+.sprites.red.dot.num- {
+  background-position: -2001px -598px;
+}
+.sprites.red.dot.numdeg {
+  background-position: -2081px -598px;
+}
+.sprites.red.dot.numeq {
+  background-position: -2162px -598px;
+}
+
+
+/*  blue digits
+*/
+
+.sprites.blue.numfull {
+  background-position: -0px -723px;
+}
+.sprites.blue.numblank {
+  background-position: -80px -723px;
+}
+.sprites.blue.num0 {
+  background-position: -160px -723px;
+}
+.sprites.blue.num1 {
+  background-position: -241px -723px;
+}
+.sprites.blue.num2 {
+  background-position: -322px -723px;
+}
+.sprites.blue.num3 {
+  background-position: -401px -723px;
+}
+.sprites.blue.num4 {
+  background-position: -481px -723px;
+}
+.sprites.blue.num5 {
+  background-position: -561px -723px;
+}
+.sprites.blue.num6 {
+  background-position: -641px -723px;
+}
+.sprites.blue.num7 {
+  background-position: -725px -723px;
+}
+.sprites.blue.num8 {
+  background-position: -801px -723px;
+}
+.sprites.blue.num9 {
+  background-position: -881px -723px;
+}
+.sprites.blue.numa {
+  background-position: -961px -723px;
+}
+.sprites.blue.numb {
+  background-position: -1041px -723px;
+}
+.sprites.blue.numc {
+  background-position: -1121px -723px;
+}
+.sprites.blue.numd {
+  background-position: -1202px -723px;
+}
+.sprites.blue.nume {
+  background-position: -1282px -723px;
+}
+.sprites.blue.numf {
+  background-position: -1360px -723px;
+}
+.sprites.blue.numh {
+  background-position: -1441px -723px;
+}
+.sprites.blue.numj {
+  background-position: -1521px -723px;
+}
+.sprites.blue.numl {
+  background-position: -1598px -723px;
+}
+.sprites.blue.numn {
+  background-position: -1681px -723px;
+}
+.sprites.blue.numo {
+  background-position: -1761px -723px;
+}
+.sprites.blue.nump {
+  background-position: -1841px -723px;
+}
+.sprites.blue.numu {
+  background-position: -1921px -723px;
+}
+.sprites.blue.num- {
+  background-position: -2001px -723px;
+}
+.sprites.blue.numdeg {
+  background-position: -2081px -723px;
+}
+.sprites.blue.numeq {
+  background-position: -2162px -723px;
+}
+
+
+
+.sprites.blue.dot.numfull {
+  background-position: -0px -843px;
+}
+.sprites.blue.dot.numblank {
+  background-position: -80px -843px;
+}
+.sprites.blue.dot.num0 {
+  background-position: -160px -843px;
+}
+.sprites.blue.dot.num1 {
+  background-position: -241px -843px;
+}
+.sprites.blue.dot.num2 {
+  background-position: -322px -843px;
+}
+.sprites.blue.dot.num3 {
+  background-position: -401px -843px;
+}
+.sprites.blue.dot.num4 {
+  background-position: -481px -843px;
+}
+.sprites.blue.dot.num5 {
+  background-position: -561px -843px;
+}
+.sprites.blue.dot.num6 {
+  background-position: -641px -843px;
+}
+.sprites.blue.dot.num7 {
+  background-position: -725px -843px;
+}
+.sprites.blue.dot.num8 {
+  background-position: -801px -843px;
+}
+.sprites.blue.dot.num9 {
+  background-position: -881px -843px;
+}
+.sprites.blue.dot.numa {
+  background-position: -961px -843px;
+}
+.sprites.blue.dot.numb {
+  background-position: -1041px -843px;
+}
+.sprites.blue.dot.numc {
+  background-position: -1121px -843px;
+}
+.sprites.blue.dot.numd {
+  background-position: -1202px -843px;
+}
+.sprites.blue.dot.nume {
+  background-position: -1282px -843px;
+}
+.sprites.blue.dot.numf {
+  background-position: -1360px -843px;
+}
+.sprites.blue.dot.numh {
+  background-position: -1441px -843px;
+}
+.sprites.blue.dot.numj {
+  background-position: -1521px -843px;
+}
+.sprites.blue.dot.numl {
+  background-position: -1598px -843px;
+}
+.sprites.blue.dot.numn {
+  background-position: -1681px -843px;
+}
+.sprites.blue.dot.numo {
+  background-position: -1761px -843px;
+}
+.sprites.blue.dot.nump {
+  background-position: -1841px -843px;
+}
+.sprites.blue.dot.numu {
+  background-position: -1921px -843px;
+}
+.sprites.blue.dot.num- {
+  background-position: -2001px -843px;
+}
+.sprites.blue.dot.numdeg {
+  background-position: -2081px -843px;
+}
+.sprites.blue.dot.numeq {
+  background-position: -2162px -843px;
+}
