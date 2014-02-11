@@ -169,7 +169,6 @@ var designer = {
       var optionshint = widgets[widget]["optionshint"];
       var helptext = widgets[widget]["helptext"]; 
       var helptext = widgets[widget]["helptext"];  
-      //var helptext = '';
       if   (helptext== undefined){
         helptext = '';   
       } 
