@@ -71,11 +71,11 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   var redraw = 0;
   var reloadiframe = 0;
 
-  var grid_size = 20;
+  var grid_size = 10;
   $('#can').width($('#dashboardpage').width());
 
   designer.canvas = "#can";
-  designer.grid_size = 20;
+  designer.grid_size = 10;
   designer.widgets = widgets;
 
   designer.init();

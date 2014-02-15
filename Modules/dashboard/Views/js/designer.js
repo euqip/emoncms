@@ -26,8 +26,8 @@ var selected_edges = {none : 0, left : 1, right : 2, top : 3, bottom : 4, center
 
 var designer = {
 
-    'grid_size':20,
-    'page_width':500,
+    'grid_size':10,
+    'page_width':960,
     'page_height':500,
 
     'cnvs':null,
@@ -113,8 +113,8 @@ var designer = {
       //--------------------------------------------------------------------
       // Draw grid
       //--------------------------------------------------------------------
-      designer.ctx.fillStyle    = "rgba(0, 0, 0, 0.2)";
-      designer.ctx.strokeStyle    = "rgba(0, 0, 0, 0.2)";
+      designer.ctx.fillStyle    = "rgba(0,0,0, 0.1)";
+      designer.ctx.strokeStyle    = "rgba(0,0,0, 0.87)";
 
       for (var x=1; x<parseInt(designer.page_width/designer.grid_size); x++)
       {
@@ -131,7 +131,8 @@ var designer = {
       if (designer.selected_box)
       {         
         designer.modified();       
-                
+       designer.ctx.fillStyle    = "rgba(255,155,65, 0.60)";
+               
         var top = designer.boxlist[designer.selected_box]['top'];
         var left = designer.boxlist[designer.selected_box]['left'];
         var width = designer.boxlist[designer.selected_box]['width'];
@@ -325,11 +326,11 @@ var designer = {
               var midx = resize['left']+(resize['width']/2);
               var midy = resize['top']+(resize['height']/2);
              
-              if (Math.abs(mx - rightedge)<20) selected_edge = selected_edges.right;
-              else if (Math.abs(mx - resize['left'])<20) selected_edge = selected_edges.left;
-                else if (Math.abs(my - bottedge)<20) selected_edge = selected_edges.bottom;
-                  else if (Math.abs(my - resize['top'])<20) selected_edge = selected_edges.top;
-                    else if (Math.abs(my - midy)<20 && Math.abs(mx - midx)<20) selected_edge = selected_edges.center;
+              if (Math.abs(mx - rightedge)<40) selected_edge = selected_edges.right;
+              else if (Math.abs(mx - resize['left'])<40) selected_edge = selected_edges.left;
+                else if (Math.abs(my - bottedge)<40) selected_edge = selected_edges.bottom;
+                  else if (Math.abs(my - resize['top'])<40) selected_edge = selected_edges.top;
+                    else if (Math.abs(my - midy)<40 && Math.abs(mx - midx)<40) selected_edge = selected_edges.center;
                       else selected_edge = selected_edges.none;
             }
           }

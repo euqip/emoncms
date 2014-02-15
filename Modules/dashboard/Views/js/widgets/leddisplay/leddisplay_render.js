@@ -20,7 +20,7 @@ function leddisplay_widgetlist()
   var widgets = {
     "leddisplay":
     {
-      "offsetx":0,"offsety":0,"width":160,"height":60,
+      "offsetx":0,"offsety":0,"width":160,"height":50,
       "menu":"Widgets",
       "itemname":_Tr("Led Display"),
       "options":["feed", "min", "max","unit", "cautionLimit","warningLimit"],
