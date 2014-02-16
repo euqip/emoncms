@@ -1,11 +1,10 @@
-<?php 
-  global $path; 
+<?php
+    global $path;
 ?>
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/custom-table-fields.js"></script>
-
 
 <div id="apihelphead"><p class="text-right"><a href="api"><?php echo _('Input API Help'); ?></a></p></div>
 
@@ -17,13 +16,12 @@
     <div id="table"></div>
 
     <div id="noinputs" class="alert alert-block hide">
-        <h4 class="alert-heading"><?php echo _('No inputs created'); ?></h4>
-        <p><?php echo _('Inputs is the main entry point for your monitoring device. Configure your device to post values here, you may want to follow the <a href="api">Input API helper</a> as a guide for generating your request.'); ?></p>
+            <h4 class="alert-heading"><?php echo _('No inputs created'); ?></h4>
+            <p><?php echo _('Inputs is the main entry point for your monitoring device. Configure your device to post values here, you may want to follow the <a href="api">Input API helper</a> as a guide for generating your request.'); ?></p>
     </div>
 </div>
 
 <script>
-
   var path = "<?php echo $path; ?>";
 
   // Extend table library field types
@@ -70,18 +68,34 @@
   var updateinterval = 1000;
   var updater = setInterval(update, updateinterval);
 
-  $("#table").bind("onEdit", function(e){
-    clearInterval(updater);
-  });
-
   $("#table").bind("onSave", function(e,id,fields_to_update){
     input.set(id,fields_to_update); 
     updater = setInterval(update, updateinterval);
   });
+  update();
+
+  function update()
+  {
+      table.data = input.list();
+      table.draw();
+      if (table.data.length != 0) {
+          $("#noinputs").hide();
+          $("#apihelphead").show();
+          $("#localheading").show();
+      } else {
+          $("#noinputs").show();
+          $("#localheading").hide();
+          $("#apihelphead").hide();
+      }
+  }
+
+  $("#table").bind("onEdit", function(e){
+      clearInterval(updater);
+  });
 
   $("#table").bind("onDelete", function(e,id){
-    input.remove(id); 
-    update();
+      input.remove(id);
+      update();
   });
 
 </script>

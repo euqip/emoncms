@@ -59,6 +59,7 @@
           </nav>
 
           <div id="topspacer"></div>
+          <!-- test text -->
 
           <?php if (isset($submenu) && ($submenu)) { ?>  
             <div id="submenu">

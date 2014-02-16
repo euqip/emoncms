@@ -1,21 +1,21 @@
-<?php 
+<?php
 
 /*
-  All Emoncms code is released under the GNU Affero General Public License.
-  See COPYRIGHT.txt and LICENSE.txt.
+    All Emoncms code is released under the GNU Affero General Public License.
+    See COPYRIGHT.txt and LICENSE.txt.
 
-  ---------------------------------------------------------------------
-  Emoncms - open source energy visualisation
-  Part of the OpenEnergyMonitor project:
-  http://openenergymonitor.org
+    ---------------------------------------------------------------------
+    Emoncms - open source energy visualisation
+    Part of the OpenEnergyMonitor project:
+    http://openenergymonitor.org
 */
 
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
 
-  global $path; 
- 
-  $languages = get_available_languages();
+    global $path;
+
+    $languages = get_available_languages();
 
 function languagecodetotext()
 {
@@ -32,7 +32,7 @@ function languagecodetotext()
 
 
 ?>
-    <script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/profile.js"></script>
+<script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/profile.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/md5.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/user.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/listjs/list.js"></script>
@@ -131,7 +131,163 @@ function languagecodetotext()
 
     }
     $(startprofile);
-    </script>
+    list.init();
+
+    $("#table").bind("onSave", function(e){
+        user.set(list.data);
+
+        // refresh the page if the language has been changed.
+        if (list.data.language!=currentlanguage) window.location.href = path+"user/view";
+    });
+
+    //------------------------------------------------------
+    // Username
+    //------------------------------------------------------
+    $(".username").html(list.data['username']);
+    $("#input-username").val(list.data['username']);
+
+    $("#edit-username").click(function(){
+        $("#username-view").hide();
+        $("#edit-username-form").show();
+        $("#edit-username-form input").val(list.data.username);
+    });
+
+    $("#edit-username-form button").click(function(){
+
+        var username = $("#edit-username-form input").val();
+
+        if (username!=list.data.username)
+        {
+            $.ajax({
+                url: path+"user/changeusername.json",
+                data: "&username="+username,
+                dataType: 'json',
+                success: function(result)
+                {
+                    if (result.success)
+                    {
+                        $("#username-view").show();
+                        $("#edit-username-form").hide();
+                        list.data.username = username;
+                        $(".username").html(list.data.username);
+                        $("#change-username-error").hide();
+                    }
+                    else
+                    {
+                        $("#change-username-error").html(result.message).show();
+                    }
+                }
+            });
+        }
+        else
+        {
+            $("#username-view").show();
+            $("#edit-username-form").hide();
+            $("#change-username-error").hide();
+        }
+    });
+
+    //------------------------------------------------------
+    // Email
+    //------------------------------------------------------
+    $(".email").html(list.data['email']);
+    $("#input-email").val(list.data['email']);
+
+    $("#edit-email").click(function(){
+        $("#email-view").hide();
+        $("#edit-email-form").show();
+        $("#edit-email-form input").val(list.data.email);
+    });
+
+    $("#edit-email-form button").click(function(){
+
+        var email = $("#edit-email-form input").val();
+
+        if (email!=list.data.email)
+        {
+            $.ajax({
+                url: path+"user/changeemail.json",
+                data: "&email="+email,
+                dataType: 'json',
+                success: function(result)
+                {
+                    if (result.success)
+                    {
+                        $("#email-view").show();
+                        $("#edit-email-form").hide();
+                        list.data.email = email;
+                        $(".email").html(list.data.email);
+                        $("#change-email-error").hide();
+                    }
+                    else
+                    {
+                        $("#change-email-error").html(result.message).show();
+                    }
+                }
+            });
+        }
+        else
+        {
+            $("#email-view").show();
+            $("#edit-email-form").hide();
+            $("#change-email-error").hide();
+        }
+    });
+
+    //------------------------------------------------------
+    // Password
+    //------------------------------------------------------
+    $("#changedetails").click(function(){
+        $("#changedetails").hide();
+        $("#change-password-form").show();
+    });
+
+    $("#change-password-submit").click(function(){
+
+        var oldpassword = $("#oldpassword").val();
+        var newpassword = $("#newpassword").val();
+        var repeatnewpassword = $("#repeatnewpassword").val();
+
+        if (newpassword != repeatnewpassword)
+        {
+            $("#change-password-error").html("<?php echo _('Passwords do not match'); ?>").show();
+        }
+        else
+        {
+            $.ajax({
+                url: path+"user/changepassword.json",
+                data: "old="+oldpassword+"&new="+newpassword,
+                dataType: 'json',
+                success: function(result)
+                {
+                    if (result.success)
+                    {
+                        $("#oldpassword").val('');
+                        $("#newpassword").val('');
+                        $("#repeatnewpassword").val('');
+                        $("#change-password-error").hide();
+
+                        $("#change-password-form").hide();
+                        $("#changedetails").show();
+                    }
+                    else
+                    {
+                        $("#change-password-error").html(result.message).show();
+                    }
+                }
+            });
+        }
+    });
+
+    $("#change-password-cancel").click(function(){
+        $("#oldpassword").val('');
+        $("#newpassword").val('');
+        $("#repeatnewpassword").val('');
+        $("#change-password-error").hide();
+
+        $("#change-password-form").hide();
+        $("#changedetails").show();
+    });
 
 
-
+</script>

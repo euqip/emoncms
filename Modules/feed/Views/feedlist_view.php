@@ -1,5 +1,5 @@
-<?php 
-  global $path; 
+<?php
+    global $path;
 ?>
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
@@ -25,17 +25,18 @@
         </p>
     </div>
     <button id="refreshfeedsize" class="btn btn-small" ><?php echo _('Refresh feed size')?> <span class="glyphicon glyphicon-refresh" ></span></button>
+
 </div>
 
 <script>
 
-  var path = "<?php echo $path; ?>";
 
-  // Extend table library field types
-  for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
+    var path = "<?php echo $path; ?>";
 
-  table.element = "#table";
+    // Extemd table library field types
+    for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
 
+    table.element = "#table";
   table.fields = {
     'id':{'title':"<?php echo _('Id'); ?>", 'type':"fixed",'colwidth':""},
     'name':{'title':"<?php echo _('Name'); ?>", 'type':"text",'colwidth':""},
@@ -53,7 +54,8 @@
     'view-action':{'title':'','tooltip':'<?php echo _("Preview"); ?>', 'type':"iconlink", 'link':path+"vis/auto?feedid=", 'icon':'glyphicon glyphicon-eye-open', 'display':"yes"}
   }
 
-  table.groupby = 'tag';
+
+table.groupby = 'tag';
   table.deletedata = false;
 
   update();

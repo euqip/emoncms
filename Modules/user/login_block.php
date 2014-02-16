@@ -91,14 +91,14 @@ $("#cancel-link").click(function(){
 });
 
 $("input").keypress(function(event) {
-	//login or register when pressing enter
+  //login or register when pressing enter
     if (event.which == 13) {
         event.preventDefault();
-		if ( register_open ) {
-			register();
-		} else {
-			login();
-		}        
+    if ( register_open ) {
+      register();
+    } else {
+      login();
+    }        
     }
 });
 
@@ -108,14 +108,14 @@ function login(){
   var rememberme = 0; if ($("#rememberme").is(":checked")) rememberme = 1;
   var result = user.login(username,password,rememberme);
 
-	if (result.success) 
-	{
-		window.location.href = path+"user/view";
-	}
-	else
-	{
-		$("#error").html(result.message).show();
-	}
+  if (result.success) 
+  {
+    window.location.href = path+"user/view";
+  }
+  else
+  {
+    $("#error").html(result.message).show();
+  }
 }
 
 function register(){
@@ -131,7 +131,7 @@ function register(){
   else
   {
     var result = user.register(username,password,email);
-	 
+   
     if (result.success) 
     {
       var result = user.login(username,password);
@@ -152,4 +152,3 @@ $("#register").click(register);
 
     
 </script>
-

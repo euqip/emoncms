@@ -1,5 +1,5 @@
-<?php 
-  global $path;
+<?php
+    global $path;
 ?>
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard.js"></script>
@@ -125,9 +125,6 @@
       dataType : 'json',
       success : location.reload()});
   }
-
-
-
 </script>
 <script>
 $(function () {
