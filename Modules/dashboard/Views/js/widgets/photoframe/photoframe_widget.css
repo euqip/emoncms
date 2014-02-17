@@ -1,0 +1,55 @@
+/*
+styling the alt text
+instead of including images.
+*/
+.carousel-container{
+  width:200px;
+  height:150px;
+  padding:15px;
+  position :absolute;
+
+}
+.carousel-fade .carousel-inner .item {
+  opacity: 0;
+  -webkit-transition-property: opacity;
+  -moz-transition-property: opacity;
+  -o-transition-property: opacity;
+  transition-property: opacity;
+}
+.carousel-fade .carousel-inner .active {
+  opacity: 1;
+}
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+}
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+  opacity: 1;
+}
+.carousel-fade .carousel-control {
+  z-index: 2;
+}
+html,
+body,
+.carousel,
+.carousel-inner,
+.carousel-inner .item {
+  height: 100%;
+ }
+div.carousel-inner {
+  background-image: url("frame.png");
+  display: block;
+  padding :1px;
+}
+div.carousel-container span {
+  width: 200px;
+  height: 150px;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: url(frame.png) no-repeat;
+}

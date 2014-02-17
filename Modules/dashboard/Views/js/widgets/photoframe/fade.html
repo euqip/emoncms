@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script type="text/javascript" src="jquery-1.11.0.js"></script>
+        <script type="text/javascript" src="bootstrap3/js/bootstrap.js"></script>
+        <link href="bootstrap3/css/bootstrap.css" rel="stylesheet">
+
+        <!-- Thanks to Baptiste Gaultier for the emoncms dial icon http://bit.ly/zXgScz -->
+        <link rel="shortcut icon" href="Theme/favicon.png" />
+        <!-- APPLE TWEAKS - thanks to Paul Dreed -->
+               <title>Emoncms</title>
+
+        <style type="text/css">
+        /*
+        styling the alt text
+        instead of including images.
+        */
+        .carpusel-container{
+            width:200px;
+            height:150px;
+            padding:15px;
+            position :absolute;
+
+        }
+        .carousel-fade .carousel-inner .item {
+          opacity: 0;
+          -webkit-transition-property: opacity;
+          -moz-transition-property: opacity;
+          -o-transition-property: opacity;
+          transition-property: opacity;
+        }
+        .carousel-fade .carousel-inner .active {
+          opacity: 1;
+        }
+        .carousel-fade .carousel-inner .active.left,
+        .carousel-fade .carousel-inner .active.right {
+          left: 0;
+          opacity: 0;
+          z-index: 1;
+        }
+        .carousel-fade .carousel-inner .next.left,
+        .carousel-fade .carousel-inner .prev.right {
+          opacity: 1;
+        }
+        .carousel-fade .carousel-control {
+          z-index: 2;
+        }
+        html,
+        body,
+        .carousel,
+        .carousel-inner,
+        .carousel-inner .item {
+          height: 100%;
+         }
+         div.carousel-inner {
+            background-image: url("frame.png");
+            display: block;
+            padding :1px;
+         }
+          div.carpusel-container span {
+    width: 200px;
+    height: 150px;
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background: url(frame.png) no-repeat;
+         }
+    .carousel-indicators{
+      margin-bottom:-38px;
+    }
+    </style>
+
+
+    </head>
+
+    <body>
+        <div class="carpusel-container">     
+
+    <div id="carousel" class="carousel slide carousel-fade">
+  <ol class="carousel-indicators">
+    <li data-target="#carousel" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel" data-slide-to="1"></li>
+    <li data-target="#carousel" data-slide-to="2"></li>
+  </ol>
+  
+  <div class="carousel-inner">
+    <div class="active item">
+        <img src="Selection_072.png" class="imageslider"/>
+    </div>
+    <div class="item">
+        <img src="Selection_075.png" class="imageslider"/>
+    </div>
+    <div class="item">
+        <img src="Emoncms2.png" class="imageslider"/>
+    </div>
+  </div>
+
+  <a class="carousel-control left" href="#carousel" data-slide="prev">‹</a>
+  <a class="carousel-control right" href="#carousel" data-slide="next">›</a>
+</div>
+
+    </div> <!-- end of container -->
+
+
+    <img src="frame.png" alt="frame"/>
+    </body>
+	<script>
+        $('#carousel').carousel();
+	</script>
+
+</html>
