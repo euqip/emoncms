@@ -29,20 +29,20 @@
   $mysqli = @new mysqli($server,$username,$password,$database);
 
   if (!class_exists('Redis')) {
-    echo "Can't connect to redis database, phpredis is not installed, see readme for redis installation"; die;
+    echo _("Can't connect to redis database, phpredis is not installed, see readme for redis installation"); die;
     }
 
     $redis = new Redis();
     $connected = $redis->connect("127.0.0.1");
 
     if (!$connected) {
-        echo "Can't connect to redis database, it may be that redis-server is not installed or started see readme for redis installation"; die;
+        echo _("Can't connect to redis database, it may be that redis-server is not installed or started see readme for redis installation"); die;
     }
 
     if ( $mysqli->connect_error ) {
-        echo "Can't connect to database, please verify credentials/configuration in settings.php<br />";
+        echo _("Can't connect to database, please verify credentials/configuration in settings.php")."<br />";
         if ( $display_errors ) {
-            echo "Error message: <b>" . $mysqli->connect_error . "</b>";
+            echo _("Error message:")." <b>" . $mysqli->connect_error . "</b>";
         }
         die();
     }

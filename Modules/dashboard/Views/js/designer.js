@@ -241,7 +241,14 @@ var designer = {
                 }
             }
 
+            else if (options_type && options_type[z] == "colour_picker")
+            {
+                 options_html += "<td><input  type='color' class='form-control options' id='"+box_options[z]+"'  value='#"+val+"'/ >"
+            }
+
+
             // // Radio-buttons for selecting options
+            // // It was a bit confusing to use, so it's disabled until I get a change to revisit and style it better (Fake-name)
             // else if (options_type && options_type[z] == "toggle" && optionsdata[z])  // Check we have optionsdata before deciding to draw a combobox
             // {
             //  options_html += "<td>";
@@ -273,7 +280,7 @@ var designer = {
         return options_html;
     },
 
-    'widget_buttons': function()
+     'widget_buttons': function()
     {
         var widget_html = "";
         var select = [];
@@ -444,7 +451,7 @@ var designer = {
             }
         });
 
-        // On save click
+        // On save click  save function is located in dashboard_edit_view.php
         $("#options-save").click(function()
         {
             $(".options").each(function() {

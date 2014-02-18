@@ -124,6 +124,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
                     label: "<?php echo _('Save changes'); ?>",
                     cssClass: 'btn-primary',
                     action: function(dialog){
+                        console.log("saveoptions");
                         saveoptions();
  
                         update();
@@ -135,11 +136,25 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
 
           }
         });
-function saveoptions(){
-          $(".options").each(function() {
-            if ($(this).attr("id")!="html") $("#"+designer.selected_box).attr($(this).attr("id"), $(this).val());
-            if ($(this).attr("id")=="html") $("#"+designer.selected_box).html($(this).val());    
-          });          
 
-}
+function saveoptions(){        
+            $(".options").each(function() {
+                if ($(this).attr("id")=="html")
+                {
+                    $("#"+designer.selected_box).html($(this).val());
+                }
+                else if ($(this).attr("id")=="colour")
+                {
+                    // Since colour values are generally prefixed with "#", and "#" isn't valid in URLs, we strip out the "#".
+                    // It will be replaced by the value-checking in the actual plot function, so this won't cause issues.
+                    var colour = $(this).val();
+                    colour = colour.replace("#","");
+                    $("#"+designer.selected_box).attr($(this).attr("id"), colour);
+                }
+                else
+                {
+                    $("#"+designer.selected_box).attr($(this).attr("id"), $(this).val());
+                }
+            });
+        }
 </script>

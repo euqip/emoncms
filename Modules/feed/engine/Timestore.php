@@ -14,14 +14,15 @@ class Timestore
     private $timestoreApi;
     private $dir = "/var/lib/timestore/";
 
-    public function __construct($timestore_adminkey)
+    public function __construct($settings)
     {
         require "Modules/feed/engine/TimestoreApi.php";
-        $this->timestoreApi = new TimestoreAPI($timestore_adminkey);
+        $this->timestoreApi = new TimestoreAPI($settings['adminkey']);
     }
 
-    public function create($feedid,$newfeedinterval)
+    public function create($feedid,$options)
     {
+        $newfeedinterval = (int) $options['interval'];
         if ($newfeedinterval<5) $newfeedinterval = 5;
         $this->timestoreApi->create_node($feedid,$newfeedinterval);
 
@@ -44,6 +45,11 @@ class Timestore
             $this->timestoreApi->post_values($feedid,$time*1000,array($value),null);
         }
 
+    }
+    
+    public function update($feedid,$time,$value)
+    {
+      $this->post($feedid,$time,$value);
     }
 
     public function get_data($feedid,$start,$end)

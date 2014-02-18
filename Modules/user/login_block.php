@@ -12,7 +12,7 @@
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
 
-global $path, $allowusersregister, $enable_rememberme;
+global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
 
 ?>
 
@@ -63,6 +63,21 @@ global $path, $allowusersregister, $enable_rememberme;
         <button id="register" class="btn btn-primary" type="button"><?php echo _('Register'); ?></button> <?php echo '&nbsp;'._('or').'&nbsp' ?> 
         <a id="cancel-link" href="#"><?php echo _('cancel'); ?></a>
       </p>
+            <p><a id="passwordreset-link" href="#" >_(Forgotten password)</a></p>
+            
+            <div id="passwordreset-block" style="display:none">
+                <hr>
+                <div id="passwordreset-message"></div>
+                <div id="passwordreset-input">
+                <p style="color:#888; font-size:12px">_(Enter account name:)</p>
+                <input id="passwordreset-username" type="text" /><br>
+                <p style="color:#888; font-size:12px">_(Enter account email address:)</p>
+                <input id="passwordreset-email" type="text" /><br>
+                <button id="passwordreset-submit" class="btn">_(Submit)</button>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 
@@ -73,6 +88,32 @@ global $path, $allowusersregister, $enable_rememberme;
 
 var path = "<?php echo $path; ?>";
 var register_open = false;
+var passwordreset = "<?php echo $enable_password_reset; ?>";
+
+if (!passwordreset) $("#passwordreset-link").hide();
+
+$("#passwordreset-link").click(function(){
+    $("#passwordreset-block").show();
+    $("#passwordreset-input").show();
+    $("#passwordreset-message").html("");
+});
+
+$("#passwordreset-submit").click(function(){
+    var username = $("#passwordreset-username").val();
+    var email = $("#passwordreset-email").val();
+    
+    if (email=="" || username=="") {
+        alert("Please enter username and email address");
+    } else {
+        var result = user.passwordreset(username,email);
+        if (result.success==true) {
+            $("#passwordreset-message").html("<div class='alert alert-success'>"+result.message+"</div>");
+            $("#passwordreset-input").hide();
+        } else {
+            $("#passwordreset-message").html("<div class='alert alert-error'>"+result.message+"</div>");
+        }
+    }
+});
 
 $("#register-link").click(function(){
   $(".login-item").hide();

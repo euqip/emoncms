@@ -10,6 +10,30 @@
     $password = "";
     $server   = "localhost";
     $database = "";
+    
+    $feed_settings = array(
+
+        'creatable_engines'=>array('MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE','PHPTIMESTORE'),
+
+        'timestore'=>array(
+            'adminkey'=>""
+        ),
+
+        'graphite'=>array(
+            'port'=>0,
+            'host'=>0
+        )
+    );
+
+    // (OPTIONAL) Used by password reset feature
+    $smtp_email_settings = array(
+      'host'=>"",
+      'username'=>"",
+      'password'=>"",
+      'from'=>array('an email address' => 'an email tag name')
+    );
+
+    $enable_password_reset = false;
 
     // By setting the default engine to MYSQL, realtime feeds will be created as MYSQL feeds providing full backwards compatibility
 

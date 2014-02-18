@@ -42,7 +42,7 @@
     'name':{'title':"<?php echo _('Name'); ?>", 'type':"text",'colwidth':""},
     'tag':{'title':"<?php echo _('Tag'); ?>", 'type':"text",'colwidth':""},
     'datatype':{'title':"<?php echo _('Datatype'); ?>", 'type':"select", 'options':['','REALTIME','DAILY','HISTOGRAM']},
-    'engine':{'title':"<?php echo _('Engine'); ?>", 'type':"select", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE','PHPTIMESTORE']},
+    'engine':{'title':"<?php echo _('Engine'); ?>", 'type':"select", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE','PHPTIMESTORE','PHPFINA']},
     'public':{'title':"<?php echo _('Public'); ?>", 'tooltip': "<?php echo _('Make feed public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock"},
     'size':{'title':"<?php echo _('Size'); ?>", 'type':"fixed"},    
     'time':{'title':"<?php echo _('Updated'); ?>", 'type':"updated"},

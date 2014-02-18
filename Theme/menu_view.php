@@ -35,9 +35,7 @@
       }
     }
     ?>
-<style>
-    #mainnav li:first-child a { padding-left: 0px; }
-</style>
+  </ul>
 
    <?php
   //dropdown menu items
