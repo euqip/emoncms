@@ -57,27 +57,31 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
         <?php if ($enable_rememberme) { ?><label class="checkbox text-muted"><input type="checkbox" tabindex="5" id="rememberme" value="1" name="rememberme"><?php echo '&nbsp;'._('Remember me'); ?></label><br /><?php } ?>
         <button id="login" class="btn btn-primary" tabindex="6" type="button"><?php echo _('Login'); ?></button> 
         <?php if ($allowusersregister) { echo '&nbsp;'._('or').'&nbsp' ?><a id="register-link"  href="#"><?php echo _('register'); ?></a><?php } ?>
+        <?php echo '&nbsp;'._('or').'&nbsp' ?> 
+        <a id="passwordreset-link" href="#" ><?php echo _("Forgotten password")?></a>
       </p>
 
       <p class="register-item" style="display:none">
         <button id="register" class="btn btn-primary" type="button"><?php echo _('Register'); ?></button> <?php echo '&nbsp;'._('or').'&nbsp' ?> 
         <a id="cancel-link" href="#"><?php echo _('cancel'); ?></a>
       </p>
-            <p><a id="passwordreset-link" href="#" >_(Forgotten password)</a></p>
             
-            <div id="passwordreset-block" style="display:none">
-                <hr>
-                <div id="passwordreset-message"></div>
-                <div id="passwordreset-input">
-                <p style="color:#888; font-size:12px">_(Enter account name:)</p>
-                <input id="passwordreset-username" type="text" /><br>
-                <p style="color:#888; font-size:12px">_(Enter account email address:)</p>
-                <input id="passwordreset-email" type="text" /><br>
-                <button id="passwordreset-submit" class="btn">_(Submit)</button>
-                </div>
-
+      <div id="passwordreset-block" style="display:none">
+        <hr>
+        <div id="passwordreset-message"></div>
+          <div id="passwordreset-input">
+            <div class ="form-group" tabindex="5">
+              <label for="passwordreset-username" class="text-muted"><?php echo _('Enter account name:'); ?></label>
+              <input type="text" class="form-control" id="passwordreset-username" placeholder="<?php echo _('Enter your account name'); ?>" />
             </div>
+            <div class ="form-group register-item" tabindex="6">
+              <label for="passwordreset-email" class="text-muted"><?php echo _('Email:'); ?></label>
+              <input type="email" class="form-control" id="passwordreset-email" placeholder="<?php echo _('Enter your Email address'); ?>" />
+            </div>
+            <button id="passwordreset-submit" class="btn"><?php echo _("Submit")?></button>
         </div>
+      </div>
+  </div>
 
     </div>
 
@@ -103,7 +107,7 @@ $("#passwordreset-submit").click(function(){
     var email = $("#passwordreset-email").val();
     
     if (email=="" || username=="") {
-        alert("Please enter username and email address");
+        alert('<?php echo _("Please enter username and email address") ?>');
     } else {
         var result = user.passwordreset(username,email);
         if (result.success==true) {

@@ -128,3 +128,7 @@ login block flags size style
   width:16px;
   height:16px;  
 }
+
+#login-form .well{
+  width:  500px;
+}
