@@ -41,6 +41,7 @@
   //dropdown menu items
 
   if (count($menu_dropdown) && $session['read']) { ?>
+    <ul class="nav navbar-nav">
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras <b class="caret"></b></a>
         <ul class="dropdown-menu">
@@ -52,6 +53,7 @@
         </ul>
     </li>
     <?php } ?>
+  </ul>
 
 
 
