@@ -72,6 +72,7 @@ table.groupby = 'tag';
       } else if (table.data[z].size>=1024*1024) {
         table.data[z].size = Math.round(table.data[z].size/(1024*1024))+"Mb";
       }
+
     }
     table.draw();
     if (table.data.length != 0) {

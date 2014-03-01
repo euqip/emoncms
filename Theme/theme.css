@@ -132,3 +132,7 @@ login block flags size style
 #login-form .well{
   width:  500px;
 }
+
+.emon-version{
+  color:#999;
+}

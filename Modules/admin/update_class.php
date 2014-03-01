@@ -64,6 +64,8 @@ class Update
 
         $operations = array();
         $result = $this->mysqli->query("SELECT userid,id,processList,time,record FROM input");
+        //record field does not exist in table (to be checked)
+        //$result = $this->mysqli->query("SELECT userid,id,processList,time FROM input");
         while ($row = $result->fetch_object())
         {
             if ($row->processList)

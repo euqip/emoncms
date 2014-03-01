@@ -17,6 +17,17 @@ var feed = {
     return result;
   },
   
+  'list_assoc':function()
+  {
+    var result = {};
+    $.ajax({ url: path+"feed/list.json", dataType: 'json', async: false, success: function(data) {result = data;} });
+    
+    var feeds = {};
+    for (z in result) feeds[result[z].id] = result[z];
+    
+    return feeds;
+  },
+  
   'list_by_id':function()
   {
     var feeds = {};
@@ -60,12 +71,12 @@ var feed = {
     return feedIn;
   },
   
-  'get_timestore_average':function(feedid,start,end,interval)
+  'get_average':function(feedid,start,end,interval)
   {
     var feedIn = [];
     var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
     $.ajax({                                      
-      url: path+'feed/timestoreaverage.json',                         
+      url: path+'feed/average.json',                         
       data: apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&interval="+interval,
       dataType: 'json',
       async: false,                      

@@ -10,13 +10,16 @@
   http://openenergymonitor.org
   */
 
-  global $path;
+  global $path,$emoncms_version;
 ?>
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!--
+        <script type="text/javascript" src="<?php echo $path; ?>Lib/jquery-1.9.1.min.js"></script>
+-->
         <script type="text/javascript" src="<?php echo $path; ?>Lib/jquery-1.11.0.js"></script>
         <link href="<?php echo $path; ?>Lib/bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="<?php echo $path; ?>Lib//bootstrap-dialog/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
@@ -90,6 +93,7 @@
             <span class="text-left">
               <?php echo _('Powered by '); ?>
               <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a> 
+              <span class="emon-version"> | v<?php echo $emoncms_version; ?></span>
             </span>
             <span>
                 ---  
@@ -97,7 +101,6 @@
             <span class="text-right">
               <a href="http://glyphicons.com/" target = "_blank"><?php echo _('With Glyphicons support');?></a>
             </span>
-
         </div>
 
         <script src="<?php echo $path; ?>Lib/bootstrap/js/bootstrap.js"></script>
