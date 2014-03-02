@@ -92,6 +92,12 @@ table.groupby = 'tag';
   $("#table").bind("onEdit", function(e){
     clearInterval(updater);
   });
+    $("#table").bind("onDelete", function(e,id,row){
+        clearInterval(updater);
+        $('#myModal').modal('show');
+        $('#myModal').attr('feedid',id);
+        $('#myModal').attr('feedrow',row);
+    });
 
   $("#table").bind("onSave", function(e,id,fields_to_update){
     feed.set(id,fields_to_update); 
@@ -131,6 +137,11 @@ table.groupby = 'tag';
                 dialog.close();
             }
         }]
+        /*
+        $('#myModal').modal('hide');
+        updater = setInterval(update, 5000);
+    });
+        */
 
     });
   });
