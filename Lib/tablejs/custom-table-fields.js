@@ -173,7 +173,8 @@ var customtablefields = {
         {
           var fld=table.fields[field];
           var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
-          return "<span class='"+fld.icon+"' type='icon' row='"+row+"' title='"+tooltip+"'></span>";
+          var icon = '';if (fld.icon) icon = fld.icon
+          return "<a href='#' title='"+tooltip+"' class='"+field+"'  row='"+row+"' uid='"+table.data[row]['id']+"'><span class='"+icon+"' ></span></a>" 
         }
     }
 }

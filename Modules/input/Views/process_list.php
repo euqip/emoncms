@@ -12,14 +12,11 @@
 global $path, $session;
 
 ?>
-<<<<<<< HEAD
-=======
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/processlist.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/process_info.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
->>>>>>> 891a0b5bfd6a14ec3af6ff0d492a6f29fa9379b9
 <br>
 
 <div style="font-size:30px; padding-bottom:20px; padding-top:18px"><b><span id="inputname"></span></b> config</div>

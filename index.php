@@ -118,7 +118,7 @@
     }
     }
 
-    $mysqli->close();
+    // $mysqli->close();
 
     // 7) Output
     if ($route->format == 'json')
