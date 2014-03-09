@@ -22,8 +22,10 @@
 -->
         <script type="text/javascript" src="<?php echo $path; ?>Lib/jquery-1.11.0.js"></script>
         <link href="<?php echo $path; ?>Lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <!--
         <link href="<?php echo $path; ?>Lib//bootstrap-dialog/css/bootstrap-dialog.css" rel="stylesheet" type="text/css" />
         <script src="<?php echo $path; ?>Lib//bootstrap-dialog/js/bootstrap-dialog.js"></script>
+      -->
 
         <!-- Thanks to Baptiste Gaultier for the emoncms dial icon http://bit.ly/zXgScz -->
         <link rel="shortcut icon" href="<?php echo $path; ?>Theme/favicon.png" />
