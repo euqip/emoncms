@@ -26,8 +26,28 @@
       <span class="glyphicon glyphicon-plus"></span>
     </button>
   </div>
-
 </div>
+
+<div class="modal fade emoncms-dialog type-danger" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">"<?php echo _('Are you sure you want to delete this dashboard?'); ?>"</h4>
+            </div>
+            <div class="modal-body">
+                <div class="type-danger ">
+                    <div> <?php echo _('WARNING deleting a dashboard is permanent'); ?> </div>
+               </div>
+            </div>           
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
+                <button class="btn" id="confirmdelete"><span class="emoncms-dialog-button-icon glyphicon glyphicon-trash"></span><?php echo _('Delete permanently'); ?></button>
+             </div>
+        </div>
+    </div>
+</div>
+
 
 
 <script>
@@ -81,30 +101,22 @@
   });
 
   $("#table").bind("onDelete", function(e,id,row){
-    BootstrapDialog.show({
-        message: "<?php echo _('WARNING deleting a dashboard is permanent'); ?>",
-        title:"<?php echo _('Are you sure you want to delete this dashboard?'); ?>",
-        type:BootstrapDialog.TYPE_DANGER,
-        closable: false,
-        buttons: [{
-            label: "<?php echo _('Cancel'); ?>",
-            action: function(dialog){
-                dialog.close();
-              }
-        }, {
-            icon: 'glyphicon glyphicon-trash',
-            label: "<?php echo _('Delete permanently'); ?>",
-            cssClass: 'btn-danger',
-            action: function(dialog){
-                dashboard.remove(id); 
-                table.remove(row);
-                update();
-                dialog.close();
-            }
-        }]
+    $('#myModal').modal('show');
+    $('#myModal').attr('dashboardid',id);
+    $('#myModal').attr('fdashboardrow',row);
+    $('#myModal').modal('show')
+    })
 
-    });
-  });
+
+  $('#confirmdelete').click(function(e){
+    var id = $('#myModal').attr('dashboardid');
+    var row = $('#myModal').attr('dashboardrow');
+    dashboard.remove(id); 
+    table.remove(row);
+    update();
+
+    $('#myModal').modal('hide');
+  })  
 
   $("#adddashboardtop").click(function(){
     $.ajax({type: 'POST',
