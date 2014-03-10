@@ -83,20 +83,22 @@ $variableid = $_GET['variable'];
 
 
                     <select id="feed-interval" style="width:130px">
-                        <option value="">Select interval</option>
-                        <option value=5>5s</option>
-                        <option value=10>10s</option>
-                        <option value=15>15s</option>
-                        <option value=20>20s</option>
-                        <option value=30>30s</option>
-                        <option value=60>60s</option>
-                        <option value=120>2 mins</option>
-                        <option value=300>5 mins</option>
-                        <option value=600>10 mins</option>
-                        <option value=1200>20 mins</option>
-                        <option value=1800>30 mins</option>
-                        <option value=3600>1 hour</option>
-                    </select>
+                        <option value=5>5<?php echo _('s'); ?></option>
+                        <option value=10>10<?php echo _('s'); ?></option>
+                        <option value=30>30<?php echo _('s'); ?></option>
+                        <option value=60>1<?php echo _('min'); ?></option>
+                        <option value=300>5 <?php echo _('mins'); ?></option>
+                        <option value=600>10 <?php echo _('mins'); ?></option>
+                        <option value=900>15 <?php echo _('mins'); ?></option>
+                        <option value=1800>30 <?php echo _('mins'); ?></option>
+                        <option value=3600>1 <?php echo _('hour'); ?></option>
+                        <option value=21600>6 <?php echo _('hours'); ?></option>
+                        <option value=43200>12 <?php echo _('hours'); ?></option>
+                        <option selected value=86400><?php echo _('Daily'); ?></option>
+                        <option value=604800><?php echo _('Weekly'); ?></option>
+                        <option value=2678400><?php echo _('Monthly'); ?></option>
+                        <option value=31536000><?php echo _('Annual'); ?></option>
+                       </select>
                     
                 </span>
                 <button id="process-add" class="btn btn-info"/><?php echo _('Add'); ?></button>

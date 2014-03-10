@@ -1,5 +1,6 @@
 <?php 
-  global $path; 
+  global $path, $session; 
+  $modulename = _('Nodes');
 ?>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/node/node.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/node/processlist.js"></script>
@@ -7,159 +8,163 @@
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/process_info.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
 
-<style>
 
-input[type=text][class=variable-name-edit] {
-  margin-bottom:0px;
-}
+<div class="container">
+        <div id="localheading">
+          <h2><?php echo _($modulename); ?>
+            <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _($modulename.' API Help'); ?>"></span></small></a>
+          </h2>    
+          <p><?php echo _('This is an alternative entry point to "INPUTS" designed around providing flexible decoding of RF12b struct based data packets.') ?></p>
+        </div>
 
-body .modal {
-    /* new custom width */
-    width: 1080px;
-    /* must be half of the width, minus scrollbar on the left (30px) */
-    margin-left: -540px;
-    
-
-}
-
-.modal-body {
-    max-height: 800px;
-}
-
-</style>
-
-<br>
-<div id="apihelphead"><div style="float:right;"><a href="api"><?php echo _('Node API Help'); ?></a></div></div>
-<h2>Nodes</h2>
-<p>This is an alternative entry point to 'inputs' designed around providing flexible decoding of RF12b struct based data packets</p>
-<br>
-
-<table class="table">
-
-<tbody id="nodes"></tbody>
-</table>
-
-<div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close modal-exit">×</button>
-    <br><h3 id="myModalLabel"><b>Node <span id="myModal-nodeid"></span>: <span id="myModal-variablename"></span></b> config:</h3>
-  </div>
-
-  <div class="modal-body">
-  
-    <p><?php echo _('Input processes are executed sequentially with the result being passed back for further processing by the next processor in the input processing list.'); ?></p>
-
-    <div id="processlist-ui">
-        <table id="process-table" class="table">
-
-            <tr>
-                <th style='width:5%;'></th>
-                <th style='width:5%;'><?php echo _('Order'); ?></th>
-                <th><?php echo _('Process'); ?></th>
-                <th><?php echo _('Arg'); ?></th>
-                <th></th>
-                <th><?php echo _('Actions'); ?></th>
-            </tr>
-
-            <tbody id="variableprocesslist"></tbody>
-
+        <table class="table">
+        <tbody id="nodes"></tbody>
         </table>
 
-        <table id="process-table" class="table">
-        <tr><th>Add process:</th><tr>
-        <tr>
-            <td>
-                <div class="input-prepend input-append">
-                    <select id="process-select"></select>
-
-                    <span id="type-value">
-                        <input type="text" id="value-input" style="width:125px" />
-                    </span>
-
-                    <span id="type-input">
-                        <select id="input-select" style="width:140px;"></select>
-                    </span>
-
-                    <span id="type-feed">        
-                        <select id="feed-select" style="width:140px;"></select>
-                        
-                        <input type="text" id="feed-name" style="width:150px;" placeholder="Feed name..." />
-
-                        <span class="add-on feed-engine-label">Feed engine: </span>
-                        <select id="feed-engine">
-
-                        <!--<optgroup label="Recommended">-->
-                        <option value=6 selected>Fixed Interval With Averaging</option>
-                        <option value=5 >Fixed Interval No Averaging</option>
-                        <option value=2 >Variable Interval No Averaging</option>
-                        <!--</optgroup>-->
-
-                        <!--<optgroup label="Other">
-                        <option value=4 >PHPTIMESTORE (Port of timestore to PHP)</option>  
-                        <option value=1 >TIMESTORE (Requires installation of timestore)</option>
-                        <option value=3 >GRAPHITE (Requires installation of graphite)</option>
-                        <option value=0 >MYSQL (Slow when there is a lot of data)</option>
-                        </optgroup>-->
-
-                        </select>
-
-
-                        <select id="feed-interval" style="width:130px">
-                            <option value="">Select interval</option>
-                            <option value=5>5s</option>
-                            <option value=10>10s</option>
-                            <option value=15>15s</option>
-                            <option value=20>20s</option>
-                            <option value=30>30s</option>
-                            <option value=60>60s</option>
-                            <option value=120>2 mins</option>
-                            <option value=300>5 mins</option>
-                            <option value=600>10 mins</option>
-                            <option value=1200>20 mins</option>
-                            <option value=1800>30 mins</option>
-                            <option value=3600>1 hour</option>
-                        </select>
-                        
-                    </span>
-                    <button id="process-add" class="btn btn-info"/><?php echo _('Add'); ?></button>
-                </div>
-            </td>
-        </tr>
-        <tr>
-          <td id="description"></td>
-        </tr>
-        </table>
-    </div>
-
-  
-  </div>
-
-  <div class="modal-footer">
-    <button class="btn btn-primary modal-exit">Ok</button>
-  </div>
+        <div id="nofeeds" class="alert alert-block hide">
+                <h4 class="alert-heading"><?php echo _('No feeds created'); ?></h4>
+                <p><?php echo _('Feeds are where your monitoring data is stored. The recommended route for creating feeds is to start by creating inputs (see the inputs tab). Once you have inputs you can either log them straight to feeds or if you want you can add various levels of input processing to your inputs to create things like daily average data or to calibrate inputs before storage. You may want to follow the link as a guide for generating your request.'); ?><a href="api"><?php echo _('Feed API helper'); ?></a></p>
+        </div>  
 </div>
+
+
+<div class="modal fade emoncms-dialog type-primary" id="myModal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title"><?php echo _('Node').' ' ?><span id="myModal1-variablename"></span></b> config:</h4>
+             </div>
+            <div class="modal-body">
+                <div>
+                    <span><?php echo _('Selected feed:') ?> </span><b><span id="SelectedExportFeed"></span></b></p>
+                    <p><?php echo _('Select the dates range interval that you wish to export: (From - To)') ?> </p>
+                </div>
+                <div id="modalhtml" class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group"  id="export-start-div">
+                                <div class="input-group date form_datetime" title="<?php echo _('Start Date'); ?>" data-date="" data-date-format="dd MM yyyy hh:ii:ss" data-link-field="export-start" data-link-format="yyyy/mm/dd hh:ii:ss">
+                                    <input class="form-control" size="16" type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <input type="hidden" id="export-start" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="export-end-div">
+                                <div class="input-group date form_datetime" title="<?php echo _('End Date'); ?>" data-date="" data-date-format="dd MM yyyy hh:ii:ss" data-link-field="export-end" data-link-format="yyyy/mm/dd hh:ii:ss">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <input class="form-control" size="16" type="text" value="" readonly>
+                                </div>
+                                <input type="hidden" id="export-end" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p><?php echo _('Select the time interval with time reference that you wish to export:') ?> </p>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group"  title="<?php echo _('Select samples time interval'); ?>" data-link-field="dtp_input3">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <select id="export-interval-list" class="form-control" placeholder="Select interval" >
+                                        <option value=5>5<?php echo _('s'); ?></option>
+                                        <option value=10>10<?php echo _('s'); ?></option>
+                                        <option value=30>30<?php echo _('s'); ?></option>
+                                        <option value=60>1<?php echo _('min'); ?></option>
+                                        <option value=300>5 <?php echo _('mins'); ?></option>
+                                        <option value=600>10 <?php echo _('mins'); ?></option>
+                                        <option value=900>15 <?php echo _('mins'); ?></option>
+                                        <option value=1800>30 <?php echo _('mins'); ?></option>
+                                        <option value=3600>1 <?php echo _('hour'); ?></option>
+                                        <option value=21600>6 <?php echo _('hours'); ?></option>
+                                        <option value=43200>12 <?php echo _('hours'); ?></option>
+                                        <option selected value=86400><?php echo _('Daily'); ?></option>
+                                        <option value=604800><?php echo _('Weekly'); ?></option>
+                                        <option value=2678400><?php echo _('Monthly'); ?></option>
+                                        <option value=31536000><?php echo _('Annual'); ?></option>
+                                    </select>
+                                </div>
+                                <input type="hidden" id="export-interval" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group"  title="<?php echo _('Select Time zone (for day export)'); ?>" data-link-field="dtp_input4">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <select id="export-timezone-list" class="form-control" >
+                                    <?php 
+                                    for ($tt=-12; $tt<=12; $tt++)
+                                        {
+                                            $tt1= substr("0".abs($tt),-2);
+                                            $plus= ($tt<0)?'-':'+';
+                                            //need to select the user timezone!!! for better ergonomy, not present in $session
+                                            //$selected=($tt==0)? 'selected':'';
+                                            echo "<option ".$selected." value=".$tt."> UTC ".$plus.$tt1.":00 </option>";
+                                        } 
+                                    ?>
+                                    </select>
+                                </div>
+                                <input type="hidden" id="export-timezone" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h5><?php echo _('Feed intervals note:') ?></h5>
+                            <p>
+                                <?php echo _('if the selected interval is shorter than the feed interval the feed interval will be used instead.')?>
+                                <?php echo _('Averages are only returned for feed engines with built in averaging.')?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="pull-left"><?php echo _('Estimated download size '); ?> : <span id="downloadsize">0</span>kB</span>
+                <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
+                <button class="btn" id="export"><span class="emoncms-dialog-button-icon glyphicon glyphicon-download"></span><?php echo _('Export'); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='input-prepend input-append'>
+    <label class='add-on'><?php echo _('Name').':' ?></label>
+    <input style='width:150px' class='variable-name-edit' type='text'/ value='"+currentname+"'>
+    <span class='add-on'>Datatype:</span>
+    <select class='variable-datatype-selector' style='width:130px'><option value=1>Integer</option><option value=2>Unsigned long</option></select>
+    <span class='add-on'>Scale:</span>
+    <input class='variable-scale-edit' style='width:60px' type='text' value='"+currentscale+"' / >
+    <span class='add-on'>Units:</span>
+    <select class='variable-units-selector' style='width:60px;'><option value=''></option><option>W</option><option>kW</option><option>Wh</option><option>kWh</option><option>°C</option><option>V</option><option>mV</option><option>A</option><option>mA</option></select>
+    <button class='btn save-variable'>Save</button>
+</div>";
+  
 
 <script>
 
-  var path = "<?php echo $path; ?>";
-  
-  var nodes = node.getall();
-  
-  var decoders = {
-  
+var path = "<?php echo $path; ?>";
+var updateinterval=5000;      
+var nodes = node.getall();
+
+ 
+var decoders = {  
     nodecoder: {
-      name: 'No decoder',
-      variables:[]
-    },
-  
+        name: 'No decoder',
+        variables:[]
+        }, 
+
     lowpowertemperaturenode: {
-      name: 'Low power temperature node',
-      updateinterval: 60,
-      variables: [
-        {name: 'Temperature', type: 1, scale: 0.01, units: '°C' },
-        {name: 'Battery Voltage', type: 1, scale:0.001, units: 'V'}
-      ]
-    },
+        name: 'Low power temperature node',
+        updateinterval: 60,
+        variables: [
+            {name: 'Temperature', type: 1, scale: 0.01, units: '°C' },
+            {name: 'Battery Voltage', type: 1, scale:0.001, units: 'V'}
+            ]
+        },
     
     emonTxV3_RFM12B_DiscreteSampling: {
       name: 'EmonTx V3 RFM12B DiscreteSampling',
@@ -202,16 +207,15 @@ body .modal {
     },
     
     custom: {
-      name: 'Custom decoder',
-      variables:[]
+        name: 'Custom decoder',
+        variables:[]
     },
   };
  
  redraw();
  
- var variable_edit_mode = false;
- 
- var interval = setInterval(update,5000);
+ var variable_edit_mode = false; 
+ var interval = setInterval(update,updateinterval);
  
  function update()
  {
@@ -237,7 +241,7 @@ body .modal {
         {
           var variable = nodes[z].decoder.variables[i];
           
-          out += "<tr style='padding:0px' node="+z+" variable="+i+"><td></td><td class='variable-name'>"+variable.name+" <i class='edit-variable icon-pencil' style='display:none'></i></td>";
+          out += "<tr style='padding:0px' node="+z+" variable="+i+"><td></td><td class='variable-name'>"+variable.name+" <span class='edit-variable glyphicon glyphicon-pencil' style='display:none'></span></td>";
 
           if (variable.type==0)
           {
@@ -282,7 +286,7 @@ body .modal {
           var updateinterval = nodes[z].decoder.updateinterval;
           
           var processliststr = ""; if (variable.processlist!=undefined) processliststr = processlist_ui.drawinline(variable.processlist);
-          out += "</td><td style='text-align:right'>"+processliststr+"<span class='label "+labelcolor+" record' style='cursor:pointer' >Config <i class='icon-wrench icon-white'></i></span></td></tr>";
+          out += "</td><td style='text-align:right'>"+processliststr+"<span class='label "+labelcolor+" record' style='cursor:pointer' >Config <span class='glyphicon glyphicon-wrench glyphicon glyphicon-white'></span></span></td></tr>";
          
         }
       }
@@ -302,8 +306,9 @@ body .modal {
 
   // Show edit
   $("#nodes").on("mouseover",'tr',function() {
-    $(".icon-pencil").hide();
-    if (!variable_edit_mode) $(this).find("td[class=variable-name] > i").show();
+    $(".glyphicon-pencil").hide();
+    //if (!variable_edit_mode) $(this).find("td[class=variable-name] > i").show();
+    if (!variable_edit_mode) $(this).find("td[class=variable-name] > span").show();
   });
   
   // Draw in line editing for a variable when the pencil icon is clicked.
@@ -363,7 +368,7 @@ body .modal {
     
     // Save the decoder
     node.setdecoder(nodeid,nodes[nodeid].decoder);
-    
+
     interval = setInterval(update,5000);
     // redraw, apply new decoder
     redraw();
@@ -390,14 +395,13 @@ body .modal {
     $("#myModal").modal('show');
     $("#myModal").attr('node',nodeid);
     $("#myModal").attr('variable',variableid);
-    
   });
   
   $(".modal-exit").click(function() 
   {
     $("#myModal").modal('hide');
     update();
-    interval = setInterval(update,5000);
+    interval = setInterval(update,updateinterval);
   });
 
   
@@ -453,7 +457,7 @@ body .modal {
       
       $(this).parent().html("<b>"+nodes[nodeid].decoder.name+"</b>");
       $(this).attr('mode','namedisplay');
-      interval = setInterval(update,5000);
+      interval = setInterval(update,updateinterval);
     }
   });
   

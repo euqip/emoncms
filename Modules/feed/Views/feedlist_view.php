@@ -249,7 +249,6 @@
 
     $("#table").bind("onDelete", function(e,id,row){
         clearInterval(updater);
-        $('#myModal').modal('show');
         $('#myModal').attr('feedid',id);
         $('#myModal').attr('feedrow',row);
         $('#myModal').modal('show')
