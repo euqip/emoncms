@@ -48,7 +48,7 @@ $itemname=_('Node');
 
 <div class="addprocess container">
     <div><h2><?php echo _('Add process to '); ?></h2></div>
-    <p><?php echo _('comments :There is no update interface available. just delete process redefine it and adjust position it in the flow.
+    <p><?php echo _('comments : There is no update interface available. just delete process redefine it and adjust position it in the flow.
     '); ?></p>
 
 
@@ -137,7 +137,7 @@ $itemname=_('Node');
         <div class="modal-content">
             <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title">"<?php echo _('Process creation error'); ?>"</h4>
+                  <h4 class="modal-title"><?php echo _('Process creation error'); ?></h4>
             </div>
             <div class="modal-body">
                 <div class="type-danger ">
@@ -148,9 +148,8 @@ $itemname=_('Node');
                </div>
             </div>           
             <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
-                <button class="btn" id="confirmdelete"><span class="emoncms-dialog-button-icon glyphicon glyphicon-trash"></span><?php echo _('Delete Feed'); ?></button>
-             </div>
+                <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('ok'); ?></button>
+              </div>
         </div>
     </div>
 </div>
@@ -167,8 +166,10 @@ var movedown = "<?php echo _("Move Down"); ?>";
 var delprocess = "<?php echo _("Delete"); ?>";
 var createnew = "<?php echo _("CREATE NEW:"); ?>";
 var nodetext = "<?php echo _("Node"); ?>";
+var inputvalue= "<?php echo _("Input value"); ?>";
+var feedvalue= "<?php echo _("Feed Value"); ?>";
 
-
+feedvalue
 
 processlist_ui.inputid = <?php echo $inputid; ?>;
 

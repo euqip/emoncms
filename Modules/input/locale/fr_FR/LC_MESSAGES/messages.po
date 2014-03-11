@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-28 19:07+0100\n"
-"PO-Revision-Date: 2014-01-28 19:09+0100\n"
+"POT-Creation-Date: 2014-03-11 21:08+0100\n"
+"PO-Revision-Date: 2014-03-11 21:09+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -17,9 +17,59 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../input_menu.php:8
+#: ../../../input_menu.php:7
 msgid "Input"
 msgstr "Sources"
+
+#: ../../../input_controller.php:119 ../../../input_controller.php:189
+msgid "NodeID must be a positive integer between 0 and "
+msgstr "NodeID doit être un entier compris entre 0 et"
+
+#: ../../../input_controller.php:119 ../../../input_controller.php:189
+msgid ", nodeid given was out of range"
+msgstr ", nodeid fourni est en dehors des valeurs acceptables"
+
+#: ../../../input_controller.php:129 ../../../input_controller.php:142
+msgid "Format error, time index given is negative"
+msgstr "Erroeur de format, l'indice temps est négatif"
+
+#: ../../../input_controller.php:135
+msgid "Format error, bulk item needs at least 3 values"
+msgstr "Erreur de format, une transmission 'bulk' doit comporter 3 valeurs"
+
+#: ../../../input_controller.php:148
+msgid "Format error, last item in bulk data does not contain any data"
+msgstr "Erreur de format, la dernière valeur 'Bulk' n'a pas de données"
+
+#: ../../../input_controller.php:154
+msgid "Format error, json string supplied is not valid"
+msgstr "Erreur de format, la transmission JSON n'est pas valide"
+
+#: ../../../input_controller.php:159
+msgid "ok"
+msgstr "ok"
+
+#: ../../../input_controller.php:163
+msgid "Error:"
+msgstr "Erreur:"
+
+#: ../../../input_controller.php:217
+msgid "Format error, json key missing or invalid character"
+msgstr ""
+"Erreur de format, la clé JSON est manquante ou contient des caractères non "
+"valides."
+
+#: ../../../input_controller.php:218
+msgid "Format error, json value is not numeric"
+msgstr "Erreur de format, la valeur JSON n'est pas numérique."
+
+#: ../../../input_controller.php:221
+msgid "Format error: csv value is not numeric"
+msgstr "Erreur de format, le contenu CSV n'est pas numérique."
+
+#: ../../../input_controller.php:250
+msgid "Request contains no data via csv, json or data tag"
+msgstr "La demande ne contient pas de données CSV, JSON ou Data Tag."
 
 #: ../../../process_model.php:34
 msgid "Log to feed"
@@ -92,48 +142,48 @@ msgstr "Histogramme"
 msgid "Daily Average"
 msgstr "moyenne jour"
 
-#: ../../../process_model.php:51
+#: ../../../process_model.php:53
 msgid "Heat flux"
 msgstr "flux de chaleur"
 
-#: ../../../process_model.php:52
+#: ../../../process_model.php:56
 #, fuzzy
 msgid "Power gained to kWh/d"
 msgstr "watts vers kWh/j"
 
-#: ../../../process_model.php:53
+#: ../../../process_model.php:59
 msgid "Total pulse count to pulse increment"
 msgstr ""
 
-#: ../../../process_model.php:54
+#: ../../../process_model.php:62
 msgid "kWh to Power"
 msgstr "kWh vers puissance"
 
-#: ../../../process_model.php:55
+#: ../../../process_model.php:64
 msgid "- input"
 msgstr " - source"
 
-#: ../../../process_model.php:56
+#: ../../../process_model.php:65
 msgid "kWh to kWh/d"
 msgstr "kWh vers kWh/j"
 
-#: ../../../process_model.php:57
+#: ../../../process_model.php:66
 msgid "Allow positive"
 msgstr "Positif autorisé"
 
-#: ../../../process_model.php:58
+#: ../../../process_model.php:67
 msgid "Allow negative"
 msgstr "Négatif autorisé"
 
-#: ../../../process_model.php:59
+#: ../../../process_model.php:68
 msgid "Signed to unsigned"
 msgstr ""
 
-#: ../../../process_model.php:60
+#: ../../../process_model.php:69
 msgid "Max value"
 msgstr "valeur Max"
 
-#: ../../../process_model.php:61
+#: ../../../process_model.php:70
 msgid "Min value"
 msgstr "Valeur Min"
 
@@ -154,66 +204,66 @@ msgstr ""
 "connecté, veuillez ajouter votre clé d'API à la fin de l'url : "
 "<b>&apikey=APIKEY</b>."
 
-#: ../../../Views/input_api.php:6
+#: ../../../Views/input_api.php:8
 msgid "Read only:"
 msgstr "Accès en lecture seule : "
 
-#: ../../../Views/input_api.php:9
+#: ../../../Views/input_api.php:14
 msgid "Read & Write:"
 msgstr "Accès en écriture : "
 
-#: ../../../Views/input_api.php:13
+#: ../../../Views/input_api.php:20
 msgid "Available HTML URLs"
 msgstr "Liste des pages HTML pour la configuration"
 
-#: ../../../Views/input_api.php:15
+#: ../../../Views/input_api.php:22
 msgid "The input list view"
 msgstr "Liste des Sources de données"
 
-#: ../../../Views/input_api.php:16
+#: ../../../Views/input_api.php:23
 msgid "This page"
 msgstr "Cette page (documentation de l'API)"
 
-#: ../../../Views/input_api.php:17
+#: ../../../Views/input_api.php:24
 msgid "Input processing configuration page"
 msgstr "Page de configuration des traitements "
 
-#: ../../../Views/input_api.php:20
+#: ../../../Views/input_api.php:27
 msgid "Available JSON commands"
 msgstr "Commandes JSON disponibles"
 
-#: ../../../Views/input_api.php:21
+#: ../../../Views/input_api.php:28
 #, fuzzy
 msgid "To use the json api the request url needs to include <b>.json</b>"
 msgstr ""
 "Si vous souhaitez utiliser l'API json, veuillez ajouter <b>.json</b> à la "
 "fin de l'url"
 
-#: ../../../Views/input_api.php:23
+#: ../../../Views/input_api.php:30
 msgid "Post data"
 msgstr "Données transmises"
 
-#: ../../../Views/input_api.php:25
+#: ../../../Views/input_api.php:32
 msgid "JSON format:"
 msgstr "Format JSON : "
 
-#: ../../../Views/input_api.php:26
+#: ../../../Views/input_api.php:33
 msgid "CSV format:"
 msgstr "Format CSV : "
 
-#: ../../../Views/input_api.php:27
+#: ../../../Views/input_api.php:34
 msgid "Assign inputs to a node group"
 msgstr "Associer la source à un nœud"
 
-#: ../../../Views/input_api.php:28
+#: ../../../Views/input_api.php:35
 msgid "Set the input entry time manually"
 msgstr "Modifier manuellement l'horodatage des données"
 
-#: ../../../Views/input_api.php:31
+#: ../../../Views/input_api.php:38
 msgid "APIKEY"
 msgstr ""
 
-#: ../../../Views/input_api.php:32
+#: ../../../Views/input_api.php:39
 msgid ""
 "To post data from a remote device you will need to include in the request "
 "url your write apikey. This give your device write access to your emoncms "
@@ -223,7 +273,7 @@ msgstr ""
 "votre clé d'API à la fin de l'url. Cela permet de donner les accès en "
 "écriture à votre périphérique."
 
-#: ../../../Views/input_api.php:34
+#: ../../../Views/input_api.php:41
 msgid ""
 "For example using the first json type request above just add the apikey to "
 "the end like this:"
@@ -231,16 +281,16 @@ msgstr ""
 "Par exemple, pour utiliser l'appel json ci-dessus, il suffit d'ajouter la "
 "clé API comme suit :"
 
-#: ../../../Views/input_api.php:37
+#: ../../../Views/input_api.php:44
 msgid "Bulk data"
 msgstr "Données brutes"
 
-#: ../../../Views/input_api.php:39
+#: ../../../Views/input_api.php:46
 msgid "You can provide data using bulk mode"
 msgstr ""
 "Vous pouvez transmettre vos données de manière brute avec un appel global"
 
-#: ../../../Views/input_api.php:42
+#: ../../../Views/input_api.php:49
 msgid ""
 "The first number of each node is the time offset, so for the first node it "
 "is 0 which means the packet for the first node arrived at 0 seconds. The "
@@ -250,7 +300,7 @@ msgstr ""
 "Dans cet exemple : le paquet pour le premier nœud est arrivé à 0 seconde. Le "
 "second nœud est arrivé à 2 secondes et le 3ème à 10 secondes."
 
-#: ../../../Views/input_api.php:43
+#: ../../../Views/input_api.php:50
 msgid ""
 "The second number is the node id, this is the unique identifer for the "
 "wireless node."
@@ -258,7 +308,7 @@ msgstr ""
 "Le second nombre est l'identifiant du noeud, c'est l'identifiant unique du "
 "capteur sans-fils."
 
-#: ../../../Views/input_api.php:44
+#: ../../../Views/input_api.php:51
 msgid ""
 "All the numbers after the first two are data values. The first node here "
 "(node 10) has three data values: 250,100 and 20."
@@ -267,55 +317,55 @@ msgstr ""
 "mesure à enregistrer. Par exemple, ici le nœud 10 contient 3 valeurs "
 "(250,100 et 20)."
 
-#: ../../../Views/input_api.php:48
+#: ../../../Views/input_api.php:55
 msgid "Input actions"
 msgstr "Liste des sources"
 
-#: ../../../Views/input_api.php:50
+#: ../../../Views/input_api.php:57
 msgid "List of inputs"
 msgstr "Liste des sources de données"
 
-#: ../../../Views/input_api.php:51
+#: ../../../Views/input_api.php:58
 msgid "Delete an input"
 msgstr "Supprimer une source de données"
 
-#: ../../../Views/input_api.php:54
+#: ../../../Views/input_api.php:61
 msgid "Input process actions"
 msgstr "Traitements des données reçues"
 
-#: ../../../Views/input_api.php:56
+#: ../../../Views/input_api.php:63
 msgid "Add an input process"
 msgstr "Ajouter un traitement sur les données"
 
-#: ../../../Views/input_api.php:57
+#: ../../../Views/input_api.php:64
 msgid "List input process list"
 msgstr "Liste des processus de traitement"
 
-#: ../../../Views/input_api.php:58
+#: ../../../Views/input_api.php:65
 msgid "Delete input process"
 msgstr "Supprimer un traitement de données"
 
-#: ../../../Views/input_api.php:59
+#: ../../../Views/input_api.php:66
 msgid "Move input process"
 msgstr "Changer la position d'un traitement dans la liste"
 
-#: ../../../Views/input_api.php:60
+#: ../../../Views/input_api.php:67
 msgid "Reset input process list"
 msgstr "Réinitialiser les processus de traitement"
 
-#: ../../../Views/input_node.php:23 ../../../Views/process_list.php:18
+#: ../../../Views/input_node.php:9 ../../../Views/input_node.php:13
 msgid "Input API Help"
 msgstr "Aide de l'API"
 
-#: ../../../Views/input_node.php:26
+#: ../../../Views/input_node.php:12
 msgid "Inputs"
 msgstr "Sources"
 
-#: ../../../Views/input_node.php:30
+#: ../../../Views/input_node.php:19
 msgid "No inputs created"
 msgstr "Aucune source de données n'est disponible"
 
-#: ../../../Views/input_node.php:31
+#: ../../../Views/input_node.php:20
 msgid ""
 "Inputs is the main entry point for your monitoring device. Configure your "
 "device to post values here, you may want to follow the <a href=\"api\">Input "
@@ -325,51 +375,56 @@ msgstr ""
 "être configurés pour envoyer leurs données ici, veuillez consulter l'<a href="
 "\"api\">Aide de l'API</a> afin de g&eacute;n&eacute;rer votre requ&ecirc;te."
 
-#: ../../../Views/input_node.php:47
+#: ../../../Views/input_node.php:33
 msgid "Node:"
 msgstr "Nœud"
 
-#: ../../../Views/input_node.php:48
+#: ../../../Views/input_node.php:34
 msgid "name"
 msgstr "Nom"
 
-#: ../../../Views/input_node.php:49
+#: ../../../Views/input_node.php:35
 msgid "Description"
 msgstr "Description"
 
-#: ../../../Views/input_node.php:50
+#: ../../../Views/input_node.php:36
 msgid "Process list"
 msgstr "Traitements"
 
-#: ../../../Views/input_node.php:51
+#: ../../../Views/input_node.php:37
 msgid "Last updated"
 msgstr "Dernière MàJ"
 
-#: ../../../Views/input_node.php:52
+#: ../../../Views/input_node.php:38
 msgid "Value"
 msgstr "Valeur"
 
-#: ../../../Views/input_node.php:55
+#: ../../../Views/input_node.php:41
 msgid "Edit"
 msgstr "Editer"
 
-#: ../../../Views/input_node.php:55 ../../../Views/input_node.php:56
+#: ../../../Views/input_node.php:41 ../../../Views/input_node.php:42
 msgid "Save"
 msgstr "Enregistrer"
 
-#: ../../../Views/input_node.php:57
+#: ../../../Views/input_node.php:43
 msgid "Delete row"
 msgstr "Supprimer la ligne"
 
-#: ../../../Views/input_node.php:58
+#: ../../../Views/input_node.php:44
 msgid "Edit Process"
 msgstr "Les acctions"
 
-#: ../../../Views/process_list.php:20
-msgid "Input configuration:   "
-msgstr "Définition des traitements sur vos données n°"
+#: ../../../Views/process_list.php:14 ../../../Views/process_list.php:169
+#, fuzzy
+msgid "Node"
+msgstr "Nœud"
 
-#: ../../../Views/process_list.php:21
+#: ../../../Views/process_list.php:23
+msgid "Config"
+msgstr "Configuration"
+
+#: ../../../Views/process_list.php:24
 msgid ""
 "Input processes are executed sequentially with the result being passed back "
 "for further processing by the next processor in the input processing list."
@@ -377,65 +432,187 @@ msgstr ""
 "Les processus de traitement de données sont exécutés séquentiellement. Le "
 "résultat de chaque étape est passé en entrée de l'étape suivante."
 
-#: ../../../Views/process_list.php:23
-msgid "Feed intervals:"
-msgstr "Intervalle de Flux:"
-
-#: ../../../Views/process_list.php:25
-msgid ""
-"When selecting the feed interval select an interval that is the same as, or "
-"longer than the update rate that is set in your monitoring equipment. "
-"Setting the interval rate to be shorter than the update rate of the "
-"equipment causes un-needed disk space to be used up."
-msgstr ""
-"Lorsqu'on sélectionne un intervalle pour un flux, sélectionner un intervalle "
-"plus long ou égal à celui de l'équipement de collecte de données. Un "
-"intervalle plus court générera un surplus de données inutiles, et donc de "
-"l'occupation disque inutile"
-
-#: ../../../Views/process_list.php:32
+#: ../../../Views/process_list.php:30
 msgid "Order"
 msgstr "Ordre"
 
-#: ../../../Views/process_list.php:33
+#: ../../../Views/process_list.php:31
 msgid "Process"
 msgstr "Action"
 
-#: ../../../Views/process_list.php:34
+#: ../../../Views/process_list.php:32
 msgid "Arg"
 msgstr "Param&egrave;tre"
 
-#: ../../../Views/process_list.php:35
+#: ../../../Views/process_list.php:34
 msgid "Actions"
 msgstr "Actions"
 
-#: ../../../Views/process_list.php:41
-msgid "New"
-msgstr "Nouveau"
-
-#: ../../../Views/process_list.php:52
-msgid "Add"
-msgstr "Ajouter"
-
-#: ../../../Views/process_list.php:124
-msgid "Move up"
-msgstr "Monter"
-
-#: ../../../Views/process_list.php:128
-msgid "Move down"
-msgstr "Descendre"
-
-#: ../../../Views/process_list.php:136
-msgid "Delete"
-msgstr "Supprimer"
-
-#: ../../../Views/process_list.php:142
+#: ../../../Views/process_list.php:40
 msgid "You have no processes defined"
 msgstr "Vous n'avez aucun processus défini"
 
-#: ../../../Views/process_list.php:169
+#: ../../../Views/process_list.php:50
+#, fuzzy
+msgid "Add process to "
+msgstr "Ajouter un traitement sur les données"
+
+#: ../../../Views/process_list.php:51
+msgid ""
+"comments : There is no update interface available. just delete process "
+"redefine it and adjust position it in the flow.\n"
+"    "
+msgstr ""
+"Remarque : Il n'y a pas d'interface de mise à jour d'un processus.  Il "
+"suffit de le remplacer et le replacer dans la séquence."
+
+#: ../../../Views/process_list.php:74
+msgid "Feed name..."
+msgstr "Nom du flux..."
+
+#: ../../../Views/process_list.php:74
+msgid "Define here your unique feed name"
+msgstr "Definir le nom du unique flux"
+
+#: ../../../Views/process_list.php:77
+msgid "Feed engine selector"
+msgstr "Sélection du processeur de Flux"
+
+#: ../../../Views/process_list.php:79
+msgid "Fixed Interval With Averaging (PHPFIWA)"
+msgstr "PHPFIWA: Intervalle fixe avec moyenne"
+
+#: ../../../Views/process_list.php:80
+msgid "Fixed Interval No Averaging (PHPFINA)"
+msgstr "PHPFINA Intervalle fixe sans moyenne"
+
+#: ../../../Views/process_list.php:81
+msgid "Variable Interval No Averaging (PHPTIMESERIES)"
+msgstr "PHPTIMESERIES Intervalle variable sans moyenne"
+
+#: ../../../Views/process_list.php:84
+msgid "PHPTIMESTORE (Port of timestore to PHP)"
+msgstr "PHPTIMESTORE (Adaptation de timestore à PHP)"
+
+#: ../../../Views/process_list.php:85
+msgid "TIMESTORE (Requires installation of timestore)"
+msgstr "TIMESTORE (Requière l'installation de timestore)"
+
+#: ../../../Views/process_list.php:86
+msgid "GRAPHITE (Requires installation of graphite)"
+msgstr "GRAPHITE (Requière l'installation de graphite)"
+
+#: ../../../Views/process_list.php:87
+msgid "MYSQL (Slow when there is a lot of data)"
+msgstr "MySQL (peut être lent quand il y a beaucoup de données)"
+
+#: ../../../Views/process_list.php:93
+#, fuzzy
+msgid "Feed Inteval selector"
+msgstr "Intervalle de Flux:"
+
+#: ../../../Views/process_list.php:94 ../../../Views/process_list.php:95
+#: ../../../Views/process_list.php:96
+msgid "s"
+msgstr ""
+
+#: ../../../Views/process_list.php:97
+msgid "min"
+msgstr "min"
+
+#: ../../../Views/process_list.php:98 ../../../Views/process_list.php:99
+#: ../../../Views/process_list.php:100 ../../../Views/process_list.php:101
+msgid "mins"
+msgstr "minutes"
+
+#: ../../../Views/process_list.php:102
+msgid "hour"
+msgstr "heure"
+
+#: ../../../Views/process_list.php:103 ../../../Views/process_list.php:104
+msgid "hours"
+msgstr "heures"
+
+#: ../../../Views/process_list.php:105
+msgid "Daily"
+msgstr "Quotidien"
+
+#: ../../../Views/process_list.php:106
+msgid "Weekly"
+msgstr "Hebdomadaire"
+
+#: ../../../Views/process_list.php:107
+msgid "Monthly"
+msgstr "Mensuel"
+
+#: ../../../Views/process_list.php:108
+msgid "Annual"
+msgstr "Annuel"
+
+#: ../../../Views/process_list.php:115
+msgid "Add"
+msgstr "Ajouter"
+
+#: ../../../Views/process_list.php:130
+#, fuzzy
+msgid "Processes informations"
+msgstr "Traitements des données reçues"
+
+#: ../../../Views/process_list.php:140
+msgid "Process creation error"
+msgstr "Error de création du processus"
+
+#: ../../../Views/process_list.php:144
+msgid "WARNING Please enter a feed name"
+msgstr "ATTENTION: il manque le nom du Flux"
+
+#: ../../../Views/process_list.php:145
+msgid "WARNING Feed could not be created,"
+msgstr "Attention, le flux, n'a pu être créé"
+
+#: ../../../Views/process_list.php:151
+msgid "Cancel"
+msgstr "Abandonner"
+
+#: ../../../Views/process_list.php:152
+#, fuzzy
+msgid "Delete Feed"
+msgstr "Supprimer"
+
+#: ../../../Views/process_list.php:165
+#, fuzzy
+msgid "Move Up"
+msgstr "Monter"
+
+#: ../../../Views/process_list.php:166
+#, fuzzy
+msgid "Move Down"
+msgstr "Descendre"
+
+#: ../../../Views/process_list.php:167
+msgid "Delete"
+msgstr "Supprimer"
+
+#: ../../../Views/process_list.php:168
 msgid "CREATE NEW:"
 msgstr "Créer un nouveau :"
+
+#~ msgid "Input configuration:   "
+#~ msgstr "Définition des traitements sur vos données n°"
+
+#~ msgid ""
+#~ "When selecting the feed interval select an interval that is the same as, "
+#~ "or longer than the update rate that is set in your monitoring equipment. "
+#~ "Setting the interval rate to be shorter than the update rate of the "
+#~ "equipment causes un-needed disk space to be used up."
+#~ msgstr ""
+#~ "Lorsqu'on sélectionne un intervalle pour un flux, sélectionner un "
+#~ "intervalle plus long ou égal à celui de l'équipement de collecte de "
+#~ "données. Un intervalle plus court générera un surplus de données "
+#~ "inutiles, et donc de l'occupation disque inutile"
+
+#~ msgid "New"
+#~ msgstr "Nouveau"
 
 #~ msgid "pulse difference"
 #~ msgstr "différence impulsion"

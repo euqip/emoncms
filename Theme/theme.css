@@ -147,6 +147,10 @@ login block flags size style
   cursor:pointer;
 }
 
+.inputvalue{
+  color:#888;
+  font-size:12px
+}
 
 .emoncms-dialog .modal-header {
     border-top-left-radius: 4px;

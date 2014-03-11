@@ -104,7 +104,7 @@ var processlist_ui =
                     var inpid = this.variableprocesslist[z][1];
                     arg += nodetext+this.inputlist[inpid].nodeid+": ";
                     if (this.inputlist[inpid].description!="") arg += this.inputlist[inpid].description; else arg += this.inputlist[inpid].name;
-                    lastvalue = "<span style='color:#888; font-size:12px'>(inputvalue:"+(this.inputlist[inpid].value*1).toFixed(2)+")</span>";
+                    lastvalue = "<span class= 'inputvalue'>("+inputvalue+" : "+(this.inputlist[inpid].value*1).toFixed(2)+")</span>";
                 }
                 
                 if (this.processlist[processid][1]==2) {
@@ -115,7 +115,7 @@ var processlist_ui =
                         if (processlist_ui.feedlist[feedid].tag) arg += processlist_ui.feedlist[feedid].tag+": ";
                         arg += processlist_ui.feedlist[feedid].name;
                         arg += "</a>";
-                        lastvalue = "<span style='color:#888; font-size:12px'>(feedvalue:"+(processlist_ui.feedlist[feedid].value*1).toFixed(2)+")</span>";
+                        lastvalue = "<span class= 'inputvalue'>("+feedvalue+" : "+(processlist_ui.feedlist[feedid].value*1).toFixed(2)+")</span>";
                     } else {
                       // delete feed
                     }
