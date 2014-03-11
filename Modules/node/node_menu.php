@@ -5,6 +5,6 @@
   //bind_textdomain_codeset($domain, 'UTF-8');
   bindtextdomain($domain, dirname(__FILE__)."/locale");
 
-  $menu_left[] = array('name'=> dgettext($domain, "Node"), 'path'=>"node/list" , 'session'=>"write", 'order' => 0 );
+  $menu_dropdown[] = array('name'=> dgettext($domain, "Node"), 'path'=>"node/list" , 'session'=>"write", 'order' => 0 );
 
 ?>

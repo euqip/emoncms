@@ -18,16 +18,22 @@
 
 <h2><?php echo _("Feed API");?></h2>
 
-<h3><?php echo _("Apikey authentication");?></h3>
-<p><?php echo _("If you want to call any of the following action's when your not logged in, add an apikey to the URL of your request: &apikey=APIKEY.");?></p>
-<p><b><?php echo _("Read only:");?></b><br>
-<input type="text" style="width:230px" readonly="readonly" value="<?php echo $user->get_apikey_read($session['userid']); ?>" />
-</p>
-
-<p><b><?php echo _("Read & Write:");?></b><br>
-<input type="text" style="width:230px" readonly="readonly" value="<?php echo $user->get_apikey_write($session['userid']); ?>" />
-</p>
-
+<h3><?php echo _('Apikey authentication'); ?></h3>
+<p><?php echo _('If you want to call any of the following actions when your not logged in, add an apikey to the URL of your request: &apikey=APIKEY.'); ?></p>
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="readonlyapi" class="col-sm-4 control-label"><b><?php echo _('Read only:'); ?></b></label>
+    <div class="col-sm-4">
+      <p type="text" class="form-control" id="readonlyapi"><?php echo $user->get_apikey_read($session['userid']); ?></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="writeyapi" class="col-sm-4 control-label"><b><?php echo _('Read & Write:'); ?></b></label>
+    <div class="col-sm-4">
+      <p type="text" class="form-control" id="writeyapi"><?php echo $user->get_apikey_write($session['userid']); ?><p/>
+    </div>
+  </div>
+</form>
 <h3><?php echo _("Html");?></h3>
 <p><a href="<?php echo $path; ?>feed/list"><?php echo $path; ?>feed/list</a> - <?php echo _("The feed list view");?></p>
 <p><a href="<?php echo $path; ?>feed/api"><?php echo $path; ?>feed/api</a> - <?php echo _("This page");?></p>
