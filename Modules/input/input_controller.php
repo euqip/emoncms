@@ -116,7 +116,7 @@ function input_controller()
                                         {
 
                                             $valid = false;
-                                            $error = "NodeID must be a positive integer between 0 and ".$max_node_id_limit.", nodeid given was out of range";
+                                            $error = _("NodeID must be a positive integer between 0 and ").$max_node_id_limit._(", nodeid given was out of range");
                                         }
                                     }
 
@@ -126,41 +126,41 @@ function input_controller()
                                 else
                                 {
                                     $valid = false;
-                                    $error = "Format error, time index given is negative";
+                                    $error = _("Format error, time index given is negative");
                                 }
                             }
                             else
                             {
                                 $valid = false;
-                                $error = "Format error, bulk item needs at least 3 values";
+                                $error = _("Format error, bulk item needs at least 3 values");
                             }
                         }
                     }
                     else
                     {
                         $valid = false;
-                        $error = "Format error, time index given is negative";
+                        $error = _("Format error, time index given is negative");
                     }
                 }
                 else
                 {
                     $valid = false;
-                    $error = "Format error, last item in bulk data does not contain any data";
+                    $error = _("Format error, last item in bulk data does not contain any data");
                 }
             }
             else
             {
                 $valid = false;
-                $error = "Format error, json string supplied is not valid";
+                $error = _("Format error, json string supplied is not valid");
             }
 
             if ($valid)
             {
-                $result = 'ok';
+                $result = _('ok');
             }
             else
             {
-                $result = "Error: $error\n";
+                $result = _("Error:").$error."\n";
             }
         }
 
@@ -170,23 +170,23 @@ function input_controller()
         if ($route->action == 'post')
         {
             $valid = true; $error = "";
-
             $nodeid = get('node');
-
+            // in old version the node id is not defined so use a default 0
+            if($nodeid==""){
+                $nodeid=0;
+            }
             $error = " old".$max_node_id_limit;
-
+            //$error .="Nodeid : ".$nodeid." \n";
             if (!isset($max_node_id_limit))
             {
                 $max_node_id_limit = 32;
             }
 
             $error .= " new".$max_node_id_limit;
-
             if (!$input->check_node_id_valid($nodeid))
             {
-
                 $valid = false;
-                $error = "NodeID must be a positive integer between 0 and ".$max_node_id_limit.", nodeid given was out of range";
+                $error .= _("NodeID must be a positive integer between 0 and ").$max_node_id_limit._(", nodeid given was out of range");
             }
             if (!$valid)
             {
@@ -194,11 +194,8 @@ function input_controller()
             }
 
             $nodeid = (int) $nodeid;
-
             if (isset($_GET['time'])) $time = (int) $_GET['time']; else $time = time();
-
             $data = array();
-
             $datain = false;
             // code below processes input regardless of json or csv type
             if (isset($_GET['json'])) $datain = get('json');
@@ -217,11 +214,11 @@ function input_controller()
                     $keyvalue = explode(':', $datapairs[$i]);
 
                     if (isset($keyvalue[1])) {
-                        if ($keyvalue[0]=='') {$valid = false; $error = "Format error, json key missing or invalid character"; }
-                        if (!is_numeric($keyvalue[1])) {$valid = false; $error = "Format error, json value is not numeric"; }
+                        if ($keyvalue[0]=='') {$valid = false; $error = _("Format error, json key missing or invalid character"); }
+                        if (!is_numeric($keyvalue[1])) {$valid = false; $error = _("Format error, json value is not numeric"); }
                         $data[$keyvalue[0]] = (float) $keyvalue[1];
                     } else {
-                        if (!is_numeric($keyvalue[0])) {$valid = false; $error = "Format error: csv value is not numeric"; }
+                        if (!is_numeric($keyvalue[0])) {$valid = false; $error = _("Format error: csv value is not numeric"); }
                         $data[$csvi+1] = (float) $keyvalue[0];
                         $csvi ++;
                     }
@@ -250,7 +247,7 @@ function input_controller()
             }
             else
             {
-                $valid = false; $error = "Request contains no data via csv, json or data tag";
+                $valid = false; $error = _("Request contains no data via csv, json or data tag");
             }
 
             if ($valid)
