@@ -48,7 +48,7 @@ var processlist_ui =
         $("#input-select").html(out);
 
         // Feedlist
-        var out = "<option value=-1>CREATE NEW:</option>";
+        var out = "<option value=-1>"+createnew+"</option>";
         for (i in processlist_ui.feedlist) {
           var feed = processlist_ui.feedlist[i];
           out += "<option value="+feed.id+">"+feed.name+"</option>";
@@ -71,7 +71,8 @@ var processlist_ui =
         var out="";
         
         if (this.variableprocesslist.length==0) {
-            out += "<tr class='alert'><td></td><td></td><td><b>You have no processes defined</b></td><td></td><td></td><td></td></tr>";
+            $("#no-process").show();
+            $("#alertmsg").show();
         } else {
         
             for (z in this.variableprocesslist)
@@ -82,11 +83,11 @@ var processlist_ui =
                 // Move process up or down
                 out += '<td>';
                 if (i > 0) {
-                    out += '<a class="move-process" href="#" title="Move up" processid='+i+' moveby=-1 ><i class="icon-arrow-up"></i></a>';
+                    out += '<a class="move-process" href="#" title="'+movedown+'" processid='+i+' moveby=-1 ><span class="glyphicon glyphicon-arrow-up"></span></a>';
                 }
 
                 if (i < this.variableprocesslist.length-1) {
-                    out += '<a class="move-process" href="#" title="Move up" processid='+i+' moveby=1 ><i class="icon-arrow-down"></i></a>';
+                    out += '<a class="move-process" href="#" title="'+moveup+'" processid='+i+' moveby=1 ><span class="glyphicon glyphicon-arrow-down"></span></a>';
                 }
                 out += '</td>';
 
@@ -101,7 +102,7 @@ var processlist_ui =
                 
                 if (this.processlist[processid][1]==1) {
                     var inpid = this.variableprocesslist[z][1];
-                    arg += "Node "+this.inputlist[inpid].nodeid+": ";
+                    arg += nodetext+this.inputlist[inpid].nodeid+": ";
                     if (this.inputlist[inpid].description!="") arg += this.inputlist[inpid].description; else arg += this.inputlist[inpid].name;
                     lastvalue = "<span style='color:#888; font-size:12px'>(inputvalue:"+(this.inputlist[inpid].value*1).toFixed(2)+")</span>";
                 }
@@ -123,7 +124,7 @@ var processlist_ui =
                 out += "<td>"+(i+1)+"</td><td>"+this.processlist[processid][0]+"</td><td>"+arg+"</td><td>"+lastvalue+"</td>";
          
                 // Delete process button (icon)
-                out += '<td><a href="#" class="delete-process" title="Delete" processid='+i+'><i class="icon-trash"></i></a></td>';
+                out += '<td><a href="#" class="delete-process" title="'+delprocess+'" processid='+i+'><span class="glyphicon glyphicon-trash"></span></a></td>';
 
                 out += '</tr>';
                 
@@ -147,6 +148,7 @@ var processlist_ui =
             var processid = $('#process-select').val();
             var process = processlist_ui.processlist[processid];
             var arg = '';
+            event.preventDefault();
             
             // Type: value (scale, offset)
             if (process[1]==0) arg = $("#value-input").val();
@@ -173,7 +175,10 @@ var processlist_ui =
                     }
                     
                     if (feedname == '') {
-                        alert('ERROR: Please enter a feed name');
+                        //alert('ERROR: Please enter a feed name');
+                        $("#err_creation").hide();
+                        $("#err_feedname").show();
+                        $('#ErrModal').modal('show');
                         return false;
                     }
                     
@@ -181,7 +186,12 @@ var processlist_ui =
                     feedid = result.feedid;
                 
                     if (!result.success || feedid<1) {
-                        alert('ERROR: Feed could not be created, '+result.message);
+                        //alert('ERROR: Feed could not be created, '+result.message);
+                        $("#resultmsg").val(result.message);
+                        $("#err_creation").show();
+                        $("#err_feedname").hide();
+                        $('#ErrModal').modal('show');
+
                         return false;
                     }
                     
