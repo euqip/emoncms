@@ -63,6 +63,8 @@
             <div id="topspacer"></div>
             <!-- test text -->
 
+            <div class="content-block">
+
           <?php if (isset($submenu) && ($submenu)) { ?>  
             <div id="submenu">
                 <div class="container">
@@ -75,7 +77,6 @@
             if (!isset($fullwidth)) $fullwidth = false;
             if (!$fullwidth) {
           ?>
-            <div class="content-block">
               <div class="container">
                   <?php echo $content; ?>
               </div>
