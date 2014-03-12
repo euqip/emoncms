@@ -163,7 +163,8 @@ var customtablefields = {
           var fld=table.fields[field];
           var icon = 'glyphicon glyphicon-eye-open'; if (fld.icon) icon = fld.icon;
           var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
-          return "<a href='"+fld.link+table.data[row]['id']+"' title='"+tooltip+"' ><span class='"+icon+"' ></span></a>" 
+          var colwidth = ''; if (fld.colwidth) colwidth = fld.colwidth
+          return "<a href='"+fld.link+table.data[row]['id']+"' title='"+tooltip+"' "+colwidth+" ><span class='"+icon+"' ></span></a>" 
         }
     },
 

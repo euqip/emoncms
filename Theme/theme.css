@@ -18,13 +18,13 @@ input[type="color"],
 .uneditable-input {
 	margin-bottom:2px;
 }
-          #wrap {
-            min-height: 100%;
-            height: auto !important;
-            height: 100%;
-            /* Negative indent footer by it's height */
-            margin: 0 auto -40px;
-          }
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /* Negative indent footer by it's height */
+    margin: 0 auto -40px;
+}
 
  #push,
 #footer {
@@ -32,6 +32,9 @@ height: 30px;
 }
 .navbar-brand{
   padding: 11px;
+}
+.navbar-nav.navbar-right:last-child{
+  margin-right: 0px;
 }
 .content-block {
   margin-top: 60px; 
@@ -41,25 +44,22 @@ h2{
   margin-top: 1px;
 }
 #footer {
-background-color: #f5f5f5;
-
-text-align: center;
-font-size: 13px;
-font-weight: bold;
-
-padding-top:10px;
+    background-color: #f5f5f5;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    padding-top:10px;
 }
 
 #footer a {
-color: #77b4d9;
-text-decoration: none;
+    color: #77b4d9;
+    text-decoration: none;
 }
 .alert-block{
-  background-color: #EABBA5;
-  opacity:1;
-  border-radius: 10px;
-  padding:10px;
-
+    background-color: #EABBA5;
+    opacity:1;
+    border-radius: 10px;
+    padding:10px;
 }
 
 
@@ -78,17 +78,17 @@ text-decoration: none;
     float: left;
 }
 .container {
-  width:inherit;
-padding-right: 15px;
-padding-left: 15px;
-margin-right: 0px;
-margin-left: 0px;
+    width:inherit;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: 0px;
+    margin-left: 0px;
 }
 
 #submenu {
-  width:100%; 
-  background-color:#ddd; 
-  height:27px;
+    width:100%; 
+    background-color:#ddd; 
+    height:27px;
 }
 .navbar{
   margin-bottom :0px;
@@ -99,39 +99,45 @@ required for the dashboard submenu
 */
 
 .dashlist{
-  float:left;
-   color:#888;
+    float:left;
+    color:#888;
     font: 13px/27px sans-serif;
     font-weight:bold; 
-}
+    }
 
 .greydashmenu {
-  display: block;
-  list-style: none outside none;
-  margin: 0;
-  padding: 0;
+    display: block;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
 }
 
 .greydashmenu li {
-  list-style: none outside none;
-  margin: 0;
-  padding: 0;
-  border-right: 1px solid #eee;
-  float: left;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    border-right: 1px solid #eee;
+    float: left;
 }
 
 .greydashmenu li a {
-  display: block;
-  margin: 0;
-  padding: 0 12px;
-  border-right: 1px solid #ccc;
-  text-decoration: none;
-  font: 13px/27px sans-serif;
-  text-transform: none;
+    display: block;
+    margin: 0;
+    padding: 0 12px;
+    border-right: 1px solid #ccc;
+    text-decoration: none;
+    font: 13px/27px sans-serif;
+    text-transform: none;
 }
 
-    .form-inline .form-group input select{
+.form-inline .form-group input select{
     width:140px;
+}
+ .groupheader {
+    background-color: #BBB;
+}
+.table> tbody > tr > .groupheader:hover{
+  background-color: #faf2cc;
 }
 
 /*

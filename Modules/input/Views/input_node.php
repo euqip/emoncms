@@ -27,19 +27,18 @@
   table.element = "#table";
 
   table.fields = {
-    'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':""},
-    'name':{'title':'<?php echo _("name"); ?>','type':"text",'colwidth':""},
-    'description':{'title':'<?php echo _("Description"); ?>','type':"text",'colwidth':""},
-    'processList':{'title':'<?php echo _("Process list"); ?>','type':"processlist",'colwidth':"span2"},
-    'time':{'title':'<?php echo _("Last updated"); ?>', 'type':"updated"},
-    'value':{'title':'<?php echo _("Value"); ?>','type':"value"},
-
     // Actions
-    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes"},
     //'save-action':{'title':'','tooltip':'<?php echo _("Save"); ?>', 'type':"save", 'display':"no"},
-    'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete", 'display':"yes"},
-    'view-action':{'title':'','tooltip':'<?php echo _("Edit Process"); ?>', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'glyphicon glyphicon-wrench', 'display':"yes"}
+    'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete", 'display':"yes", 'colwidth':" style='width:40px;'"},
+    'view-action':{'title':'','tooltip':'<?php echo _("Edit Process"); ?>', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'glyphicon glyphicon-wrench', 'display':"yes", 'colwidth':" style='width:40px;'"},
+    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes"},
 
+    'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':"", 'display':"no"},
+    'name':{'title':'<?php echo _("name"); ?>','type':"text", 'colwidth':" style='width:100px;'"},
+    'description':{'title':'<?php echo _("Description"); ?>','type':"text", 'colwidth':" style='width:200px;'"},
+    'processList':{'title':'<?php echo _("Process list"); ?>','type':"processlist",'colwidth':" style='width:250px;'"},
+    'time':{'title':'<?php echo _("Last updated"); ?>', 'type':"updated", 'colwidth':" style='width:150px;'"},
+    'value':{'title':'<?php echo _("Value"); ?>','type':"value",'colwidth':" style='width:70px;'"}
   }
 
   table.groupprefix = "Node ";

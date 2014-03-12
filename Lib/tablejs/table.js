@@ -49,7 +49,7 @@ var table = {
             if (table.groupshow[group]==false) {symbol = '<span class="glyphicon glyphicon-plus-sign"></span>'; visible = "display:none";}
 
             if (group_num>1) {
-              html += "<tr><th colspan='2'><a class='MINMAX' group='"+group+"' >"+symbol+"</a> "+table.groupprefix+group+"</th>";
+              html += "<tr class='groupheader'><th colspan='4'><a class='MINMAX' group='"+group+"' >"+symbol+"</a> "+table.groupprefix+group+"</th>";
               var count = 0; for (field in table.fields) count++;   // Calculate amount of padding required
               for (i=1; i<count-1; i++) html += "<th></th>";          // Add th padding
               html += "</tr>";
@@ -89,7 +89,7 @@ var table = {
         for (field in table.fields) {
             var fld = table.fields[field];
             var tooltip = ''; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
-            var colwidth = ''; if (fld.colwidth!=undefined) colwidth = "class='"+fld.colwidth+"'";
+            var colwidth = ''; if (fld.colwidth!=undefined) colwidth = ""+fld.colwidth+"'";
             var display = 'yes'; if (fld.display!=undefined) display = fld.display;
             if (display =="yes"){
                 html += "<td row='"+row+"' field='"+field+"'"+colwidth+" >"
@@ -253,8 +253,9 @@ var table = {
         'delete':
         {
             'draw': function (row,field) { 
+                var fld=table.fields[field];
                 var title= (table.fields['delete-action']);                
-                return "<a type='delete' title='"+title['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' ><span class='glyphicon glyphicon-trash' ></span></a>"; 
+                return "<a type='delete' title='"+title['tooltip']+"' "+" row='"+row+"' uid='"+table.data[row]['id']+"' ><span class='glyphicon glyphicon-trash' ></span></a>"; 
             }
         },
 
