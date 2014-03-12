@@ -55,7 +55,7 @@ var table = {
               html += "</tr>";
             }
 
-            html += "<tbody id='"+group+"'><tr>";
+            html += "<tbody id='"+group+"' style='"+visible+"'><tr>";
             for (field in table.fields)
             {
               var fld = table.fields[field];

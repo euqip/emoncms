@@ -5,9 +5,6 @@
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/custom-table-fields.js"></script>
-
-<div id="apihelphead"><p class="text-right"><a href="api"><?php echo _('Input API Help'); ?></a></p></div>
-
 <div class="container">
     <div id="localheading"><h2><?php echo _('Inputs'); ?>
       <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Input API Help'); ?>"></span></small></a>
@@ -65,7 +62,7 @@
     }
   }
 
-  var updateinterval = 1000;
+  var updateinterval = 10000;
   var updater = setInterval(update, updateinterval);
 
   $("#table").bind("onSave", function(e,id,fields_to_update){
@@ -80,12 +77,10 @@
       table.draw();
       if (table.data.length != 0) {
           $("#noinputs").hide();
-          $("#apihelphead").show();
           $("#localheading").show();
       } else {
           $("#noinputs").show();
           $("#localheading").hide();
-          $("#apihelphead").hide();
       }
   }
 

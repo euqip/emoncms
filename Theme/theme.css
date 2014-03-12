@@ -30,6 +30,12 @@ input[type="color"],
 #footer {
 height: 30px;
 }
+.navbar-brand{
+  padding: 11px;
+}
+.content-block {
+  margin-top: 60px; 
+}
 
 h2{
   margin-top: 1px;
