@@ -140,6 +140,17 @@ required for the dashboard submenu
   background-color: #faf2cc;
 }
 
+tbody  tr .form-control{
+    height: 24px;
+    margin-bottom: -4px;
+    margin-left:-13px;
+    margin-top:-2px;
+}
+
+a .glyphicon{
+    padding:5px;
+}
+
 /*
 login block flags size style
 */
