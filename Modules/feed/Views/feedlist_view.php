@@ -4,7 +4,6 @@
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/user.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/custom-table-fields.js"></script>
 
 
 <link href="<?php echo $path; ?>Lib/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -178,28 +177,24 @@
 
 
     var path = "<?php echo $path; ?>";
-
-    // Extemd table library field types
-    for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
-
     table.element = "#table";
 
   table.fields = {
+    // Actions
+    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes", 'colwidth':" style='width:30px;'"},
+    'delete-action':{'title':'','tooltip':'<?php echo _("Delete"); ?>', 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
+    'view-action':{'title':'','tooltip':'<?php echo _("Preview"); ?>', 'type':"iconlink", 'link':path+"vis/auto?feedid=", 'icon':'glyphicon glyphicon-eye-open', 'display':"yes", 'colwidth':" style='width:30px;'"},
+    'export-action':{'title':'', 'tooltip':'<?php echo _("Download data"); ?>', 'type':"iconbasic", 'icon_action':"export-action", 'icon':'glyphicon glyphicon-download', 'display':"yes", 'colwidth':" style='width:30px;'"},
+
     'id':{'title':"<?php echo _('Id'); ?>", 'type':"fixed",'colwidth':""},
-    'name':{'title':"<?php echo _('Name'); ?>", 'type':"text",'colwidth':""},
-    'tag':{'title':"<?php echo _('Tag'); ?>", 'type':"text",'colwidth':""},
-    'datatype':{'title':"<?php echo _('Datatype'); ?>", 'type':"select", 'options':['','REALTIME','DAILY','HISTOGRAM']},
-    'engine':{'title':"<?php echo _('Engine'); ?>", 'type':"select", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE','PHPTIMESTORE','PHPFINA']},
-    'public':{'title':"<?php echo _('Public'); ?>", 'tooltip': "<?php echo _('Make feed public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock"},
+    'name':{'title':"<?php echo _('Name'); ?>", 'type':"text",'colwidth':"", 'display':"yes", 'colwidth':" style='width:150px;'"},
+    'tag':{'title':"<?php echo _('Tag'); ?>", 'type':"text",'colwidth':"", 'display':"yes", 'colwidth':" style='width:150px;'"},
+    'datatype':{'title':"<?php echo _('Datatype'); ?>", 'type':"select", 'options':['','REALTIME','DAILY','HISTOGRAM'], 'display':"yes", 'colwidth':" style='width:200px;'"},
+    'engine':{'title':"<?php echo _('Engine'); ?>", 'type':"select", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE','PHPTIMESTORE','PHPFINA'], 'display':"yes", 'colwidth':" style='width:150px;'"},
+    'public':{'title':"<?php echo _('Public'); ?>", 'tooltip': "<?php echo _('Make feed public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock", 'iconaction':"public", 'display':"yes", 'colwidth':" style='width:30px;'"},
     'size':{'title':"<?php echo _('Size'); ?>", 'type':"fixed"},    
     'time':{'title':"<?php echo _('Updated'); ?>", 'type':"updated"},
-    'value':{'title':"<?php echo _('Value'); ?>",'type':"value"},
-
-    // Actions
-    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes"},
-    'delete-action':{'title':'','tooltip':'<?php echo _("Delete"); ?>', 'type':"delete", 'display':"yes"},
-    'view-action':{'title':'','tooltip':'<?php echo _("Preview"); ?>', 'type':"iconlink", 'link':path+"vis/auto?feedid=", 'icon':'glyphicon glyphicon-eye-open', 'display':"yes"},
-    'export-action':{'title':'', 'tooltip':'<?php echo _("Download data"); ?>', 'type':"iconbasic", 'icon':'glyphicon glyphicon-download', 'display':"yes"}
+    'value':{'title':"<?php echo _('Value'); ?>",'type':"value"}
   }
 
     table.groupby = 'tag';
@@ -222,6 +217,8 @@
             }
         }
         table.draw();
+
+
         if (table.data.length != 0) {
             $("#nofeeds").hide();
             $("#localheading").show();
@@ -241,6 +238,7 @@
     $("#table").bind("onSave", function(e,id,fields_to_update){
         feed.set(id,fields_to_update);
         updater = setInterval(update, updatetime);
+        update()
     });
 
     $("#refreshfeedsize").click(function(){
@@ -270,19 +268,6 @@
     // Feed Export feature
     
     
-    $("#table").on("click",".export-action", function(){
-        var row = $(this).attr('row');
-        $("#SelectedExportFeed").html(table.data[row].tag+": "+table.data[row].name);
-        $("#export").attr('feedid',table.data[row].id);        
-        if ($("#export-timezone").val()=="") {
-            var u = user.get();
-            $("#export-timezone").val(parseInt(u.timezone));
-            $("#export-timezone-list").val($("#export-timezone").val());
-            $("#export-interval").val($("#export-interval-list").val());
-        }
-        
-        $('#ExportModal').modal('show');
-    });
 
     $('#export-timezone-list').on('change',function(e){
         $("#export-timezone").val($("#export-timezone-list").val());
@@ -316,6 +301,29 @@
     {
         calcdownloadsize();
     });
+
+    function module_event(evt, elt, row, uid, action){
+        console.log('feed module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
+        switch(action)
+        {
+            case "export-action":
+                $("#SelectedExportFeed").html(table.data[row].tag+": "+table.data[row].name);
+                $("#export").attr('feedid',table.data[row].id);        
+                if ($("#export-timezone").val()=="") {
+                    var u = user.get();
+                    $("#export-timezone").val(parseInt(u.timezone));
+                    $("#export-timezone-list").val($("#export-timezone").val());
+                    $("#export-interval").val($("#export-interval-list").val());
+                }
+        
+                $('#ExportModal').modal('show');
+                break;
+
+            default:
+            //each unknown action is traznsfered to the module code
+            //module_event(e,$(this),row,uid,action);
+          }        
+    }
 
     function calcdownloadsize(){
         var downloadsize = 0;
@@ -369,6 +377,8 @@
         window.open(path+"feed/csvexport.json?id="+feedid+"&start="+(export_start+(export_timezone*3600))+"&end="+(export_end+(export_timezone*3600))+"&interval="+export_interval);
         $('#ExportModal').modal('hide');
     });
+
+
     
     function parse_timepicker_time(timestr)
     {

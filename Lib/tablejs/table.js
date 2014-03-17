@@ -123,6 +123,8 @@ var table = {
 
    'add_events':function()
     {
+
+
         // Event: minimise or maximise group
         $(table.element).on('click', '.MINMAX', function() {
             var group = $(this).attr('group');
@@ -139,13 +141,13 @@ var table = {
         });
 
         // Event: delete row
-        $(table.element).on('click', 'a[type=delete]', function() {
+        $(table.element).on('click', 'div[type=delete]', function() {
             if (table.deletedata) table.remove( $(this).attr('row') );
             $(table.element).trigger("onDelete",[$(this).attr('uid'),$(this).attr('row')]);
         });
 
         // Event: inline edit
-        $(table.element).on('click', 'a[type=edit]', function() {
+        $(table.element).on('click', 'div[type=edit]', function() {
             var mode = $(this).attr('mode');
             var row = $(this).attr('row');
             var uid = $(this).attr('uid');
@@ -255,7 +257,7 @@ var table = {
             'draw': function (row,field) { 
                 var fld=table.fields[field];
                 var title= (table.fields['delete-action']);                
-                return "<a type='delete' title='"+title['tooltip']+"' "+" row='"+row+"' uid='"+table.data[row]['id']+"' ><span class='glyphicon glyphicon-trash' ></span></a>"; 
+                return "<div type='delete' class='iconbutton'  title='"+title['tooltip']+"' "+" row='"+row+"' uid='"+table.data[row]['id']+"' ><span class='glyphicon glyphicon-trash' ></span></div>"; 
             }
         },
 
@@ -263,7 +265,7 @@ var table = {
         {
             'draw': function (row,field) { 
                 var field= (table.fields['edit-action']);                
-                return "<a type='edit' title='"+field['tooltip']+"'  alt='"+field['alt']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><span class='glyphicon glyphicon-pencil' ></span></a>"; 
+                return "<div type='edit'  class='iconbutton' title='"+field['tooltip']+"'  alt='"+field['alt']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><span class='glyphicon glyphicon-pencil' ></span></div>"; 
             }
         },
 
@@ -271,10 +273,252 @@ var table = {
         {
             'draw': function (row,field) { 
                 var field= (table.fields['save-action']); 
-                return "<a type='save' title='"+field['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='save'><span class='glyphicon glyphicon-floppy-save' ></span></a>"; 
+                return "<div type='save'  class='iconbutton' title='"+field['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='save'><span class='glyphicon glyphicon-floppy-save' ></span></div>"; 
             }
         },
+
+        //icon is used for a boolean data field
+        'icon':
+        {
+            'draw': function(row,field)
+            {
+                var fld=table.fields[field];
+                var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
+                var action =''; if (fld.iconaction) action = fld.iconaction;
+
+                var icon=fld.trueicon;
+                if (table.data[row][field] == false){
+                    icon=fld.falseicon;
+                }
+                return "<div href='#' title='"+tooltip+"' class='iconbutton' type='"+action+"' field='"+field+"' row='"+row+"' uid='"+table.data[row]['id']+"'><span class='"+icon+"' ></span></div>"; 
+                //if (table.data[row][field] == true) return "<a class='"+fld.trueicon+"' type='input' title='"+fld.tooltip+"'></a>";
+                //if (table.data[row][field] == false) return "<a class='"+fld.falseicon+"' type='input' title='"+fld.tooltip+"'></a>";
+            },
+
+            'event': function()
+            {
+                // Event code for clickable switch state icon's
+                $(table.element).on('click', '.iconbutton', function(e) {
+                    e.preventDefault();
+                    var row =$(this).attr("row");
+                    var uid= $(this).attr("uid");
+                    var field = ''; if ($(this).attr("field")!=undefined) {field=$(this).attr("field");}
+                    var action = ''; if ($(this).attr("action")!=undefined) {action=$(this).attr("action");}
+                    var myhref = ''; if ($(this).attr("href")!=undefined) {myhref=$(this).attr("href");}
+                    // check if Myhref = '#'
+                    if (myhref=='#'){myhref='';}
+                    // perform href if defined
+                    if (myhref!=''){
+                        window.location.assign (myhref);
+                        return false;
+                    }
+                    console.log('row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action+' - href= '+myhref);
+                    //each standard icon action like view, delete, edit is dne here
+                    if (field!=''){
+                        //toggle icon field
+                        table.data[row][field] = !table.data[row][field];
+
+                        var fields = {};
+                        fields[field] = table.data[row][field];
+                        $(table.element).trigger("onSave",[table.data[row]['id'],fields]);
+                    }else{
+                        switch(action)
+                        {
+                            case "delete":
+                            break;
+                            case "edit":
+                            break;
+                            default:
+                            //each unknown action is traznsfered to the module code
+                            module_event(e,$(this),row,uid,action);
+                          }
+
+
+                    }
+
+                });
+
+            }
+        },
+
+        'updated':
+        {
+            'draw': function (row,field) { return list_format_updated(table.data[row][field]) }
+        },
+
+        'value':
+        {
+            'draw': function (row,field) { return list_format_value(table.data[row][field]) }
+        },
+
+        'processlist':
+        {
+            'draw': function (row,field) { 
+
+              var processlist = table.data[row][field];
+              if (!processlist) return "";
+              
+              var processPairs = processlist.split(",");
+
+              var out = "";
+
+              for (z in processPairs)
+              {
+                var keyvalue = processPairs[z].split(":");
+
+                var key = parseInt(keyvalue[0]);
+                var type = "";
+                var color = "";
+
+                switch(key)
+                {
+                  case 1:
+                    key = 'log'; type = 2; break;
+                  case 2:  
+                    key = 'x'; type = 0; break;
+                  case 3:  
+                    key = '+'; type = 0; break;
+                  case 4:    
+                    key = 'kwh'; type = 2; break;
+                  case 5:  
+                    key = 'kwhd'; type = 2; break;
+                  case 6:
+                    key = 'x inp'; type = 1; break;
+                  case 7:
+                    key = 'ontime'; type = 2; break;
+                  case 8:
+                    key = 'kwhinckwhd'; type = 2; break;
+                  case 9:
+                    key = 'kwhkwhd'; type = 2; break;
+                  case 10:  
+                    key = 'update'; type = 2; break;
+                  case 11: 
+                    key = '+ inp'; type = 1; break;
+                  case 12:
+                    key = '/ inp'; type = 1; break;
+                  case 13:
+                    key = 'phaseshift'; type =2; break;
+                  case 14:
+                    key = 'accumulate'; type = 2; break;
+                  case 15:
+                    key = 'rate'; type = 2; break;
+                  case 16:
+                    key = 'hist'; type = 2; break;
+                  case 17:  
+                    key = 'average'; type = 2; break;
+                  case 18:
+                    key = 'flux'; type = 2; break;
+                  case 19:
+                    key = 'pwrgain'; type = 2; break;
+                  case 20:
+                    key = 'pulsdiff'; type = 2; break;
+                  case 21:
+                    key = 'kwhpwr'; type = 2; break;
+                  case 22:
+                    key = '- inp'; type = 1; break;
+                  case 23:
+                    key = 'kwhkwhd'; type = 2; break;
+                  case 24:
+                    key = '> 0'; type = 3; break;
+                  case 25:
+                    key = '< 0'; type = 3; break;
+                  case 26:
+                    key = 'unsign'; type = 3; break;
+                  case 27:
+                    key = 'max'; type = 2; break;
+                  case 28:
+                    key = 'min'; type = 2; break;
+                }  
+
+                value = keyvalue[1];
+                
+                switch(type)
+                {
+                  case 0:
+                    type = 'value: '; color = 'important';
+                    break;
+                  case 1:
+                    type = 'input: '; color = 'warning';
+                    break;
+                  case 2:
+                    type = 'feed: '; color = 'info';
+                    break;
+                  case 3:
+                    type = ''; color = 'important';
+                    value = ''; // Argument type is NONE, we don't mind the value
+                    break;
+                }
+
+                if (type == 'feed: ') { 
+                  out += "<a href='"+path+"vis/auto?feedid="+value+"'<span class='label label-"+color+"' title='"+type+value+"' style='cursor:pointer'>"+key+"</span></a> "; 
+                } else {
+                  out += "<span class='label label-"+color+"' title='"+type+value+"' style='cursor:default'>"+key+"</span> ";
+                }
+              }
+              
+              return out;
+            }
+        },
+
+        'iconlink':
+        {
+            'draw': function (row,field) { 
+              var fld=table.fields[field];
+              var icon = 'glyphicon glyphicon-eye-open'; if (fld.icon) icon = fld.icon;
+              var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
+              var colwidth = ''; if (fld.colwidth) colwidth = fld.colwidth
+              return "<div href='"+fld.link+table.data[row]['id']+"' class='iconbutton' type='iconlink' title='"+tooltip+"'  row='"+row+"' uid='"+table.data[row]['id']+' '+colwidth+" ><span class='"+icon+"' ></span></div>" 
+            }
+        },
+
+        'iconbasic':
+        {
+            'draw': function(row,field)
+            {
+              var fld=table.fields[field];
+              var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
+              var action = '';if (fld.icon_action) action = fld.icon_action
+              var icon = '';if (fld.icon) icon = fld.icon
+              return "<div title='"+tooltip+"' class='iconbutton' action='"+action+"' row='"+row+"' uid='"+table.data[row]['id']+"'><span class='"+icon+"' ></span></div>";
+            }
+        }
     }
 }
 
+
+
+// Calculate and color updated time
+function list_format_updated(time)
+{
+  time = time * 1000;
+  var now = (new Date()).getTime();
+  var update = (new Date(time)).getTime();
+  var lastupdate = (now-update)/1000;
+
+  var secs = (now-update)/1000;
+  var mins = secs/60;
+  var hour = secs/3600
+
+  var updated = secs.toFixed(0)+"s ago";
+  if (secs>180) updated = mins.toFixed(0)+" mins ago";
+  if (secs>(3600*2)) updated = hour.toFixed(0)+" hours ago";
+  if (hour>24) updated = "inactive";
+
+  var color = "rgb(255,125,20)";
+  if (secs<25) color = "rgb(50,200,50)"
+  else if (secs<60) color = "rgb(240,180,20)"; 
+
+  return "<span style='color:"+color+";'>"+updated+"</span>";
+}
+
+// Format value dynamically 
+function list_format_value(value)
+{
+  if (value>=10) value = (1*value).toFixed(1);
+  if (value>=100) value = (1*value).toFixed(0);
+  if (value<10) value = (1*value).toFixed(2);
+  if (value<=-10) value = (1*value).toFixed(1);
+  if (value<=-100) value = (1*value).toFixed(0);
+  return value;
+}
 

@@ -4,7 +4,6 @@
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/custom-table-fields.js"></script>
 <div class="container">
     <div id="localheading"><h2><?php echo _('Inputs'); ?>
       <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Input API Help'); ?>"></span></small></a>
@@ -22,7 +21,7 @@
   var path = "<?php echo $path; ?>";
 
   // Extend table library field types
-  for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
+  //for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
 
   table.element = "#table";
 
@@ -70,19 +69,6 @@
   });
   update();
 
-  function update()
-  {
-      table.data = input.list();
-      table.draw();
-      if (table.data.length != 0) {
-          $("#noinputs").hide();
-          $("#localheading").show();
-      } else {
-          $("#noinputs").show();
-          $("#localheading").hide();
-      }
-  }
-
   $("#table").bind("onEdit", function(e){
       clearInterval(updater);
   });
@@ -91,5 +77,11 @@
       input.remove(id);
       update();
   });
+
+      function module_event(evt, elt, row, uid, action){
+        console.log('inpur module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);                   
+      }
+
+
 
 </script>

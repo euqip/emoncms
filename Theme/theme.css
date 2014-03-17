@@ -145,11 +145,12 @@ tbody  tr .form-control{
     margin-bottom: -4px;
     margin-left:-13px;
     margin-top:-2px;
+    padding-top:2px;
+    padding-bottom:2px;
+}
+select .form-control{
 }
 
-a .glyphicon{
-    padding:5px;
-}
 
 /*
 login block flags size style
@@ -166,8 +167,12 @@ login block flags size style
 .emon-version{
   color:#999;
 }
-.glyphicon {
+.iconbutton{
   cursor:pointer;
+  width: 40px;
+  height:25px;
+  text-align: center;
+  vertical-align: center;
 }
 
 .inputvalue{
