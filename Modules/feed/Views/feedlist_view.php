@@ -181,10 +181,8 @@
 
   table.fields = {
     // Actions
-    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes", 'colwidth':" style='width:30px;'"},
     'delete-action':{'title':'','tooltip':'<?php echo _("Delete"); ?>', 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
-    'view-action':{'title':'','tooltip':'<?php echo _("Preview"); ?>', 'type':"iconlink", 'link':path+"vis/auto?feedid=", 'icon':'glyphicon glyphicon-eye-open', 'display':"yes", 'colwidth':" style='width:30px;'"},
-    'export-action':{'title':'', 'tooltip':'<?php echo _("Download data"); ?>', 'type':"iconbasic", 'icon_action':"export-action", 'icon':'glyphicon glyphicon-download', 'display':"yes", 'colwidth':" style='width:30px;'"},
+    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes", 'colwidth':" style='width:30px;'"},
 
     'id':{'title':"<?php echo _('Id'); ?>", 'type':"fixed",'colwidth':""},
     'name':{'title':"<?php echo _('Name'); ?>", 'type':"text",'colwidth':"", 'display':"yes", 'colwidth':" style='width:150px;'"},
@@ -194,7 +192,9 @@
     'public':{'title':"<?php echo _('Public'); ?>", 'tooltip': "<?php echo _('Make feed public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock", 'iconaction':"public", 'display':"yes", 'colwidth':" style='width:30px;'"},
     'size':{'title':"<?php echo _('Size'); ?>", 'type':"fixed"},    
     'time':{'title':"<?php echo _('Updated'); ?>", 'type':"updated"},
-    'value':{'title':"<?php echo _('Value'); ?>",'type':"value"}
+    'value':{'title':"<?php echo _('Value'); ?>",'type':"value"},
+    'view-action':{'title':'','tooltip':'<?php echo _("Preview"); ?>', 'type':"iconlink", 'link':path+"vis/auto?feedid=", 'icon':'glyphicon glyphicon-eye-open', 'display':"yes", 'colwidth':" style='width:30px;'"},
+    'export-action':{'title':'', 'tooltip':'<?php echo _("Download data"); ?>', 'type':"iconbasic", 'icon_action':"export-action", 'icon':'glyphicon glyphicon-download', 'display':"yes", 'colwidth':" style='width:30px;'"},
   }
 
     table.groupby = 'tag';

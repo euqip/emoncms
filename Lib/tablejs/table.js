@@ -61,10 +61,10 @@ var table = {
               var fld = table.fields[field];
               var title = field; if (fld.title!=undefined) title = fld.title;
               var tooltip = ''; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
-              var colwidth = ''; if (fld.colwidth!=undefined) colwidth = "class='"+fld.colwidth+"'";
+              var colwidth = ''; if (fld.colwidth!=undefined) colwidth = fld.colwidth;
               var display = 'yes'; if (fld.display!=undefined) display = fld.display;
               if (display =="yes"){
-                  html += "<th><a type='sort' field='"+field+"' title='"+tooltip+" '"+colwidth+">"+title+"</a></th>";
+                  html += "<th><a type='sort' field='"+field+"' title='"+tooltip+"'"+colwidth+">"+title+"</a></th>";
               }
             }
             html += "</tr>";
@@ -265,7 +265,7 @@ var table = {
         {
             'draw': function (row,field) { 
                 var field= (table.fields['edit-action']);                
-                return "<div type='edit'  class='iconbutton' title='"+field['tooltip']+"'  alt='"+field['alt']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><span class='glyphicon glyphicon-pencil' ></span></div>"; 
+                return "<div type='edit'  class='iconbutton' title='"+field['tooltip']+"' action='edit' alt='"+field['alt']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><span class='glyphicon glyphicon-pencil' ></span></div>"; 
             }
         },
 
@@ -273,7 +273,7 @@ var table = {
         {
             'draw': function (row,field) { 
                 var field= (table.fields['save-action']); 
-                return "<div type='save'  class='iconbutton' title='"+field['tooltip']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='save'><span class='glyphicon glyphicon-floppy-save' ></span></div>"; 
+                return "<div type='save'  class='iconbutton' title='"+field['tooltip']+"' action='save' row='"+row+"' uid='"+table.data[row]['id']+"' mode='save'><span class='glyphicon glyphicon-floppy-save' ></span></div>"; 
             }
         },
 
@@ -321,6 +321,7 @@ var table = {
                         var fields = {};
                         fields[field] = table.data[row][field];
                         $(table.element).trigger("onSave",[table.data[row]['id'],fields]);
+                        update();
                     }else{
                         switch(action)
                         {

@@ -184,7 +184,7 @@ var designer = {
 
             if (val == undefined) val="";
 
-            options_html += "<tr><td>"+options_name[z]+":</td>";
+            options_html += "<tr><td class = 'option_name'>"+options_name[z]+":</td>";
 
             if (options_type && options_type[z] == "feed")
             {

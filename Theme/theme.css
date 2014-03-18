@@ -148,7 +148,9 @@ tbody  tr .form-control{
     padding-top:2px;
     padding-bottom:2px;
 }
-select .form-control{
+.option_name{
+    width:140px;
+    padding-right:15px;
 }
 
 
@@ -169,7 +171,7 @@ login block flags size style
 }
 .iconbutton{
   cursor:pointer;
-  width: 40px;
+  width: 30px;
   height:25px;
   text-align: center;
   vertical-align: center;
