@@ -5,6 +5,7 @@ class MysqlTimeSeries
 
     private $mysqli;
 
+
     /**
      * Constructor.
      *
@@ -15,6 +16,7 @@ class MysqlTimeSeries
     public function __construct($mysqli)
     {
         $this->mysqli = $mysqli;
+
     }
 
     /**
@@ -238,9 +240,8 @@ class MysqlTimeSeries
     
     public function csv_export($feedid,$start,$end,$outinterval)
     {
-        //echo $feedid;
-//$file = '/home/bp/emoncmsdata/debug.log';
-//file_put_contents($file, "received feedID: ".$feedid." - start: ".$start." - end: ".$end." - interval: ".$outinterval."\n", FILE_APPEND | LOCK_EX);        
+        $colsepar=";";
+        $decsepar=",";
         $outinterval = intval($outinterval);
         $feedid = intval($feedid);
         $start = intval($start/1000);
@@ -299,7 +300,7 @@ class MysqlTimeSeries
                 $sql = "SELECT FLOOR(time/$td) AS time, AVG(data) AS data".
                     " FROM $feedname WHERE time BETWEEN $start AND $end".
                     " GROUP BY 1";
-                $sql = "SELECT FLOOR(time/$td)*$td AS time, from_unixtime(time,'%d/%m/%Y') AS humandate,from_unixtime(time,'%H:%i:%s') AS humantime,  AVG(data) AS data".
+                $sql = "SELECT CEIL(time/$td)*$td AS time, from_unixtime(time,'%d/%m/%Y') AS humandate,from_unixtime(time,'%H:%i:%s') AS humantime,  AVG(data) AS data".
                     " FROM $feedname WHERE time BETWEEN $start AND $end".
                     " GROUP BY 1  ORDER BY time DESC";
             } else {
@@ -308,17 +309,10 @@ class MysqlTimeSeries
                     " WHERE time BETWEEN $start AND $end ORDER BY time DESC";
             }
 
-/* example
-SELECT FLOOR(time/3600)*3600 AS time, AVG(data) AS data FROM feed_3 WHERE time BETWEEN 1390608000 AND 1395515501 GROUP BY 1
-SELECT from_unixtime(FLOOR(time/3600)*3600,'%Y %D %M %h:%i:%s') AS time, AVG(data) AS data FROM feed_3 WHERE time BETWEEN 1390608000 AND 1395515501 GROUP BY 1
 
-SELECT from_unixtime(FLOOR(time/3600)*3600,'%d/%m/%Y %h:%i:%s') AS time, AVG(data) AS data FROM feed_3 WHERE time BETWEEN 1390608000 AND 1395515501 GROUP BY 1 ORDER BY time DESC
-SELECT FLOOR(time/3600)*3600 as time,from_unixtime(time,'%d/%m/%Y %h:%i:%s') AS humandate, AVG(data) AS data FROM feed_3 WHERE time BETWEEN 1390608000 AND 1395515501 GROUP BY 1 ORDER BY time DESC
-SELECT FLOOR(time/3600)*3600 as time,from_unixtime(time,'%d/%m/%Y') AS humandate,from_unixtime(time,'%h:%i:%s') AS humantime, AVG(data) AS data FROM feed_3 WHERE time BETWEEN 1390608000 AND 1395515501 GROUP BY 1 ORDER BY time DESC
-
-*/
             $result = $this->mysqli->query($sql);
             if($result) {
+                fwrite($exportfh, _("UnixTimeStamp").$colsepar._("SampleDate").$colsepar._("SampleTime").$colsepar._("SampleValue")."\n");
                 while($row = $result->fetch_array()) {
                     $dataValue = $row['data'];
                     $dataTime = $row['time'];
@@ -326,15 +320,11 @@ SELECT FLOOR(time/3600)*3600 as time,from_unixtime(time,'%d/%m/%Y') AS humandate
                     $humanTime = $row['humantime'];
                     if ($dataValue!=NULL) { // Remove this to show white space gaps in graph
                         $time = $row['time'] * 1000 * $td;
-                        fwrite($exportfh, $dataTime.",". $humanDate. ",".$humanTime.",".number_format($dataValue,2)."\n");
+                        fwrite($exportfh, $dataTime.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.str_replace(".",$decsepar,number_format($dataValue,2))."\n");
                     }
                 }
             }
         }
-$file = '/home/bp/emoncmsdata/debug.log';
-file_put_contents($file, "my feedID: ".$feedid." - start: ".$start." - end: ".$end." - interval: ".$outinterval." - range: ".$range."\n".$sql."\n", FILE_APPEND | LOCK_EX);        
-
-        
         fclose($exportfh);
         exit;
     }
