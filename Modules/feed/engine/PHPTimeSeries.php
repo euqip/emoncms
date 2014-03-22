@@ -345,6 +345,7 @@ class PHPTimeSeries
         // Write to output stream
         $exportfh = @fopen( 'php://output', 'w' );
 
+
         for ($i=0; $i<$dp; $i++)
         {
             $pos = $this->binarysearch($fh,$start+($i*$interval),$filesize);

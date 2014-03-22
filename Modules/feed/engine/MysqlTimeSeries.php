@@ -239,10 +239,12 @@ class MysqlTimeSeries
     public function csv_export($feedid,$start,$end,$outinterval)
     {
         //echo $feedid;
+//$file = '/home/bp/emoncmsdata/debug.log';
+//file_put_contents($file, "received feedID: ".$feedid." - start: ".$start." - end: ".$end." - interval: ".$outinterval."\n", FILE_APPEND | LOCK_EX);        
         $outinterval = intval($outinterval);
         $feedid = intval($feedid);
-        $start = floatval($start/1000);
-        $end = floatval($end/1000);
+        $start = intval($start/1000);
+        $end = intval($end/1000);
         
         if ($outinterval<1) $outinterval = 1;
         $dp = ceil(($end - $start) / $outinterval);
@@ -272,8 +274,9 @@ class MysqlTimeSeries
         $range = $end - $start;
         if ($range > 180000 && $dp > 0) // 50 hours
         {
+            $sql= "SELECT time, data FROM $feedname WHERE time BETWEEN ? AND ? LIMIT 1";
             $td = $range / $dp;
-            $stmt = $this->mysqli->prepare("SELECT time, data FROM $feedname WHERE time BETWEEN ? AND ? LIMIT 1");
+            $stmt = $this->mysqli->prepare($sql);
             $t = $start; $tb = 0;
             $stmt->bind_param("ii", $t, $tb);
             $stmt->bind_result($dataTime, $dataValue);
@@ -296,23 +299,41 @@ class MysqlTimeSeries
                 $sql = "SELECT FLOOR(time/$td) AS time, AVG(data) AS data".
                     " FROM $feedname WHERE time BETWEEN $start AND $end".
                     " GROUP BY 1";
+                $sql = "SELECT FLOOR(time/$td)*$td AS time, from_unixtime(time,'%d/%m/%Y') AS humandate,from_unixtime(time,'%H:%i:%s') AS humantime,  AVG(data) AS data".
+                    " FROM $feedname WHERE time BETWEEN $start AND $end".
+                    " GROUP BY 1  ORDER BY time DESC";
             } else {
                 $td = 1;
-                $sql = "SELECT time, data FROM $feedname".
+                $sql = "SELECT time, from_unixtime(time,'%d/%m/%Y') AS humandate,from_unixtime(time,'%H:%i:%s') AS humantime, data FROM $feedname".
                     " WHERE time BETWEEN $start AND $end ORDER BY time DESC";
             }
 
+/* example
+SELECT FLOOR(time/3600)*3600 AS time, AVG(data) AS data FROM feed_3 WHERE time BETWEEN 1390608000 AND 1395515501 GROUP BY 1
+SELECT from_unixtime(FLOOR(time/3600)*3600,'%Y %D %M %h:%i:%s') AS time, AVG(data) AS data FROM feed_3 WHERE time BETWEEN 1390608000 AND 1395515501 GROUP BY 1
+
+SELECT from_unixtime(FLOOR(time/3600)*3600,'%d/%m/%Y %h:%i:%s') AS time, AVG(data) AS data FROM feed_3 WHERE time BETWEEN 1390608000 AND 1395515501 GROUP BY 1 ORDER BY time DESC
+SELECT FLOOR(time/3600)*3600 as time,from_unixtime(time,'%d/%m/%Y %h:%i:%s') AS humandate, AVG(data) AS data FROM feed_3 WHERE time BETWEEN 1390608000 AND 1395515501 GROUP BY 1 ORDER BY time DESC
+SELECT FLOOR(time/3600)*3600 as time,from_unixtime(time,'%d/%m/%Y') AS humandate,from_unixtime(time,'%h:%i:%s') AS humantime, AVG(data) AS data FROM feed_3 WHERE time BETWEEN 1390608000 AND 1395515501 GROUP BY 1 ORDER BY time DESC
+
+*/
             $result = $this->mysqli->query($sql);
             if($result) {
                 while($row = $result->fetch_array()) {
                     $dataValue = $row['data'];
+                    $dataTime = $row['time'];
+                    $humanDate = $row['humandate'];
+                    $humanTime = $row['humantime'];
                     if ($dataValue!=NULL) { // Remove this to show white space gaps in graph
                         $time = $row['time'] * 1000 * $td;
-                        fwrite($exportfh, $dataTime.",".number_format($dataValue,2)."\n");
+                        fwrite($exportfh, $dataTime.",". $humanDate. ",".$humanTime.",".number_format($dataValue,2)."\n");
                     }
                 }
             }
         }
+$file = '/home/bp/emoncmsdata/debug.log';
+file_put_contents($file, "my feedID: ".$feedid." - start: ".$start." - end: ".$end." - interval: ".$outinterval." - range: ".$range."\n".$sql."\n", FILE_APPEND | LOCK_EX);        
+
         
         fclose($exportfh);
         exit;

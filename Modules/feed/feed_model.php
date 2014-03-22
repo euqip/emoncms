@@ -472,8 +472,8 @@ class Feed
         if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
 
         $engine = $this->get_engine($feedid);
-        
-        // Download limit
+        //print_r($engine);
+       // Download limit
         $downloadsize = (($end - $start) / $outinterval) * 17; // 17 bytes per dp
         if ($downloadsize>($this->csvdownloadlimit_mb*1048576)) return false;
 

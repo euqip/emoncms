@@ -40,7 +40,7 @@
                 </div>
                 <div id="modalhtml" class="container">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group"  id="export-start-div">
                                 <div class="input-group date form_datetime" title="<?php echo _('Start Date'); ?>" data-date="" data-date-format="dd MM yyyy hh:ii:ss" data-link-field="export-start" data-link-format="yyyy/mm/dd hh:ii:ss">
                                     <input class="form-control" size="16" type="text" value="" readonly>
@@ -50,7 +50,7 @@
                                 <input type="hidden" id="export-start" value="" />
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group" id="export-end-div">
                                 <div class="input-group date form_datetime" title="<?php echo _('End Date'); ?>" data-date="" data-date-format="dd MM yyyy hh:ii:ss" data-link-field="export-end" data-link-format="yyyy/mm/dd hh:ii:ss">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="row">
                         <p><?php echo _('Select the time interval with time reference that you wish to export:') ?> </p>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <div class="input-group"  title="<?php echo _('Select samples time interval'); ?>" data-link-field="dtp_input3">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -88,7 +88,7 @@
                                 <input type="hidden" id="export-interval" value="" />
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <div class="input-group"  title="<?php echo _('Select Time zone (for day export)'); ?>" data-link-field="dtp_input4">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-12">
                             <h5><?php echo _('Feed intervals note:') ?></h5>
                             <p>
                                 <?php echo _('if the selected interval is shorter than the feed interval the feed interval will be used instead.')?>
@@ -374,7 +374,10 @@
             $('#export-error').modal('show');
             return false;
             }
-        window.open(path+"feed/csvexport.json?id="+feedid+"&start="+(export_start+(export_timezone*3600))+"&end="+(export_end+(export_timezone*3600))+"&interval="+export_interval);
+        var cmd=path+"feed/csvexport.json?id="+feedid+"&start="+(export_start+(export_timezone*3600))+"&end="+(export_end+(export_timezone*3600))+"&interval="+export_interval;
+        console.log(cmd);
+        window.open (cmd);
+        //window.open(path+"feed/csvexport.json?id="+feedid+"&start="+(export_start+(export_timezone*3600))+"&end="+(export_end+(export_timezone*3600))+"&interval="+export_interval);
         $('#ExportModal').modal('hide');
     });
 
@@ -392,7 +395,7 @@
         if (time.length!=3) return false;
         // year, month (-1),day, hours, mins, sec
 
-        var xx= new Date(date[0],date[1]-1,date[2],time[0],time[1],time[2],0).getTime() / 1000;
+        var xx= new Date(date[0],date[1]-1,date[2],time[0],time[1],time[2],0).getTime() / 1;
         return xx;
    }
 </script>
