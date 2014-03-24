@@ -22,27 +22,27 @@ global $path, $session, $useckeditor;
 
   <div align="right" style="padding:4px;">
     <?php if ($type=="view" && isset($id)) { ?>
-      <a href="<?php echo $path; ?>dashboard/edit?id=<?php echo $id; ?>" title="<?php echo _("Draw Editor"); ?>" >
+      <span href="<?php echo $path; ?>dashboard/edit?id=<?php echo $id; ?>" class="iconbutton" title="<?php echo _("Draw Editor"); ?>" >
         <span class="glyphicon glyphicon-edit"></span>
-      </a>
+      </span>
     <?php } ?>
 
     <?php if ($type=="edit" && isset($id)) { ?>
-      <a href="<?php echo $path; ?>dashboard/view?id=<?php echo $id; ?>" title="<?php echo _("View mode"); ?>">
+      <span href="<?php echo $path; ?>dashboard/view?id=<?php echo $id; ?>" class="iconbutton" title="<?php echo _("View mode"); ?>">
         <span class="glyphicon glyphicon-eye-open"></span>
-      </a>
-      <a href="#myModal" role="button" data-toggle="modal" title="<?php echo _("Configure dashboard"); ?>">
+      </span>
+      <span href="#myModal" id = "config-dashboard" role="button" data-toggle="modal" class="non_iconbutton" title="<?php echo _("Configure dashboard"); ?>">
         <span class="glyphicon glyphicon-wrench"></span>
-      </a>
+      </span>
     <?php } ?>
 
-    <a href="#" onclick="$.ajax({type : 'POST',url :  path + 'dashboard/create.json  ',data : '',dataType : 'json',success : location.reload()});" title="<?php echo _("New"); ?>">
+    <span href="#" onclick="$.ajax({type : 'POST',url :  path + 'dashboard/create.json  ',data : '',dataType : 'json',success : location.reload()});" class="iconbutton" title="<?php echo _("New"); ?>">
       <span class="glyphicon glyphicon-plus-sign"></span>
-    </a>
+    </span>
 
-    <a href="<?php echo $path; ?>dashboard/list">
-      <span class="glyphicon glyphicon-th-list" title="<?php echo _('List view'); ?>"></span>
-    </a>   
+    <span href="<?php echo $path; ?>dashboard/list" class="iconbutton" title="<?php echo _('List view'); ?>">
+      <span class="glyphicon glyphicon-th-list"></span>
+    </span>   
   </div>
 
 <?php } ?>

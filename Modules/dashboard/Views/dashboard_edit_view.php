@@ -37,7 +37,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   <span id="widget-buttons"></span>
   <span id="when-selected">
     <button id="options-button" class="btn" title="<?php echo _('configure selected widget'); ?>"><span class="glyphicon glyphicon-wrench"></span><?php echo _('Configure'); ?></button>      
-    <button id="delete-button" class="btn btn-danger"><i class="icon-trash"></i><?php echo _('Delete'); ?></button>  
+    <button id="delete-button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span><?php echo _('Delete'); ?></button>  
   </span> 
   <button id="save-dashboard" class="btn btn-success" style="float:right"><?php echo _('Not modified'); ?></button> 
 </div>
@@ -47,25 +47,26 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   <canvas id="can" width="940px" height="<?php echo $dashboard['height']; ?>px" style="position:absolute; top:0px; left:0px; margin:0; padding:0;"></canvas>
 </div>
 
-<div class="modal fade emoncms-dialog type-primary" id="configmodal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade emoncms-dialog type-primary" id="widgetconfigmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title"><?php echo _('Configure element') ?></h4>
-             </div>
-            <div class="modal-body">
-              <div id="msgcontent">
-                
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title"><?php echo _('Dashboard configuration'); ?></h4>
               </div>
-            </div>
+              <div class="modal-body">
+                <div id="msgcontent">
+                  
+                </div>
+              </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
-                <button class="btn" id="saveconfig"><span class="emoncms-dialog-button-icon glyphicon glyphicon-ok"></span><?php echo _('Save config'); ?></button>
-            </div>
+                <button class="btn" id="save-dashboard"><span class="emoncms-dialog-button-icon glyphicon glyphicon-save"></span><?php echo _('Save Changes'); ?></button>
+             </div>
         </div>
     </div>
 </div>
+
 
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/Views/js/designer.js"></script>
@@ -127,48 +128,37 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
     designer.draw();
   });
 
+  $("#config-dashboard").click(function(event) { 
+      // adjust the dashbord properties
+      //html= designer.draw_options($("#"+designer.selected_box).attr("class"));
+      //$('#msgcontent').html(html);
+      $('#configmodal').modal('show');
+  })
+
   $("#options-button").click(function(event) { 
       html= designer.draw_options($("#"+designer.selected_box).attr("class"));
       $('#msgcontent').html(html);
-      $('#configmodal').modal('show');
-
-
+      $('#widgetconfigmodal').modal('show');
   })
 
-  $("#options-button1").click(function(event) { 
-    if (designer.selected_box){
-      html= designer.draw_options($("#"+designer.selected_box).attr("class"));
-      BootstrapDialog.show({
-          message: html,
-          title:"<?php echo _('Configure element'); ?>",
-          closable: false,
-          buttons: [{
-              label: "<?php echo _('Cancel'); ?>",
-              action: function(dialog){
-                  dialog.close();
-                }
-          }, {
-              icon: 'glyphicon glyphicon-ok',
-              label: "<?php echo _('Save changes'); ?>",
-              cssClass: 'btn-primary',
-              action: function(dialog){
-                  console.log("saveoptions");
-                  saveoptions();
-
-                  update();
-                  dialog.close();
-              }
-          }]
-
-      });
-
-  }
-});
   $('#saveconfig').click(function (e){
     saveoptions();
     update();
     $('#configmodal').modal('hide');
   })
+
+  $('.iconbutton').click(function (e){
+    console.log("iconbutton click");
+    var myhref = ''; if ($(this).attr("href")!=undefined) {myhref=$(this).attr("href");}
+    // check if Myhref = '#'
+    if (myhref=='#'){myhref='';}
+    // perform href if defined
+    if (myhref!=''){
+        window.location.assign (myhref);
+        return false;
+      }
+    })
+
 
 function saveoptions(){        
             $(".options").each(function() {
