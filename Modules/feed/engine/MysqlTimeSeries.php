@@ -48,7 +48,7 @@ class MysqlTimeSeries
         // a. update or insert data value in feed table
         $result = $this->mysqli->query("SELECT * FROM $feedname WHERE time = '$time'");
 
-        if (!$result) return $value;
+        //if (!$result) return $value;
         $row = $result->fetch_array();
 
         if ($row) $this->mysqli->query("UPDATE $feedname SET data = '$value' WHERE time = '$time'");

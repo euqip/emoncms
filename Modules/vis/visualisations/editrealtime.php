@@ -6,6 +6,8 @@
         Emoncms - open source energy visualisation
         Part of the OpenEnergyMonitor project:
         http://openenergymonitor.org
+
+        this is the editrealtime vis module
 -->
 
 <?php
@@ -13,6 +15,62 @@
 
     $type = 1;
 ?>
+<style>
+    .updatebox{
+        width:100% ;
+        background-color:#ddd;
+        padding:10px;
+        margin-left:5px;
+        margin-right:15px;
+        border-radius:5px; 
+        margin-top: 0px;
+        margin-bottom: 0px;
+   }
+    .graphbuttonsblock{
+        position:absolute;
+        top:20px;
+        right:20px;
+    }
+    .grapharea{
+        height:350px;
+        width:100%;
+        position:relative;
+    }
+    .form-group{
+        margin-bottom:5px;
+    }
+
+    .container
+{
+    display:table;
+    width: 97%;
+    margin-top: 0px;
+    margin-right:10px;
+    padding: 10px 0 10px 0; /*set left/right padding according to needs*/
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.row
+{
+    height: 100%;
+    display: table-row;
+}
+.col-md-1,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8, .col-md-9
+{
+    display: table-cell;
+    float: none;
+}
+.alignbottom{
+    padding-top:12px;
+}
+.glyphicon{
+    margin-right: 10px;
+}
+div {
+    padding-top:0px;
+}
+</style>
+
 
 <!--[if IE]><script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/excanvas.min.js"></script><![endif]-->
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.min.js"></script>
@@ -24,61 +82,110 @@
 <script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/proc.js"></script>
 
 
+
 <?php if (!$embed) { ?>
 <h2>Datapoint editor: <?php echo $feedidname; ?></h2>
 <p>Click on a datapoint to select, then in the edit box below the graph enter in the new value. You can also add another datapoint by changing the time to a point in time that does not yet have a datapoint.</p>
 <?php } ?>
-
-<div id="graph_bound" style="height:350px; width:100%; position:relative; ">
-    <div id="graph"></div>
-    <div style="position:absolute; top:20px; right:20px;">
-
-        <input class="time" type="button" value="D" time="1"/>
-        <input class="time" type="button" value="W" time="7"/>
-        <input class="time" type="button" value="M" time="30"/>
-        <input class="time" type="button" value="Y" time="365"/> |
-
-        <input id="zoomin" type="button" value="+"/>
-        <input id="zoomout" type="button" value="-"/>
-        <input id="left" type="button" value="<"/>
-        <input id="right" type="button" value=">"/>
-
-    </div>
+<div class="container">
+    <div id="graph_bound" class="grapharea">
+        <div id="graph">  
+        </div>
+        <div class="graphbuttonsblock">
+            <input class="time" type="button" value="<?php echo _('D')?>" time="1"/>
+            <input class="time" type="button" value="<?php echo _('W')?>" time="7"/>
+            <input class="time" type="button" value="<?php echo _('M')?>" time="30"/>
+            <input class="time" type="button" value="<?php echo _('Y')?>" time="365"/> |
+            <input id="zoomin" type="button" value="+"/>
+            <input id="zoomout" type="button" value="-"/>
+            <input id="left" type="button" value="<"/>
+            <input id="right" type="button" value=">"/>
+        </div>
 
         <h3 style="position:absolute; top:00px; left:50px;"><span id="stats"></span></h3>
-</div>
-
-<div style="width:100% height:50px; background-color:#ddd; padding:10px; margin:10px;">
-    Edit feed_<?php echo $feedid; ?> @ time: <input type="text" id="time" style="width:150px;" value="" /> new value:
-    <input type="text" id="newvalue" style="width:150px;" value="" />
-    <button id="okb" class="btn btn-info"><?php echo _('Save'); ?></button>
-    <button id="delete-button" class="btn btn-danger"><i class="icon-trash"></i><?php echo _('Delete data in window'); ?></button>
-</div>
-
-<div style="width:100% height:50px; background-color:#ddd; padding:10px; margin:10px;">
-    Multiply data in window by: <input type="text" id="multiplyvalue" style="width:150px;" value="" />
-    <button id="multiply-submit" class="btn btn-info"><?php echo _('Save'); ?></button>
-</div>
-
-<div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel"><?php echo _('WARNING deleting feed data is permanent'); ?></h3>
-    </div>
-    <div class="modal-body">
-        <p><?php echo _('Are you sure you want to delete the data in this window?'); ?></p>
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
-        <button id="confirmdelete" class="btn btn-primary"><?php echo _('Delete permanently'); ?></button>
     </div>
 </div>
+
+<div class="container">
+    <div class="updatebox">
+
+        <div class="row">
+            <div class="col-md-2">
+                <label for="time" class="col-sm-4 control-label"><?php echo _('Edit feed') ?>_<?php echo $feedid; ?> @ <span id="humantime"></span>
+                </label>               
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="time" placeholder="<?php echo _('Enter Unix time')?>">              
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                    <label for="newvalue" class="col-sm-4 control-label"><?php echo _('new value') ?>:</label>
+            </div>
+            <div class="col-md-4">
+                    <input type="text" class="form-control" id="newvalue" placeholder="<?php echo _('Enter new value')?>">                    
+            </div>
+        </div>
+        <div class="row">
+           <div class="col-md-9">
+                <button id="okb" class="btn btn-info"><span class="glyphicon glyphicon-save"></span><?php echo _('Save'); ?></button>
+                <button id="delete-button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span><?php echo _('Delete point'); ?></button>
+                
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+<div class="container">
+    <div class="updatebox">
+    <div class="row">
+            <div class="col-md-2">
+                <label for="multiplyvalue" class="control-label"><?php echo _('Multiply data in window by') ?><span id="humantime1"></span>
+                </label>    
+             </div>
+            <div class="col-md-4">
+                <input type="text" id="multiplyvalue"  class="form-control" value="" >
+           </div>
+        </div>
+
+        <div class="row">
+           <div class="col-md-9">
+                <button id="multiply-submit" class="btn btn-info"><span class="glyphicon glyphicon-save"></span><?php echo _('Save'); ?></button>            
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal emoncms-dialog type-danger" id="myModal" style="display:none;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title"><?php echo _('WARNING deleting feed data is permanent'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <div class="type-danger ">
+                    <div> <?php echo _('Are you sure you want to delete this data sample?'); ?> </div>
+               </div>
+            </div>           
+            <div class="modal-footer">
+                <button class="btn" id="canceldelete" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
+                <button class="btn btn-danger" id="confirmdelete"><span class="emoncms-dialog-button-icon glyphicon glyphicon-trash"></span><?php echo _('Delete it permanently'); ?></button>
+             </div>
+        </div>
+    </div>
+</div>
+
 
 <script id="source" language="javascript" type="text/javascript">
 
     $('#graph').width($('#graph_bound').width());
     $('#graph').height($('#graph_bound').height());
-
     var feedid = "<?php echo $feedid; ?>";
     var feedname = "<?php echo $feedidname; ?>";
     var type = "<?php echo $type; ?>";
@@ -107,9 +214,20 @@
         });
 
     }
+    $('#time').change(function(){
+        var newtime = $('#time').val();
+        //there is a need to ajust entered huma,n time value back to UTC !
+        var formattedTime = new Date(newtime*1000).format('Y-m-d H:i:s');
+        $('#humantime').html(formattedTime);
+
+    })
 
     $("#graph").bind("plotclick", function (event, pos, item) {
+        //stored time is UTC
+        //convert to the user real tim by adding time offset when displaying human time
         $("#time").val(item.datapoint[0]/1000);
+        var formattedTime = new Date(item.datapoint[0]).format('Y-m-d H:i:s');
+        $('#humantime').html(formattedTime);
         $("#newvalue").val(item.datapoint[1]);
         //$("#stats").html("Value: "+item.datapoint[1]);
     });
@@ -157,7 +275,17 @@
     });
 
     $('#delete-button').click(function () {
+        $('#myModal').show();
+    });
+    /*
+    $('#delete-button1').click(function () {
+        // does not work because jquery is loaded twice
         $('#myModal').modal('show');
+    });
+    */
+
+    $("#canceldelete").click(function(){
+        $('#myModal').hide();        
     });
 
     $("#confirmdelete").click(function()
@@ -170,7 +298,8 @@
             success: function() {}
         });
         vis_feed_data();
-        $('#myModal').modal('hide');
+        $('#myModal').hide();
+        //$('#myModal').modal('hide');
     });
 </script>
 

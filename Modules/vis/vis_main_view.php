@@ -67,8 +67,8 @@ global $path;
 
 </div>
 
-<div id="vis_bound" style="width:600px; height:420px; float:right">
-        <div id="visiframe"><div style="height:400px; border: 1px solid #ddd; " ></div></div>
+<div id="vis_bound" style="width:600px; height:620px; float:right">
+        <div id="visiframe"><div style="height:100%; border: 1px solid #ddd; " ></div></div>
 </div>
 
 <div id="visurl"></div>
@@ -133,7 +133,7 @@ global $path;
             }
         });
 
-        $("#visiframe").html('<iframe style="width:580px; height:400px;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+visurl+'&embed=1"></iframe>');
+        $("#visiframe").html('<iframe style="width:580px; height:600px;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+visurl+'&embed=1"></iframe>');
 
         if (publicfeed == 1) $("#embedcode").val('<iframe style="width:580px; height:400px;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+visurl+'&embed=1"></iframe>'); else $("#embedcode").val('<?php echo addslashes(_("Some of the feeds selected are not public, to embed a visualisation publicly first make the feeds that you want to use public."));?>\n\n<?php echo _("To embed privately:");?>\n\n<iframe style="width:580px; height:400px;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'+visurl+'&embed=1&apikey='+apikey+'"></iframe>');
 
