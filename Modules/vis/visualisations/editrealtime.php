@@ -28,9 +28,10 @@
    }
     .graphbuttonsblock{
         position:absolute;
-        top:20px;
+        top:10px;
         right:20px;
     }
+
     .grapharea{
         height:350px;
         width:100%;
@@ -44,7 +45,7 @@
 {
     display:table;
     width: 97%;
-    margin-top: 0px;
+    margin-top: -13px;
     margin-right:10px;
     padding: 10px 0 10px 0; /*set left/right padding according to needs*/
     -moz-box-sizing: border-box;

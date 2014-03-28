@@ -339,7 +339,7 @@ class User
                     $Bodytext = '<p>';
                     $Bodytext+= _("A password reset was requested for your emoncms account.");
                     $Bodytext+= '</p><p>';
-                    $bodytext+= _("You can now login with new password ").': '.$newpass
+                    $bodytext+= _("You can now login with new password ").': '.$newpass;
                     $Bodytext+= '</p>';
 
                     $transport = Swift_SmtpTransport::newInstance($smtp_email_settings['host'], 26)
