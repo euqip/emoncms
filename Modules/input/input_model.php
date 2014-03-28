@@ -154,9 +154,9 @@ class Input
         if (isset($fields->description) && $this->redis) $this->redis->hset("input:$id",'description',$fields->description);
 
         if ($this->mysqli->affected_rows>0){
-            return array('success'=>true, 'message'=>'Field updated');
+            return array('success'=>true, 'message'=>_('Field updated'));
         } else {
-            return array('success'=>false, 'message'=>'Field could not be updated');
+            return array('success'=>false, 'message'=>_('Field could not be updated'));
         }
     }
 
@@ -173,7 +173,7 @@ class Input
         
         switch ($processtype) {
             case ProcessArg::VALUE:                                       // If arg type value
-                if ($arg == '') return array('success'=>false, 'message'=>'Argument must be a valid number greater or less than 0.');
+                if ($arg == '') return array('success'=>false, 'message'=>_('Argument must be a valid number greater or less than 0.'));
                 
                 $arg = (float)$arg;
                 $arg = str_replace(',','.',$arg); // hack to fix locale issue that converts . to ,
@@ -181,11 +181,11 @@ class Input
                 break;
             case ProcessArg::INPUTID:                                     // If arg type input
                 $arg = (int) $arg;
-                if (!$this->exists($arg)) return array('success'=>false, 'message'=>'Input does not exist!');
+                if (!$this->exists($arg)) return array('success'=>false, 'message'=>_('Input does not exist!'));
                 break;
             case ProcessArg::FEEDID:                                      // If arg type feed
                 $arg = (int) $arg;
-                if (!$this->feed->exist($arg)) return array('success'=>false, 'message'=>'Feed does not exist!');
+                if (!$this->feed->exist($arg)) return array('success'=>false, 'message'=>_('Feed does not exist!'));
                 break;
             case ProcessArg::NONE:                                        // If arg type none
                 $arg = 0;
@@ -197,7 +197,7 @@ class Input
         $list .= $processid . ':' . $arg;
         $this->set_processlist($inputid, $list);
 
-        return array('success'=>true, 'message'=>'Process added');
+        return array('success'=>true, 'message'=>_('Process added'));
     }
 
     /******

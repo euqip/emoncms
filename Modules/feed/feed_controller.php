@@ -102,7 +102,7 @@ function feed_controller()
             }
             else
             {
-                $result = array('success'=>false, 'message'=>'Feed does not exist');
+                $result = array('success'=>false, 'message'=>_('Feed does not exist'));
             }
         }
     }

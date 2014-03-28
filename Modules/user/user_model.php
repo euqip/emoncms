@@ -336,6 +336,11 @@ class User
                     global $smtp_email_settings;
                     
                     require_once 'swift_required.php';
+                    $Bodytext = '<p>';
+                    $Bodytext+= _("A password reset was requested for your emoncms account.");
+                    $Bodytext+= '</p><p>';
+                    $bodytext+= _("You can now login with new password ").': '.$newpass
+                    $Bodytext+= '</p>';
 
                     $transport = Swift_SmtpTransport::newInstance($smtp_email_settings['host'], 26)
                     ->setUsername($smtp_email_settings['username'])->setPassword($smtp_email_settings['password']);
@@ -345,17 +350,17 @@ class User
                       ->setSubject('Emoncms password reset')
                       ->setFrom($smtp_email_settings['from'])
                       ->setTo(array($email))
-                      ->setBody("<p>A password reset was requested for your emoncms account.</p><p>Your can now login with password: $newpass </p>", 'text/html');
+                      ->setBody($bodytext, 'text/html');
                     $result = $mailer->send($message);
                 }
                 //------------------------------------------------------------------------------
 
                 // Sent email with $newpass to $email
-                return array('success'=>true, 'message'=>"Password recovery email sent!");
+                return array('success'=>true, 'message'=>_("Password recovery email sent!"));
             }
         }
 
-        return array('success'=>false, 'message'=>"An error occured");
+        return array('success'=>false, 'message'=>_("An error occured"));
     }
 
     public function change_username($userid, $username)

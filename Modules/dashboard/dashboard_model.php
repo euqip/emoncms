@@ -132,9 +132,9 @@ class Dashboard
         $this->mysqli->query("UPDATE dashboard SET ".$fieldstr." WHERE userid='$userid' and `id` = '$id'");
 
         if ($this->mysqli->affected_rows>0){
-            return array('success'=>true, 'message'=>'Field updated');
+            return array('success'=>true, 'message'=>_('Field updated'));
         } else {
-            return array('success'=>false, 'message'=>'Field could not be updated');
+            return array('success'=>false, 'message'=>_('Field could not be updated'));
         }
     }
 
