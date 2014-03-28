@@ -135,7 +135,7 @@ function draw_gauge(ctx,x,y,width,height,position,maxvalue,units,type, offset, g
   // if units == false: "". Else units
   units = units || "";
   offset = 1*offset || 0;
-  var rawValue = position
+  var val = position
   position = position-offset
 
   var size = 0;
@@ -269,19 +269,21 @@ function draw_gauge(ctx,x,y,width,height,position,maxvalue,units,type, offset, g
   ctx.fillStyle = "#fff";
   ctx.textAlign    = "center";
   ctx.font = "bold "+(size*0.28)+"px arial";
-  if (rawValue>100)
-  {
-    rawValue = rawValue.toFixed(0);
-  }
-  else if (rawValue>10)
-  {
-    rawValue = rawValue.toFixed(1);
-  }
-  else
-  {
-    rawValue = rawValue.toFixed(2);
-  }
-  ctx.fillText(rawValue+units,x,y+(size*0.125));
+  
+    if (isNaN(val))  val = 0;
+
+    else if (val>=100)
+        val = val.toFixed(0);
+    else if (val>=10)
+        val = val.toFixed(1);
+    else if (val<=-100)
+        val = val.toFixed(0);
+    else if (val<=-10)
+        val = val.toFixed(1);
+    else
+        val = val.toFixed(2);
+    
+  ctx.fillText(val+units,x,y+(size*0.125));
 
 
   ctx.fillStyle = "#000";

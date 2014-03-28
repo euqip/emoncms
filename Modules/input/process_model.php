@@ -67,8 +67,13 @@ class Process
         $list[25] = array(_("Allow negative"),ProcessArg::NONE,"allownegative",0,DataType::UNDEFINED,"Limits");           
         $list[26] = array(_("Signed to unsigned"),ProcessArg::NONE,"signed2unsigned",0,DataType::UNDEFINED,"Misc");       
         $list[27] = array(_("Max value"),ProcessArg::FEEDID,"max_value",1,DataType::DAILY,"Misc",array(Engine::PHPFINA));                        
-        $list[28] = array(_("Min value"),ProcessArg::FEEDID,"min_value",1,DataType::DAILY,"Misc",array(Engine::PHPFINA));                        
-
+        $list[28] = array(_("Min value"),ProcessArg::FEEDID,"min_value",1,DataType::DAILY,"Misc",array(Engine::PHPFINA));  
+                              
+        $list[29] = array(_(" + feed"),ProcessArg::FEEDID,"add_feed",0,DataType::UNDEFINED,"Feed");        // Klaus 24.2.2014
+        $list[30] = array(_(" - feed"),ProcessArg::FEEDID,"sub_feed",0,DataType::UNDEFINED,"Feed");        // Klaus 24.2.
+        $list[31] = array(_(" * feed"),ProcessArg::FEEDID,"multiply_by_feed",0,DataType::UNDEFINED,"Feed");
+        $list[32] = array(_(" / feed"),ProcessArg::FEEDID,"divide_by_feed",0,DataType::UNDEFINED,"Feed");
+        
         // $list[29] = array(_("save to input"),ProcessArg::INPUTID,"save_to_input",1,DataType::UNDEFINED);
 
         return $list;
@@ -165,13 +170,6 @@ class Process
         return $value - $this->input->get_last_value($id);
     }
 
-    public function add_feed($id, $time, $value)
-    {
-        $last = $this->feed->get_timevalue($feedid);
-        $value = $value + $last['value'];
-        return $value;
-    }
-
     //---------------------------------------------------------------------------------------
     // Power to kwh
     //---------------------------------------------------------------------------------------
@@ -219,25 +217,35 @@ class Process
         if (!isset($last['value'])) $last['value'] = 0;
         $last_kwh = $last['value']*1;
         $last_time = $last['time']*1;
+        
+        //$current_slot = floor($time_now / 86400) * 86400;
+        //$last_slot = floor($last_time / 86400) * 86400;
+        $current_slot = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
+        $last_slot = mktime(0, 0, 0, date("m",$last_time), date("d",$last_time), date("Y",$last_time));       
 
-        if ($last_time && ((time()-$last_time)<7200))
-        {
+        if ($last_time && ((time()-$last_time)<7200)) {
             // kWh calculation
             $time_elapsed = ($time_now - $last_time);
             $kwh_inc = ($time_elapsed * $value) / 3600000.0;
-            $new_kwh = $last_kwh + $kwh_inc;
         } else {
             // in the event that redis is flushed the last time will
             // likely be > 7200s ago and so kwh inc is not calculated
-            // rather than enter 0 we enter the last value
-            $new_kwh = $last_kwh;
+            // rather than enter 0 we dont increase it
+            $kwh_inc = 0;
         }
-
-        $feedtime = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
-        $this->feed->update_data($feedid, $time_now, $feedtime, $new_kwh);
+        
+        if($last_slot == $current_slot) {
+            $new_kwh = $last_kwh + $kwh_inc;
+        } else {
+            # We are working in a new slot (new day) so don't increment it with the data from yesterday
+            $new_kwh = $kwh_inc;
+        }
+        
+        $this->feed->update_data($feedid, $time_now, $current_slot, $new_kwh);
 
         return $value;
     }
+
 
     public function kwh_to_kwhd($feedid, $time_now, $value)
     {
@@ -245,6 +253,12 @@ class Process
         if (!$redis) return $value; // return if redis is not available
         
         $currentkwhd = $this->feed->get_timevalue($feedid);
+        $last_time = strtotime($currentkwhd['time']);
+        
+        //$current_slot = floor($time_now / 86400) * 86400;
+        //$last_slot = floor($last_time / 86400) * 86400;
+        $current_slot = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
+        $last_slot = mktime(0, 0, 0, date("m",$last_time), date("d",$last_time), date("Y",$last_time));
 
         if ($redis->exists("process:kwhtokwhd:$feedid")) {
             $lastkwhvalue = $redis->hmget("process:kwhtokwhd:$feedid",array('time','value'));
@@ -253,12 +267,16 @@ class Process
             // kwh values should always be increasing so ignore ones that are less
             // assume they are errors
             if ($kwhinc<0) { $kwhinc = 0; $value = $lastkwhvalue['value']; }
+            
+            if($last_slot == $current_slot) {
+                $new_kwh = $currentkwhd['value'] + $kwhinc;
+            } else {
+                $new_kwh = $kwhinc;
+            }
 
-            $new_kwh = $currentkwhd['value'] + $kwhinc;
-
-            $feedtime = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
-            $this->feed->update_data($feedid, $time_now, $feedtime, $new_kwh);
+            $this->feed->update_data($feedid, $time_now, $current_slot, $new_kwh);
         }
+        
         $redis->hMset("process:kwhtokwhd:$feedid", array('time' => $time_now, 'value' => $value));
 
         return $value;
@@ -271,18 +289,26 @@ class Process
     {
         // Get last value
         $last = $this->feed->get_timevalue($feedid);
-        $last['time'] = strtotime($last['time']);
+        $last_time = strtotime($last['time']);
+        
+        //$current_slot = floor($time_now / 86400) * 86400;
+        //$last_slot = floor($last_time / 86400) * 86400;
+        $current_slot = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
+        $last_slot = mktime(0, 0, 0, date("m",$last_time), date("d",$last_time), date("Y",$last_time));
+        
         if (!isset($last['value'])) $last['value'] = 0;
         $ontime = $last['value'];
-
-        if ($value > 0 && (($time_now-$last['time'])<7200))
+        $time_elapsed = 0;
+        
+        if ($value > 0 && (($time_now-$last_time)<7200))
         {
-            $time_elapsed = $time_now - $last['time'];
+            $time_elapsed = $time_now - $last_time;
             $ontime += $time_elapsed;
         }
+        
+        if($last_slot != $current_slot) $ontime = $time_elapsed;
 
-        $feedtime = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
-        $this->feed->update_data($feedid, $time_now, $feedtime, $ontime);
+        $this->feed->update_data($feedid, $time_now, $current_slot, $ontime);
 
         return $value;
     }
@@ -314,10 +340,17 @@ class Process
     public function kwhinc_to_kwhd($feedid, $time_now, $value)
     {
         $last = $this->feed->get_timevalue($feedid);
+        $last_time = strtotime($last['time']);
+        
+        //$current_slot = floor($time_now / 86400) * 86400;
+        //$last_slot = floor($last_time / 86400) * 86400;
+        $current_slot = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
+        $last_slot = mktime(0, 0, 0, date("m",$last_time), date("d",$last_time), date("Y",$last_time));
+               
         $new_kwh = $last['value'] + ($value / 1000.0);
-
-        $feedtime = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
-        $this->feed->update_data($feedid, $time_now, $feedtime, $new_kwh);
+        if ($last_slot != $current_slot) $new_kwh = ($value / 1000.0);
+        
+        $this->feed->update_data($feedid, $time_now, $current_slot, $new_kwh);
 
         return $value;
     }
@@ -481,6 +514,39 @@ class Process
         }
         return $value;
 
+    }
+    
+    public function add_feed($feedid, $time, $value)
+    {
+        $last = $this->feed->get_timevalue($feedid);
+        $value = $last['value'] + $value;
+        return $value;
+    }
+
+    public function sub_feed($feedid, $time, $value)
+    {
+        $last  = $this->feed->get_timevalue($feedid);
+        $myvar = $last['value'] *1;
+        return $value - $myvar;
+    }
+    
+    public function multiply_by_feed($feedid, $time, $value)
+    {
+        $last = $this->feed->get_timevalue($feedid);
+        $value = $last['value'] * $value;
+        return $value;
+    }
+
+   public function divide_by_feed($feedid, $time, $value)
+    {
+        $last  = $this->feed->get_timevalue($feedid);
+        $myvar = $last['value'] *1;
+        
+        if ($myvar!=0) {
+            return $value / $myvar;
+        } else {
+            return 0;
+        }
     }
 
     // No longer used

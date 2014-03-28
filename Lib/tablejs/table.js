@@ -244,6 +244,11 @@ var table = {
             },
             'save': function (row,field) { return $("[row="+row+"][field="+field+"] select").val() },
         },
+        
+        'fixedselect':
+        {
+            'draw': function (row,field) { return table.fields[field].options[table.data[row][field]] }
+        },
 
         'checkbox':
         {

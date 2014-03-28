@@ -1,8 +1,20 @@
 # Emoncms 8
 
-# Installation on Linux
+## Installation on Raspian/Debian/Ubuntu
 
-## Install dependencies
+Starting with version 8, it is possible to install emoncms using standard Debian package management, and this is the recommended option if your system is compatible.
+
+There are significant advantages, including fewer manual processes, built-in dependency management and ease of upgrade / configuration. 
+
+It's also the most stable way of maintaining an emoncms installation because only formally tagged versions of the master branch are included in the [pkg-emoncms](https://github.com/Dave-McCraw/pkg-emoncms/) repository and uploaded to apt. 
+
+Do not use this approach if you want to run nightly builds!
+
+**Installation instructions are maintained in the [pkg-emoncms](https://github.com/Dave-McCraw/pkg-emoncms/) readme**.
+
+## Installation on Linux
+
+### Install dependencies
 
 You may need to start by updating the system repositories
 
@@ -23,8 +35,6 @@ Add pecl modules to php5 config
     sudo sh -c 'echo "extension=dio.so" > /etc/php5/cli/conf.d/20-dio.ini'
     sudo sh -c 'echo "extension=redis.so" > /etc/php5/apache2/conf.d/20-redis.ini'
     sudo sh -c 'echo "extension=redis.so" > /etc/php5/cli/conf.d/20-redis.ini'
-
-### Enable mod rewrite
 
 Emoncms uses a front controller to route requests, modrewrite needs to be configured:
 
@@ -57,7 +67,7 @@ Cd into www directory
 
 Download emoncms using git:
 
-    $ git clone -b rework https://github.com/emoncms/emoncms.git
+    $ git clone https://github.com/emoncms/emoncms.git
     
 Once installed you can pull in updates with:
 
@@ -76,7 +86,7 @@ Exit mysql by:
 
     mysql> exit
     
-## Create data repositories for emoncms feed engine's
+### Create data repositories for emoncms feed engine's
 
     sudo mkdir /var/lib/phpfiwa
     sudo mkdir /var/lib/phpfina
@@ -107,16 +117,16 @@ Enter in your database settings.
     $server   = "localhost";
     $database = "emoncms";
 
+You will also want to modify SMTP settings and the password reset flag further down in the settings file.
+
 Save (Ctrl-X), type Y and exit
 
 ### Install add-on emoncms modules
-
-Install additional modules:
     
     cd /var/www/emoncms/Modules
     
-    git clone -b redismetadata https://github.com/emoncms/raspberrypi.git
-    git clone -b redismetadata https://github.com/emoncms/event.git
+    git clone https://github.com/emoncms/raspberrypi.git
+    git clone https://github.com/emoncms/event.git
     git clone https://github.com/emoncms/openbem.git
     git clone https://github.com/emoncms/energy.git
     git clone https://github.com/emoncms/notify.git
@@ -125,6 +135,26 @@ Install additional modules:
     git clone https://github.com/elyobelyob/mqtt.git
  
 See individual module readme's for further information on individual module installation.
+
+### In an internet browser, load emoncms:
+
+[http://localhost/emoncms](http://localhost/emoncms)
+
+The first time you run emoncms it will automatically setup the database and you will be taken straight to the register/login screen. 
+
+Create an account by entering your email and password and clicking register to complete.
+
+#### Note: Browser Compatibility
+
+**Chrome Ubuntu 23.0.1271.97** - developed with, works great.
+
+**Chrome Windows 25.0.1364.172** - quick check revealed no browser specific bugs.
+
+**Firefox Ubuntu 15.0.1** - no critical browser specific bugs, but movement in the dashboard editor is much less smooth than chrome.
+
+**Internet explorer 9** - works well with compatibility mode turned off. F12 Development tools -> browser mode: IE9. Some widgets such as the hot water cylinder do load later than the dial.
+
+**IE 8, 7** - not recommended, widgets and dashboard editor <b>do not work</b> due to no html5 canvas fix implemented but visualisations do work as these have a fix applied.
 
 # Shared Linux Hosting
 
@@ -148,4 +178,63 @@ Then create three folders within your emoncmsdata folder called: phpfiwa, phpfin
 5) Thats it, emoncms should now be ready to use! 
 
 
+#### PHP Suhosin module configuration (Debian 6, not required in ubuntu)
 
+Dashboard editing needs to pass parameters through HTTP-GET mechanism and on Debian 6 the max
+allowable length of a single parameter is very small (512 byte). This is a problem for designing of dashboard
+and when you exceed this threshold all created dashboard are lost...
+
+To overcome this problem modify "suhosin.get.max_value_length" in /etc/php5/conf.d/suhosin.ini" to large
+value (8000, 16000 should be fine).
+
+#### Enable Multi lingual support using gettext
+
+Follow the guide here step 4 onwards: [http://emoncms.org/site/docs/gettext](http://emoncms.org/site/docs/gettext)
+
+#### Configure PHP Timezone
+
+PHP 5.4.0 has removed the timezone guessing algorithm and now defaults the timezone to "UTC" on some distros (i.e. Ubuntu 13.10). To resolve this:
+
+Open php.ini
+
+    sudo vi /etc/php5/apache2/php.ini
+
+and search for "date.timezone"
+
+    [Date]
+    ; Defines the default timezone used by the date functions.
+    ; http://php.net/date.timezone
+    ;date.timezone =
+
+edit date.timezone to your appropriate timezone:
+
+    date.timezone = "Europe/Amsterdam"
+    
+PHP supported timezones are listed here: http://php.net/manual/en/timezones.php
+
+Now save and close and restart your apache.
+
+    sudo /etc/init.d/apache2 restart
+    
+# Developers
+Emoncms is developed and has had contributions from the following people.
+
+- Trystan Lea		https://github.com/trystanlea (principal maintainer)
+- Ildefonso Martínez	https://github.com/ildemartinez
+- Matthew Wire		https://github.com/mattwire
+- Baptiste Gaultier	https://github.com/bgaultier
+- Paul Allen		https://github.com/MarsFlyer
+- James Moore		https://github.com/foozmeat		
+- Lloyda		https://github.com/lloyda
+- JSidrach		https://github.com/JSidrach
+- Jramer		https://github.com/jramer
+- Drsdre		https://github.com/drsdre
+- Dexa187		https://github.com/dexa187
+- Carlos Alonso Gabizó
+- PlaneteDomo   https://github.com/PlaneteDomo
+- Paul Reed     https://github.com/Paul-Reed
+- thunderace    https://github.com/thunderace
+- pacaj2am      https://github.com/pacaj2am
+- Ynyr Edwards  https://github.com/ynyreds
+- Jerome        https://github.com/Jerome-github
+- fake-name     https://github.com/fake-name

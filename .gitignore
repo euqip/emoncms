@@ -1,4 +1,5 @@
 .project
+debian/emoncms*
 settings.php
 Modules/sync
 Modules/event
@@ -21,3 +22,4 @@ Modules/converttotimestore
 Modules/mqtt
 Modules/packetgen
 Modules/openbem
+Modules/scheduler

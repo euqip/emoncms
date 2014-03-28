@@ -39,7 +39,7 @@ function languagecodetotext()
 
 <div class="row">
 
-  <div class="col-md-5">
+  <div class="col-md-3">
    <h3><?php echo _('My account'); ?></h3>
 
   <div id="account">
@@ -72,6 +72,16 @@ function languagecodetotext()
       </p>
       <div id="change-email-error" class="alert-danger" style="display:none; width:100%"></div> 
 
+        <p>
+            <span class="text-muted"><?php echo _('Write API Key'); ?> </span>
+            <!--<a id="newapikeywrite" >new</a>-->
+            <span class="writeapikey btn btn-warning"></span>
+        </p>
+        <p>
+            <span class="text-muted"><?php echo _('Read API Key'); ?> </span>
+            <!--<a id="newapikeyread" >new</a>-->
+            <span class="readapikey btn btn-warning"></span>
+        </p>
 
 
 
@@ -119,6 +129,13 @@ function languagecodetotext()
 
     list.data = user.get();
 
+    $(".writeapikey").html(list.data.apikey_write);
+    $(".readapikey").html(list.data.apikey_read);
+    
+    // Need to add an are you sure modal before enabling this.
+    // $("#newapikeyread").click(function(){user.newapikeyread()});
+    // $("#newapikeywrite").click(function(){user.newapikeywrite()});
+    
     var currentlanguage = list.data.language;
 
     list.fields = {
