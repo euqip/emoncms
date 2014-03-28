@@ -75,7 +75,7 @@ class Feed
         
         // If feed of given name by the user already exists
         $feedid = $this->get_id($userid,$name);
-        if ($feedid!=0) return array('success'=>false, 'message'=>'feed already exists');
+        if ($feedid!=0) return array('success'=>false, 'message'=>_('feed already exists');
 
         $result = $this->mysqli->query("INSERT INTO feeds (userid,name,datatype,public,engine) VALUES ('$userid','$name','$datatype',false,'$engine')");
         $feedid = $this->mysqli->insert_id;
@@ -248,7 +248,7 @@ class Feed
     public function get($id)
     {
         $id = (int) $id;
-        if (!$this->exist($id)) return array('success'=>false, 'message'=>'Feed does not exist');
+        if (!$this->exist($id)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
         if ($this->redis) {
             // Get from redis cache
@@ -269,7 +269,7 @@ class Feed
     public function get_field($id,$field)
     {
         $id = (int) $id;
-        if (!$this->exist($id)) return array('success'=>false, 'message'=>'Feed does not exist');
+        if (!$this->exist($id)) return array('success'=>false, 'message'=>'_(Feed does not exist'));
 
         if ($field!=NULL) // if the feed exists
         {
@@ -285,7 +285,7 @@ class Feed
             
             if ($val) return $val; else return 0;
         }
-        else return array('success'=>false, 'message'=>'Missing field parameter');
+        else return array('success'=>false, 'message'=>_('Missing field parameter'));
     }
 
     public function get_timevalue($id)
@@ -332,7 +332,7 @@ class Feed
     public function get_timevalue_from_data($feedid)
     {
         $feedid = (int) $feedid;
-        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist');
 
         $engine = $this->get_engine($feedid);
         
@@ -349,7 +349,7 @@ class Feed
     public function set_feed_fields($id,$fields)
     {
         $id = (int) $id;
-        if (!$this->exist($id)) return array('success'=>false, 'message'=>'Feed does not exist');
+        if (!$this->exist($id)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
         $fields = json_decode(stripslashes($fields));
 
@@ -359,6 +359,7 @@ class Feed
         if (isset($fields->name)) $array[] = "`name` = '".preg_replace('/[^\w\s-]/','',$fields->name)."'";
         if (isset($fields->tag)) $array[] = "`tag` = '".preg_replace('/[^\w\s-]/','',$fields->tag)."'";
         if (isset($fields->public)) $array[] = "`public` = '".intval($fields->public)."'";
+        if (isset($fields->engine)) $array[] = "`engine` = '".intval($fields->engine)."'";
 
         // Convert to a comma seperated string for the mysql query
         $fieldstr = implode(",",$array);
@@ -368,11 +369,12 @@ class Feed
         if ($this->redis && isset($fields->name)) $this->redis->hset("feed:$id",'name',$fields->name);
         if ($this->redis && isset($fields->tag)) $this->redis->hset("feed:$id",'tag',$fields->tag);
         if ($this->redis && isset($fields->public)) $this->redis->hset("feed:$id",'public',$fields->public);
+        if ($this->redis && isset($fields->engine)) $this->redis->hset("feed:$id",'engine',$fields->engine);
 
         if ($this->mysqli->affected_rows>0){
-            return array('success'=>true, 'message'=>'Field updated');
+            return array('success'=>true, 'message'=>_('Field updated'));
         } else {
-            return array('success'=>false, 'message'=>'Field could not be updated');
+            return array('success'=>false, 'message'=>_('Field could not be updated'));
         }
     }
 
@@ -387,7 +389,7 @@ class Feed
     public function insert_data($feedid,$updatetime,$feedtime,$value)
     {
         $feedid = (int) $feedid;
-        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
         if ($feedtime == null) $feedtime = time();
         $updatetime = intval($updatetime);
@@ -414,7 +416,7 @@ class Feed
     public function update_data($feedid,$updatetime,$feedtime,$value)
     {
         $feedid = (int) $feedid;
-        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
         if ($feedtime == null) $feedtime = time();
         $updatetime = intval($updatetime);
@@ -447,7 +449,7 @@ class Feed
         $feedid = (int) $feedid;
         if ($end == 0) $end = time()*1000;
                 
-        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
   
         $engine = $this->get_engine($feedid);
         
@@ -462,7 +464,7 @@ class Feed
         $feedid = (int) $feedid;
         if ($end == 0) $end = time()*1000;
         
-        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
         $engine = $this->get_engine($feedid);
 
@@ -473,7 +475,7 @@ class Feed
     public function csv_export($feedid,$start,$end,$outinterval)
     {
         $feedid = (int) $feedid;
-        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist');
 
         $engine = $this->get_engine($feedid);
         //print_r($engine);
@@ -489,7 +491,7 @@ class Feed
     public function delete($feedid)
     {
         $feedid = (int) $feedid;
-        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
         $engine = $this->get_engine($feedid);
         

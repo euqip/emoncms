@@ -69,6 +69,8 @@ var feed = {
   'set':function(id, fields)
   {
     var result = {};
+//    $.ajax({ url: path+"feed/set.json", data: "id="+id+"&fields="+JSON.stringify(fields), async: false, success: function(data){} });
+    //console.log('json out string: '+JSON.stringify(fields))
     $.ajax({ url: path+"feed/set.json", data: "id="+id+"&fields="+JSON.stringify(fields), async: false, success: function(data){} });
     return result;
   },
