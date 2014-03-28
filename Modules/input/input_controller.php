@@ -207,7 +207,8 @@ function input_controller()
         if ($route->action == 'post')
         {
             $valid = true; $error = "";
-            $nodeid = get('node');
+
+            $nodeid = (int) get('node');
             // in old version the node id is not defined so use a default 0
             if($nodeid==""){
                 $nodeid=0;

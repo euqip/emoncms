@@ -17,7 +17,7 @@
 
   define('EMONCMS_EXEC', 1);
     
-    $emoncms_version = "8.0.6";
+    $emoncms_version = "8.0.7";
 
   // 1) Load settings and core scripts
   require "process_settings.php";
