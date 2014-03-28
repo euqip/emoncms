@@ -75,7 +75,7 @@ class Feed
         
         // If feed of given name by the user already exists
         $feedid = $this->get_id($userid,$name);
-        if ($feedid!=0) return array('success'=>false, 'message'=>_('feed already exists');
+        if ($feedid!=0) return array('success'=>false, 'message'=>_('feed already exists'));
 
         $result = $this->mysqli->query("INSERT INTO feeds (userid,name,datatype,public,engine) VALUES ('$userid','$name','$datatype',false,'$engine')");
         $feedid = $this->mysqli->insert_id;
@@ -269,7 +269,7 @@ class Feed
     public function get_field($id,$field)
     {
         $id = (int) $id;
-        if (!$this->exist($id)) return array('success'=>false, 'message'=>'_(Feed does not exist'));
+        if (!$this->exist($id)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
         if ($field!=NULL) // if the feed exists
         {
@@ -332,7 +332,7 @@ class Feed
     public function get_timevalue_from_data($feedid)
     {
         $feedid = (int) $feedid;
-        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist');
+        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
         $engine = $this->get_engine($feedid);
         
@@ -475,7 +475,7 @@ class Feed
     public function csv_export($feedid,$start,$end,$outinterval)
     {
         $feedid = (int) $feedid;
-        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist');
+        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
         $engine = $this->get_engine($feedid);
         //print_r($engine);
