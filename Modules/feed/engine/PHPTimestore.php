@@ -602,6 +602,10 @@ class PHPTimestore
     
     public function csv_export($feedid,$start,$end,$outinterval)
     {
+        $colsepar=";";
+        $decsepar=",";
+        $dateformat="Y-m-d";
+        $timeformat="H:i:s";
         $feedid = (int) $feedid;
         $start = (int) $start;
         $end = (int) $end;
@@ -737,7 +741,11 @@ class PHPTimestore
             if ($points_in_sum) {
                 $timestamp = $meta->start + $layer_interval * ($point+$i-1);
                 $average = $point_sum / $points_in_sum;
-                fwrite($exportfh, $timestamp.",".number_format($average,2)."\n");
+                //fwrite($exportfh, $timestamp.",".number_format($average,2)."\n");
+                $humanDate=gmdate($dateformat, $timestamp);
+                $humanTime=gmdate($timeformat, $timestamp);
+                $dataValue=str_replace(".",$decsepar,number_format($average,2));
+                fwrite($exportfh, $time.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.$dataValue."\n");
                 //print "--".$average."<br>";
             }
 
