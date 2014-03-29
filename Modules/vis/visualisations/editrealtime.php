@@ -69,6 +69,7 @@
 {
     display: table-cell;
     float: none;
+    padding-top: 3px;
 }
 .alignbottom{
     padding-top:12px;
@@ -99,7 +100,7 @@ div {
 <?php } ?>
 <div class="container">
     <div id="graph_bound" class="grapharea">
-        <div id="graph">  
+        <div id="graph" title ="<?php echo _('Use the above buttons to change scale or view window.') ?>">  
         </div>
         <div class="graphbuttonsblock">
             <input class="time" type="button" value="<?php echo _('D')?>" time="1"/>
@@ -138,10 +139,12 @@ div {
             </div>
         </div>
         <div class="row">
-           <div class="col-md-9">
-                <button id="okb" class="btn btn-info"><span class="glyphicon glyphicon-save"></span><?php echo _('Save'); ?></button>
-                <button id="delete-button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span><?php echo _('Delete point'); ?></button>
-                
+           <div class="col-md-1">
+                <button id="okb" class="btn btn-info"  title ="<?php echo _('Save the changes made to one data sample"><span class="glyphicon glyphicon-save') ?>"></span><?php echo _('Save'); ?></button>
+                <button id="delete-button" class="btn btn-danger"  title ="<?php echo _('Delete the selected sample"><span class="glyphicon glyphicon-trash') ?>"></span><?php echo _('Delete point'); ?></button>
+            </div>
+            <div class="col-md-1">
+                <button id="export-button" class="btn btn-warning"  title ="<?php echo _('Export the graph data"><span class="glyphicon glyphicon-download') ?>"></span><?php echo _('export graph data'); ?></button>                
             </div>
         </div>
 
@@ -161,8 +164,12 @@ div {
         </div>
 
         <div class="row">
-           <div class="col-md-9">
+           <div class="col-md-1">
                 <button id="multiply-submit" class="btn btn-info"><span class="glyphicon glyphicon-save"></span><?php echo _('Save'); ?></button>            
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
             </div>
         </div>
 
