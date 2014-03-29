@@ -30,6 +30,15 @@
         position:absolute;
         top:10px;
         right:20px;
+        opacity: 0.1;
+    -webkit-transition: opacity 1s ease-in-out;/* transition pour Chrome et Safari */
+    -moz-transition: opacity 1s ease-in-out;/* transition pour Firefox */
+    -o-transition: opacity 1s ease-in-out;/* transition pour Opéra */
+    transition: opacity 1s ease-in-out; /* on écrit cette ligne à la fin de façon à ce que ce soit elle qui soit prise en compte lorsque l'attribut transition sera pris en compte par tous les navigateurs */
+    }
+
+    .graphbuttonsblock:hover{
+        opacity:1;
     }
 
     .grapharea{
@@ -184,6 +193,7 @@ div {
 
 
 <script id="source" language="javascript" type="text/javascript">
+
 
     $('#graph').width($('#graph_bound').width());
     $('#graph').height($('#graph_bound').height());
