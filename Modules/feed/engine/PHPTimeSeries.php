@@ -302,6 +302,9 @@ class PHPTimeSeries
     
     public function csv_export($feedid,$start,$end,$outinterval)
     {
+        $colsepar=",";
+        $decsepar=".";
+
         $feedid = (int) $feedid;
         $start = (int) $start;
         $end = (int) $end;
@@ -364,7 +367,11 @@ class PHPTimeSeries
 
             // $last_time = 0 only occur in the first run
             if (($time!=$last_time && $time>$last_time) || $last_time==0) {
-                fwrite($exportfh, $time.",".number_format($array['value'],2)."\n");
+                $humanDate=gmdate("Y-m-d", $time);
+                $humanTime=gmdate("H:i:s", $time);
+                //fwrite($exportfh, $time.",".number_format($array['value'],2)."\n");
+                $dataValue=str_replace(".",$decsepar,number_format($array['value'],2));
+                fwrite($exportfh, $time.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.$dataValue."\n");
             }
         }
         fclose($exportfh);
