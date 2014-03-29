@@ -199,22 +199,9 @@
 /*  
 =======
     table.fields = {
-        'id':{'title':"<?php echo _('Id'); ?>", 'type':"fixed"},
-        'name':{'title':"<?php echo _('Name'); ?>", 'type':"text"},
-        'tag':{'title':"<?php echo _('Tag'); ?>", 'type':"text"},
-        'datatype':{'title':"<?php echo _('Datatype'); ?>", 'type':"select", 'options':['','REALTIME','DAILY','HISTOGRAM']},
+
+        one line is changed to make engine non updatable
         'engine':{'title':"<?php echo _('Engine'); ?>", 'type':"fixedselect", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE','PHPTIMESTORE','PHPFINA','PHPFIWA']},
-        'public':{'title':"<?php echo _('Public'); ?>", 'type':"icon", 'trueicon':"icon-globe", 'falseicon':"icon-lock"},
-        'size':{'title':"<?php echo _('Size'); ?>", 'type':"fixed"},
-
-        'time':{'title':"<?php echo _('Updated'); ?>", 'type':"updated"},
-        'value':{'title':"<?php echo _('Value'); ?>",'type':"value"},
-
-        // Actions
-        'edit-action':{'title':'', 'type':"edit"},
-        'delete-action':{'title':'', 'type':"delete"},
-        'view-action':{'title':'', 'type':"iconlink", 'link':path+"vis/auto?feedid="},
-        'icon-basic':{'title':'', 'type':"iconbasic", 'icon':'icon-circle-arrow-down'}
 
     }
 >>>>>>> f78a8022ecc4c3ed3878e462ed13fc052024e627

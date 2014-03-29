@@ -319,5 +319,20 @@ div {
         $('#myModal').hide();
         //$('#myModal').modal('hide');
     });
+
+
+    $("#export-button").click(function()
+    {
+        //var feedid = $(this).attr('feedid');
+        var export_start = parseInt(start/1000);
+        var export_end = parseInt(end/1000);
+        //try to find timeinterval used in graph
+        var export_interval = 1;
+        var export_error = false;
+        var cmd=path+"feed/csvexport.json?id="+feedid+"&start="+export_start+"&end="+export_end+"&interval="+export_interval;
+        //console.log(cmd);
+        window.open (cmd);
+    });
+
 </script>
 
