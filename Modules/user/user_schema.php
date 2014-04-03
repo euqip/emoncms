@@ -2,6 +2,7 @@
 
 $schema['users'] = array(
     'id' => array('type' => 'int(11)', 'Null'=>'NO', 'Key'=>'PRI', 'Extra'=>'auto_increment'),
+    'orgid' => array('type' => 'int(11)', 'Null'=>'NO','default'=>'0'),
     'username' => array('type' => 'varchar(30)'),
     'email' => array('type' => 'varchar(30)'),
     'password' => array('type' => 'varchar(64)'),
@@ -17,8 +18,14 @@ $schema['users'] = array(
     'location'=>array('type'=>'varchar(30)', 'default'=>''),
     'timezone' => array('type' => 'int(11)', 'default'=>0),
     'language' => array('type' => 'varchar(5)', 'default'=>'en_EN'),
-    'bio' => array('type' => 'text', 'default'=>'')
+    'bio' => array('type' => 'text', 'default'=>''),
+    'index' => array(
+        'orgid'=> array('unique'=>false),
+        'username'=> array('unique'=>true)
+        )
+
 );
+
 
 $schema['rememberme'] = array(
     'userid' => array('type' => 'int(11)'),

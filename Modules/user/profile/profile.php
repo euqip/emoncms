@@ -39,7 +39,7 @@ function languagecodetotext()
 
 <div class="row">
 
-  <div class="col-md-3">
+  <div class="col-md-4">
    <h3><?php echo _('My account'); ?></h3>
 
   <div id="account">

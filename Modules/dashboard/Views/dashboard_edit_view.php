@@ -47,7 +47,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   <canvas id="can" width="940px" height="<?php echo $dashboard['height']; ?>px" style="position:absolute; top:0px; left:0px; margin:0; padding:0;"></canvas>
 </div>
 
-<div class="modal fade emoncms-dialog type-primary" id="widgetconfigmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade emoncms-dialog type-primary" id="widget_options" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -61,7 +61,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
               </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
-                <button class="btn" id="save-dashboard"><span class="emoncms-dialog-button-icon glyphicon glyphicon-save"></span><?php echo _('Save Changes'); ?></button>
+                <button class="btn" id="options-save"><span class="emoncms-dialog-button-icon glyphicon glyphicon-save"></span><?php echo _('Save Changes'); ?></button>
              </div>
         </div>
     </div>
@@ -128,23 +128,17 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
     designer.draw();
   });
 
-  $("#config-dashboard").click(function(event) { 
-      // adjust the dashbord properties
-      //html= designer.draw_options($("#"+designer.selected_box).attr("class"));
-      //$('#msgcontent').html(html);
-      $('#configmodal').modal('show');
-  })
 
   $("#options-button").click(function(event) { 
       html= designer.draw_options($("#"+designer.selected_box).attr("class"));
       $('#msgcontent').html(html);
-      $('#widgetconfigmodal').modal('show');
+      $('#widget_options').modal('show');
   })
 
   $('#saveconfig').click(function (e){
     saveoptions();
     update();
-    $('#configmodal').modal('hide');
+    $('#widget_options').modal('hide');
   })
 
   $('.iconbutton').click(function (e){
@@ -159,7 +153,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
       }
     })
 
-
+/*
 function saveoptions(){        
             $(".options").each(function() {
                 if ($(this).attr("id")=="html")
@@ -180,4 +174,5 @@ function saveoptions(){
                 }
             });
         }
+*/
 </script>

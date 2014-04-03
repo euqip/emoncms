@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 <html>
     <head>
 <!----------------------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@
     {
      var result = {};
       $.ajax({ url: path+"feed/timevalue.json", data: "id="+feedid, dataType: 'json', async: false, success: function(datain) {result = datain;} });
-
+      console.log(result);  
       var timestamp = new Date;
       
       if (data[data.length-1][0]!=result.time*1000) {

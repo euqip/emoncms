@@ -30,74 +30,95 @@ function db_schema_setup($mysqli, $schema, $apply)
             //-----------------------------------------------------
             while ($field = key($schema[$table]))
             { 
-                $type = $schema[$table][$field]['type'];
-                if (isset($schema[$table][$field]['Null'])) $null = $schema[$table][$field]['Null']; else $null = "YES";
-                if (isset($schema[$table][$field]['Key'])) $key = $schema[$table][$field]['Key']; else $key = null;
-                if (isset($schema[$table][$field]['default'])) $default = $schema[$table][$field]['default']; else unset($default);
-                if (isset($schema[$table][$field]['Extra'])) $extra = $schema[$table][$field]['Extra']; else $extra = null;
+                if ($field!='index'){
+                    $type = $schema[$table][$field]['type'];
+                    if (isset($schema[$table][$field]['Null'])) $null = $schema[$table][$field]['Null']; else $null = "YES";
+                    if (isset($schema[$table][$field]['Key'])) $key = $schema[$table][$field]['Key']; else $key = null;
+                    if (isset($schema[$table][$field]['default'])) $default = $schema[$table][$field]['default']; else unset($default);
+                    if (isset($schema[$table][$field]['Extra'])) $extra = $schema[$table][$field]['Extra']; else $extra = null;
 
-                // if field exists:
-                $result = $mysqli->query("SHOW COLUMNS FROM `$table` LIKE '$field'");
-                if ($result->num_rows==0)
-                {
-                    $query = "ALTER TABLE `$table` ADD `$field` $type";
-                    if ($null) $query .= " NOT NULL";
-                    if (isset($default)) $query .= " DEFAULT '$default'";
-                    $operations[] = $query;
-                    if ($apply) $mysqli->query($query);
+                    // if field exists:
+                    $result = $mysqli->query("SHOW COLUMNS FROM `$table` LIKE '$field'");
+                    if ($result->num_rows==0)
+                    {
+                        $query = "ALTER TABLE `$table` ADD `$field` $type";
+                        if ($null) $query .= " NOT NULL";
+                        if (isset($default)) $query .= " DEFAULT '$default'";
+                        $operations[] = $query;
+                        if ($apply) $mysqli->query($query);
+                    }
+                    else
+                    {
+                      $result = $mysqli->query("DESCRIBE $table `$field`");
+                      $array = $result->fetch_array();
+                      $query = "";
+                      
+                      if ($array['Type']!=$type) $query .= ";";
+                      if (isset($default) && $array['Default']!=$default) $query .= " Default '$default'";
+                      if ($array['Null']!=$null && $null=="NO") $query .= " not null";
+                      if ($array['Extra']!=$extra && $extra=="auto_increment") $query .= " auto_increment";
+                      if ($array['Key']!=$key && $key=="PRI") $query .= " primary key";
+
+                      if ($query) $query = "ALTER TABLE $table MODIFY `$field` $type".$query;
+                      if ($query) $operations[] = $query;
+                      if ($query && $apply) $mysqli->query($query);
+                    }
+                } else{
+                    while ($index = key($schema[$table][$field]))                    
+                    {
+                                $nonunique = 1;
+                                $sql = "` ADD INDEX (`".$index."`)";
+                                if (isset($schema[$table][$field][$index]['unique']) &&  ($schema[$table][$field][$index]['unique']==true)){
+                                    $nonunique=0;
+                                    $sql = "` ADD UNIQUE (`".$index."`)";
+                                }
+                                $query="SHOW INDEX FROM `".$table."`  WHERE Column_name ='".$index."' AND Non_unique =".$nonunique;
+                                $result = $mysqli->query($query);
+                                if ($result->num_rows==0)
+                                {
+                                    $query="ALTER TABLE  `".$table.$sql;
+                                    $operations[] = $query;
+                                }
+                    next($schema[$table][$field]);
+                    }
                 }
-                else
-                {
-                  $result = $mysqli->query("DESCRIBE $table `$field`");
-                  $array = $result->fetch_array();
-                  $query = "";
-                  
-                  if ($array['Type']!=$type) $query .= ";";
-                  if (isset($default) && $array['Default']!=$default) $query .= " Default '$default'";
-                  if ($array['Null']!=$null && $null=="NO") $query .= " not null";
-                  if ($array['Extra']!=$extra && $extra=="auto_increment") $query .= " auto_increment";
-                  if ($array['Key']!=$key && $key=="PRI") $query .= " primary key";
-
-                  if ($query) $query = "ALTER TABLE $table MODIFY `$field` $type".$query;
-                  if ($query) $operations[] = $query;
-                  if ($query && $apply) $mysqli->query($query);
-                } 
-
                 next($schema[$table]);
             }
-        } else {
             //-----------------------------------------------------
             // Create table from schema
             //-----------------------------------------------------
             $query = "CREATE TABLE " . $table . " (";
             while ($field = key($schema[$table]))
             {
-                $type = $schema[$table][$field]['type'];
+                if ($field!='index'){
+                    $type = $schema[$table][$field]['type'];
 
-                if (isset($schema[$table][$field]['Null'])) $null = $schema[$table][$field]['Null']; else $null = "YES";
-                if (isset($schema[$table][$field]['Key'])) $key = $schema[$table][$field]['Key']; else $key = null;
-                if (isset($schema[$table][$field]['default'])) $default = $schema[$table][$field]['default']; else $default = null;
-                if (isset($schema[$table][$field]['Extra'])) $extra = $schema[$table][$field]['Extra']; else $extra = null;
+                    if (isset($schema[$table][$field]['Null'])) $null = $schema[$table][$field]['Null']; else $null = "YES";
+                    if (isset($schema[$table][$field]['Key'])) $key = $schema[$table][$field]['Key']; else $key = null;
+                    if (isset($schema[$table][$field]['default'])) $default = $schema[$table][$field]['default']; else $default = null;
+                    if (isset($schema[$table][$field]['Extra'])) $extra = $schema[$table][$field]['Extra']; else $extra = null;
 
-                $query .= '`'.$field.'`';
-                $query .= " $type";
-                if ($default) $query .= " Default '$default'";
-                if ($null=="NO") $query .= " not null";
-                if ($extra) $query .= " auto_increment";
-                if ($key) $query .= " primary key";
+                    $query .= '`'.$field.'`';
+                    $query .= " $type";
+                    if ($default) $query .= " Default '$default'";
+                    if ($null=="NO") $query .= " not null";
+                    if ($extra) $query .= " auto_increment";
+                    if ($key) $query .= " primary key";
 
-                next($schema[$table]);
-                if (key($schema[$table]))
-                {
-                  $query .= ", ";
+                    next($schema[$table]);
+                    if (key($schema[$table]))
+                    {
+                      $query .= ", ";
+                    }
                 }
+                $query .= ")";
+                $query .= " ENGINE=MYISAM";
+                if ($query) $operations[] = $query;
+                if ($query && $apply) $mysqli->query($query);
             }
-            $query .= ")";
-            $query .= " ENGINE=MYISAM";
-            if ($query) $operations[] = $query;
-            if ($query && $apply) $mysqli->query($query);
         }
-        next($schema);
+       next($schema);
     }
+
     return $operations;
 }
