@@ -95,7 +95,7 @@ class MysqlTimeSeries
                 if ($stmt->fetch()) {
                     if ($dataValue!=NULL) { // Remove this to show white space gaps in graph
                         $time = $dataTime * 1000;
-                        $data[] = array($time, $dataValue);
+                        $data[] = array($time, (float)$dataValue);
                     }
                 }
                 $t = $tb;
@@ -119,7 +119,7 @@ class MysqlTimeSeries
                     $dataValue = $row['data'];
                     if ($dataValue!=NULL) { // Remove this to show white space gaps in graph
                         $time = $row['time'] * 1000 * $td;
-                        $data[] = array($time , $dataValue);
+                        $data[] = array($time , (float)$dataValue);
                     }
                 }
             }

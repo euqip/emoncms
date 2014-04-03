@@ -66,20 +66,20 @@ function db_schema_setup($mysqli, $schema, $apply)
                 } else{
                     while ($index = key($schema[$table][$field]))                    
                     {
-                                $nonunique = 1;
-                                $sql = "` ADD INDEX (`".$index."`)";
-                                if (isset($schema[$table][$field][$index]['unique']) &&  ($schema[$table][$field][$index]['unique']==true)){
-                                    $nonunique=0;
-                                    $sql = "` ADD UNIQUE (`".$index."`)";
-                                }
-                                $query="SHOW INDEX FROM `".$table."`  WHERE Column_name ='".$index."' AND Non_unique =".$nonunique;
-                                $result = $mysqli->query($query);
-                                if ($result->num_rows==0)
-                                {
-                                    $query="ALTER TABLE  `".$table.$sql;
-                                    $operations[] = $query;
-                                }
-                    next($schema[$table][$field]);
+                        $nonunique = 1;
+                        $sql = "` ADD INDEX (`".$index."`)";
+                        if (isset($schema[$table][$field][$index]['unique']) &&  ($schema[$table][$field][$index]['unique']==true)){
+                            $nonunique=0;
+                            $sql = "` ADD UNIQUE (`".$index."`)";
+                        }
+                        $query="SHOW INDEX FROM `".$table."`  WHERE Column_name ='".$index."' AND Non_unique =".$nonunique;
+                        $result = $mysqli->query($query);
+                        if ($result->num_rows==0)
+                        {
+                            $query="ALTER TABLE  `".$table.$sql;
+                            $operations[] = $query;
+                        }
+                next($schema[$table][$field]);
                     }
                 }
                 next($schema[$table]);

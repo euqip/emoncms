@@ -17,7 +17,7 @@
 
   define('EMONCMS_EXEC', 1);
     
-    $emoncms_version = "8.0.7";
+    $emoncms_version = "8.0.9";
 
   // 1) Load settings and core scripts
   require "process_settings.php";
@@ -31,6 +31,8 @@
   $mysqli = @new mysqli($server,$username,$password,$database);
 
     $path = get_application_path();
+
+    require "Modules/log/EmonLogger.php";
 
     // 2) Database
     $mysqli = @new mysqli($server,$username,$password,$database);
