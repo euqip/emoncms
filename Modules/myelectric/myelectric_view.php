@@ -33,6 +33,10 @@ calls the feed API on the server via AJAX. -->
     color:#0699fa; 
     padding-top:45px;
   }
+  .reverse {
+    color:#0699fa; 
+
+  }
   label{
     color:#0699fa;
   }
@@ -75,37 +79,29 @@ calls the feed API on the server via AJAX. -->
                 </select>
             </div>
 
-            <button id="configsave" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> <?php echo _('Save') ?></button>
-            
+            <button id="configsave" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> <?php echo _('Save') ?></button>            
         </form>
 
 
 
         <div id="powerblock">
-        <div style="height:20px; border-bottom:1px solid #333; padding:8px;">
-            <div style="float:right;">
-                <!--<span style="color:#fff; margin-right:10px" >Settings</span>-->
-                <i id="openconfig" class="icon-wrench icon-white" style="cursor:pointer"></i>
+            <div style="height:20px; border-bottom:1px solid #333; padding:8px;">
+                <div style="float:right;">
+                    <div id="openconfig" class ="reverse"> <span class="glyphicon glyphicon-wrench"></span> </div>
+                </div>
             </div>
-        </div>
 
             <div style="width:100%;">
-                <div class="electric-title"><?php echo _('POWER NOW') ?>:        
-
-                </div>
+                <div class="electric-title"><?php echo _('POWER NOW') ?>:  </div>
                 <div class="power-value"><span id="power"></span>W</div>
                 <div class="kwh-value"><?php echo _('USE TODAY') ?>: <b><span id="kwhd"></span> kWh</b></div>
             </div>
-            <br><br>
             <div id="bound" style="width:100%; height:270px">
                 <canvas id="myCanvas" ></canvas>
             </div>
-        </div>
-
-
-
-    </div>
-</div>
+        </div>   <!-- power block -->
+    </div>   <!-- row -->
+</div>  <!-- container -->
 
 
 <script>
