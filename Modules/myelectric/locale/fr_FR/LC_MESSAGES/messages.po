@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-04 18:06+0100\n"
-"PO-Revision-Date: 2014-04-04 18:06+0100\n"
+"POT-Creation-Date: 2014-04-04 18:51+0100\n"
+"PO-Revision-Date: 2014-04-04 18:52+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -17,44 +17,60 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../myelectric_view.php:46
+#: ../../../myelectric_view.php:48
 msgid "My Electric config"
 msgstr "Configuration"
 
-#: ../../../myelectric_view.php:49
+#: ../../../myelectric_view.php:52
 msgid "Power feed (Watts)"
 msgstr "Flux Puissance"
 
-#: ../../../myelectric_view.php:53
+#: ../../../myelectric_view.php:55
+msgid "Select the feed to show"
+msgstr "Flux sélectionné"
+
+#: ../../../myelectric_view.php:60
 #, fuzzy
 msgid "Bar graph feed"
 msgstr "Histogramme"
 
-#: ../../../myelectric_view.php:56
+#: ../../../myelectric_view.php:63
+msgid "Select the daily feed source to show"
+msgstr "Le flux à afficher"
+
+#: ../../../myelectric_view.php:67
 msgid "Bar graph feed type"
 msgstr "Histogramme type de Flux"
 
-#: ../../../myelectric_view.php:58
+#: ../../../myelectric_view.php:70
+msgid "Select presentation"
+msgstr "selectionner la présentation"
+
+#: ../../../myelectric_view.php:71
 msgid "Watt hours elapsed"
 msgstr "Wh accumulés"
 
-#: ../../../myelectric_view.php:59
+#: ../../../myelectric_view.php:72
 msgid "kWh elapsed"
 msgstr "kWh accumulés"
 
-#: ../../../myelectric_view.php:60
+#: ../../../myelectric_view.php:73
 msgid "kWh per day"
 msgstr "kWh quotidien"
 
-#: ../../../myelectric_view.php:61
+#: ../../../myelectric_view.php:74
 msgid "Power (Watts)"
 msgstr "Puissance (Watt)"
 
-#: ../../../myelectric_view.php:81
-msgid "POWER NOW"
-msgstr "Puissance instantannée"
+#: ../../../myelectric_view.php:78
+msgid "Save"
+msgstr "Sauvegarder"
 
-#: ../../../myelectric_view.php:85
+#: ../../../myelectric_view.php:93
+msgid "POWER NOW"
+msgstr "Puissance instantanée"
+
+#: ../../../myelectric_view.php:97
 msgid "USE TODAY"
 msgstr "Utilisation aujourd'hui"
 
@@ -122,9 +138,6 @@ msgstr "Mon électricité"
 
 #~ msgid "Edit"
 #~ msgstr "modifier"
-
-#~ msgid "Save"
-#~ msgstr "Sauvegarder"
 
 #~ msgid "Delete"
 #~ msgstr "Supprimer"
@@ -329,9 +342,6 @@ msgstr "Mon électricité"
 
 #~ msgid "Export data beween selected dates"
 #~ msgstr "Exportation des données entre les dates sélectionnées"
-
-#~ msgid "Selected feed: "
-#~ msgstr "Flux sélectionné;"
 
 #~ msgid "Feed data export procedure"
 #~ msgstr "Procédure d'exportation des données de Flux"
@@ -830,9 +840,6 @@ msgstr "Mon électricité"
 
 #~ msgid "Notify"
 #~ msgstr "Notifier"
-
-#~ msgid "Set notifications"
-#~ msgstr "Configurer les notifications"
 
 #~ msgid "Set notification behavior for this feed"
 #~ msgstr "Configurer les notifications pour ce flux"
