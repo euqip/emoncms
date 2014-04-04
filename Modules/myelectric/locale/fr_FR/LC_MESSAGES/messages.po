@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-03 18:32+0100\n"
-"PO-Revision-Date: 2014-04-03 18:32+0100\n"
+"POT-Creation-Date: 2014-04-04 18:06+0100\n"
+"PO-Revision-Date: 2014-04-04 18:06+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #: ../../../myelectric_view.php:46
 msgid "My Electric config"
-msgstr ""
+msgstr "Configuration"
 
 #: ../../../myelectric_view.php:49
 msgid "Power feed (Watts)"
-msgstr ""
+msgstr "Flux Puissance"
 
 #: ../../../myelectric_view.php:53
 #, fuzzy
@@ -31,35 +31,34 @@ msgid "Bar graph feed"
 msgstr "Histogramme"
 
 #: ../../../myelectric_view.php:56
-#, fuzzy
 msgid "Bar graph feed type"
-msgstr "Vista de gráfico de barras:"
+msgstr "Histogramme type de Flux"
 
 #: ../../../myelectric_view.php:58
 msgid "Watt hours elapsed"
-msgstr ""
+msgstr "Wh accumulés"
 
 #: ../../../myelectric_view.php:59
 msgid "kWh elapsed"
-msgstr ""
+msgstr "kWh accumulés"
 
 #: ../../../myelectric_view.php:60
 msgid "kWh per day"
-msgstr ""
+msgstr "kWh quotidien"
 
 #: ../../../myelectric_view.php:61
 msgid "Power (Watts)"
-msgstr ""
+msgstr "Puissance (Watt)"
 
 #: ../../../myelectric_view.php:81
 msgid "POWER NOW"
-msgstr ""
+msgstr "Puissance instantannée"
 
 #: ../../../myelectric_view.php:85
 msgid "USE TODAY"
-msgstr ""
+msgstr "Utilisation aujourd'hui"
 
-#: ../../../myelectric_menu.php:8 ../../../myelectric_menu.php:13
+#: ../../../myelectric_menu.php:13
 msgid "My Electric"
 msgstr "Mon électricité"
 

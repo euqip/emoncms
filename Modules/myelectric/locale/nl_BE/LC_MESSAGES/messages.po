@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-18 18:38+0100\n"
-"PO-Revision-Date: 2012-10-18 18:38+0100\n"
-"Last-Translator: ilde <i.martinez@ismsolar.com>\n"
+"POT-Creation-Date: 2014-04-04 18:16+0100\n"
+"PO-Revision-Date: 2014-04-04 18:16+0100\n"
+"Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,82 +14,98 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../feed_controller.php:200
-msgid "Feed "
-msgstr "Bericht"
+#: ../../../myelectric_view.php:46
+msgid "My Electric config"
+msgstr "Configuratie"
 
-#: ../../../feed_controller.php:200
-msgid " deleted"
-msgstr "wegdoen"
-
-#: ../../../feed_controller.php:201
-msgid "Feed does not exist"
-msgstr "Bericht bestaat niet"
-
-#: ../../../Views/feedapi_view.php:19
-#, fuzzy
-msgid "Feed API"
-msgstr "Bericht"
-
-#: ../../../Views/feedapi_view.php:21
-msgid "General"
+#: ../../../myelectric_view.php:49
+msgid "Power feed (Watts)"
 msgstr ""
 
-#: ../../../Views/feedapi_view.php:26
-msgid "Feed properties"
+#: ../../../myelectric_view.php:53
+#, fuzzy
+msgid "Bar graph feed"
+msgstr "Staaf diagram"
+
+#: ../../../myelectric_view.php:56
+#, fuzzy
+msgid "Bar graph feed type"
+msgstr "Staaf diagram"
+
+#: ../../../myelectric_view.php:58
+msgid "Watt hours elapsed"
 msgstr ""
 
-#: ../../../Views/feedapi_view.php:32
-#, fuzzy
-msgid "Feed data"
-msgstr "Bericht"
-
-#: ../../../Views/feedapi_view.php:37
-#, fuzzy
-msgid "Delete feeds"
-msgstr "Verwijder feed?"
-
-#: ../../../Views/feedlist_view.php:17
-msgid "Feed API Help"
+#: ../../../myelectric_view.php:59
+msgid "kWh elapsed"
 msgstr ""
 
-#: ../../../Views/feedlist_view.php:18 ../../../Views/feedlist_view.php:21
+#: ../../../myelectric_view.php:60
+msgid "kWh per day"
+msgstr "kWh per dag"
+
+#: ../../../myelectric_view.php:61
+msgid "Power (Watts)"
+msgstr "Vermogen (Watts)"
+
+#: ../../../myelectric_view.php:81
+msgid "POWER NOW"
+msgstr "Nu vermogen"
+
+#: ../../../myelectric_view.php:85
+msgid "USE TODAY"
+msgstr "gebruik vandaag"
+
+#: ../../../myelectric_menu.php:13
+msgid "My Electric"
+msgstr "Mijn Electisch"
+
+#~ msgid "Feed "
+#~ msgstr "Bericht"
+
+#~ msgid " deleted"
+#~ msgstr "wegdoen"
+
+#~ msgid "Feed does not exist"
+#~ msgstr "Bericht bestaat niet"
+
 #, fuzzy
-msgid "Deleted feeds"
-msgstr "Verwijder feed?"
+#~ msgid "Feed API"
+#~ msgstr "Bericht"
 
-#: ../../../Views/feedlist_view.php:18
-msgid "Feeds"
-msgstr "Berichten"
-
-#: ../../../Views/feedlist_view.php:22
 #, fuzzy
-msgid "Delete feeds permanently"
-msgstr "Verwijder feed?"
+#~ msgid "Feed data"
+#~ msgstr "Bericht"
 
-#: ../../../Views/feedlist_view.php:66
-msgid "Name"
-msgstr "Naam"
+#, fuzzy
+#~ msgid "Delete feeds"
+#~ msgstr "Verwijder feed?"
 
-#: ../../../Views/feedlist_view.php:66
-msgid "Tag"
-msgstr "Label"
+#, fuzzy
+#~ msgid "Deleted feeds"
+#~ msgstr "Verwijder feed?"
 
-#: ../../../Views/feedlist_view.php:66
-msgid "Type"
-msgstr ""
+#~ msgid "Feeds"
+#~ msgstr "Berichten"
 
-#: ../../../Views/feedlist_view.php:66
-msgid "Size"
-msgstr "Groote"
+#, fuzzy
+#~ msgid "Delete feeds permanently"
+#~ msgstr "Verwijder feed?"
 
-#: ../../../Views/feedlist_view.php:66
-msgid "Updated"
-msgstr "Actueel"
+#~ msgid "Name"
+#~ msgstr "Naam"
 
-#: ../../../Views/feedlist_view.php:66
-msgid "Value"
-msgstr "Waarde"
+#~ msgid "Tag"
+#~ msgstr "Label"
+
+#~ msgid "Size"
+#~ msgstr "Groote"
+
+#~ msgid "Updated"
+#~ msgstr "Actueel"
+
+#~ msgid "Value"
+#~ msgstr "Waarde"
 
 #~ msgid "Sorry, you need a valid apikey or be logged in to see this page"
 #~ msgstr ""
@@ -357,9 +373,6 @@ msgstr "Waarde"
 
 #~ msgid "Raw data graph"
 #~ msgstr "Raw data grafiek"
-
-#~ msgid "Bar graph"
-#~ msgstr "Staaf diagram"
 
 #~ msgid "Smoothie"
 #~ msgstr "Overgang"

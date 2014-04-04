@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-18 18:38+0100\n"
-"PO-Revision-Date: 2012-10-18 18:38+0100\n"
-"Last-Translator: ilde <i.martinez@ismsolar.com>\n"
+"POT-Creation-Date: 2014-04-04 18:07+0100\n"
+"PO-Revision-Date: 2014-04-04 18:09+0100\n"
+"Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
@@ -15,77 +15,49 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../feed_controller.php:200
-msgid "Feed "
-msgstr ""
+#: ../../../myelectric_view.php:46
+msgid "My Electric config"
+msgstr "Configuration"
 
-#: ../../../feed_controller.php:200
-msgid " deleted"
-msgstr ""
+#: ../../../myelectric_view.php:49
+msgid "Power feed (Watts)"
+msgstr "Power feed (Watts)"
 
-#: ../../../feed_controller.php:201
-msgid "Feed does not exist"
-msgstr ""
+#: ../../../myelectric_view.php:53
+msgid "Bar graph feed"
+msgstr "Bar graph feed"
 
-#: ../../../Views/feedapi_view.php:19
-msgid "Feed API"
-msgstr ""
+#: ../../../myelectric_view.php:56
+msgid "Bar graph feed type"
+msgstr "Bar graph feed type"
 
-#: ../../../Views/feedapi_view.php:21
-msgid "General"
-msgstr ""
+#: ../../../myelectric_view.php:58
+msgid "Watt hours elapsed"
+msgstr "Watt hours elapsed"
 
-#: ../../../Views/feedapi_view.php:26
-msgid "Feed properties"
-msgstr ""
+#: ../../../myelectric_view.php:59
+msgid "kWh elapsed"
+msgstr "kWh elapsed"
 
-#: ../../../Views/feedapi_view.php:32
-msgid "Feed data"
-msgstr ""
+#: ../../../myelectric_view.php:60
+msgid "kWh per day"
+msgstr "kWh per day"
 
-#: ../../../Views/feedapi_view.php:37
-msgid "Delete feeds"
-msgstr ""
+#: ../../../myelectric_view.php:61
+msgid "Power (Watts)"
+msgstr "Power (Watts)"
 
-#: ../../../Views/feedlist_view.php:17
-msgid "Feed API Help"
-msgstr ""
+#: ../../../myelectric_view.php:81
+msgid "POWER NOW"
+msgstr "POWER NOW"
 
-#: ../../../Views/feedlist_view.php:18 ../../../Views/feedlist_view.php:21
-msgid "Deleted feeds"
-msgstr ""
+#: ../../../myelectric_view.php:85
+msgid "USE TODAY"
+msgstr "USE TODAY"
 
-#: ../../../Views/feedlist_view.php:18
-msgid "Feeds"
-msgstr ""
-
-#: ../../../Views/feedlist_view.php:22
-msgid "Delete feeds permanently"
-msgstr ""
-
-#: ../../../Views/feedlist_view.php:66
-msgid "Name"
-msgstr ""
-
-#: ../../../Views/feedlist_view.php:66
-msgid "Tag"
-msgstr ""
-
-#: ../../../Views/feedlist_view.php:66
-msgid "Type"
-msgstr ""
-
-#: ../../../Views/feedlist_view.php:66
-msgid "Size"
-msgstr ""
-
-#: ../../../Views/feedlist_view.php:66
-msgid "Updated"
-msgstr ""
-
-#: ../../../Views/feedlist_view.php:66
-msgid "Value"
-msgstr ""
+#: ../../../myelectric_menu.php:13
+msgid "My Electric"
+msgstr "My Electric"
 
 #~ msgid "en_EN"
 #~ msgstr "English"
