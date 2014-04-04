@@ -41,7 +41,7 @@
         $redis = new Redis();
         $connected = $redis->connect("127.0.0.1");
         if (!$connected) {
-            echo "Can't connect to redis database, it may be that redis-server is not installed or started see readme for redis installation"; die;
+            echo _("Can't connect to redis database, it may be that redis-server is not installed or started see readme for redis installation"); die;
         }
     } else {
         $redis = false;
@@ -66,10 +66,11 @@
     require("Modules/user/user_model.php");
     $user = new User($mysqli,$redis,$rememberme);
 
-    if (get('apikey'))
-    $session = $user->apikey_session($_GET['apikey']);
-    else
-    $session = $user->emon_session_start();
+    if (get('apikey')){
+        $session = $user->apikey_session($_GET['apikey']);
+    } else {
+        $session = $user->emon_session_start();
+    }
 
     // 4) Language
     if (!isset($session['lang'])) $session['lang']='';

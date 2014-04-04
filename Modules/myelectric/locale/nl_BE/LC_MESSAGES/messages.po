@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-18 18:42+0100\n"
-"PO-Revision-Date: 2012-10-18 18:42+0100\n"
+"POT-Creation-Date: 2012-10-18 18:38+0100\n"
+"PO-Revision-Date: 2012-10-18 18:38+0100\n"
 "Last-Translator: ilde <i.martinez@ismsolar.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -14,161 +14,82 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../login_block.php:33 ../../../user_view.php:59
+#: ../../../feed_controller.php:200
+msgid "Feed "
+msgstr "Bericht"
+
+#: ../../../feed_controller.php:200
+msgid " deleted"
+msgstr "wegdoen"
+
+#: ../../../feed_controller.php:201
+msgid "Feed does not exist"
+msgstr "Bericht bestaat niet"
+
+#: ../../../Views/feedapi_view.php:19
 #, fuzzy
-msgid "Username:"
-msgstr "Gebruikersnaam"
+msgid "Feed API"
+msgstr "Bericht"
 
-#: ../../../login_block.php:37
-msgid "Password:"
-msgstr "Wachtwoord:"
+#: ../../../Views/feedapi_view.php:21
+msgid "General"
+msgstr ""
 
-#: ../../../login_block.php:41
-msgid "Login"
-msgstr "Aanmelden"
+#: ../../../Views/feedapi_view.php:26
+msgid "Feed properties"
+msgstr ""
 
-#: ../../../login_block.php:49
+#: ../../../Views/feedapi_view.php:32
 #, fuzzy
-msgid ""
-"Or if you are new enter a username and password above and click register"
-msgstr "wachtwoord en click registeer"
+msgid "Feed data"
+msgstr "Bericht"
 
-#: ../../../login_block.php:49
-msgid "Register"
-msgstr ""
-
-#: ../../../user_controller.php:57
-msgid "Invalid username or password"
-msgstr "Ongeldige gebruikersnaam of wachtwoord"
-
-#: ../../../user_controller.php:62
-msgid "Welcome, you are now logged in"
-msgstr "Welkom, je bent nu aangemeld"
-
-#: ../../../user_controller.php:90 ../../../user_controller.php:154
-msgid "Sorry username already exists"
-msgstr "Sorry maar deze gebruikersnaam bestaat al"
-
-#: ../../../user_controller.php:95 ../../../user_controller.php:158
-msgid "Please enter a username that is 4 to 30 characters long"
-msgstr "Voer een gebruikersnaam tussen de 4 en 30 characters in"
-
-#: ../../../user_controller.php:100 ../../../user_controller.php:127
-msgid "Please enter a password that is 4 to 30 characters long"
-msgstr "Voer een wachtwoord in tussen de 4 en 30 characters lang"
-
-#: ../../../user_controller.php:108
-msgid "Your new account has been created"
-msgstr "U nieuwe account is aangemaakt"
-
-#: ../../../user_controller.php:131
-msgid "Your password has been changed"
-msgstr "U wachtwoord is aangepast"
-
-#: ../../../user_controller.php:136
+#: ../../../Views/feedapi_view.php:37
 #, fuzzy
-msgid "Invalid password"
-msgstr "Ongeldig oud wachtwoord"
+msgid "Delete feeds"
+msgstr "Verwijder feed?"
 
-#: ../../../user_controller.php:162
-msgid "No email address present"
+#: ../../../Views/feedlist_view.php:17
+msgid "Feed API Help"
 msgstr ""
 
-#: ../../../user_controller.php:166
-msgid "Username and password updated"
-msgstr ""
-
-#: ../../../user_controller.php:182
-msgid "New read apikey: "
-msgstr "Nieuwe lees API sleutel"
-
-#: ../../../user_controller.php:198
-msgid "New write apikey: "
-msgstr "Nieuwe schrijf API sleutel:"
-
-#: ../../../user_controller.php:215
-msgid "You are logged out"
-msgstr "U bent afgemeld"
-
-#: ../../../user_controller.php:220
-msgid "Invalid token"
-msgstr "Ontbrekende token"
-
-#: ../../../user_view.php:17
-msgid "User: "
-msgstr "Gebruiker"
-
-#: ../../../user_view.php:23
+#: ../../../Views/feedlist_view.php:18 ../../../Views/feedlist_view.php:21
 #, fuzzy
-msgid "Select preferred language"
-msgstr "Selecteer voorkeurstaal:"
+msgid "Deleted feeds"
+msgstr "Verwijder feed?"
 
-#: ../../../user_view.php:27 ../../../user_view.php:29
-msgid "Browser language"
-msgstr ""
+#: ../../../Views/feedlist_view.php:18
+msgid "Feeds"
+msgstr "Berichten"
 
-#: ../../../user_view.php:42
-msgid "Save"
-msgstr "Bewaar"
-
-#: ../../../user_view.php:48
+#: ../../../Views/feedlist_view.php:22
 #, fuzzy
-msgid "Local time"
-msgstr "Actueel:"
+msgid "Delete feeds permanently"
+msgstr "Verwijder feed?"
 
-#: ../../../user_view.php:50
-msgid "Time offset in hours:"
+#: ../../../Views/feedlist_view.php:66
+msgid "Name"
+msgstr "Naam"
+
+#: ../../../Views/feedlist_view.php:66
+msgid "Tag"
+msgstr "Label"
+
+#: ../../../Views/feedlist_view.php:66
+msgid "Type"
 msgstr ""
 
-#: ../../../user_view.php:53
-msgid "Set"
-msgstr "Wijzig"
+#: ../../../Views/feedlist_view.php:66
+msgid "Size"
+msgstr "Groote"
 
-#: ../../../user_view.php:57
-#, fuzzy
-msgid "Change details"
-msgstr "Wijzig wachtwoord"
+#: ../../../Views/feedlist_view.php:66
+msgid "Updated"
+msgstr "Actueel"
 
-#: ../../../user_view.php:62
-msgid "Email:"
-msgstr "Email:"
-
-#: ../../../user_view.php:65 ../../../user_view.php:76
-msgid "Change"
-msgstr "Wijzig"
-
-#: ../../../user_view.php:69
-msgid "Change password"
-msgstr "Wijzig wachtwoord"
-
-#: ../../../user_view.php:70
-#, fuzzy
-msgid "Current password:"
-msgstr "Nieuw wachtwoord:"
-
-#: ../../../user_view.php:73
-msgid "New password:"
-msgstr "Nieuw wachtwoord:"
-
-#: ../../../user_view.php:87
-msgid "en_EN"
-msgstr ""
-
-#: ../../../user_view.php:88
-msgid "es_ES"
-msgstr ""
-
-#: ../../../user_view.php:89
-msgid "nl_BE"
-msgstr ""
-
-#: ../../../user_view.php:90
-msgid "nl_NL"
-msgstr ""
-
-#: ../../../user_view.php:91
-msgid "fr_FR"
-msgstr ""
+#: ../../../Views/feedlist_view.php:66
+msgid "Value"
+msgstr "Waarde"
 
 #~ msgid "Sorry, you need a valid apikey or be logged in to see this page"
 #~ msgstr ""
@@ -193,26 +114,53 @@ msgstr ""
 #~ msgid "Feed type changed"
 #~ msgstr "Berich type aangepast"
 
-#~ msgid "Feed does not exist"
-#~ msgstr "Bericht bestaat niet"
-
 #~ msgid "Feed tag changed"
 #~ msgstr "Bericht label gewijzigd"
 
 #~ msgid "Feed renamed"
 #~ msgstr "Bericht hernoemd"
 
-#~ msgid "Feed "
-#~ msgstr "Bericht"
-
-#~ msgid " deleted"
-#~ msgstr "wegdoen"
-
 #~ msgid "Input deleted"
 #~ msgstr "Invoer wegdoen"
 
 #~ msgid "Process list has been reset"
 #~ msgstr "Proceslijst is hersteld"
+
+#~ msgid "Invalid username or password"
+#~ msgstr "Ongeldige gebruikersnaam of wachtwoord"
+
+#~ msgid "Welcome, you are now logged in"
+#~ msgstr "Welkom, je bent nu aangemeld"
+
+#~ msgid "Sorry username already exists"
+#~ msgstr "Sorry maar deze gebruikersnaam bestaat al"
+
+#~ msgid "Please enter a username that is 4 to 30 characters long"
+#~ msgstr "Voer een gebruikersnaam tussen de 4 en 30 characters in"
+
+#~ msgid "Please enter a password that is 4 to 30 characters long"
+#~ msgstr "Voer een wachtwoord in tussen de 4 en 30 characters lang"
+
+#~ msgid "Your new account has been created"
+#~ msgstr "U nieuwe account is aangemaakt"
+
+#~ msgid "Your password has been changed"
+#~ msgstr "U wachtwoord is aangepast"
+
+#~ msgid "Invalid old password"
+#~ msgstr "Ongeldig oud wachtwoord"
+
+#~ msgid "New read apikey: "
+#~ msgstr "Nieuwe lees API sleutel"
+
+#~ msgid "New write apikey: "
+#~ msgstr "Nieuwe schrijf API sleutel:"
+
+#~ msgid "You are logged out"
+#~ msgstr "U bent afgemeld"
+
+#~ msgid "Invalid token"
+#~ msgstr "Ontbrekende token"
 
 #~ msgid "Restricted access"
 #~ msgstr "Beperkte toegang"
@@ -307,9 +255,6 @@ msgstr ""
 #~ msgid "Inputs"
 #~ msgstr "Invoeren"
 
-#~ msgid "Feeds"
-#~ msgstr "Berichten"
-
 #~ msgid "Vis"
 #~ msgstr "Grafisch"
 
@@ -346,8 +291,14 @@ msgstr ""
 #~ msgid "Edit mail settings"
 #~ msgstr "Wijzig e-mail instellingen"
 
+#~ msgid "User: "
+#~ msgstr "Gebruiker"
+
 #~ msgid "Language"
 #~ msgstr "Taal"
+
+#~ msgid "Select preferred language:"
+#~ msgstr "Selecteer voorkeurstaal:"
 
 #~ msgid "API keys"
 #~ msgstr "API sleutels"
@@ -368,8 +319,17 @@ msgstr ""
 #~ msgid "try me"
 #~ msgstr "probeer mij"
 
+#~ msgid "Change password"
+#~ msgstr "Wijzig wachtwoord"
+
 #~ msgid "Old password:"
 #~ msgstr "Oude wachtwoord:"
+
+#~ msgid "New password:"
+#~ msgstr "Nieuw wachtwoord:"
+
+#~ msgid "Change"
+#~ msgstr "Wijzig"
 
 #~ msgid "Account Statistics"
 #~ msgstr "Account Statistieken"
@@ -385,9 +345,6 @@ msgstr ""
 
 #~ msgid "Visualisation API"
 #~ msgstr "Weergave API"
-
-#~ msgid "Name"
-#~ msgstr "Naam"
 
 #~ msgid "URL"
 #~ msgstr "Adres"
@@ -431,6 +388,9 @@ msgstr ""
 
 #~ msgid "registered users"
 #~ msgstr "geregistreerde gebruikers"
+
+#~ msgid "Username"
+#~ msgstr "Gebruikersnaam"
 
 #~ msgid "Up hits"
 #~ msgstr "Hoog hits"

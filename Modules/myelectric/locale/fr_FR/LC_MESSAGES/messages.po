@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-03 09:23+0100\n"
-"PO-Revision-Date: 2014-04-03 09:28+0100\n"
+"POT-Creation-Date: 2014-04-03 18:32+0100\n"
+"PO-Revision-Date: 2014-04-03 18:32+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #: ../../../myelectric_view.php:46
 msgid "My Electric config"
-msgstr "Configuration"
+msgstr ""
 
 #: ../../../myelectric_view.php:49
 msgid "Power feed (Watts)"
-msgstr "Flux Puissance (Watt)"
+msgstr ""
 
 #: ../../../myelectric_view.php:53
 #, fuzzy
@@ -31,301 +31,339 @@ msgid "Bar graph feed"
 msgstr "Histogramme"
 
 #: ../../../myelectric_view.php:56
+#, fuzzy
 msgid "Bar graph feed type"
-msgstr "Histogramme type de flux"
+msgstr "Vista de gráfico de barras:"
 
 #: ../../../myelectric_view.php:58
 msgid "Watt hours elapsed"
-msgstr "Wh accumulés"
+msgstr ""
 
 #: ../../../myelectric_view.php:59
 msgid "kWh elapsed"
-msgstr "kWh accumulés"
+msgstr ""
 
 #: ../../../myelectric_view.php:60
 msgid "kWh per day"
-msgstr "kWh par jour"
+msgstr ""
 
 #: ../../../myelectric_view.php:61
 msgid "Power (Watts)"
-msgstr "Puissance (Watts)"
+msgstr ""
 
 #: ../../../myelectric_view.php:81
 msgid "POWER NOW"
-msgstr "Puissance instantannée"
+msgstr ""
 
 #: ../../../myelectric_view.php:85
 msgid "USE TODAY"
-msgstr "Utilisation aujourd'hui"
+msgstr ""
 
-#~ msgid "Missing username, password or email parameter"
-#~ msgstr ""
-#~ "Il manque le nom d'utilisateur, le mot de passe ou l'adresse courriel"
+#: ../../../myelectric_menu.php:8 ../../../myelectric_menu.php:13
+msgid "My Electric"
+msgstr "Mon électricité"
 
-#~ msgid "Username must only contain a-z and 0-9 characters"
-#~ msgstr ""
-#~ "Le nom d'utilisateur doit contenir uniquement des chiffres [0-9] et des "
-#~ "lettres [a-z]"
+#~ msgid "Feeds"
+#~ msgstr "Flux"
 
-#~ msgid "Username already exists"
-#~ msgstr "Désolé, cet identifiant existe déjà"
+#~ msgid "Feed API Help"
+#~ msgstr "Aide de l'API Flux"
 
-#~ msgid "Email address format error"
-#~ msgstr "Aucune adresse mail n'est renseignée"
+#~ msgid "Refresh feed size"
+#~ msgstr "Actualiser les tailles des flux"
 
-#~ msgid "Username length error"
-#~ msgstr "La longueur du nom d'utilisateur est incorrect"
-
-#~ msgid "Password length error"
-#~ msgstr "La longueur du mot de passe est incorrect"
-
-#~ msgid "Error creating user"
-#~ msgstr "Erreur lors de la création de l'utilisateur"
-
-#~ msgid "Username or password empty"
-#~ msgstr "L'identifiant ou le mot de passe saisi est incorrect"
+#~ msgid "No feeds created"
+#~ msgstr "Aucun flux disponible"
 
 #~ msgid ""
-#~ "Username must only contain a-z 0-9 dash and underscore, if you created an "
-#~ "account before this rule was in place enter your username without the non "
-#~ "a-z 0-9 dash underscore characters to login and feel free to change your "
-#~ "username on the profile page."
+#~ "Feeds are where your monitoring data is stored. The recommended route for "
+#~ "creating feeds is to start by creating inputs (see the inputs tab). Once "
+#~ "you have inputs you can either log them straight to feeds or if you want "
+#~ "you can add various levels of input processing to your inputs to create "
+#~ "things like daily average data or to calibrate inputs before storage. You "
+#~ "may want to follow the link as a guide for generating your request. "
 #~ msgstr ""
-#~ "Le nom d'utilisateur doit contenir uniquement des chiffres [0-9] et des "
-#~ "lettres [a-z], vous pouvez modifier votre nom d'utilisateur depuis la "
-#~ "page de configuration de votre profil."
+#~ "Les flux correspondent à l'archivage et au traitement de vos données. "
+#~ "Créez d'abord une source de données (Onglet Sources), utilisez ensuite "
+#~ "les flux pour traiter ces données avant de les archiver. Vous pouvez lire "
+#~ "la documentation sur l'API flux pour plus d'information (en Anglais)"
 
-#, fuzzy
-#~ msgid ""
-#~ "Incorrect username - password, if you are sure its correct try clearing "
-#~ "your browser cache"
-#~ msgstr ""
-#~ "Mot de passe incorrect, si vous êtes sûr de votre mot de passe, "
-#~ "rafraîchissez le cache de votre navigateur"
+#~ msgid "Feed API helper"
+#~ msgstr "Aide de l'API"
 
-#~ msgid "Login successful"
-#~ msgstr "Connexion réussie"
-
-#~ msgid "Old password incorect"
-#~ msgstr "Mot de passe actuel : "
-
-#~ msgid ""
-#~ "As your using a cookie based remember me login, please logout and log "
-#~ "back in to change username"
-#~ msgstr ""
-#~ "La connexion automatique est basée sur des cookies. Pour prendre en "
-#~ "compte le changement de nom d'utilisateur il suffit de se déconnecter et "
-#~ "reconnecter."
-
-#~ msgid "Username updated"
-#~ msgstr "Nom d'utilisateur mis à jour"
-
-#~ msgid ""
-#~ "As your using a cookie based remember me login, please logout and log "
-#~ "back in to change email"
-#~ msgstr ""
-#~ "La connexion automatique est basée sur des cookies. Pour prendre en "
-#~ "compte le changement d'adresse email il suffit de se déconnecter et "
-#~ "reconnecter."
-
-#~ msgid "Email updated"
-#~ msgstr "Email mis à jour"
-
-#~ msgid "Account"
-#~ msgstr "Mon Compte"
-
-#~ msgid "Logout"
-#~ msgstr "Déconnexion"
-
-#~ msgid "Username:"
-#~ msgstr "Identifiant : "
-
-#~ msgid "Enter your Username"
-#~ msgstr "Entrer votre identifiant"
-
-#~ msgid "Email:"
-#~ msgstr "Adresse email :"
-
-#~ msgid "Enter your Email address"
-#~ msgstr "Entrer votre adresse courriel"
-
-#~ msgid "Password:"
-#~ msgstr "Mot de passe : "
-
-#~ msgid "Enter your password"
-#~ msgstr "Entrer votre nouveau mot de passe"
-
-#~ msgid "Confirm password:"
-#~ msgstr "Confirmation du mot de passe : "
-
-#~ msgid "Confirm your password"
-#~ msgstr "Confirmation du mot de passe"
-
-#, fuzzy
-#~ msgid "Password or user name do not match"
-#~ msgstr "Les mots de passe ne correspondent pas"
-
-#~ msgid "Remember me"
-#~ msgstr "Se souvenir de moi"
-
-#~ msgid "Login"
-#~ msgstr "Connexion"
-
-#~ msgid "or"
-#~ msgstr "ou"
-
-#~ msgid "register"
-#~ msgstr "S'inscrire"
-
-#~ msgid "Register"
-#~ msgstr "S'inscrire"
-
-#~ msgid "cancel"
-#~ msgstr "annuler"
-
-#~ msgid "es_ES"
-#~ msgstr "Espagnol"
-
-#~ msgid "fr_FR"
-#~ msgstr "Français"
-
-#~ msgid "en_EN"
-#~ msgstr "Anglais"
-
-#~ msgid "nl_NL"
-#~ msgstr "N&eacute;erlandais"
-
-#~ msgid "nl_BE"
-#~ msgstr "Flamand"
-
-#~ msgid "da_DK"
-#~ msgstr "Danois"
-
-#~ msgid "it_IT"
-#~ msgstr "Italien"
-
-#~ msgid "My account"
-#~ msgstr "Mon Compte"
-
-#~ msgid "Username"
-#~ msgstr "Nom d'utilisateur"
-
-#~ msgid "Edit"
-#~ msgstr "Editer"
-
-#~ msgid "Email"
-#~ msgstr "Adresse email"
-
-#~ msgid "Change Password"
-#~ msgstr "Modifier le mot de passe"
-
-#~ msgid "Password is updated!"
-#~ msgstr "Le mot de passe est modifié"
-
-#~ msgid "Current password"
-#~ msgstr "Ancien mot de passe : "
-
-#~ msgid "type Current password"
-#~ msgstr "Mot de passe actuel"
-
-#~ msgid "New password"
-#~ msgstr "Nouveau mot de passe : "
-
-#~ msgid "type New password"
-#~ msgstr "Nouveau mot de passe "
-
-#~ msgid "Repeat new password"
-#~ msgstr "Répétez le mot de passe :"
-
-#~ msgid "retype New password"
-#~ msgstr "Répétez le nouveau mot de passe"
-
-#~ msgid "Passwords do not match"
-#~ msgstr "Les mots de passe ne correspondent pas"
-
-#~ msgid "Save"
-#~ msgstr "Sauvegarder"
-
-#~ msgid "Cancel"
-#~ msgstr "Annuler"
-
-#~ msgid "My Profile"
-#~ msgstr "Mon profil"
-
-#~ msgid "Gravatar"
-#~ msgstr "Gravatar"
+#~ msgid "Id"
+#~ msgstr "id"
 
 #~ msgid "Name"
 #~ msgstr "Nom"
 
-#~ msgid "Location"
-#~ msgstr "Localisation"
+#~ msgid "Tag"
+#~ msgstr "Etiquette"
 
-#~ msgid "Timezone"
-#~ msgstr "Timezone"
+#~ msgid "Datatype"
+#~ msgstr "Type de données"
 
-#~ msgid "Language"
-#~ msgstr "Langage"
+#~ msgid "Engine"
+#~ msgstr "Stockage"
 
-#~ msgid "Bio"
-#~ msgstr "Bio"
+#~ msgid "Public"
+#~ msgstr "Public"
 
-#~ msgid "Username does not exist"
-#~ msgstr "Cet utilisateur n'existe pas"
+#~ msgid "Make feed public"
+#~ msgstr "Rendre ce flux public"
+
+#~ msgid "Size"
+#~ msgstr "Taille"
+
+#~ msgid "Updated"
+#~ msgstr "Actualisé"
+
+#~ msgid "Value"
+#~ msgstr "Valeur"
+
+#~ msgid "Edit"
+#~ msgstr "modifier"
+
+#~ msgid "Save"
+#~ msgstr "Sauvegarder"
+
+#~ msgid "Delete"
+#~ msgstr "Supprimer"
+
+#~ msgid "Preview"
+#~ msgstr "Afficher"
+
+#~ msgid "Configure element"
+#~ msgstr "Configurer l'élément"
+
+#~ msgid "Cancel"
+#~ msgstr "Annuler"
+
+#~ msgid "Save changes"
+#~ msgstr "Sauvegarder les changements"
+
+#, fuzzy
+#~ msgid "Feeds API Help"
+#~ msgstr "Aide de l'API Flux"
 
 #~ msgid ""
-#~ "Or if you are new enter a username and password above and click register"
+#~ "Feeds are where your monitoring data is stored. The recommended route for "
+#~ "creating feeds is to start by creating inputs (see the inputs tab). Once "
+#~ "you have inputs you can either log them straight to feeds or if you want "
+#~ "you can add various levels of input processing to your inputs to create "
+#~ "things like daily average data or to calibrate inputs before storage. You "
+#~ "may want to follow the link as a guide for generating your request."
 #~ msgstr ""
-#~ "Ou si vous &ecirc;tes un nouvel utilisateur, indiquer un identifiant et "
-#~ "un mot de passe puis cliquer sur S'inscrire"
+#~ "Les flux correspondent à l'archivage et au traitement de vos données. "
+#~ "Créez d'abord une source de données (Onglet Sources), utilisez ensuite "
+#~ "les flux pour traiter ces données avant de les archiver. Vous pouvez lire "
+#~ "la documentation sur l'API flux pour plus d'information (en Anglais)"
 
-#~ msgid "Welcome, you are now logged in"
-#~ msgstr "Salut, vous &ecirc;tes maintenant connect&eacute;"
+#~ msgid "CSV data export"
+#~ msgstr "Exportation au format CSV"
 
-#~ msgid "Please enter a username that is 4 to 30 characters long"
-#~ msgstr "Merci de choisir un identifiant de plus de 4 caract&egrave;res"
+#~ msgid "Selected feed:"
+#~ msgstr "Flux sélectionné"
 
-#~ msgid "Please enter a password that is 4 to 30 characters long"
-#~ msgstr "Mercir de taper un mot de passe contenant "
+#~ msgid "Select the dates range interval that you wish to export: (From - To)"
+#~ msgstr ""
+#~ "Sélectionner les dates définissant l'intervalle à exporter (Date de - à)"
 
-#~ msgid "Your new account has been created"
-#~ msgstr "Votre compte a &eacute;t&eacute; cr&eacute;&eacute;"
+#~ msgid "Start Date"
+#~ msgstr "Date de début"
 
-#~ msgid "Your password has been changed"
-#~ msgstr "Votre mot de passe a &eacute;t&eacute; chang&eacute;"
+#~ msgid "End Date"
+#~ msgstr "Date de fin"
 
-#~ msgid "Invalid password"
-#~ msgstr "Mot de passe incorrect"
+#~ msgid ""
+#~ "Select the time interval with time reference that you wish to export:"
+#~ msgstr ""
+#~ "Sélectionner l'intervalle de temps des échantillons que vous désirez "
+#~ "exporter:"
 
-#~ msgid "New read apikey: "
-#~ msgstr "Nouvelle cl&eacute; API (lecture) : "
+#~ msgid "Select samples time interval"
+#~ msgstr "Sélection de l'intervalle des échantillons"
 
-#~ msgid "New write apikey: "
-#~ msgstr "Nouvelle &ecute; API (&eacute;criture) : "
+#~ msgid "s"
+#~ msgstr "s"
 
-#~ msgid "You are logged out"
-#~ msgstr "Vous &ecirc;tes d&eacute;connect&eacute;"
+#~ msgid "min"
+#~ msgstr "Min"
 
-#~ msgid "Invalid token"
-#~ msgstr "Jeton invalide"
+#, fuzzy
+#~ msgid "mins"
+#~ msgstr " minutes"
 
-#~ msgid "User: "
-#~ msgstr "Identifiant : "
+#~ msgid "hour"
+#~ msgstr "Heure"
 
-#~ msgid "Select preferred language"
-#~ msgstr "S&eacute;lectionner la langue principale"
+#~ msgid "hours"
+#~ msgstr "Heures"
 
-#~ msgid "Browser language"
-#~ msgstr "Langue du navigateur"
+#~ msgid "Daily"
+#~ msgstr "Quotidien"
 
-#~ msgid "Set"
-#~ msgstr "Establecer"
+#~ msgid "Weekly"
+#~ msgstr "Hebdomadaire"
 
-#~ msgid "Change details"
-#~ msgstr "Modification du compte"
+#~ msgid "Monthly"
+#~ msgstr "Mensuel"
 
-#~ msgid "Change"
-#~ msgstr "Modifier"
+#~ msgid "Annual"
+#~ msgstr "Annuel"
+
+#~ msgid "Select Time zone (for day export)"
+#~ msgstr "Sélectionner le fuseau horaire (pour exportation d'un jour)"
+
+#~ msgid "Feed intervals note:"
+#~ msgstr "Note à propos des intervalles de Flux"
+
+#~ msgid ""
+#~ "if the selected interval is shorter than the feed interval the feed "
+#~ "interval will be used instead."
+#~ msgstr ""
+#~ "Si l'intervalle sélectionné est inférieur à l'intervalle du flux, c'est "
+#~ "l'intervalle du flux qui servira."
+
+#~ msgid "Averages are only returned for feed engines with built in averaging."
+#~ msgstr ""
+#~ "Les moyennes ne sont fournies que pour les flux utilisant un moteur "
+#~ "contant un calcul de moyenne."
+
+#~ msgid "Estimated download size "
+#~ msgstr "Taille estimée du fichier"
+
+#~ msgid "Export"
+#~ msgstr "Exporter"
+
+#~ msgid "Data selection error"
+#~ msgstr "Erreur de dates"
+
+#~ msgid "Please enter a valid START date."
+#~ msgstr "Entrer une date de DEBUT valide."
+
+#~ msgid "Please enter a valid END date."
+#~ msgstr "Entrer une date de FIN valide."
+
+#~ msgid "Start date should be before end date."
+#~ msgstr "La date de début doit être avant la date de fin."
+
+#~ msgid "Download file size too large (download limit: 10Mb)."
+#~ msgstr "Le fichier est trop gros (limite de déchargement: 10MB)"
+
+#~ msgid "Please select sample time interval."
+#~ msgstr "L'intervalle de temps n'est pas défini."
+
+#~ msgid "Close"
+#~ msgstr "Fermer"
+
+#~ msgid "Are you sure you want to delete this feed?"
+#~ msgstr "Etes vous sûr de vouloir supprimer ce flux ?"
+
+#~ msgid "WARNING deleting a feed is permanent"
+#~ msgstr "ATTENTION ! La suppression d'un flux est irréversible"
+
+#~ msgid "Delete Feed"
+#~ msgstr "Supprimer le Flux"
+
+#~ msgid "Download data"
+#~ msgstr "Télécharger les données"
+
+#~ msgid "Feed API"
+#~ msgstr "API de gestion du flux"
+
+#~ msgid "Apikey authentication"
+#~ msgstr "Authentification APIKey"
+
+#~ msgid ""
+#~ "If you want to call any of the following action's when your not logged "
+#~ "in, add an apikey to the URL of your request: &apikey=APIKEY."
+#~ msgstr ""
+#~ "Si vous voulez appeler ces fonctions sans être connecté, il suffit "
+#~ "d'ajouter votre clé API sur l'url : &apikey=APIKEY"
+
+#~ msgid "Read only:"
+#~ msgstr "Accès en lecture seule : "
+
+#~ msgid "Read & Write:"
+#~ msgstr "Lecture / Ecriture :"
+
+#~ msgid "Html"
+#~ msgstr "Html"
+
+#~ msgid "The feed list view"
+#~ msgstr "La liste des flux "
+
+#~ msgid "This page"
+#~ msgstr "Cette page (documentation API)"
+
+#~ msgid "JSON"
+#~ msgstr "JSON"
+
+#~ msgid "To use the json api the request url needs to include .json"
+#~ msgstr ""
+#~ "Pour utiliser l'api json, vous devez ajouter .json à la fin de l'url"
+
+#~ msgid "returns a list of public feeds made public by the given user."
+#~ msgstr "Renvoi la liste des flux public pour un utilisateur"
+
+#~ msgid "returns the present value of a given feed"
+#~ msgstr "Renvoi la valeur courante d'un flux de données"
+
+#~ msgid "returns feed data"
+#~ msgstr "Les données du flux"
+
+#~ msgid "returns histogram data"
+#~ msgstr "Données d'histogramme"
+
+#~ msgid "returns kwh consumed in a given power band using histogram data type"
+#~ msgstr "Renvoi la puissance consommée sous forme d'histogramme"
+
+#~ msgid "returns id of a feed given by name"
+#~ msgstr "Retourne l'id d'un flux à partir de son nom"
+
+#~ msgid "Feed intervals:"
+#~ msgstr "Intervalles de Flux"
+
+#~ msgid "Select the time range and interval that you wish to export:"
+#~ msgstr "Sélectionner la durée et l'intervalle que vous désirez obtenir:"
+
+#~ msgid "Export data beween selected dates"
+#~ msgstr "Exportation des données entre les dates sélectionnées"
+
+#~ msgid "Selected feed: "
+#~ msgstr "Flux sélectionné;"
+
+#~ msgid "Feed data export procedure"
+#~ msgstr "Procédure d'exportation des données de Flux"
+
+#~ msgid "Export Data"
+#~ msgstr "Exporte les données"
+
+#~ msgid "Estimated download size: <span> 0</span> kB"
+#~ msgstr "Taille estimée du téléchargement: <span> 0</span> kB"
+
+#~ msgid "Delete permanently"
+#~ msgstr "Supprimer le flux ?"
+
+#, fuzzy
+#~ msgid "Input API Help"
+#~ msgstr "Aide de l'API Flux"
+
+#~ msgid "Missing field parameter"
+#~ msgstr "Manque un paramètre"
+
+#~ msgid "Field updated"
+#~ msgstr "Actualisé"
+
+#~ msgid "Field could not be updated"
+#~ msgstr "Le champ ne peut être mis à jour"
+
+#~ msgid "Feed "
+#~ msgstr "Le flux"
+
+#~ msgid " deleted"
+#~ msgstr "a &eacute;t&eacute; supprim&eacute;"
 
 #~ msgid "Emoncms database setup script"
 #~ msgstr "Script de configuration de la base de donn&eacute;e emoncms"
@@ -339,6 +377,9 @@ msgstr "Utilisation aujourd'hui"
 
 #~ msgid "dashboards new"
 #~ msgstr "Nouveau tableau de bord"
+
+#~ msgid "Logout"
+#~ msgstr "D&eacute;connexion"
 
 #~ msgid "dashboard set"
 #~ msgstr "Tableau de bord modifi&eacute;"
@@ -355,17 +396,50 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "Feed renamed"
 #~ msgstr "Le flux a &eacute;t&eacute; renomm&eacute;"
 
-#~ msgid "Feed "
-#~ msgstr "Le flux"
-
-#~ msgid " deleted"
-#~ msgstr "a &eacute;t&eacute; supprim&eacute;"
-
 #~ msgid "Input deleted"
 #~ msgstr "Source supprim&ecute;e"
 
 #~ msgid "Process list has been reset"
 #~ msgstr "La liste d'actions a &ecute;t&ecute; r&eacute;initialis&eacute;e "
+
+#~ msgid "Invalid username or password"
+#~ msgstr "L'identifiant ou le mot de passe saisi est incorrect"
+
+#~ msgid "Welcome, you are now logged in"
+#~ msgstr "Salut, vous &ecirc;tes maintenant connect&eacute;"
+
+#~ msgid "Sorry username already exists"
+#~ msgstr "D&eacute;sol&eacute;, cet identifiant existe d&eacute;j&agrave;"
+
+#~ msgid "Please enter a username that is 4 to 30 characters long"
+#~ msgstr "Merci de choisir un identifiant de plus de 4 caract&egrave;res"
+
+#~ msgid "Please enter a password that is 4 to 30 characters long"
+#~ msgstr "Mercir de taper un mot de passe contenant "
+
+#~ msgid "Your new account has been created"
+#~ msgstr "Votre compte a &eacute;t&eacute; cr&eacute;&eacute;"
+
+#~ msgid "Your password has been changed"
+#~ msgstr "Votre mot de passe a &eacute;t&eacute; chang&eacute;"
+
+#~ msgid "Invalid password"
+#~ msgstr "Mot de passe incorrect"
+
+#~ msgid "No email address present"
+#~ msgstr "Aucune adresse mail n'est renseignée"
+
+#~ msgid "New read apikey: "
+#~ msgstr "Nouvelle cl&eacute; API (lecture) : "
+
+#~ msgid "New write apikey: "
+#~ msgstr "Nouvelle &ecute; API (&eacute;criture) : "
+
+#~ msgid "You are logged out"
+#~ msgstr "Vous &ecirc;tes d&eacute;connect&eacute;"
+
+#~ msgid "Invalid token"
+#~ msgstr "Jeton invalide"
 
 #~ msgid "Restricted access"
 #~ msgstr "Acc&egrave;s restreint"
@@ -412,17 +486,11 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "accumulator"
 #~ msgstr "accumulateur"
 
-#~ msgid "rate of change"
-#~ msgstr "variation"
-
 #~ msgid "histogram"
 #~ msgstr "histogramme"
 
 #~ msgid "average"
 #~ msgstr "moyenne"
-
-#~ msgid "API Helper"
-#~ msgstr "Aide de l'API"
 
 #~ msgid ""
 #~ "API keys are used to give authenticated access without login in via a "
@@ -430,9 +498,6 @@ msgstr "Utilisation aujourd'hui"
 #~ msgstr ""
 #~ "Les cl&eacute;s API sont utiles pour donner un acc&egrave;s &agrave; "
 #~ "emoncms sans avoir besoin de se connecter."
-
-#~ msgid "Read only access: "
-#~ msgstr "Acc&egrave;s en lecture seule : "
 
 #~ msgid "Allows to access in read only mode"
 #~ msgstr "Permet l'acc&egrave;s en lecture seule"
@@ -546,14 +611,11 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "Inputs"
 #~ msgstr "Sources"
 
-#~ msgid "Feeds"
-#~ msgstr "Flux"
-
 #~ msgid "Dashboards"
 #~ msgstr "Tableaux de bord"
 
-#~ msgid "Admin"
-#~ msgstr "Administration"
+#~ msgid "Account"
+#~ msgstr "Compte"
 
 #~ msgid "Notify settings"
 #~ msgstr "Configuration des notifications"
@@ -581,6 +643,36 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "Edit mail settings"
 #~ msgstr "Configuration email"
 
+#~ msgid "User: "
+#~ msgstr "Identifiant : "
+
+#~ msgid "Select preferred language"
+#~ msgstr "S&eacute;lectionner la langue principale"
+
+#~ msgid "Browser language"
+#~ msgstr "Langue du navigateur"
+
+#~ msgid "Change details"
+#~ msgstr "Modification du compte"
+
+#~ msgid "Username:"
+#~ msgstr "Identifiant : "
+
+#~ msgid "Email:"
+#~ msgstr "Correo:"
+
+#~ msgid "Change"
+#~ msgstr "Modifier"
+
+#~ msgid "Change password"
+#~ msgstr "Modifier le mot de passe"
+
+#~ msgid "Current password:"
+#~ msgstr "Ancien mot de passe : "
+
+#~ msgid "New password:"
+#~ msgstr "Nouveau mot de passe : "
+
 #~ msgid "Account Statistics"
 #~ msgstr "Statistiques du compte"
 
@@ -593,6 +685,21 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "Down hits:"
 #~ msgstr "Down hits : "
 
+#~ msgid "en_EN"
+#~ msgstr "Anglais"
+
+#~ msgid "es_ES"
+#~ msgstr "Espagnol"
+
+#~ msgid "nl_BE"
+#~ msgstr "Flamand"
+
+#~ msgid "nl_NL"
+#~ msgstr "N&eacute;erlandais"
+
+#~ msgid "fr_FR"
+#~ msgstr "Français"
+
 #~ msgid "Admin panel"
 #~ msgstr "Administration"
 
@@ -604,6 +711,9 @@ msgstr "Utilisation aujourd'hui"
 
 #~ msgid "registered users"
 #~ msgstr "utilisateurs enregistr&eacute;s"
+
+#~ msgid "Username"
+#~ msgstr "Nombre d'utilisateur"
 
 #~ msgid "Memory use"
 #~ msgstr "M&eacute;moire"
@@ -626,9 +736,6 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "Menu name: (lowercase a-z only)"
 #~ msgstr "Nom dans le menu (minuscules de a-z) : "
 
-#~ msgid "Id"
-#~ msgstr "id"
-
 #~ msgid "Dashboard"
 #~ msgstr "Tableau de bord"
 
@@ -637,9 +744,6 @@ msgstr "Utilisation aujourd'hui"
 
 #~ msgid "Published"
 #~ msgstr "Publi&eacute;"
-
-#~ msgid "Public"
-#~ msgstr "Public"
 
 #~ msgid "Actions"
 #~ msgstr "Actions"
@@ -659,14 +763,8 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "Make dashboard private"
 #~ msgstr "Rendre ce tableau de bord privé"
 
-#~ msgid "Make dashboard public"
-#~ msgstr "Rendre ce tableau de bord public"
-
 #~ msgid "Draw"
 #~ msgstr "&Eacute;diter"
-
-#~ msgid "Delete"
-#~ msgstr "Supprimer"
 
 #~ msgid "Public share URL"
 #~ msgstr "Adresse de partage (public)"
@@ -704,6 +802,9 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "Select graph type:"
 #~ msgstr "S&eacute;lectionner un type de graphique : "
 
+#~ msgid "Real-time"
+#~ msgstr "Temps-r&eacute;el"
+
 #~ msgid "Raw data"
 #~ msgstr "Donn&eacute;es brutes"
 
@@ -718,12 +819,6 @@ msgstr "Utilisation aujourd'hui"
 
 #~ msgid "Real-time data"
 #~ msgstr "Donn&eacute;es temps-r&eacute;el"
-
-#~ msgid "Daily data"
-#~ msgstr "Donn&eacute;es quotidienne"
-
-#~ msgid "Histogram data"
-#~ msgstr "Donn&eacute;es d'histogramme"
 
 #~ msgid "Tag feed"
 #~ msgstr "Tag du flux"
@@ -743,32 +838,11 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "Set notification behavior for this feed"
 #~ msgstr "Configurer les notifications pour ce flux"
 
-#~ msgid "Delete feed?"
-#~ msgstr "Supprimer le flux ?"
-
-#~ msgid "Are you sure you want to delete feed: "
-#~ msgstr "&Ecirc;tes vous s&ucirc;r de vouloir supprimer ce flux : "
-
 #~ msgid "feed/delete"
 #~ msgstr "flux/supprimer"
 
-#~ msgid "Tag"
-#~ msgstr "Tag"
-
-#~ msgid "Size"
-#~ msgstr "Taille"
-
-#~ msgid "Updated"
-#~ msgstr "Actualis&eacute;"
-
-#~ msgid "Value"
-#~ msgstr "Valeur"
-
 #~ msgid "s ago"
 #~ msgstr " secondes"
-
-#~ msgid " mins ago"
-#~ msgstr " minutes"
 
 #~ msgid " hours ago"
 #~ msgstr "heures"
@@ -800,6 +874,24 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "Delete input?"
 #~ msgstr "Supprimer source ?"
 
+#~ msgid "Password:"
+#~ msgstr "Mot de passe : "
+
+#~ msgid "Login"
+#~ msgstr "Connexion"
+
+#~ msgid ""
+#~ "Or if you are new enter a username and password above and click register"
+#~ msgstr ""
+#~ "Ou si vous &ecirc;tes un nouvel utilisateur, indiquer un identifiant et "
+#~ "un mot de passe puis cliquer sur S'inscrire"
+
+#~ msgid "Register"
+#~ msgstr "S'inscrire"
+
+#~ msgid "Old password:"
+#~ msgstr "Mot de passe actuel : "
+
 #~ msgid "delete"
 #~ msgstr "supprimer"
 
@@ -811,11 +903,11 @@ msgstr "Utilisation aujourd'hui"
 #~ "Lo siento, necesitas una clave válida o estar loggeado para ver esta "
 #~ "página"
 
-#~ msgid "Preview"
-#~ msgstr "Vista previa"
-
 #~ msgid "Reset"
 #~ msgstr "Resetear"
+
+#~ msgid "Language"
+#~ msgstr "Lenguaje"
 
 #~ msgid "API keys"
 #~ msgstr "Claves API"
@@ -844,6 +936,9 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "Spanish"
 #~ msgstr "Español"
 
+#~ msgid "Set"
+#~ msgstr "Establecer"
+
 #~ msgid "Save current configuration"
 #~ msgstr "Guardar configuración actual"
 
@@ -868,14 +963,11 @@ msgstr "Utilisation aujourd'hui"
 #~ msgid "2 Months"
 #~ msgstr "2 Meses"
 
-#~ msgid "Month"
-#~ msgstr "Mes"
-
-#~ msgid "Week"
-#~ msgstr "Semana"
-
 #~ msgid "Day"
 #~ msgstr "Día"
+
+#~ msgid "Hour"
+#~ msgstr "Hora"
 
 #~ msgid "Left vs"
 #~ msgstr "Izquierda vs"
@@ -885,12 +977,6 @@ msgstr "Utilisation aujourd'hui"
 
 #~ msgid "1 day"
 #~ msgstr "1 día"
-
-#~ msgid "12 hours"
-#~ msgstr "12 horas"
-
-#~ msgid "1 hour"
-#~ msgstr "1 hora"
 
 #~ msgid "Date / Time"
 #~ msgstr "Fecha / Hora"

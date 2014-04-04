@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-25 19:03+0100\n"
-"PO-Revision-Date: 2013-09-25 19:23+0100\n"
+"POT-Creation-Date: 2013-09-25 16:45+0100\n"
+"PO-Revision-Date: 2013-09-25 16:57+0100\n"
 "Last-Translator: Troels Leegaard <tleegaard@gmail.com>\n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -15,209 +15,142 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../login_block.php:30
-msgid "Username:"
-msgstr "Brugernavn:"
+#: ../../../feed_menu.php:7
+#: ../../../Views/feedlist_view.php:19
+msgid "Feeds"
+msgstr "Feeds"
 
-#: ../../../login_block.php:35
-msgid "Email:"
-msgstr "E-mail:"
+#: ../../../Views/feedlist_view.php:16
+msgid "Feed API Help"
+msgstr "Hjælp til API"
 
-#: ../../../login_block.php:40
-msgid "Password:"
-msgstr "Adgangskode:"
+#: ../../../Views/feedlist_view.php:24
+msgid "No feeds created"
+msgstr "Ingen feeds oprettet"
 
-#: ../../../login_block.php:45
-msgid "Confirm password:"
-msgstr "Bekræft adgangskode:"
+#: ../../../Views/feedlist_view.php:25
+#, fuzzy
+msgid "Feeds are where your monitoring data is stored. The recommended route for creating feeds is to start by creating inputs (see the inputs tab). Once you have inputs you can either log them straight to feeds or if you want you can add various levels of input processing to your inputs to create things like daily average data or to calibrate inputs before storage. You may want to follow the link as a guide for generating your request."
+msgstr "Feeds er hvor din monitorerede data er lagret. Det anbefales at du opretter feeds, ved først at oprette inputs (se input-fanen). Når du har oprettet et input kan du enten logge disse direkte til feeds eller du kan tilføje automatisk behandling af dine inputs inden de logges som feeds. Muligvis ønsker du at følge linket for at bruge den som guide til generering af din anmodning."
 
-#: ../../../login_block.php:52
-msgid "Remember me"
-msgstr "Husk mit login"
+#: ../../../Views/feedlist_view.php:25
+msgid "Feed API helper"
+msgstr "Hjælp til API"
 
-#: ../../../login_block.php:53
-msgid "Login"
-msgstr "Log ind"
+#: ../../../Views/feedlist_view.php:35
+msgid "WARNING deleting a feed is permanent"
+msgstr "ADVARSEL: Sletning af feed er permanent"
 
-#: ../../../login_block.php:54
-#: ../../../login_block.php:58
-msgid "or"
-msgstr "eller"
+#: ../../../Views/feedlist_view.php:38
+msgid "Are you sure you want to delete this feed?"
+msgstr "Er du sikker på at du ønsker at slette dette feed?"
 
-#: ../../../login_block.php:54
-msgid "register"
-msgstr "registrér"
-
-#: ../../../login_block.php:58
-msgid "Register"
-msgstr "Registrér"
-
-#: ../../../login_block.php:59
-msgid "cancel"
-msgstr "annullér"
-
-#: ../../../user_model.php:132
-msgid "Missing username, password or email paramater"
-msgstr "Manglende brugernavn, adgangskode eller e-mail"
-
-#: ../../../user_model.php:134
-#: ../../../user_model.php:263
-msgid "Username must only contain a-z and 0-9 characters"
-msgstr "Brugernavn må kun indeholde karaktererne a-z og 0-9"
-
-#: ../../../user_model.php:138
-#: ../../../user_model.php:274
-msgid "Username already exists"
-msgstr "Brugernavnet eksisterer allerede"
-
-#: ../../../user_model.php:140
-#: ../../../user_model.php:283
-msgid "Email address format error"
-msgstr "E-mail-adressen er forkert"
-
-#: ../../../user_model.php:142
-#: ../../../user_model.php:261
-msgid "Username length error"
-msgstr "Fejl i brugernavnets længde"
-
-#: ../../../user_model.php:143
-#: ../../../user_model.php:232
-#: ../../../user_model.php:233
-msgid "Password length error"
-msgstr "Fejl i adgangskodens længde"
-
-#: ../../../user_model.php:156
-msgid "Error creating user"
-msgstr "Fejl ved oprettelse af bruger"
-
-#: ../../../user_model.php:170
-msgid "Username or password empty"
-msgstr "Brugernavn eller adganskode er tom"
-
-#: ../../../user_model.php:176
-msgid "Username must only contain a-z 0-9 dash and underscore, if you created an account before this rule was in place enter your username without the non a-z 0-9 dash underscore characters to login and feel free to change your username on the profile page."
-msgstr "Brugernavnet må kun bestå af karaktererne a-z, 0-9, \"_\" og \"-\". Hvis du har oprettet en konto før denne regel tiltrådte skal du indtaste dit brugernavn og udelade karaktererne der ikke længere er tilladte. Efter login bedes du ændre dit brugernavn på din profilside."
-
-#: ../../../user_model.php:183
-msgid "Username does not exist"
-msgstr "Brugernavn eksisterer ikke"
-
-#: ../../../user_model.php:190
-msgid "Incorrect password, if your sure its correct try clearing your browser cache"
-msgstr "Forkert adgangskode. Hvis du er sikker på at adgangskoden er indtastet korrekt, kan du evt. prøve at slette din browsers cache"
-
-#: ../../../user_model.php:211
-msgid "Login successful"
-msgstr "Succesfuldt login"
-
-#: ../../../user_model.php:252
-msgid "Old password incorect"
-msgstr "Gammel adgangskode er forkert"
-
-#: ../../../user_model.php:258
-msgid "As your using a cookie based remember me login, please logout and log back in to change username"
-msgstr "Da din browser husker dit login, bedes du logge ud og efterfølgende logge ind igen for at ændre dit brugernavn"
-
-#: ../../../user_model.php:270
-msgid "Username updated"
-msgstr "Brugernavn opdateret"
-
-#: ../../../user_model.php:280
-msgid "As your using a cookie based remember me login, please logout and log back in to change email"
-msgstr "Da din browser husker dit login, bedes du logge ud og efterfølgende logge ind igen for at ændre din e-mail"
-
-#: ../../../user_model.php:286
-msgid "Email updated"
-msgstr "E-mail opdateret"
-
-#: ../../../user_menu.php:7
-msgid "Account"
-msgstr "Konto"
-
-#: ../../../user_menu.php:8
-msgid "Logout"
-msgstr "Log ud"
-
-#: ../../../profile/profile.php:22
-msgid "es_ES"
-msgstr "Spansk"
-
-#: ../../../profile/profile.php:23
-msgid "fr_FR"
-msgstr "Fransk"
-
-#: ../../../profile/profile.php:35
-msgid "My account"
-msgstr "Min konto"
-
-#: ../../../profile/profile.php:39
-msgid "Username"
-msgstr "Brugernavn"
-
-#: ../../../profile/profile.php:40
-#: ../../../profile/profile.php:49
-msgid "Edit"
-msgstr "Redigér"
-
-#: ../../../profile/profile.php:43
-#: ../../../profile/profile.php:52
-#: ../../../profile/profile.php:75
-msgid "Save"
-msgstr "Gem"
-
-#: ../../../profile/profile.php:48
-msgid "Email"
-msgstr "E-mail"
-
-#: ../../../profile/profile.php:57
-msgid "Change Password"
-msgstr "Skift adgangskode"
-
-#: ../../../profile/profile.php:63
-msgid "Current password"
-msgstr "Nuværende adgangskode"
-
-#: ../../../profile/profile.php:67
-msgid "New password"
-msgstr "Ny adgangskode"
-
-#: ../../../profile/profile.php:71
-msgid "Repeat new password"
-msgstr "Gentag ny adgangskode"
-
-#: ../../../profile/profile.php:76
+#: ../../../Views/feedlist_view.php:41
 msgid "Cancel"
 msgstr "Annullér"
 
-#: ../../../profile/profile.php:82
-msgid "My Profile"
-msgstr "Min profil"
+#: ../../../Views/feedlist_view.php:42
+msgid "Delete permanently"
+msgstr "Slet permanent"
 
-#: ../../../profile/profile.php:98
-msgid "Gravatar"
-msgstr "Gravatar"
+#: ../../../Views/feedlist_view.php:57
+msgid "Id"
+msgstr "ID"
 
-#: ../../../profile/profile.php:99
+#: ../../../Views/feedlist_view.php:58
 msgid "Name"
 msgstr "Navn"
 
-#: ../../../profile/profile.php:100
-msgid "Location"
-msgstr "Bosted"
+#: ../../../Views/feedlist_view.php:59
+msgid "Tag"
+msgstr "Gruppe"
 
-#: ../../../profile/profile.php:101
-msgid "Timezone"
-msgstr "Tidszone"
+#: ../../../Views/feedlist_view.php:60
+msgid "Datatype"
+msgstr "Datatype"
 
-#: ../../../profile/profile.php:102
-msgid "Language"
-msgstr "Sprog"
+#: ../../../Views/feedlist_view.php:61
+msgid "Engine"
+msgstr "Motor"
 
-#: ../../../profile/profile.php:103
-msgid "Bio"
-msgstr "Om mig"
+#: ../../../Views/feedlist_view.php:62
+msgid "Public"
+msgstr "Offentlig"
 
-#: ../../../profile/profile.php:225
-msgid "Passwords do not match"
-msgstr "Adganskoder matcher ikke"
+#: ../../../Views/feedlist_view.php:63
+msgid "Size"
+msgstr "Størrelse"
+
+#: ../../../Views/feedlist_view.php:65
+msgid "Updated"
+msgstr "Opdateret"
+
+#: ../../../Views/feedlist_view.php:66
+msgid "Value"
+msgstr "Værdi"
+
+#: ../../../Views/feedapi_view.php:19
+msgid "Feed API"
+msgstr "API for feed"
+
+#: ../../../Views/feedapi_view.php:21
+msgid "Apikey authentication"
+msgstr "APIKEY-autentificering"
+
+#: ../../../Views/feedapi_view.php:22
+msgid "If you want to call any of the following action's when your not logged in, add an apikey to the URL of your request: &apikey=APIKEY."
+msgstr "Hvis du ønsker at kalde en af de følgende funktioner når du ikke er logget ind, skal du tilføje din APIKEY til URL'en: \"&apikey=APIKEY\""
+
+#: ../../../Views/feedapi_view.php:23
+msgid "Read only:"
+msgstr "Læserettigheder"
+
+#: ../../../Views/feedapi_view.php:27
+msgid "Read & Write:"
+msgstr "Læse- og skriverettigheder"
+
+#: ../../../Views/feedapi_view.php:31
+msgid "Html"
+msgstr "HTML"
+
+#: ../../../Views/feedapi_view.php:32
+msgid "The feed list view"
+msgstr "Feed-visning"
+
+#: ../../../Views/feedapi_view.php:33
+msgid "This page"
+msgstr "Denne side"
+
+#: ../../../Views/feedapi_view.php:35
+msgid "JSON"
+msgstr "JSON"
+
+#: ../../../Views/feedapi_view.php:36
+msgid "To use the json api the request url needs to include .json"
+msgstr "For at benytte JSON-API-kald skal URL'en indeholde \".json\""
+
+#: ../../../Views/feedapi_view.php:37
+msgid "returns a list of public feeds made public by the given user."
+msgstr "returnerer en liste over offentlige funktioner gjort tilgængelige af brugeren"
+
+#: ../../../Views/feedapi_view.php:38
+#: ../../../Views/feedapi_view.php:39
+msgid "returns the present value of a given feed"
+msgstr "returnerer den nuværende værdi af et feed"
+
+#: ../../../Views/feedapi_view.php:40
+msgid "returns feed data"
+msgstr "returnerer feed-data"
+
+#: ../../../Views/feedapi_view.php:41
+msgid "returns histogram data"
+msgstr "returnerer histogram-data"
+
+#: ../../../Views/feedapi_view.php:42
+msgid "returns kwh consumed in a given power band using histogram data type"
+msgstr "returnerer kWh-forbrug i et givent kW-område baseret på histogram-data"
+
+#: ../../../Views/feedapi_view.php:44
+msgid "returns id of a feed given by name"
+msgstr "returnerer ID for et given feed baseret på dets navn"
 

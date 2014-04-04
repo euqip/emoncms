@@ -105,4 +105,3 @@ function set_emoncms_lang($lang)
     }
     set_lang_by_user($lang);
 }
-

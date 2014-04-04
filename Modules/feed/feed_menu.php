@@ -7,4 +7,6 @@
 
     $menu_left[] = array('name'=> dgettext($domain, "Feeds"), 'path'=>"feed/list" , 'session'=>"write", 'order' => 2 );
 
+
+
 ?>

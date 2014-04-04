@@ -38,10 +38,17 @@ class User
     // Core session methods
     //---------------------------------------------------------------------------------------
 
-    public function apikey_session($apikey_in)
+public function apikey_session($apikey_in)
     {
         $apikey_in = $this->mysqli->real_escape_string($apikey_in);
         $session = array();
+        //set defaults
+        $session['userid'] = '';
+        $session['read'] = 0;
+        $session['write'] = 0;
+        $session['admin'] = 0;
+        $session['editmode'] = TRUE;
+        $session['lang'] = "en_EN";
 
         //----------------------------------------------------
         // Check for apikey login
@@ -51,13 +58,27 @@ class User
             $session['userid'] = $this->redis->get("writeapikey:$apikey_in");
             $session['read'] = 1;
             $session['write'] = 1;
-            $session['admin'] = 0;
-            $session['editmode'] = TRUE;
-            $session['lang'] = "en";
+            $session['lang'] = $this->redis->get("userlangkey:$apikey_in");
+            if ($session['lang']==''){
+            $result = $this->mysqli->query("SELECT id, language FROM users WHERE apikey_write='$apikey_in'");
+                if ($result->num_rows == 1)
+                {
+                    $row = $result->fetch_array();
+                    if ($row['id'] != 0)
+                    {
+                        //session_regenerate_id();
+                        $session['lang'] = $row['language'];
+
+                        if ($this->redis) $this->redis->set("writeapikey:$apikey_in",$row['id']);
+                        if ($this->redis) $this->redis->set("userlangkey:$apikey_in",$row['language']);
+                    }
+
+                }
+            }
         }
         else
         {
-            $result = $this->mysqli->query("SELECT id FROM users WHERE apikey_write='$apikey_in'");
+            $result = $this->mysqli->query("SELECT id, language FROM users WHERE apikey_write='$apikey_in'");
             if ($result->num_rows == 1)
             {
                 $row = $result->fetch_array();
@@ -67,16 +88,15 @@ class User
                     $session['userid'] = $row['id'];
                     $session['read'] = 1;
                     $session['write'] = 1;
-                    $session['admin'] = 0;
-                    $session['editmode'] = TRUE;
-                    $session['lang'] = "en";
+                    $session['lang'] = $row['language'];
 
                     if ($this->redis) $this->redis->set("writeapikey:$apikey_in",$row['id']);
+                    if ($this->redis) $this->redis->set("userlangkey:$apikey_in",$row['language']);
                 }
             }
             else
             {
-            $result = $this->mysqli->query("SELECT id FROM users WHERE apikey_read='$apikey_in'");
+            $result = $this->mysqli->query("SELECT id, language FROM users WHERE apikey_read='$apikey_in'");
             if ($result->num_rows == 1)
             {
                 $row = $result->fetch_array();
@@ -85,10 +105,7 @@ class User
                     //session_regenerate_id();
                     $session['userid'] = $row['id'];
                     $session['read'] = 1;
-                    $session['write'] = 0;
-                    $session['admin'] = 0;
-                    $session['editmode'] = TRUE;
-                    $session['lang'] = "en";
+                    $session['lang'] = $row['language'];
                 }
             }
             }
@@ -97,7 +114,6 @@ class User
         //----------------------------------------------------
         return $session;
     }
-
     public function emon_session_start()
     {
         session_start();
@@ -228,7 +244,6 @@ class User
                     $this->rememberme->clearCookie();
                 }
             }
-
             return array('success'=>true, 'message'=>_("Login successful"));
         }
     }
