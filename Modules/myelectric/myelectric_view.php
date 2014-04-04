@@ -33,7 +33,9 @@ calls the feed API on the server via AJAX. -->
     color:#0699fa; 
     padding-top:45px;
   }
-  
+  label{
+    color:#0699fa;
+  }
 </style>
 
 <!-- The three elements: title, power value and kwhd value that makes up our page -->
@@ -46,24 +48,34 @@ calls the feed API on the server via AJAX. -->
             <div class="electric-title"><?php echo _('My Electric config') ?></div>
             <br><br>
             
-            <p><b style="color:#0699fa"><?php echo _('Power feed (Watts)') ?>:</b></p>
-            <select id="powerfeed" style="width:290px"></select>
-            <br><br>
+            <div class="col-md-12">
+                <label for="powerfeed" class = "inverse"><?php echo _('Power feed (Watts)') ?>:</label>
+            </div>
+            <div class="form-group">
+                <select id="powerfeed" class="form-control" title="<?php echo _('Select the feed to show') ?>"></select>
+            </div>
+
             
-            <p><b style="color:#0699fa"><?php echo _('Bar graph feed') ?>:</b></p>
-            <select id="dailyfeed" style="width:290px"></select>
-            
-            <p><b style="color:#0699fa"><?php echo _('Bar graph feed type') ?>:</b></p>
-            <select id="dailytype" style="width:290px">
-                <option value=0><?php echo _('Watt hours elapsed') ?></option>
-                <option value=1><?php echo _('kWh elapsed') ?></option>
-                <option value=2><?php echo _('kWh per day') ?></option>
-                <option value=3<?php echo _('Power (Watts)') ?>></option>
-                
-            </select>
-            <br><br>
-            
-            <button id="configsave" class="btn btn-primary">Save</button>
+            <div class="col-md-12">
+                <label for="dailyfeed" class = "inverse"><?php echo _('Bar graph feed') ?>:</label>
+            </div>
+            <div class="form-group">
+                <select id="dailyfeed" class="form-control" title="<?php echo _('Select the daily feed source to show')?>"></select>
+            </div>
+
+            <div class="col-md-12">
+                <label for="dailytype" class = "inverse"><?php echo _('Bar graph feed type') ?>:</label>
+            </div>
+            <div class="form-group">
+                <select id="dailytype" class="form-control"  title="<?php echo _('Select presentation')?>">
+                    <option value=0><?php echo _('Watt hours elapsed') ?></option>
+                    <option value=1><?php echo _('kWh elapsed') ?></option>
+                    <option value=2><?php echo _('kWh per day') ?></option>
+                    <option value=3<?php echo _('Power (Watts)') ?>></option>                    
+                </select>
+            </div>
+
+            <button id="configsave" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> <?php echo _('Save') ?></button>
             
         </form>
 
