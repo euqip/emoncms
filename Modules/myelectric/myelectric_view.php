@@ -7,10 +7,11 @@ $apikey = get('apikey');
 
 <!-- feed.js is the feed api helper library, it gives us nice functions to use within our program that
 calls the feed API on the server via AJAX. -->
+<link href="<?php echo $path; ?>Modules/myelectric/myelectric.css" rel="stylesheet">
 <script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/myelectric/graph.js"></script>
 
-<!-- defenition of the style/look of the elements on our page (CSS stylesheet) -->
+<!-- defenition of the style/look of the elements on our page (CSS stylesheet) 
 <style>
 
   .electric-title {
@@ -35,12 +36,12 @@ calls the feed API on the server via AJAX. -->
   }
   .reverse {
     color:#0699fa; 
-
   }
   label{
     color:#0699fa;
   }
 </style>
+-->
 
 <!-- The three elements: title, power value and kwhd value that makes up our page -->
 <!-- margin: 0px auto; max-width:320px; aligns the elements to the middle of the page -->
