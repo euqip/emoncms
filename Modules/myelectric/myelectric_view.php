@@ -11,37 +11,6 @@ calls the feed API on the server via AJAX. -->
 <script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/myelectric/graph.js"></script>
 
-<!-- defenition of the style/look of the elements on our page (CSS stylesheet) 
-<style>
-
-  .electric-title {
-    font-weight:bold; 
-    font-size:22px; 
-    color:#aaa; 
-    padding-top:20px
-  }
-  
-  .power-value {
-    font-weight:bold; 
-    font-size:100px; 
-    color:#0699fa; 
-    padding-top:45px;
-  }
-  
-  .kwh-value {
-    font-weight:normal; 
-    font-size:22px; 
-    color:#0699fa; 
-    padding-top:45px;
-  }
-  .reverse {
-    color:#0699fa; 
-  }
-  label{
-    color:#0699fa;
-  }
-</style>
--->
 
 <!-- The three elements: title, power value and kwhd value that makes up our page -->
 <!-- margin: 0px auto; max-width:320px; aligns the elements to the middle of the page -->
@@ -85,19 +54,17 @@ calls the feed API on the server via AJAX. -->
 
 
 
-        <div id="powerblock">
-            <div style="height:20px; border-bottom:1px solid #333; padding:8px;">
-                <div style="float:right;">
-                    <div id="openconfig" class ="reverse"> <span class="glyphicon glyphicon-wrench"></span> </div>
+        <div id="powerblock"> 
+            <div>
+                <div class="electric-title"><?php echo _('POWER NOW') ?>:
+                    <div class="iconbutton pull-right" style1="float:right;">
+                        <div id="openconfig" class ="reverse"> <span class="glyphicon glyphicon-wrench"></span> </div>
+                    </div>
                 </div>
-            </div>
-
-            <div style="width:100%;">
-                <div class="electric-title"><?php echo _('POWER NOW') ?>:  </div>
-                <div class="power-value"><span id="power"></span>W</div>
+                <div class="power-value centered"><span id="power"></span>W</div>
                 <div class="kwh-value"><?php echo _('USE TODAY') ?>: <b><span id="kwhd"></span> kWh</b></div>
             </div>
-            <div id="bound" style="width:100%; height:270px">
+            <div id="bound">
                 <canvas id="myCanvas" ></canvas>
             </div>
         </div>   <!-- power block -->
@@ -112,18 +79,10 @@ calls the feed API on the server via AJAX. -->
     // The feed api library requires the emoncms path
     var path = "<?php echo $path; ?>";
     var apikey = "<?php echo $apikey; ?>"; 
-
-    feed.apikey = apikey;
-    
+    var refreshinterval=5000;
+    feed.apikey = apikey;    
     var daily = [];
 
-    // Set the background color to dark grey - looks nice on a mobile.
-    $("body").css('background-color','#222');
-    
-    $(window).ready(function(){
-        $("#footer").css('background-color','#181818');
-        $("#footer").css('color','#999');
-    });
     
     var refresh = true;
     // Page and canvas widths
@@ -168,7 +127,7 @@ calls the feed API on the server via AJAX. -->
         $("#powerblock").hide();
     } else {
         update();
-        updateinst = setInterval(update,5000);
+        updateinst = setInterval(update,refreshinterval);
     }
     
     function update_graph_size()
@@ -291,7 +250,7 @@ calls the feed API on the server via AJAX. -->
         dailytype = $("#dailytype").val();
 
         // Restart interface update
-        updateinst = setInterval(update,5000);
+        updateinst = setInterval(update,refreshinterval);
 
         refresh = true; 
         update();
