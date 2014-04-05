@@ -17,7 +17,7 @@ calls the feed API on the server via AJAX. -->
 <div class="container">
     <div class="row col-md-4">
         
-        <form id="config" class="form-vertical" style="margin: 0px auto; max-width:320px; display:none">
+        <form id="config" class="form-vertical" style="display:none">
             
             <div class="electric-title"><?php echo _('My Electric config') ?></div>
             <br><br>
@@ -57,7 +57,7 @@ calls the feed API on the server via AJAX. -->
         <div id="powerblock"> 
             <div>
                 <div class="electric-title"><?php echo _('POWER NOW') ?>:
-                    <div class="iconbutton pull-right" style1="float:right;">
+                    <div class="iconbutton pull-right">
                         <div id="openconfig" class ="reverse"> <span class="glyphicon glyphicon-wrench"></span> </div>
                     </div>
                 </div>
