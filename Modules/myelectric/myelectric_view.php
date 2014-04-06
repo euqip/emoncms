@@ -15,7 +15,7 @@ calls the feed API on the server via AJAX. -->
 <!-- The three elements: title, power value and kwhd value that makes up our page -->
 <!-- margin: 0px auto; max-width:320px; aligns the elements to the middle of the page -->
 <div class="container">
-    <div class="row col-md-4">
+    <div class="row col-md-4 centered">
         
         <form id="config" class="form-vertical" style="display:none">
             
