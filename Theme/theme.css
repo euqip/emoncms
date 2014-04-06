@@ -1,4 +1,4 @@
-          html, body { height: 100%; }
+html, body { height: 100%; }
 select,
 textarea,
 input[type="text"],
@@ -16,7 +16,7 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input {
-	margin-bottom:2px;
+    margin-bottom:2px;
 }
 #wrap {
     min-height: 100%;
@@ -26,22 +26,22 @@ input[type="color"],
     margin: 0 auto -40px;
 }
 
- #push,
+#push,
 #footer {
-height: 30px;
+    height: 30px;
 }
 .navbar-brand{
-  padding: 11px;
+    padding: 11px;
 }
 .navbar-nav.navbar-right:last-child{
-  margin-right: 0px;
+    margin-right: 0px;
 }
 .content-block {
-  margin-top: 60px; 
+    margin-top: 60px; 
 }
 
 h2{
-  margin-top: 1px;
+    margin-top: 1px;
 }
 #footer {
     background-color: #f5f5f5;
@@ -91,7 +91,7 @@ h2{
     height:27px;
 }
 .navbar{
-  margin-bottom :0px;
+    margin-bottom :0px;
 }
 
 /*
@@ -103,7 +103,7 @@ required for the dashboard submenu
     color:#888;
     font: 13px/27px sans-serif;
     font-weight:bold; 
-    }
+}
 
 .greydashmenu {
     display: block;
@@ -133,11 +133,11 @@ required for the dashboard submenu
 .form-inline .form-group input select{
     width:140px;
 }
- .groupheader {
+.groupheader {
     background-color: #BBB;
 }
 .table> tbody > tr > .groupheader:hover{
-  background-color: #faf2cc;
+    background-color: #faf2cc;
 }
 
 tbody  tr .form-control{
@@ -158,32 +158,32 @@ tbody  tr .form-control{
 login block flags size style
 */
 #flags img{
-  width:16px;
-  height:16px;  
+    width:16px;
+    height:16px;  
 }
 
 #login-form .well{
-  width:  500px;
+    width:  500px;
 }
 
 .emon-version{
-  color:#999;
+    color:#999;
 }
 .iconbutton{
-  cursor:pointer;
-  width: 30px;
-  height:25px;
-  text-align: center;
-  vertical-align: center;
+    cursor:pointer;
+    width: 30px;
+    height:25px;
+    text-align: center;
+    vertical-align: center;
 }
 
 .inputvalue{
-  color:#888;
-  font-size:12px
+    color:#888;
+    font-size:12px
 }
 
 .readapikey .writeapikey  {
-    
+
 }
 
 
@@ -253,9 +253,9 @@ login block flags size style
 }
 
 /**
- * Icon animation
- * Copied from font-awesome: http://fontawesome.io/
- **/
+* Icon animation
+* Copied from font-awesome: http://fontawesome.io/
+**/
 .icon-spin {
     display: inline-block;
     -moz-animation: spin 2s infinite linear;
@@ -265,42 +265,42 @@ login block flags size style
 }
 @-moz-keyframes spin {
     0% {
-    -moz-transform: rotate(0deg);
-}
-100% {
-    -moz-transform: rotate(359deg);
-}
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(359deg);
+    }
 }
 @-webkit-keyframes spin {
     0% {
-    -webkit-transform: rotate(0deg);
-}
-100% {
-    -webkit-transform: rotate(359deg);
-}
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+    }
 }
 @-o-keyframes spin {
     0% {
-    -o-transform: rotate(0deg);
-}
-100% {
-    -o-transform: rotate(359deg);
-}
+        -o-transform: rotate(0deg);
+    }
+    100% {
+        -o-transform: rotate(359deg);
+    }
 }
 @-ms-keyframes spin {
     0% {
-    -ms-transform: rotate(0deg);
-}
-100% {
-    -ms-transform: rotate(359deg);
-}
+        -ms-transform: rotate(0deg);
+    }
+    100% {
+        -ms-transform: rotate(359deg);
+    }
 }
 @keyframes spin {
     0% {
-    transform: rotate(0deg);
-}
-100% {
-    transform: rotate(359deg);
-}
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
+    }
 }
 /** End of icon animation **/

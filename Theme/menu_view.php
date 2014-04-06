@@ -1,76 +1,76 @@
 <?php
 
-    /*
-        All Emoncms code is released under the GNU Affero General Public License.
-        See COPYRIGHT.txt and LICENSE.txt.
+/*
+All Emoncms code is released under the GNU Affero General Public License.
+See COPYRIGHT.txt and LICENSE.txt.
 
-        ---------------------------------------------------------------------
-        Emoncms - open source energy visualisation
-        Part of the OpenEnergyMonitor project:
-        http://openenergymonitor.org
-    */
+---------------------------------------------------------------------
+Emoncms - open source energy visualisation
+Part of the OpenEnergyMonitor project:
+http://openenergymonitor.org
+*/
 
-    global $path, $session, $menu, $menu;
-    if (!isset($session['profile'])) $session['profile'] = 0;
+global $path, $session, $menu, $menu;
+if (!isset($session['profile'])) $session['profile'] = 0;
 
-    $menu_left = $menu['left'];
-    $menu_right = $menu['right'];
-    $menu_dropdown = $menu['dropdown'];
+$menu_left = $menu['left'];
+$menu_right = $menu['right'];
+$menu_dropdown = $menu['dropdown'];
 
-    if ($session['write']) $menu_right[] = array('name'=>"<b>Docs</b>", 'path'=>"site/docs", 'order' => 0 );
-    if (!$session['write']) $menu_right[] = array('name'=>"Log In", 'path'=>"user/login", 'order' => -1 );
+if ($session['write']) $menu_right[] = array('name'=>"<b>Docs</b>", 'path'=>"site/docs", 'order' => 0 );
+if (!$session['write']) $menu_right[] = array('name'=>"Log In", 'path'=>"user/login", 'order' => -1 );
 ?>
 
 
-  <ul class="nav navbar-nav">
-  <?php
+<ul class="nav navbar-nav">
+    <?php
     foreach ($menu_left as $item) 
     { 
-      if (isset($item['session'])) {
-        if (isset($session[$item['session']]) && $session[$item['session']]==1) {
-          echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
-        }       
-      } else {
-        echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
-      }
+        if (isset($item['session'])) {
+            if (isset($session[$item['session']]) && $session[$item['session']]==1) {
+                echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
+            }       
+        } else {
+            echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
+        }
     }
     ?>
-  </ul>
+</ul>
 
-   <?php
-  //dropdown menu items
+<?php
+//dropdown menu items
 
-  if (count($menu_dropdown) && $session['read']) { ?>
-    <ul class="nav navbar-nav">
+if (count($menu_dropdown) && $session['read']) { ?>
+<ul class="nav navbar-nav">
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras <b class="caret"></b></a>
         <ul class="dropdown-menu">
             <?php foreach ($menu_dropdown as $item) { ?>
-                <?php if (isset($session[$item['session']]) && $session[$item['session']]==1) { ?>
-                    <li><a href="<?php echo $path.$item['path']; ?>"><?php echo $item['name']; ?></a></li>
-                <?php } ?>
+            <?php if (isset($session[$item['session']]) && $session[$item['session']]==1) { ?>
+            <li><a href="<?php echo $path.$item['path']; ?>"><?php echo $item['name']; ?></a></li>
+            <?php } ?>
             <?php } ?>
         </ul>
     </li>
     <?php } ?>
-  </ul>
+</ul>
 
 
 
-  <ul class="nav navbar-nav navbar-right">
+<ul class="nav navbar-nav navbar-right">
     <?php
     foreach ($menu_right as $item) 
     { 
-      if (isset($item['session'])) {
-        if (isset($session[$item['session']]) && $session[$item['session']]==1) {
-          echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
-        }       
-      } else {
-        echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
-      }
+        if (isset($item['session'])) {
+            if (isset($session[$item['session']]) && $session[$item['session']]==1) {
+                echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
+            }       
+        } else {
+            echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
+        }
     } 
     ?>
-  </ul>
+</ul>
 
 
 
