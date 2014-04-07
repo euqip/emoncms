@@ -28,15 +28,17 @@ input[type="text"] {
     }
 
     // Extend table library field types
-    for (z in customtablefields)
-        table.fieldtypes[z] = customtablefields[z];
+    //for (z in customtablefields)
+    //    table.fieldtypes[z] = customtablefields[z];
 
     table.element = "#table";
 
     table.fields = {
         'id':{'title':"<?php echo _('Id'); ?>", 'type':"textlink", 'link':"setuser?id="},
         'username':{'title':"<?php echo _('Name'); ?>", 'type':"fixed"},
-        'email':{'title':"<?php echo _('Tag'); ?>", 'type':"fixed"}
+        'email':{'title':"<?php echo _('Tag'); ?>", 'type':"fixed"},
+        'language':{'title':"<?php echo _('Language'); ?>", 'type':"fixed"},
+        'lastlogin':{'title':"<?php echo _('Last login'); ?>", 'type':"fixed"},
     }
 
     table.data = admin.userlist();

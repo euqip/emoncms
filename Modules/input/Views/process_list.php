@@ -173,7 +173,7 @@ feedvalue
 
 processlist_ui.inputid = <?php echo $inputid; ?>;
 
-console.log(processlist_ui.inputid);
+//console.log(processlist_ui.inputid);
 
 processlist_ui.feedlist = feed.list_assoc();
 processlist_ui.inputlist = input.list_assoc();

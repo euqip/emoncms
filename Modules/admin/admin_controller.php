@@ -65,7 +65,7 @@ function admin_controller()
         if ($route->action == 'userlist' && $session['write'] && $session['admin'])
         {
             $data = array();
-            $result = $mysqli->query("SELECT id,username,email FROM users");
+            $result = $mysqli->query("SELECT id,username,email,language,lastlogin FROM users WHERE 1");
             while ($row = $result->fetch_object()) $data[] = $row;
             $result = $data;
         }

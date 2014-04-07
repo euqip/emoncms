@@ -218,7 +218,7 @@ public function apikey_session($apikey_in)
         $result = $this->mysqli->query("SELECT id,password,admin,salt,language FROM users WHERE username = '$username'");
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect username - password, if you are sure its correct try clearing your browser cache"));
-     
+        
         $userData = $result->fetch_object();
         $hash = hash('sha256', $userData->salt . hash('sha256', $password));
 
@@ -227,9 +227,12 @@ public function apikey_session($apikey_in)
             return array('success'=>false, 'message'=>_("Incorrect username - password, if you are sure its correct try clearing your browser cache"));
         }
         else
-        {
+        {        
+             $id=$userData->id;
+            $this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
+
             session_regenerate_id();
-            $_SESSION['userid'] = $userData->id;
+            $_SESSION['userid'] = $id;
             $_SESSION['username'] = $username;
             $_SESSION['read'] = 1;
             $_SESSION['write'] = 1;
@@ -244,6 +247,7 @@ public function apikey_session($apikey_in)
                     $this->rememberme->clearCookie();
                 }
             }
+
             return array('success'=>true, 'message'=>_("Login successful"));
         }
     }
@@ -288,6 +292,13 @@ public function apikey_session($apikey_in)
         session_regenerate_id(true);
         session_destroy();
     }
+
+    public function lastlogin($id)
+    {
+        return $this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
+
+    }
+
 
     public function change_password($userid, $old, $new)
     {
