@@ -45,4 +45,4 @@ global $path, $session, $useckeditor;
     </span>   
 </div>
 
-<?php } ?>
+<?php }
