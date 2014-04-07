@@ -76,6 +76,5 @@ function admin_controller()
             header("Location: ../user/view");
         }
     }
-
     return array('content'=>$result);
 }

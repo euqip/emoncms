@@ -14,7 +14,7 @@
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
 
-function user_controller()
+function org_controller()
 {
     global $user, $path, $session, $route ,$allowusersregister;
 

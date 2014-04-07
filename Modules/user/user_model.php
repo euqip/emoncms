@@ -296,7 +296,7 @@ public function apikey_session($apikey_in)
     public function lastlogin($id)
     {
             $result=$this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
-            return $result
+            return $result;
 
     }
 
