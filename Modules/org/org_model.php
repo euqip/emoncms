@@ -42,6 +42,12 @@ class Org
         $apikey_read = md5(uniqid(mt_rand(), true));
         if (!$this->mysqli->query("INSERT INTO orgs ( orgname, salt ,apikey_read, apikey_write ) VALUES ( '$orgname' , '$salt', '$apikey_read', '$apikey_write' );")) {
             return array('success'=>false, 'message'=>_("Error when creating organisation"));
+    }
+
+    public function list_orgs()
+    {
+        $result = $this->mysqli->query("SELECT * FROM orgs WHERE 1");
+        $row = $result->fetch_object();
 
     }
 
