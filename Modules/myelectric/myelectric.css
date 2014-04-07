@@ -1,0 +1,32 @@
+    body{
+        background-color:#222;
+        color:#0699fa; 
+
+    }
+    .electric-title {
+        font-weight:bold; 
+        font-size:22px; 
+        color:#aaa; 
+        padding-top:20px
+    }
+
+    .power-value {
+        font-weight:bold; 
+        font-size:100px; 
+        padding-top:45px;
+    }
+    .centered{
+        text-align:center;
+    }
+
+    .kwh-value {
+        font-weight:normal; 
+        font-size:22px; 
+        padding-top:45px;
+    }
+    .reverse {
+    }
+    footer{
+        background-color:#181818;
+        color:#999;
+    }
