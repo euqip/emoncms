@@ -228,7 +228,7 @@ public function apikey_session($apikey_in)
         }
         else
         {        
-             $id=$userData->id;
+            $id=$userData->id;
             $this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
 
             session_regenerate_id();
@@ -295,7 +295,8 @@ public function apikey_session($apikey_in)
 
     public function lastlogin($id)
     {
-        return $this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
+            $result=$this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
+            return $result
 
     }
 
