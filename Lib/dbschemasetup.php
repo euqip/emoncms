@@ -78,12 +78,14 @@ function db_schema_setup($mysqli, $schema, $apply)
                         {
                             $query="ALTER TABLE  `".$table.$sql;
                             $operations[] = $query;
+                            if ($query && $apply) $mysqli->query($query);
                         }
                 next($schema[$table][$field]);
                     }
                 }
                 next($schema[$table]);
             }
+        } else {
             //-----------------------------------------------------
             // Create table from schema
             //-----------------------------------------------------
@@ -111,11 +113,12 @@ function db_schema_setup($mysqli, $schema, $apply)
                       $query .= ", ";
                     }
                 }
-                $query .= ")";
-                $query .= " ENGINE=MYISAM";
-                if ($query) $operations[] = $query;
-                if ($query && $apply) $mysqli->query($query);
             }
+            $query .= ")";
+            $query .= " ENGINE=MYISAM";
+            if ($query) $operations[] = $query;
+            if ($query && $apply) $mysqli->query($query);
+            
         }
        next($schema);
     }
