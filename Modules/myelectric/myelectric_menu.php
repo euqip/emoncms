@@ -1,6 +1,5 @@
 <?php
 
-
 $domain = "messages";
 //bindtextdomain($domain, "Modules/admin/locale");
 bindtextdomain($domain, dirname(__FILE__)."/locale");

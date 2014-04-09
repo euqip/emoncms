@@ -318,5 +318,3 @@ function input_controller()
 
     return array('content'=>$result);
 }
-
-?>
