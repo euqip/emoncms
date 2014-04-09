@@ -44,9 +44,4 @@ global $path, $session, $useckeditor;
         <span class="glyphicon glyphicon-th-list"></span>
     </span>   
 </div>
-
-<<<<<<< HEAD
 <?php }
-=======
-<?php } 
->>>>>>> dcb02c061e6b5ff616265cda8d274998c957128c
