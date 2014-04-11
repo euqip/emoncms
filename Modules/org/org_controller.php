@@ -23,9 +23,8 @@ function org_controller()
     // Load html,css,js pages to the client
     if ($route->format == 'html')
     {
-        if ($route->action == 'new' && !$session['read']) $result = view("Modules/user/login_block.php", array());
-        if ($route->action == 'view' && $session['write']) $result = view("Modules/user/profile/profile.php", array());
-        if ($route->action == 'logout' && $session['read']) {$user->logout(); header('Location: '.$path);}
+        if ($route->action == 'new' && !$session['read']) $result = view("Modules/org/org_create.php", array());
+        if ($route->action == 'view' && $session['write']) $result = view("Modules/org/org_view.php", array());
     }
 
     // JSON API

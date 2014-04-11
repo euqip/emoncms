@@ -138,7 +138,7 @@ $(function () {
 });
 
 function module_event(evt, elt, row, uid, action){
-    console.log('feed module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
+    //console.log('feed module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
     switch(action)
     {
         case "export-action":

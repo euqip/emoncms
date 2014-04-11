@@ -473,7 +473,7 @@ var table = {
               var icon = 'glyphicon glyphicon-eye-open'; if (fld.icon) icon = fld.icon;
               var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
               var colwidth = ''; if (fld.colwidth) colwidth = fld.colwidth
-              return "<div href='"+fld.link+table.data[row]['id']+"' class='iconbutton' type='iconlink' title='"+tooltip+"'  row='"+row+"' uid='"+table.data[row]['id']+' '+colwidth+" ><span class='"+icon+"' ></span></div>" 
+              return "<div href='"+fld.link+table.data[row]['id']+"' class='iconbutton' type='iconlink' title='"+tooltip+"'  row='"+row+"' uid='"+table.data[row]['id']+"'"+colwidth+"><span class='"+icon+"'></span></div>" 
             }
         },
 

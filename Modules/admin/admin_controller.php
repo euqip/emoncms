@@ -57,24 +57,32 @@ function admin_controller()
             $result = view("Modules/admin/update_view.php", array('applychanges'=>$applychanges, 'updates'=>$updates));
         }
 
-        if ($route->action == 'users' && $session['write'] && $session['admin'])
-        {
-            $result = view("Modules/admin/userlist_view.php", array());
+        if ($session['write'] && $session['admin']){
+            switch ($route->action){
+                case 'users':
+                    $result = view("Modules/admin/userlist_view.php", array());
+                    break;
+                case 'orgs':
+                    $result = view("Modules/admin/orglist_view.php", array());
+                    break;
+                case 'orglist':
+                    $data = array();
+                    $result = $mysqli->query("SELECT id, orgname, longname, country, language, timezone, lastuse FROM orgs WHERE 1");
+                    while ($row = $result->fetch_object()) $data[] = $row;
+                    $result = $data;
+                    break;
+                case 'userlist':
+                    $data = array();
+                    $result = $mysqli->query("SELECT id,username,email,language,lastlogin FROM users WHERE 1");
+                    while ($row = $result->fetch_object()) $data[] = $row;
+                    $result = $data;
+                    break;
+                case 'setuser':
+                    $_SESSION['userid'] = intval(get('id'));
+                    header("Location: ../user/view");
+                    break;
+            }
         }
-
-        if ($route->action == 'userlist' && $session['write'] && $session['admin'])
-        {
-            $data = array();
-            $result = $mysqli->query("SELECT id,username,email,language,lastlogin FROM users WHERE 1");
-            while ($row = $result->fetch_object()) $data[] = $row;
-            $result = $data;
-        }
-
-        if ($route->action == 'setuser' && $session['write'] && $session['admin'])
-        {
-            $_SESSION['userid'] = intval(get('id'));
-            header("Location: ../user/view");
-        }
-    }
+     }
     return array('content'=>$result);
 }
