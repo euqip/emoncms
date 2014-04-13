@@ -14,13 +14,18 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 function admin_controller()
 {
-    global $mysqli,$session,$route,$updatelogin;
+    global $mysqli,$session, $user, $org, $route, $updatelogin;
 
     // Allow for special admin session if updatelogin property is set to true in settings.php
     // Its important to use this with care and set updatelogin to false or remove from settings
     // after the update is complete.
-    if ($updatelogin || $session['admin'])
-        $sessionadmin = true;
+    // 
+    // result and sessionadmin need to be set to avoid errors when session is expired.
+    // 
+    $result='not authoraized';
+    $sessionadmin= ($updatelogin || $session['admin'])? true:false;
+    //when not authorized, redirect to login form (to be done)
+
 
     if ($sessionadmin)
     {
@@ -56,7 +61,7 @@ function admin_controller()
 
             $result = view("Modules/admin/update_view.php", array('applychanges'=>$applychanges, 'updates'=>$updates));
         }
-
+// q is the arry providing the data
         if ($session['write'] && $session['admin']){
             switch ($route->action){
                 case 'users':
@@ -81,8 +86,26 @@ function admin_controller()
                     $_SESSION['userid'] = intval(get('id'));
                     header("Location: ../user/view");
                     break;
+                case 'org':
+
+                    switch ($route->format){
+
+                        case 'json':
+                            if (isset($_GET['orgfields'])){
+                                 $orgfields = json_decode(get('orgfields'));
+                            } else if (isset($_POST['orgfields'])){
+                                //$coco= post('orgfields');
+                                $orgfields = json_decode(post('orgfields'),true);
+                           } else{
+                                $result = "No orgfields provided"; 
+                                return array('content'=>$result);
+                            }
+                            $result = $org->create_org($session['userid'],$orgfields); 
+                            break;
+                    }
+                    break;
+                }
             }
-        }
-     }
-    return array('content'=>$result);
-}
+         }
+        return array('content'=>$result);
+    }

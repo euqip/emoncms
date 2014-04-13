@@ -487,7 +487,50 @@ var table = {
               var icon = '';if (fld.icon) icon = fld.icon
               return "<div title='"+tooltip+"' class='iconbutton' action='"+action+"' row='"+row+"' uid='"+table.data[row]['id']+"'><span class='"+icon+"' ></span></div>";
             }
-        }
+        },
+
+        'value':
+        {
+            'draw': function (row,field) { return list_format_value(table.data[row][field]) }
+        },
+
+
+        'tzone':
+        {
+          'draw': function(row,field)
+          { 
+              var fld=table.fields[field];
+              var value= table.data[row][field]
+              var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
+              var action = '';if (fld.icon_action) action = fld.icon_action
+            var sign = value >= 0 ? '+' : ''; 
+            return "UTC "+sign+(value||0)+":00"; 
+          },
+          'edit':function(row,field) 
+          {
+              var fld=table.fields[field];
+              var value= table.data[row][field]
+            var select = $('<select class="form-control"/>'),
+                selectedIndex = null,
+                sign;
+                
+            for (var i=-12; i<=14; i++) { 
+              var selected = ""; 
+              if (value == i) {
+                selected = 'selected';
+                selectedIndex = i;
+              }
+              sign = i >= 0 ? '+' : '';
+              select.append("<option value="+i+" "+selected+">UTC "+sign+i+":00</option>");
+            }
+            //If no selected index were set, then default to 0
+            if ( selectedIndex === null ) {
+                select.find("option[value='0']").attr('selected', 'selected');
+            }
+            return select.wrap('<p>').parent().html();  //return HTML-string
+          },
+        'save': function (row,field) { return $("[row="+row+"][field="+field+"] select").val() },
+         }
     }
 }
 

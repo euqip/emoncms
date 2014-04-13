@@ -197,8 +197,8 @@ function input_controller()
             $valid = true; $error = "";
 
             $nodeid = get('node');
-            if ($nodeid && !is_numeric($nodeid)) { $valid = false; $error = "Nodeid must be an integer between 0 and 30, nodeid given was not numeric"; }
-            if ($nodeid<0 || $nodeid>30) { $valid = false; $error = "nodeid must be an integer between 0 and 30, nodeid given was out of range"; }
+            if ($nodeid && !is_numeric($nodeid)) { $valid = false; $error = _("Nodeid must be an integer between 0 and 30, nodeid given was not numeric"); }
+            if ($nodeid<0 || $nodeid>30) { $valid = false; $error = _("nodeid must be an integer between 0 and 30, nodeid given was out of range"); }
             $nodeid = (int) $nodeid;
 
             if (isset($_GET['time'])) $time = (int) $_GET['time']; else $time = time();

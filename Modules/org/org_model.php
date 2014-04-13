@@ -14,25 +14,23 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 class Org
 {
-
     private $mysqli;
 
     public function __construct($mysqli,$redis,$rememberme)
     {
-        //copy the settings value, otherwise the enable_rememberme will always be false.
-
         $this->mysqli = $mysqli;
     }
 
     //---------------------------------------------------------------------------------------
     // Core session methods
     //---------------------------------------------------------------------------------------
-    public function create_org($orgname)
+    public function create_org($userid,$data)
     {
-        $orgname = $this->mysqli->real_escape_string($orgname);
-        if ($this->get_id($orgname) != 0) return array('success'=>false, 'message'=>_("this organisation already exists"));
+        $orgname = $this->mysqli->real_escape_string($data['orgname']);
+        $longname = $this->mysqli->real_escape_string($data['longname']);
+        if ($this->get_id($orgname) != 0) return array('success'=>false, 'message'=>_("This organisation already exists"));
+        if ($this->get_id($longname) != 0) return array('success'=>false, 'message'=>_("This organisation already exists"));
         // If we got here the username, password and email should all be valid
-
         $hash = hash('sha256', $orgname);
         $string = md5(uniqid(mt_rand(), true));
         $salt = substr($string, 0, 3);
@@ -40,15 +38,18 @@ class Org
 
         $apikey_write = md5(uniqid(mt_rand(), true));
         $apikey_read = md5(uniqid(mt_rand(), true));
-        if (!$this->mysqli->query("INSERT INTO orgs ( orgname, salt ,apikey_read, apikey_write ) VALUES ( '$orgname' , '$salt', '$apikey_read', '$apikey_write' );")) {
+        $sql="INSERT INTO orgs ( orgname, longname, salt ,apikey_read, apikey_write ) VALUES ( '$orgname' , '$longname', '$salt', '$apikey_read', '$apikey_write' );";
+        if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error when creating organisation"));
+        }else{
+            return array('success'=>true, 'message'=>_("New organisation ".$longname." created successfuly!"));
+        }
     }
 
     public function list_orgs()
     {
         $result = $this->mysqli->query("SELECT * FROM orgs WHERE 1");
         $row = $result->fetch_object();
-
     }
 
 
@@ -75,5 +76,4 @@ class Org
         $row = $result->fetch_array();
         return $row['id'];
     }
-
 }
