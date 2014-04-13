@@ -63,6 +63,8 @@ function admin_controller()
         }
 // q is the arry providing the data
         if ($session['write'] && $session['admin']){
+            $username= $user->get_username([$session['userid']]);
+
             switch ($route->action){
                 case 'users':
                     $result = view("Modules/admin/userlist_view.php", array());
@@ -72,7 +74,7 @@ function admin_controller()
                     break;
                 case 'orglist':
                     $data = array();
-                    $result = $mysqli->query("SELECT id, orgname, longname, country, language, timezone, lastuse FROM orgs WHERE 1");
+                    $result = $mysqli->query("SELECT id, orgname, longname, country, language, timezone, lastuse FROM orgs WHERE delflag=0");
                     while ($row = $result->fetch_object()) $data[] = $row;
                     $result = $data;
                     break;
@@ -98,7 +100,7 @@ function admin_controller()
                                     } else {
                                         return array('success'=>false, 'message'=>_("No orgfields provided"));
                                     }
-                                    $result = $org->create_org($session['userid'],$orgfields); 
+                                    $result = $org->create_org($session['userid'],$username,$orgfields); 
                                     break;
                                 default:
                                     break;
@@ -112,7 +114,7 @@ function admin_controller()
                             } else {
                                 return array('success'=>false, 'message'=>_("No id provided"));
                             }
-                            $result = $org->delete_org($session['userid'],$id); 
+                            $result = $org->delete_org($session['userid'], $username, $id); 
                             break;                   
                     }
                     break;

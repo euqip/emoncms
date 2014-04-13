@@ -24,7 +24,7 @@ class Org
     //---------------------------------------------------------------------------------------
     // Core session methods
     //---------------------------------------------------------------------------------------
-    public function create_org($userid,$data)
+    public function create_org($userid, $username, $data)
     {
         $orgname = $this->mysqli->real_escape_string($data['orgname']);
         $longname = $this->mysqli->real_escape_string($data['longname']);
@@ -38,18 +38,18 @@ class Org
 
         $apikey_write = md5(uniqid(mt_rand(), true));
         $apikey_read = md5(uniqid(mt_rand(), true));
-        $sql="INSERT INTO orgs ( orgname, longname, salt ,apikey_read, apikey_write, createbyid, createdate ) VALUES ( '$orgname' , '$longname', '$salt', '$apikey_read', '$apikey_write', $userid, now() );";
+        $sql="INSERT INTO orgs ( orgname, longname, salt ,apikey_read, apikey_write, createbyid, createby, createdate ) VALUES ( '$orgname' , '$longname', '$salt', '$apikey_read', '$apikey_write', $userid, '$username', now() );";
+        logitem($sql);
         if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error when creating organisation"));
         }else{
             return array('success'=>true, 'message'=>_("New organisation ".$longname." created successfuly!"));
         }
     }
-    public function delete_org($userid,$id)
+    public function delete_org($userid, $username, $id)
     {
-        $apikey_write = md5(uniqid(mt_rand(), true));
-        $apikey_read = md5(uniqid(mt_rand(), true));
-        $sql="UPDATE  orgs SET  delflag = true, deldate= now(), delbyid='$userid', apikey_write='' WHERE ID='$id' ;";
+        $id = $this->mysqli->real_escape_string($id);
+        $sql="UPDATE  orgs SET  delflag = true, deldate= now(), delby= '$username', delbyid='$userid', apikey_write='' WHERE ID='$id' ;";
         logitem($sql);
         if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error when deleting organisation"));
