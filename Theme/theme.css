@@ -39,6 +39,9 @@ input[type="color"],
 .content-block {
     margin-top: 60px; 
 }
+.glyphicon:empty{
+    margin-right: 7px;
+}
 
 h2{
     margin-top: 1px;
@@ -248,7 +251,7 @@ login block flags size style
 .emoncms-dialog.type-danger .modal-header {
     background-color: #d9534f;
 }
-.emoncms-dialog .emoncms-dialog-button-icon {
+.emoncms-dialog .button-icon {
     margin-right: 3px;
 }
 

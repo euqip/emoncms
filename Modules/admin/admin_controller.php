@@ -87,25 +87,41 @@ function admin_controller()
                     header("Location: ../user/view");
                     break;
                 case 'org':
-
-                    switch ($route->format){
-
-                        case 'json':
-                            if (isset($_GET['orgfields'])){
-                                 $orgfields = json_decode(get('orgfields'));
-                            } else if (isset($_POST['orgfields'])){
-                                //$coco= post('orgfields');
-                                $orgfields = json_decode(post('orgfields'),true);
-                           } else{
-                                $result = "No orgfields provided"; 
-                                return array('content'=>$result);
+                    switch ($route->subaction){
+                        case 'create':
+                            switch ($route->format){
+                                case 'json':
+                                    if (isset($_GET['orgfields'])){
+                                         $orgfields = json_decode(get('orgfields'));
+                                    } else if (isset($_POST['orgfields'])){
+                                        $orgfields = json_decode(post('orgfields'),true);
+                                    } else {
+                                        return array('success'=>false, 'message'=>_("No orgfields provided"));
+                                    }
+                                    $result = $org->create_org($session['userid'],$orgfields); 
+                                    break;
+                                default:
+                                    break;
                             }
-                            $result = $org->create_org($session['userid'],$orgfields); 
                             break;
+                        case 'delete':
+                            if (isset($_GET['id'])){
+                                $id = get('id');
+                            } else if (isset($_POST['id'])){
+                                $id = post('id');
+                            } else {
+                                return array('success'=>false, 'message'=>_("No id provided"));
+                            }
+                            $result = $org->delete_org($session['userid'],$id); 
+                            break;                   
                     }
                     break;
                 }
             }
-         }
-        return array('content'=>$result);
+            return array('content'=>$result);
+        }else{
+        header("Location: /");
+        }
     }
+
+

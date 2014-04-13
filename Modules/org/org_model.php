@@ -38,17 +38,29 @@ class Org
 
         $apikey_write = md5(uniqid(mt_rand(), true));
         $apikey_read = md5(uniqid(mt_rand(), true));
-        $sql="INSERT INTO orgs ( orgname, longname, salt ,apikey_read, apikey_write ) VALUES ( '$orgname' , '$longname', '$salt', '$apikey_read', '$apikey_write' );";
+        $sql="INSERT INTO orgs ( orgname, longname, salt ,apikey_read, apikey_write, createbyid, createdate ) VALUES ( '$orgname' , '$longname', '$salt', '$apikey_read', '$apikey_write', $userid, now() );";
         if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error when creating organisation"));
         }else{
             return array('success'=>true, 'message'=>_("New organisation ".$longname." created successfuly!"));
         }
     }
+    public function delete_org($userid,$id)
+    {
+        $apikey_write = md5(uniqid(mt_rand(), true));
+        $apikey_read = md5(uniqid(mt_rand(), true));
+        $sql="UPDATE  orgs SET  delflag = true, deldate= now(), delbyid='$userid', apikey_write='' WHERE ID='$id' ;";
+        logitem($sql);
+        if (!$this->mysqli->query($sql)) {
+            return array('success'=>false, 'message'=>_("Error when deleting organisation"));
+        }else{
+            return array('success'=>true, 'message'=>_("Organisation "." deleted successfuly!"));
+        }
+    }
 
     public function list_orgs()
     {
-        $result = $this->mysqli->query("SELECT * FROM orgs WHERE 1");
+        $result = $this->mysqli->query("SELECT * FROM orgs WHERE delflag=0");
         $row = $result->fetch_object();
     }
 
@@ -76,4 +88,11 @@ class Org
         $row = $result->fetch_array();
         return $row['id'];
     }
+}
+
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str);
+    fclose ($handle);
+
 }
