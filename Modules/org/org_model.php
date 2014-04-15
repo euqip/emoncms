@@ -15,6 +15,7 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 class Org
 {
     private $mysqli;
+    private $tbl = "orgs";
 
     public function __construct($mysqli,$redis,$rememberme)
     {
@@ -24,6 +25,13 @@ class Org
     //---------------------------------------------------------------------------------------
     // Core session methods
     //---------------------------------------------------------------------------------------
+/**
+ * [create_org description]
+ * @param  integer $userid   the user ID
+ * @param  string  $username the user real name
+ * @param  array   $data     organisation mandatory data
+ * @return array             creation result
+ */
     public function create_org($userid, $username, $data)
     {
         $orgname = $this->mysqli->real_escape_string($data['orgname']);
@@ -38,7 +46,7 @@ class Org
 
         $apikey_write = md5(uniqid(mt_rand(), true));
         $apikey_read = md5(uniqid(mt_rand(), true));
-        $sql="INSERT INTO orgs ( orgname, longname, salt ,apikey_read, apikey_write, createbyid, createby, createdate ) VALUES ( '$orgname' , '$longname', '$salt', '$apikey_read', '$apikey_write', $userid, '$username', now() );";
+        $sql="INSERT INTO ".$this->tbl." ( orgname, longname, salt ,apikey_read, apikey_write, createbyid, createby, createdate ) VALUES ( '$orgname' , '$longname', '$salt', '$apikey_read', '$apikey_write', $userid, '$username', now() );";
         logitem($sql);
         if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error when creating organisation"));
@@ -46,11 +54,17 @@ class Org
             return array('success'=>true, 'message'=>_("New organisation ".$longname." created successfuly!"));
         }
     }
+    /**
+     * [delete_org description]
+     * @param  integer $userid   the user ID
+     * @param  string  $username the user real name
+     * @param  integer $id       organisation ID to delete
+     * @return array             creation result
+    */
     public function delete_org($userid, $username, $id)
     {
         $id = $this->mysqli->real_escape_string($id);
-        $sql="UPDATE  orgs SET  delflag = true, deldate= now(), delby= '$username', delbyid='$userid', apikey_write='' WHERE ID='$id' ;";
-        logitem($sql);
+        $sql="UPDATE  ".$this->tbl." SET  delflag = true, deldate= now(), delby= '$username', delbyid='$userid', apikey_write='' WHERE ID='$id' ;";
         if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error when deleting organisation"));
         }else{
@@ -58,6 +72,49 @@ class Org
         }
     }
 
+    /**
+     * [update_org description]
+     * @param  integer $userid   the user ID
+     * @param  string  $username the user real name
+     * @param  integer $id       organisation ID to update
+     * @param  array   $id       organisation fields to update
+     * @return array             update result
+    */
+    public function update_org($userid, $username, $id, $fields)
+    {
+        $id = $this->mysqli->real_escape_string($id);
+
+        $fields = json_decode(stripslashes($fields));
+        $array = array();
+        $regexval= '/[^\w\s-.]/';
+
+        // Repeat this line changing the field name to add fields that can be updated:
+        if (isset($fields->longname)) $array[] = "`longname` = '".preg_replace($regexval,'',$fields->longname)."'";
+        if (isset($fields->orgname)) $array[] = "`orgname` = '".preg_replace($regexval,'',$fields->orgname)."'";
+        if (isset($fields->country)) $array[] = "`country` = '".preg_replace($regexval,'',$fields->country)."'";
+        if (isset($fields->language)) $array[] = "`language` = '".preg_replace($regexval,'',$fields->language)."'";
+        if (isset($fields->logo)) $array[] = "`logo` = '".preg_replace($regexval,'',$fields->logo)."'";
+        if (isset($fields->address)) $array[] = "`address` = '".preg_replace($regexval,'',$fields->address)."'";
+        if (isset($fields->zip)) $array[] = "`zip` = '".preg_replace($regexval,'',$fields->zip)."'";
+        if (isset($fields->city)) $array[] = "`city` = '".preg_replace($regexval,'',$fields->city)."'";
+        if (isset($fields->state)) $array[] = "`state` = '".preg_replace($regexval,'',$fields->state)."'";
+        if (isset($fields->location)) $array[] = "`location` = '".preg_replace($regexval,'',$fields->location)."'";
+        if (isset($fields->timezone)) $array[] = "`timezone` = '".preg_replace($regexval,'',$fields->timezone)."'";
+        // Convert to a comma seperated string for the mysql query
+        $fieldstr = implode(",",$array);
+        $sql = "UPDATE ".$this->tbl." SET ".$fieldstr." WHERE `id` = '$id'";
+        logitem($sql);
+        if (!$this->mysqli->query($sql)) {
+            return array('success'=>false, 'message'=>_("Error when updating organisation"));
+        }else{
+            return array('success'=>true, 'message'=>_("Organisation "." updated successfuly!"));
+        }
+    }
+
+/**
+ * [list_orgs description]
+ * @return json list of not deleted organisations
+ */
     public function list_orgs()
     {
         $result = $this->mysqli->query("SELECT * FROM orgs WHERE delflag=0");
@@ -88,11 +145,4 @@ class Org
         $row = $result->fetch_array();
         return $row['id'];
     }
-}
-
-function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
-    fwrite ($handle, $str);
-    fclose ($handle);
-
 }

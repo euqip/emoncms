@@ -115,15 +115,38 @@ function admin_controller()
                                 return array('success'=>false, 'message'=>_("No id provided"));
                             }
                             $result = $org->delete_org($session['userid'], $username, $id); 
-                            break;                   
+                            break;
+                        case 'update':
+                            if (isset($_GET['fields'])){
+                                $id = get('orgid');
+                                $fields = get('fields');
+                            } else if (isset($_POST['id'])){
+                                $id = post('orgid');
+                                $fields = post('fields');
+                            } else {
+                                return array('success'=>false, 'message'=>_("Update no done"));
+                            }
+                            $result = $org->update_org($session['userid'], $username, $id, $fields);
+                            break;
+                        default:
+                            return array('success'=>false, 'message'=>_("Unknown command!"));
+
+
                     }
                     break;
                 }
             }
             return array('content'=>$result);
         }else{
-        header("Location: /");
+        header("Location: ".$path);
         }
     }
 
 
+
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str);
+    fclose ($handle);
+
+}
