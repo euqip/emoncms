@@ -36,8 +36,8 @@ class Org
     {
         $orgname = $this->mysqli->real_escape_string($data['orgname']);
         $longname = $this->mysqli->real_escape_string($data['longname']);
-        if ($this->get_id($orgname) != 0) return array('success'=>false, 'message'=>_("This organisation already exists"));
-        if ($this->get_id($longname) != 0) return array('success'=>false, 'message'=>_("This organisation already exists"));
+        if ($this->get_id($orgname) != 0) return array('success'=>false, 'message'=>$orgname._(" organisation already exists"));
+        if ($this->get_id($longname) != 0) return array('success'=>false, 'message'=>$longname._(" organisation already exists"));
         // If we got here the username, password and email should all be valid
         $hash = hash('sha256', $orgname);
         $string = md5(uniqid(mt_rand(), true));
@@ -47,11 +47,10 @@ class Org
         $apikey_write = md5(uniqid(mt_rand(), true));
         $apikey_read = md5(uniqid(mt_rand(), true));
         $sql="INSERT INTO ".$this->tbl." ( orgname, longname, salt ,apikey_read, apikey_write, createbyid, createby, createdate ) VALUES ( '$orgname' , '$longname', '$salt', '$apikey_read', '$apikey_write', $userid, '$username', now() );";
-        logitem($sql);
         if (!$this->mysqli->query($sql)) {
-            return array('success'=>false, 'message'=>_("Error when creating organisation"));
+            return array('success'=>false, 'message'=>_("Error when creating organisation")." ".$orgname);
         }else{
-            return array('success'=>true, 'message'=>_("New organisation ".$longname." created successfuly!"));
+            return array('success'=>true, 'message'=>_("New organisation ".$orgname." - ".$longname." created successfuly!"));
         }
     }
     /**
@@ -103,7 +102,6 @@ class Org
         // Convert to a comma seperated string for the mysql query
         $fieldstr = implode(",",$array);
         $sql = "UPDATE ".$this->tbl." SET ".$fieldstr." WHERE `id` = '$id'";
-        logitem($sql);
         if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error when updating organisation"));
         }else{

@@ -141,12 +141,3 @@ function admin_controller()
         header("Location: ".$path);
         }
     }
-
-
-
-function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
-    fwrite ($handle, $str);
-    fclose ($handle);
-
-}

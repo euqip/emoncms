@@ -5,7 +5,7 @@
 
   Part of the OpenEnergyMonitor project:
   http://openenergymonitor.org
- 
+
 */
 
 var table = {
@@ -19,7 +19,7 @@ var table = {
     'sortfield':null,
     'sortable':true,
     'groupprefix':"",
-     
+
     'draw':function()
     {
         if (table.data && table.sortable) {
@@ -41,10 +41,10 @@ var table = {
         }
 
         var html = "";
-        for (group in groups) 
+        for (group in groups)
         {
             // Minimized group persistance, see lines: 4,92,93
-            var visible = '', symbol ='<span class="glyphicon glyphicon-minus-sign"></span>'; 
+            var visible = '', symbol ='<span class="glyphicon glyphicon-minus-sign"></span>';
             if (table.groupshow[group]==undefined) table.groupshow[group]=true;
             if (table.groupshow[group]==false) {symbol = '<span class="glyphicon glyphicon-plus-sign"></span>'; visible = "display:none";}
 
@@ -78,7 +78,7 @@ var table = {
             table.add_events();
             table.eventsadded = true
         }
-        
+
         $(table.element).trigger("onDraw");
     },
 
@@ -99,7 +99,7 @@ var table = {
         html += "</tr>";
         return html;
     },
-        
+
     'update':function(row,field,value)
     {
         table.data[row][field] = value;
@@ -108,7 +108,7 @@ var table = {
           $("[row="+row+"][field="+field+"]").html(table.fieldtypes[type].draw(row,field));
         }
     },
-  
+
     'remove':function(row)
     {
         table.data.splice(row,1);
@@ -142,7 +142,7 @@ var table = {
 
         // Event: delete row
         $(table.element).on('click', 'div[type=delete]', function() {
-            if (table.deletedata) table.remove( $(this).attr('row') );
+            //if (table.deletedata) table.remove( $(this).attr('row') );
             $(table.element).trigger("onDelete",[$(this).attr('uid'),$(this).attr('row')]);
         });
 
@@ -157,7 +157,7 @@ var table = {
 
             var fields_to_update = {};
 
-            for (field in table.fields) 
+            for (field in table.fields)
             {
                 var type = table.fields[field].type;
 
@@ -168,7 +168,7 @@ var table = {
                 if (mode == 'save' && typeof table.fieldtypes[type].save === 'function') {
                   var value = table.fieldtypes[type].save(row,field);
                   if (table.data[row][field] != value) fields_to_update[field] = value;	// only update db if value has changed
-                  table.update(row,field,value); 	// but update html table because this reverts back from <input>		
+                  table.update(row,field,value); 	// but update html table because this reverts back from <input>
                 }
             }
 
@@ -195,9 +195,9 @@ var table = {
     /*
 
     Field type space
- 
+
     */
-  
+
     'fieldtypes':
     {
         'fixed':
@@ -220,7 +220,7 @@ var table = {
         {
             'draw': function (row,field) { return "<a href='"+table.fields[field].link+table.data[row]['id']+"' >"+table.data[row][field]+"</a>" },
             //'edit': function (row,field) { return "<input type='text' value='"+table.data[row][field]+"' / >" },
-            'edit': function (row,field) { 
+            'edit': function (row,field) {
                 var html = "";
                 html+= "<input type='text' class='form-control' value='"+table.data[row][field]+"' / >";
                 return html;},
@@ -231,9 +231,9 @@ var table = {
         'select':
         {
             'draw': function (row,field) { return table.fields[field].options[table.data[row][field]] },
-            'edit': function (row,field) { 
+            'edit': function (row,field) {
                 var options = "";
-                for (option in table.fields[field].options) 
+                for (option in table.fields[field].options)
                 {
                   var selected = ''; if (option==table.data[row][field]) selected = 'selected';
                   options += "<option value='"+option+"' "+selected+" >"+table.fields[field].options[option]+"</option>";
@@ -244,7 +244,7 @@ var table = {
             },
             'save': function (row,field) { return $("[row="+row+"][field="+field+"] select").val() },
         },
-        
+
         'fixedselect':
         {
             'draw': function (row,field) { return table.fields[field].options[table.data[row][field]] }
@@ -259,26 +259,26 @@ var table = {
 
         'delete':
         {
-            'draw': function (row,field) { 
+            'draw': function (row,field) {
                 var fld=table.fields[field];
-                var title= (table.fields['delete-action']);                
-                return "<div type='delete' class='iconbutton'  title='"+title['tooltip']+"' "+" row='"+row+"' uid='"+table.data[row]['id']+"' ><span class='glyphicon glyphicon-trash' ></span></div>"; 
+                var title= (table.fields['delete-action']);
+                return "<div type='delete' class='iconbutton'  title='"+title['tooltip']+"' "+" row='"+row+"' uid='"+table.data[row]['id']+"' ><span class='glyphicon glyphicon-trash' ></span></div>";
             }
         },
 
         'edit':
         {
-            'draw': function (row,field) { 
-                var field= (table.fields['edit-action']);                
-                return "<div type='edit'  class='iconbutton' title='"+field['tooltip']+"' action='edit' alt='"+field['alt']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><span class='glyphicon glyphicon-pencil' ></span></div>"; 
+            'draw': function (row,field) {
+                var field= (table.fields['edit-action']);
+                return "<div type='edit'  class='iconbutton' title='"+field['tooltip']+"' action='edit' alt='"+field['alt']+"' row='"+row+"' uid='"+table.data[row]['id']+"' mode='edit'><span class='glyphicon glyphicon-pencil' ></span></div>";
             }
         },
 
         'save':
         {
-            'draw': function (row,field) { 
-                var field= (table.fields['save-action']); 
-                return "<div type='save'  class='iconbutton' title='"+field['tooltip']+"' action='save' row='"+row+"' uid='"+table.data[row]['id']+"' mode='save'><span class='glyphicon glyphicon-floppy-save' ></span></div>"; 
+            'draw': function (row,field) {
+                var field= (table.fields['save-action']);
+                return "<div type='save'  class='iconbutton' title='"+field['tooltip']+"' action='save' row='"+row+"' uid='"+table.data[row]['id']+"' mode='save'><span class='glyphicon glyphicon-floppy-save' ></span></div>";
             }
         },
 
@@ -295,7 +295,7 @@ var table = {
                 if (table.data[row][field] == false){
                     icon=fld.falseicon;
                 }
-                return "<div href='#' title='"+tooltip+"' class='iconbutton' type='"+action+"' field='"+field+"' row='"+row+"' uid='"+table.data[row]['id']+"'><span class='"+icon+"' ></span></div>"; 
+                return "<div href='#' title='"+tooltip+"' class='iconbutton' type='"+action+"' field='"+field+"' row='"+row+"' uid='"+table.data[row]['id']+"'><span class='"+icon+"' ></span></div>";
                 //if (table.data[row][field] == true) return "<a class='"+fld.trueicon+"' type='input' title='"+fld.tooltip+"'></a>";
                 //if (table.data[row][field] == false) return "<a class='"+fld.falseicon+"' type='input' title='"+fld.tooltip+"'></a>";
             },
@@ -359,11 +359,11 @@ var table = {
 
         'processlist':
         {
-            'draw': function (row,field) { 
+            'draw': function (row,field) {
 
               var processlist = table.data[row][field];
               if (!processlist) return "";
-              
+
               var processPairs = processlist.split(",");
 
               var out = "";
@@ -380,13 +380,13 @@ var table = {
                 {
                   case 1:
                     key = 'log'; type = 2; break;
-                  case 2:  
+                  case 2:
                     key = 'x'; type = 0; break;
-                  case 3:  
+                  case 3:
                     key = '+'; type = 0; break;
-                  case 4:    
+                  case 4:
                     key = 'kwh'; type = 2; break;
-                  case 5:  
+                  case 5:
                     key = 'kwhd'; type = 2; break;
                   case 6:
                     key = 'x inp'; type = 1; break;
@@ -396,9 +396,9 @@ var table = {
                     key = 'kwhinckwhd'; type = 2; break;
                   case 9:
                     key = 'kwhkwhd'; type = 2; break;
-                  case 10:  
+                  case 10:
                     key = 'update'; type = 2; break;
-                  case 11: 
+                  case 11:
                     key = '+ inp'; type = 1; break;
                   case 12:
                     key = '/ inp'; type = 1; break;
@@ -410,7 +410,7 @@ var table = {
                     key = 'rate'; type = 2; break;
                   case 16:
                     key = 'hist'; type = 2; break;
-                  case 17:  
+                  case 17:
                     key = 'average'; type = 2; break;
                   case 18:
                     key = 'flux'; type = 2; break;
@@ -434,10 +434,10 @@ var table = {
                     key = 'max'; type = 2; break;
                   case 28:
                     key = 'min'; type = 2; break;
-                }  
+                }
 
                 value = keyvalue[1];
-                
+
                 switch(type)
                 {
                   case 0:
@@ -455,25 +455,25 @@ var table = {
                     break;
                 }
 
-                if (type == 'feed: ') { 
-                  out += "<a href='"+path+"vis/auto?feedid="+value+"'<span class='label label-"+color+"' title='"+type+value+"' style='cursor:pointer'>"+key+"</span></a> "; 
+                if (type == 'feed: ') {
+                  out += "<a href='"+path+"vis/auto?feedid="+value+"'<span class='label label-"+color+"' title='"+type+value+"' style='cursor:pointer'>"+key+"</span></a> ";
                 } else {
                   out += "<span class='label label-"+color+"' title='"+type+value+"' style='cursor:default'>"+key+"</span> ";
                 }
               }
-              
+
               return out;
             }
         },
 
         'iconlink':
         {
-            'draw': function (row,field) { 
+            'draw': function (row,field) {
               var fld=table.fields[field];
               var icon = 'glyphicon glyphicon-eye-open'; if (fld.icon) icon = fld.icon;
               var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
               var colwidth = ''; if (fld.colwidth) colwidth = fld.colwidth
-              return "<div href='"+fld.link+table.data[row]['id']+"' class='iconbutton' type='iconlink' title='"+tooltip+"'  row='"+row+"' uid='"+table.data[row]['id']+"'"+colwidth+"><span class='"+icon+"'></span></div>" 
+              return "<div href='"+fld.link+table.data[row]['id']+"' class='iconbutton' type='iconlink' title='"+tooltip+"'  row='"+row+"' uid='"+table.data[row]['id']+"'"+colwidth+"><span class='"+icon+"'></span></div>"
             }
         },
 
@@ -498,24 +498,24 @@ var table = {
         'tzone':
         {
           'draw': function(row,field)
-          { 
+          {
               var fld=table.fields[field];
               var value= table.data[row][field]
               var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
               var action = '';if (fld.icon_action) action = fld.icon_action
-            var sign = value >= 0 ? '+' : ''; 
-            return "UTC "+sign+(value||0)+":00"; 
+            var sign = value >= 0 ? '+' : '';
+            return "UTC "+sign+(value||0)+":00";
           },
-          'edit':function(row,field) 
+          'edit':function(row,field)
           {
               var fld=table.fields[field];
               var value= table.data[row][field]
             var select = $('<select class="form-control"/>'),
                 selectedIndex = null,
                 sign;
-                
-            for (var i=-12; i<=14; i++) { 
-              var selected = ""; 
+
+            for (var i=-12; i<=14; i++) {
+              var selected = "";
               if (value == i) {
                 selected = 'selected';
                 selectedIndex = i;
@@ -555,12 +555,12 @@ function list_format_updated(time)
 
   var color = "rgb(255,125,20)";
   if (secs<25) color = "rgb(50,200,50)"
-  else if (secs<60) color = "rgb(240,180,20)"; 
+  else if (secs<60) color = "rgb(240,180,20)";
 
   return "<span style='color:"+color+";'>"+updated+"</span>";
 }
 
-// Format value dynamically 
+// Format value dynamically
 function list_format_value(value)
 {
   if (value>=10) value = (1*value).toFixed(1);
