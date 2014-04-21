@@ -14,14 +14,14 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 function admin_controller()
 {
-    global $mysqli,$session, $user, $org, $route, $updatelogin;
+    global $mysqli,$session, $user, $org, $route, $updatelogin, $behavior;
 
     // Allow for special admin session if updatelogin property is set to true in settings.php
     // Its important to use this with care and set updatelogin to false or remove from settings
     // after the update is complete.
-    // 
+    //
     // result and sessionadmin need to be set to avoid errors when session is expired.
-    // 
+    //
     $result= _('not authoraized');
     $sessionadmin= ($updatelogin || $session['admin'])? true:false;
     //when not authorized, redirect to login form (to be done)
@@ -74,13 +74,13 @@ function admin_controller()
                     break;
                 case 'orglist':
                     $data = array();
-                    $result = $mysqli->query("SELECT id, orgname, longname, country, language, timezone, lastuse FROM orgs WHERE delflag=0");
+                    $result = $mysqli->query("SELECT id, ucase(LEFT(orgname,1)) as letter, orgname, longname, country, language, timezone, lastuse FROM orgs WHERE delflag=0  ORDER By letter");
                     while ($row = $result->fetch_object()) $data[] = $row;
                     $result = $data;
                     break;
                 case 'userlist':
                     $data = array();
-                    $result = $mysqli->query("SELECT id,username,email,language,lastlogin FROM users WHERE 1");
+                    $result = $mysqli->query("SELECT id, ucase(LEFT(username,1)) as letter, username,email,language,lastlogin FROM users WHERE 1  ORDER By letter");
                     while ($row = $result->fetch_object()) $data[] = $row;
                     $result = $data;
                     break;
@@ -100,7 +100,7 @@ function admin_controller()
                                     } else {
                                         return array('success'=>false, 'message'=>_("No orgfields provided"));
                                     }
-                                    $result = $org->create_org($session['userid'],$username,$orgfields); 
+                                    $result = $org->create_org($session['userid'],$username,$orgfields);
                                     break;
                                 default:
                                     break;
@@ -114,7 +114,7 @@ function admin_controller()
                             } else {
                                 return array('success'=>false, 'message'=>_("No id provided"));
                             }
-                            $result = $org->delete_org($session['userid'], $username, $id); 
+                            $result = $org->delete_org($session['userid'], $username, $id);
                             break;
                         case 'update':
                             if (isset($_GET['fields'])){

@@ -1,14 +1,9 @@
 <?php
-    global $path;
+    global $path, $behavior;
+    $usergroupfield="";
 ?>
 
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
-<style>
-input[type="text"] {
-     width: 88%;
-}
-</style>
-
 <h2><?php echo _('Users'); ?></h2>
 
 <div id="table"></div>
@@ -16,6 +11,7 @@ input[type="text"] {
 <script>
 
     var path = "<?php echo $path; ?>";
+    var groupfield= "<?php echo $behavior['usergoup']; ?>";
 
     var admin = {
         'userlist':function()
@@ -29,17 +25,19 @@ input[type="text"] {
     // Extend table library field types
     //for (z in customtablefields)
     //    table.fieldtypes[z] = customtablefields[z];
+    // not necessary, all fields are defined in table.js
 
     table.element = "#table";
 
     table.fields = {
-        'id':{'title':"<?php echo _('Id'); ?>", 'type':"textlink", 'link':"setuser?id="},
+        'id':{'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage user details'); ?>", 'link':"setuser?id=", 'colwidth':" style='width:30px;'"},
         'username':{'title':"<?php echo _('Name'); ?>", 'type':"fixed"},
-        'email':{'title':"<?php echo _('Tag'); ?>", 'type':"fixed"},
-        'language':{'title':"<?php echo _('Language'); ?>", 'type':"fixed"},
+        'email':{'title':"<?php echo _('Email address'); ?>", 'type':"fixed"},
+        'language':{'title':"<?php echo _('Langage'); ?>", 'type':"fixed"},
         'lastlogin':{'title':"<?php echo _('Last login'); ?>", 'type':"fixed"},
     }
 
+    table.groupby = groupfield;
     table.data = admin.userlist();
     table.draw();
 
