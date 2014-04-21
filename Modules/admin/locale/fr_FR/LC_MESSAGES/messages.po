@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-15 20:28+0100\n"
-"PO-Revision-Date: 2014-04-15 20:29+0100\n"
+"POT-Creation-Date: 2014-04-15 19:30+0100\n"
+"PO-Revision-Date: 2014-04-15 23:51+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -90,10 +90,6 @@ msgstr "Nom"
 #: ../../../admin_db_view.php:7
 msgid "Status"
 msgstr "Satus"
-
-#: ../../../admin_controller.php:25
-msgid "not authoraized"
-msgstr "Accès non autorisé"
 
 #: ../../../admin_controller.php:101
 msgid "No orgfields provided"
