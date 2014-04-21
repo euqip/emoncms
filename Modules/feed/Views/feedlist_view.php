@@ -15,7 +15,7 @@
           <h2><?php echo _('Feeds'); ?>
             <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Feeds API Help'); ?>"></span></small></a>
             <a href="#" id="refreshfeedsize" ><small><span class = "glyphicon glyphicon-refresh" title = "<?php echo _('Refresh feed size'); ?>"></span></small></a>
-          </h2>    
+          </h2>
         </div>
 
         <div id="table"></div>
@@ -23,7 +23,7 @@
         <div id="nofeeds" class="alert alert-block hide">
                 <h4 class="alert-heading"><?php echo _('No feeds created'); ?></h4>
                 <p><?php echo _('Feeds are where your monitoring data is stored. The recommended route for creating feeds is to start by creating inputs (see the inputs tab). Once you have inputs you can either log them straight to feeds or if you want you can add various levels of input processing to your inputs to create things like daily average data or to calibrate inputs before storage. You may want to follow the link as a guide for generating your request.'); ?><a href="api"><?php echo _('Feed API helper'); ?></a></p>
-        </div>  
+        </div>
 </div>
 
 <div class="modal fade emoncms-dialog type-primary" id="ExportModal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -93,7 +93,7 @@
                                 <div class="input-group"  title="<?php echo _('Select Time zone (for day export)'); ?>" data-link-field="dtp_input4">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <select id="export-timezone-list" class="form-control" >
-                                    <?php 
+                                    <?php
                                     for ($tt=-12; $tt<=12; $tt++)
                                         {
                                             $tt1= substr("0".abs($tt),-2);
@@ -101,7 +101,7 @@
                                             //need to select the user timezone!!! for better ergonomy, not present in $session
                                             //$selected=($tt==0)? 'selected':'';
                                             echo "<option ".$selected." value=".$tt."> UTC ".$plus.$tt1.":00 </option>";
-                                        } 
+                                        }
                                     ?>
                                     </select>
                                 </div>
@@ -144,7 +144,7 @@
                     <div id="size-error" style="display:none"><?php echo _('Download file size too large (download limit: 10Mb).') ?></div>
                     <div id="interval-error" style="display:none"><?php echo _('Please select sample time interval.') ?></div>
                </div>
-            </div>           
+            </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Close'); ?></button>
             </div>
@@ -163,7 +163,7 @@
                 <div class="type-danger ">
                     <div> <?php echo _('WARNING deleting a feed is permanent'); ?> </div>
                </div>
-            </div>           
+            </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
                 <button class="btn" id="confirmdelete"><span class="emoncms-dialog-button-icon glyphicon glyphicon-trash"></span><?php echo _('Delete Feed'); ?></button>
@@ -174,7 +174,6 @@
 
 
 <script>
-
 
     var path = "<?php echo $path; ?>";
     table.element = "#table";
@@ -196,7 +195,7 @@
     'view-action':   { 'title':'','tooltip':'<?php echo _("Preview"); ?>', 'type':"iconlink", 'link':path+"vis/auto?feedid=", 'icon':'glyphicon glyphicon-eye-open', 'display':"yes", 'colwidth':" style='width:30px;'"},
     'export-action': { 'title':'', 'tooltip':'<?php echo _("Download data"); ?>', 'type':"iconbasic", 'icon_action':"export-action", 'icon':'glyphicon glyphicon-download', 'display':"yes", 'colwidth':" style='width:30px;'"},
   }
-/*  
+/*
 =======
     table.fields = {
 
@@ -252,7 +251,7 @@
 
     $("#refreshfeedsize").click(function(){
         $.ajax({ url: path+"feed/updatesize.json", success: function(data){update();} });
-    });  
+    });
 
     $("#table").bind("onDelete", function(e,id,row){
         clearInterval(updater);
@@ -271,12 +270,12 @@
 
         $('#myModal').modal('hide');
         updater = setInterval(update, updatetime);
-    })  
+    })
 
-   
+
     // Feed Export feature
-    
-    
+
+
 
     $('#export-timezone-list').on('change',function(e){
         $("#export-timezone").val($("#export-timezone-list").val());
@@ -301,12 +300,12 @@
         showMeridian: 0
     });
 
-    $('#export-start-div').on('change', function(e) 
+    $('#export-start-div').on('change', function(e)
     {
         calcdownloadsize();
     });
 
-    $('#export-end-div').on('change', function(e) 
+    $('#export-end-div').on('change', function(e)
     {
         calcdownloadsize();
     });
@@ -317,21 +316,21 @@
         {
             case "export-action":
                 $("#SelectedExportFeed").html(table.data[row].tag+": "+table.data[row].name);
-                $("#export").attr('feedid',table.data[row].id);        
+                $("#export").attr('feedid',table.data[row].id);
                 if ($("#export-timezone").val()=="") {
                     var u = user.get();
                     $("#export-timezone").val(parseInt(u.timezone));
                     $("#export-timezone-list").val($("#export-timezone").val());
                     $("#export-interval").val($("#export-interval-list").val());
                 }
-        
+
                 $('#ExportModal').modal('show');
                 break;
 
             default:
             //each unknown action is traznsfered to the module code
             //module_event(e,$(this),row,uid,action);
-          }        
+          }
     }
 
     function calcdownloadsize(){
@@ -346,10 +345,10 @@
         downloadsize = ((export_end - export_start) / export_interval) * 17; // 17 bytes per dp
         //console.log(downloadsize);
         $("#downloadsize").html((downloadsize/1024).toFixed(0));
-        return downloadsize;       
+        return downloadsize;
     }
 
-    
+
     $("#export").click(function()
     {
         var feedid = $(this).attr('feedid');
@@ -391,15 +390,15 @@
     });
 
 
-    
+
     function parse_timepicker_time(timestr)
     {
         var tmp = timestr.split(" ");
         if (tmp.length!=2) return false;
-        
+
         var date = tmp[0].split("/");
         if (date.length!=3) return false;
-        
+
         var time = tmp[1].split(":");
         if (time.length!=3) return false;
         // year, month (-1),day, hours, mins, sec

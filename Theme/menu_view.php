@@ -24,14 +24,14 @@ if (!$session['write']) $menu_right[] = array('name'=>"Log In", 'path'=>"user/lo
 
 <ul class="nav navbar-nav">
     <?php
-    foreach ($menu_left as $item) 
-    { 
+    foreach ($menu_left as $item)
+    {
         if (isset($item['session'])) {
             if (isset($session[$item['session']]) && $session[$item['session']]==1) {
                 echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
-            }       
+            }
         } else {
-            echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
+            echo "<li><a href=\"".$path.$item['path']."\">".$item['name']."</a></li>";
         }
     }
     ?>
@@ -59,16 +59,16 @@ if (count($menu_dropdown) && $session['read']) { ?>
 
 <ul class="nav navbar-nav navbar-right">
     <?php
-    foreach ($menu_right as $item) 
-    { 
+    foreach ($menu_right as $item)
+    {
         if (isset($item['session'])) {
             if (isset($session[$item['session']]) && $session[$item['session']]==1) {
                 echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
-            }       
+            }
         } else {
             echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
         }
-    } 
+    }
     ?>
 </ul>
 

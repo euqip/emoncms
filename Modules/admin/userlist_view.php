@@ -4,11 +4,6 @@
 
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/custom-table-fields.js"></script>
-<style>
-input[type="text"] {
-     width: 88%;
-}
-</style>
 
 <h2>Users</h2>
 
