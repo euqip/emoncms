@@ -19,6 +19,7 @@ var table = {
     'sortfield':null,
     'sortable':true,
     'groupprefix':"",
+    'expanded_by_default':true,
 
     'draw':function()
     {
@@ -45,7 +46,7 @@ var table = {
         {
             // Minimized group persistance, see lines: 4,92,93
             var visible = '', symbol ='<span class="glyphicon glyphicon-minus-sign"></span>';
-            if (table.groupshow[group]==undefined) table.groupshow[group]=true;
+            if (table.groupshow[group]==undefined) table.groupshow[group]=table.expanded_by_default;
             if (table.groupshow[group]==false) {symbol = '<span class="glyphicon glyphicon-plus-sign"></span>'; visible = "display:none";}
 
             if (group_num>1) {
@@ -123,8 +124,6 @@ var table = {
 
    'add_events':function()
     {
-
-
         // Event: minimise or maximise group
         $(table.element).on('click', '.MINMAX', function() {
             var group = $(this).attr('group');
