@@ -55,14 +55,14 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
 
             <p class="login-item">
                 <?php if ($enable_rememberme) { ?><label class="checkbox text-muted"><input type="checkbox" tabindex="5" id="rememberme" value="1" name="rememberme"><?php echo '&nbsp;'._('Remember me'); ?></label><br /><?php } ?>
-                <button id="login" class="btn btn-primary" tabindex="6" type="button"><?php echo _('Login'); ?></button> 
+                <button id="login" class="btn btn-primary" tabindex="6" type="button"><?php echo _('Login'); ?></button>
                 <?php if ($allowusersregister) { echo '&nbsp;'._('or').'&nbsp' ?><a id="register-link"  href="#"><?php echo _('register'); ?></a><?php } ?>
-                <?php echo '&nbsp;'._('or').'&nbsp' ?> 
+                <?php echo '&nbsp;'._('or').'&nbsp' ?>
                 <a id="passwordreset-link" href="#" ><?php echo _("Forgotten password")?></a>
             </p>
 
             <p class="register-item" style="display:none">
-                <button id="register" class="btn btn-primary" type="button"><?php echo _('Register'); ?></button> <?php echo '&nbsp;'._('or').'&nbsp' ?> 
+                <button id="register" class="btn btn-primary" type="button"><?php echo _('Register'); ?></button> <?php echo '&nbsp;'._('or').'&nbsp' ?>
                 <a id="cancel-link" href="#"><?php echo _('cancel'); ?></a>
             </p>
 
@@ -78,7 +78,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
                         <label for="passwordreset-email" class="text-muted"><?php echo _('Email:'); ?></label>
                         <input type="email" class="form-control" id="passwordreset-email" placeholder="<?php echo _('Enter your Email address'); ?>" />
                     </div>
-                    <button id="passwordreset-submit" class="btn btn-primary" tabindex="7" type="button"><?php echo _('Ask new password'); ?></button> 
+                    <button id="passwordreset-submit" class="btn btn-primary" tabindex="7" type="button"><?php echo _('Ask new password'); ?></button>
                 </div>
             </div>
         </div>
@@ -144,7 +144,7 @@ if (event.which == 13) {
         register();
     } else {
         login();
-    }        
+    }
 }
 });
 
@@ -154,7 +154,7 @@ function login(){
     var rememberme = 0; if ($("#rememberme").is(":checked")) rememberme = 1;
     var result = user.login(username,password,rememberme);
 
-    if (result.success) 
+    if (result.success)
     {
         window.location.href = path+"user/view";
     }
@@ -170,7 +170,7 @@ function register(){
     var confirmpassword = $("#password-confirm").val();
     var email = $("#email").val();
 
-    if (password != confirmpassword) 
+    if (password != confirmpassword)
     {
         $("#error").show();
     }
@@ -178,10 +178,10 @@ function register(){
     {
         var result = user.register(username,password,email);
 
-        if (result.success) 
+        if (result.success)
         {
             var result = user.login(username,password);
-            if (result.success) 
+            if (result.success)
             {
                 window.location.href = path+"user/view";
             }

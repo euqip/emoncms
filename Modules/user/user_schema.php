@@ -19,6 +19,7 @@ $schema['users'] = array(
     'timezone' => array('type' => 'int(11)', 'default'=>0),
     'language' => array('type' => 'varchar(5)', 'default'=>'en_EN'),
     'bio' => array('type' => 'text', 'default'=>''),
+    'changepswd' => array('type' => 'int(1)', 'default'=>'0'),
     'index' => array(
         'orgid'=> array('unique'=>false),
         'username'=> array('unique'=>true)

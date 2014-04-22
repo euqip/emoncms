@@ -199,12 +199,22 @@ public function apikey_session($apikey_in)
 
         return array('success'=>true, 'userid'=>$userid, 'apikey_read'=>$apikey_read, 'apikey_write'=>$apikey_write);
     }
+    public function forcenewpwd($userid)
+    {
+        $userid = $this->mysqli->real_escape_string($userid);
+        $sql="UPDATE users SET changepswd = 1 WHERE id = '$userid'";
+        $result = $this->mysqli->query ($sql);
+        $sql="SELECT * FROM users  WHERE id = '$userid' AND changepswd=1";
+        $result = $this->mysqli->query($sql);
+        $userData = $result->fetch_object();
+        return array('success'=>true, 'userid'=>$userData->id, 'apikey_read'=>$userData->apikey_read, 'apikey_write'=>$userData->apikey_write, 'message'=>_("User will be forced to change password right after next login"));
+
+    }   // end of function
 
     public function login($username, $password, $remembermecheck)
     {
         $remembermecheck = (int) $remembermecheck;
 
-        if (!$username || !$password) return array('success'=>false, 'message'=>_("Username or password empty"));
 
         // filter out all except for alphanumeric white space and dash
         //if (!ctype_alnum($username))
@@ -212,13 +222,14 @@ public function apikey_session($apikey_in)
 
         if ($username_out!=$username) return array('success'=>false, 'message'=>_("Username must only contain a-z 0-9 dash and underscore, if you created an account before this rule was in place enter your username without the non a-z 0-9 dash underscore characters to login and feel free to change your username on the profile page."));
 
+        if (!$username || !$password) return array('success'=>false, 'message'=>_("Username or password empty"));
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
-
-        $result = $this->mysqli->query("SELECT id,password,admin,salt,language FROM users WHERE username = '$username'");
+        $sql = "SELECT id,password,admin,salt,language, changepswd FROM users WHERE username = '$username'";
+        $result = $this->mysqli->query($sql);
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect username - password, if you are sure its correct try clearing your browser cache"));
-        
+
         $userData = $result->fetch_object();
         $hash = hash('sha256', $userData->salt . hash('sha256', $password));
 
@@ -227,9 +238,10 @@ public function apikey_session($apikey_in)
             return array('success'=>false, 'message'=>_("Incorrect username - password, if you are sure its correct try clearing your browser cache"));
         }
         else
-        {        
+        {
             $id=$userData->id;
             $this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
+            //if ($userdata->forcenewpwd =1)
 
             session_regenerate_id();
             $_SESSION['userid'] = $id;
@@ -251,11 +263,11 @@ public function apikey_session($apikey_in)
             return array('success'=>true, 'message'=>_("Login successful"));
         }
     }
-    
+
     // Authorization API. returns user write and read apikey on correct username + password
     // This is useful for using emoncms with 3rd party applications
 
-    public function get_apikeys_from_login($username, $password) 
+    public function get_apikeys_from_login($username, $password)
     {
         if (!$username || !$password) return array('success'=>false, 'message'=>_("Username or password empty"));
         $username_out = preg_replace('/[^\w\s-]/','',$username);
@@ -268,7 +280,7 @@ public function apikey_session($apikey_in)
         $result = $this->mysqli->query("SELECT id,password,admin,salt,language, apikey_write,apikey_read FROM users WHERE username = '$username'");
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect authentication"));
-     
+
         $userData = $result->fetch_object();
         $hash = hash('sha256', $userData->salt . hash('sha256', $password));
 
@@ -330,7 +342,7 @@ public function apikey_session($apikey_in)
             return array('success'=>false, 'message'=>_("Old password incorect"));
         }
     }
-    
+
     public function passwordreset($username,$email)
     {
         $username_out = preg_replace('/[^\w\s-]/','',$username);
@@ -354,7 +366,7 @@ public function apikey_session($apikey_in)
                 $string = md5(uniqid(rand(), true));
                 $salt = substr($string, 0, 3);
                 $hash = hash('sha256', $salt . $hash);
-                
+
                 // Save hash and salt
                 $this->mysqli->query("UPDATE users SET password = '$hash', salt = '$salt' WHERE id = '$userid'");
 
@@ -366,7 +378,7 @@ public function apikey_session($apikey_in)
 
                     // include SwiftMailer. One is the path from a PEAR install,
                     // the other from libphp-swiftmailer.
-                    $have_swift = @include_once ("Swift/swift_required.php"); 
+                    $have_swift = @include_once ("Swift/swift_required.php");
                     if (!$have_swift) {
                        $have_swift = @include_once ("swift_required.php");
                     }
