@@ -126,14 +126,12 @@
     $("#expandall").click(function()
     {
         table.groupby = '';
-        table.expanded_by_default = true;
-        table.draw();
+        update(true);
     })
     $("#collapseall").click(function()
     {
         table.groupby = groupfield;
-        table.expanded_by_default = false;
-        table.draw();
+        update(false);
     })
 
     table.element = "#table";
@@ -147,8 +145,19 @@
     }
 
     table.groupby = groupfield;
-    table.expanded_by_default = expanded;
-    table.data = admin.userlist();
-    table.draw();
+    update(expanded);
+
+    function update(how){
+        table.expanded_by_default = how;
+        table.data = admin.userlist();
+        table.draw();
+        if(table.expanded_by_default){
+            $("#collapseall").show();
+            $("#expandall").hide();
+        } else {
+            $("#collapseall").hide();
+            $("#expandall").show();
+        }
+    }
 
 </script>

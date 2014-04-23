@@ -149,15 +149,14 @@
     $("#expandall").click(function()
     {
         table.groupby = '';
-        table.expanded_by_default = true;
-        table.draw();
+        update(true);
     })
     $("#collapseall").click(function()
     {
         table.groupby = groupfield;
-        table.expanded_by_default = false;
-        table.draw();
+        update(false);
     })
+
     table.element = "#table";
 
     table.fields = {
@@ -174,9 +173,29 @@
     }
 
     table.groupby = groupfield;
-    table.expanded_by_default = expanded
-    table.data = admin.orglist();
-    table.draw();
+    update(expanded);
+
+    function update(how){
+        table.expanded_by_default = how;
+        table.data = admin.orglist();
+        table.draw();
+        if (table.data.length != 0) {
+            $("#organisations").hide();
+            if(table.expanded_by_default){
+                $("#collapseall").show();
+                $("#expandall").hide();
+            } else {
+                $("#collapseall").hide();
+                $("#expandall").show();
+            }
+        } else {
+            $("#organisations").show();
+            $("#collapseall").hide();
+            $("#expandall").hide();
+        };
+
+    }
+
 
 $("#table").bind("onEdit", function(e){});
 
@@ -207,16 +226,5 @@ $("#createorg").click(function(){
     update();
 
 });
-
-
-function update() {
-    table.data = admin.orglist();
-    table.draw();
-    if (table.data.length != 0) {
-        $("#organisations").hide();
-    } else {
-        $("#organisations").show();
-    };
-}
 
 </script>
