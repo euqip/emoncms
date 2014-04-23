@@ -124,7 +124,27 @@
     }
 
         $("#createuser").click(admin.register);
+        $("#expandall").click(function()
+        {
+            table.groupby = '';
+            table.expanded_by_default = true;
+            //table.data = admin.userlist();
 
+            //table.groupshow.forEach(function(entry){
+            //    table.groupshow[entry](false)
+            //});
+            table.draw();
+        })
+        $("#collapseall").click(function()
+        {
+            table.groupby = groupfield;
+            table.expanded_by_default = false;
+            //table.data = admin.userlist();
+            //table.groupshow.forEach(function(entry){
+            //    table.groupshow[entry](true)
+            //});
+            table.draw();
+        })
 
 
 
@@ -145,7 +165,7 @@
     }
 
     table.groupby = groupfield;
-    table.expanded_by_default = expanded
+    table.expanded_by_default = expanded;
     table.data = admin.userlist();
     table.draw();
 
