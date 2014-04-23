@@ -64,7 +64,6 @@
 </div><!-- /.modal -->
 
 <script>
-
     var path = "<?php echo $path; ?>";
     var groupfield= "<?php echo $behavior['usergoup']; ?>";
     var expanded= "<?php echo $behavior['userlist_expanded']; ?>";
@@ -123,36 +122,19 @@
         }
     }
 
-        $("#createuser").click(admin.register);
-        $("#expandall").click(function()
-        {
-            table.groupby = '';
-            table.expanded_by_default = true;
-            //table.data = admin.userlist();
-
-            //table.groupshow.forEach(function(entry){
-            //    table.groupshow[entry](false)
-            //});
-            table.draw();
-        })
-        $("#collapseall").click(function()
-        {
-            table.groupby = groupfield;
-            table.expanded_by_default = false;
-            //table.data = admin.userlist();
-            //table.groupshow.forEach(function(entry){
-            //    table.groupshow[entry](true)
-            //});
-            table.draw();
-        })
-
-
-
-
-    // Extend table library field types
-    //for (z in customtablefields)
-    //    table.fieldtypes[z] = customtablefields[z];
-    // not necessary, all fields are defined in table.js
+    $("#createuser").click(admin.register);
+    $("#expandall").click(function()
+    {
+        table.groupby = '';
+        table.expanded_by_default = true;
+        table.draw();
+    })
+    $("#collapseall").click(function()
+    {
+        table.groupby = groupfield;
+        table.expanded_by_default = false;
+        table.draw();
+    })
 
     table.element = "#table";
 
