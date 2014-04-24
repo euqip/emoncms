@@ -14,7 +14,7 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 function admin_controller()
 {
-    global $mysqli,$session, $user, $org, $route, $updatelogin, $behavior;
+    global $mysqli,$session, $user, $org, $route, $updatelogin, $behavior, $path;
 
     // Allow for special admin session if updatelogin property is set to true in settings.php
     // Its important to use this with care and set updatelogin to false or remove from settings

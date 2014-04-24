@@ -150,7 +150,9 @@
     function update(how){
         table.expanded_by_default = how;
         table.data = admin.userlist();
+
         table.draw();
+        //check if no data are present to show how to proceed.
         if(table.expanded_by_default){
             $("#collapseall").show();
             $("#expandall").hide();
