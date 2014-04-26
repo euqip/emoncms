@@ -49,6 +49,7 @@
     );
 
 /** set the PHPMailer parameters
+**  PHPMailer is to be found here : https://github.com/PHPMailer/PHPMailer
 **  avoid to use accentued characters in real name, it will not be handled has UTF-8
 **  SWIFTMailer did not send any mail!
 
