@@ -12,7 +12,7 @@
     $database = "_DATABASE_";
 
     $redis_enabled = true;
-    
+
     $feed_settings = array(
 
         'creatable_engines'=>array('MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE','PHPTIMESTORE'),
@@ -25,10 +25,10 @@
             'port'=>0,
             'host'=>0
         ),
-        
+
         // The default data directory is /var/lib/phpfiwa,phpfina,phptimeseries on windows or shared hosting you will likely need to specify a different data directory.
         // Make sure that emoncms has write permission's to the datadirectory folders
-        
+
         'phpfiwa'=>array(
             //'datadir'=>'/home/username/emoncmsdata/phpfiwa/'
         ),
@@ -39,7 +39,7 @@
             //'datadir'=>'/home/username/emoncmsdata/phptimeseries/'
         )
     );
-    
+
     // (OPTIONAL) Used by password reset feature
     $smtp_email_settings = array(
       'host'=>"_SMTP_HOST_",
@@ -49,7 +49,7 @@
     );
 
     $enable_password_reset = _ENABLE_PASSWORD_RESET_;
-    
+
     // Checks for limiting garbage data?
     $max_node_id_limit = 32;
 
@@ -95,3 +95,22 @@
 
     // Log4PHP configuration
     $log4php_configPath = '/etc/emoncms/emoncms_log4j.xml';
+    // interfaces behavior when running with multi organisations and multi users
+    $behavior=array(
+        'userlist_expanded'=>FALSE,
+        'usergoup'=> "letter",
+        //usergroup may be '', than no groups are made, it is used in users list view
+        'userletter'=> "UCASE(LEFT(username,1)) as letter",
+        //'userletter'=> "1 as letter",
+        //userletter MUST be present but may be a constant, the letter field is used in ORDER BY directive
+        //'userletter'=> "UCASE(LEFT(email,1)) as letter",
+        // grouping by email first letter is an other option
+        'orglist_expanded'=>FALSE,
+        'orggroup'=> "letter",
+        //orggroup may be '', than no groups are made, it is used in organisations list view
+        'orgletter'=> "ucase(LEFT(orgname,1)) as letter"
+        //orgletter MUST be present but may be a constant
+        // see userletter  above and apply same rules, on countries for example
+        //'orgletter'=> "country as letter" will group organisations by countries
+
+        );

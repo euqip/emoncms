@@ -31,7 +31,6 @@ global $user, $path, $session;
         <label for="writeyapi" class="col-sm-4 control-label"><b><?php echo _('Read & Write:'); ?></b></label>
         <div class="col-sm-4">
             <p type="text" class="form-control" id="writeyapi"><?php echo $user->get_apikey_write($session['userid']); ?><p/>
-            </div>
         </div>
     </div>
 </form>

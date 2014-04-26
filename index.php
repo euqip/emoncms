@@ -8,15 +8,15 @@
   Emoncms - open source energy visualisation
   Part of the OpenEnergyMonitor project:
   http://openenergymonitor.org
- 
+
   */
-  
+
   $ltime = microtime(true);
   date_default_timezone_set('UTC');
 
 
   define('EMONCMS_EXEC', 1);
-    
+
     $emoncms_version = "8.0.9";
 
   // 1) Load settings and core scripts
@@ -46,7 +46,7 @@
     } else {
         $redis = false;
     }
-    
+
     if ( $mysqli->connect_error ) {
         echo _("Can't connect to database, please verify credentials/configuration in settings.php")."<br />";
         if ( $display_errors ) {

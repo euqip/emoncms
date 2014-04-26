@@ -118,8 +118,27 @@
             } else {
                 $("#error").html(result.message).show();
             }
+        },
+        'passwordreset':function(username, usermail)
+        {
+            var result = {};
+            $.ajax({
+                type: "GET",
+                url: path+"user/passwordreset.json",
+                data: "&username="+username+"&email="+usermail,
+                dataType: 'json',
+                async: false,
+                success: function(data)
+                {
+                result = data;
+                }
+            })
+            if (!result.success){
+                $("#error").html(result.message).show();
+            }
 
         }
+
     }
 
     $("#createuser").click(admin.register);
@@ -138,6 +157,7 @@
 
     table.fields = {
         'id':{'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage user details'); ?>", 'link':"setuser?id=", 'colwidth':" style='width:30px;'"},
+        'pwd':{'title':"<?php echo _('Pwd Reset'); ?>", 'type':"iconbasic", 'icon':'glyphicon glyphicon-send','tooltip':"<?php echo _('Reset password and send new one'); ?>", 'icon_action':"passwordreset", 'colwidth':" style='width:30px;'"},
         'username':{'title':"<?php echo _('Name'); ?>", 'type':"fixed"},
         'email':{'title':"<?php echo _('Email address'); ?>", 'type':"fixed"},
         'language':{'title':"<?php echo _('Langage'); ?>", 'type':"fixed"},
@@ -161,5 +181,22 @@
             $("#expandall").show();
         }
     }
+
+    function module_event(evt, elt, row, uid, action){
+    console.log('Userlist module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
+    switch(action)
+        {
+            case "passwordreset":
+                var uname=table.data[row].username;
+                var mail = table.data[row].email;
+                admin.passwordreset(uname, mail);
+                break;
+
+            default:
+            //each unknown action is traznsfered to the module code
+            //module_event(e,$(this),row,uid,action);
+        }
+    }
+
 
 </script>

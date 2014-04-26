@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-15 19:30+0100\n"
-"PO-Revision-Date: 2014-04-15 23:51+0100\n"
+"POT-Creation-Date: 2014-04-26 10:59+0100\n"
+"PO-Revision-Date: 2014-04-26 11:00+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -83,7 +83,7 @@ msgstr ""
 msgid "Schema item"
 msgstr "Schéma bdd"
 
-#: ../../../admin_db_view.php:7 ../../../userlist_view.php:37
+#: ../../../admin_db_view.php:7 ../../../userlist_view.php:161
 msgid "Name"
 msgstr "Nom"
 
@@ -91,20 +91,28 @@ msgstr "Nom"
 msgid "Status"
 msgstr "Satus"
 
-#: ../../../admin_controller.php:101
+#: ../../../admin_controller.php:25
+msgid "not authoraized"
+msgstr ""
+
+#: ../../../admin_controller.php:47
+msgid "Database schema"
+msgstr ""
+
+#: ../../../admin_controller.php:102
 msgid "No orgfields provided"
 msgstr "Pas de champs fournis"
 
-#: ../../../admin_controller.php:115
+#: ../../../admin_controller.php:116
 msgid "No id provided"
 msgstr "Pas de clé d'enregistrement unique fournie"
 
-#: ../../../admin_controller.php:127
+#: ../../../admin_controller.php:128
 #, fuzzy
 msgid "Update no done"
 msgstr "Mise à jour & Analyse"
 
-#: ../../../admin_controller.php:132
+#: ../../../admin_controller.php:133
 msgid "Unknown command!"
 msgstr "Commande inconnue!"
 
@@ -114,16 +122,24 @@ msgstr "Commande inconnue!"
 msgid "Organisations"
 msgstr "Organisations"
 
-#: ../../../orglist_view.php:16 ../../../orglist_view.php:33
+#: ../../../orglist_view.php:16 ../../../orglist_view.php:42
 msgid "Add new organisation"
 msgstr "Ajouter une organisation"
 
-#: ../../../orglist_view.php:29
+#: ../../../orglist_view.php:21 ../../../userlist_view.php:15
+msgid "Expand all"
+msgstr ""
+
+#: ../../../orglist_view.php:26 ../../../userlist_view.php:20
+msgid "Collapse all"
+msgstr ""
+
+#: ../../../orglist_view.php:38
 msgid ""
 "There is no organisation yet defined in your system, create at least one.  "
 msgstr "Il n'y a aucune organisation définie"
 
-#: ../../../orglist_view.php:30
+#: ../../../orglist_view.php:39
 msgid ""
 "You will be afterward able to create many users (at least one) linked to "
 "this organisation. "
@@ -131,35 +147,35 @@ msgstr ""
 "Vous serez ainsi capable de créer un utilisateur (ou plusieurs) appartenant "
 "à cette organisation."
 
-#: ../../../orglist_view.php:31
+#: ../../../orglist_view.php:40
 msgid "Click the  "
 msgstr "Cliquer"
 
-#: ../../../orglist_view.php:35
+#: ../../../orglist_view.php:44
 msgid " icon here or above to create the first one."
 msgstr "l'icone ci-dessus pour créer la première."
 
-#: ../../../orglist_view.php:46
+#: ../../../orglist_view.php:55
 msgid "New organisation creation"
 msgstr "Ajouter une organisation."
 
-#: ../../../orglist_view.php:51
+#: ../../../orglist_view.php:60
 msgid "Short name"
 msgstr "Nom court"
 
-#: ../../../orglist_view.php:53
+#: ../../../orglist_view.php:62
 msgid "The short name must be unique"
 msgstr "Le nom court doit être unique"
 
-#: ../../../orglist_view.php:56
+#: ../../../orglist_view.php:65
 msgid "Organisation name"
 msgstr "Nom de l'organisation"
 
-#: ../../../orglist_view.php:58
+#: ../../../orglist_view.php:67
 msgid "New organisation long name"
 msgstr "Nom complet de la nouvelle organisation"
 
-#: ../../../orglist_view.php:61
+#: ../../../orglist_view.php:70
 msgid ""
 "These are the main organisation data, all the remaininng parameters are "
 "updatable later"
@@ -167,19 +183,20 @@ msgstr ""
 "Ceci représente les données minimales de création d'une organisation.  Les "
 "autre données pourront être mises à jour plus tard."
 
-#: ../../../orglist_view.php:66
+#: ../../../orglist_view.php:75 ../../../userlist_view.php:59
 msgid "Create"
 msgstr "Création"
 
-#: ../../../orglist_view.php:67 ../../../orglist_view.php:86
+#: ../../../orglist_view.php:76 ../../../orglist_view.php:95
+#: ../../../userlist_view.php:60
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../../../orglist_view.php:77
+#: ../../../orglist_view.php:86
 msgid "Confirm organisation deletion"
 msgstr "Confirmation de supression d'une organisation"
 
-#: ../../../orglist_view.php:81
+#: ../../../orglist_view.php:90
 msgid ""
 "Are you sure you want to delete this organisation, the oparation is non "
 "reversible!"
@@ -187,68 +204,67 @@ msgstr ""
 "Etes vous sûr de vouloir supprimer cette organisation?  L'opération est non "
 "réversible."
 
-#: ../../../orglist_view.php:85
+#: ../../../orglist_view.php:94
 msgid "Confirm delete"
 msgstr "CJe confirme"
 
-#: ../../../orglist_view.php:145
+#: ../../../orglist_view.php:163
 msgid "Suppress organisation"
 msgstr "Supression de l'organisation"
 
-#: ../../../orglist_view.php:146
+#: ../../../orglist_view.php:164
 msgid "Edit organisation attributes"
 msgstr "Modifier les détail de l'organisation"
 
-#: ../../../orglist_view.php:146
+#: ../../../orglist_view.php:164
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: ../../../orglist_view.php:148 ../../../userlist_view.php:36
+#: ../../../orglist_view.php:166 ../../../userlist_view.php:159
 msgid "Id"
 msgstr "Clé"
 
-#: ../../../orglist_view.php:148
+#: ../../../orglist_view.php:166
 msgid "Manage organisation details"
 msgstr "Administrer les détails"
 
-#: ../../../orglist_view.php:149
+#: ../../../orglist_view.php:167
 msgid "short Name"
 msgstr "Nom court"
 
-#: ../../../orglist_view.php:149
+#: ../../../orglist_view.php:167
 msgid "Should be unique"
 msgstr "Doit être unique"
 
-#: ../../../orglist_view.php:150
+#: ../../../orglist_view.php:168
 msgid "Country"
 msgstr "Pays"
 
-#: ../../../orglist_view.php:151
+#: ../../../orglist_view.php:169
 msgid "Time zone"
 msgstr "Fuseau horaire"
 
-#: ../../../orglist_view.php:151
+#: ../../../orglist_view.php:169
 msgid "Default time zone for organisation users"
 msgstr "Le fuseau horaire par défaut pour les nouveaux utilisateurs"
 
-#: ../../../orglist_view.php:152
+#: ../../../orglist_view.php:170
 msgid "Company Name"
 msgstr "Nom de société"
 
-#: ../../../orglist_view.php:152
+#: ../../../orglist_view.php:170
 msgid "Organisation long name"
 msgstr "Nom complet"
 
-#: ../../../orglist_view.php:153 ../../../orglist_view.php:154
-#: ../../../userlist_view.php:39
+#: ../../../orglist_view.php:171
 msgid "Language"
 msgstr "Langue"
 
-#: ../../../orglist_view.php:153 ../../../orglist_view.php:154
+#: ../../../orglist_view.php:171
 msgid "Default language for organisation users"
 msgstr "Langue par défaut des nouveaux utilisateurs"
 
-#: ../../../orglist_view.php:155
+#: ../../../orglist_view.php:172
 msgid "Last use"
 msgstr "Dernière utilisation"
 
@@ -262,7 +278,7 @@ msgstr "Administrer les organisations"
 
 #: ../../../admin_main_view.php:22 ../../../admin_main_view.php:25
 #: ../../../admin_main_view (copie).php:20 (copie).php:25
-#: ../../../userlist_view.php:12
+#: ../../../userlist_view.php:7
 msgid "Users"
 msgstr "Utilisateurs"
 
@@ -282,10 +298,76 @@ msgstr ""
 "Lancez cette commande après une mise à jour de Emoncms, après l'installation "
 "d'un nouveau module ou pour tester l'intégrité de la base de données"
 
-#: ../../../userlist_view.php:38
-msgid "Tag"
-msgstr "Étiquette"
+#: ../../../userlist_view.php:10
+msgid "Add new user"
+msgstr ""
 
-#: ../../../userlist_view.php:40
+#: ../../../userlist_view.php:34
+#, fuzzy
+msgid "New user creation"
+msgstr "Ajouter une organisation."
+
+#: ../../../userlist_view.php:39
+#, fuzzy
+msgid "User name"
+msgstr "Nom court"
+
+#: ../../../userlist_view.php:41
+#, fuzzy
+msgid "The user name must be unique"
+msgstr "Le nom court doit être unique"
+
+#: ../../../userlist_view.php:44
+msgid "User Email"
+msgstr ""
+
+#: ../../../userlist_view.php:46
+#, fuzzy
+msgid "User Email, should be unique!"
+msgstr "Doit être unique"
+
+#: ../../../userlist_view.php:49
+msgid "Password"
+msgstr ""
+
+#: ../../../userlist_view.php:51
+msgid "The password should be changed at first next login"
+msgstr ""
+
+#: ../../../userlist_view.php:54
+#, fuzzy
+msgid ""
+"These are the main user data, all the remaininng user parameters are "
+"updatable later"
+msgstr ""
+"Ceci représente les données minimales de création d'une organisation.  Les "
+"autre données pourront être mises à jour plus tard."
+
+#: ../../../userlist_view.php:159
+#, fuzzy
+msgid "Manage user details"
+msgstr "Administrer les détails"
+
+#: ../../../userlist_view.php:160
+msgid "Pwd Reset"
+msgstr ""
+
+#: ../../../userlist_view.php:160
+msgid "Reset password and send new one"
+msgstr ""
+
+#: ../../../userlist_view.php:162
+msgid "Email address"
+msgstr ""
+
+#: ../../../userlist_view.php:163
+#, fuzzy
+msgid "Langage"
+msgstr "Langue"
+
+#: ../../../userlist_view.php:164
 msgid "Last login"
 msgstr "Dernière utilisation"
+
+#~ msgid "Tag"
+#~ msgstr "Étiquette"

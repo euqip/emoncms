@@ -24,7 +24,7 @@ class User
     public function __construct($mysqli,$redis,$rememberme)
     {
         //copy the settings value, otherwise the enable_rememberme will always be false.
-        global $enable_rememberme;
+        global $enable_rememberme, $path;
         $this->enable_rememberme = $enable_rememberme;
 
         $this->mysqli = $mysqli;
@@ -353,6 +353,8 @@ public function apikey_session($apikey_in)
         if ($result->num_rows==1)
         {
             $row = $result->fetch_array();
+            $username =$row['username'];
+            $lang =$row['language'];
 
             $userid = $row['id'];
             if ($userid>0)
@@ -374,41 +376,66 @@ public function apikey_session($apikey_in)
                 global $enable_password_reset;
                 if ($enable_password_reset==true)
                 {
-                    global $smtp_email_settings;
+                    global $smtp_email_settings, $PHPMailer_settings;
 
                     // include SwiftMailer. One is the path from a PEAR install,
                     // the other from libphp-swiftmailer.
-                    $have_swift = @include_once ("Swift/swift_required.php");
-                    if (!$have_swift) {
-                       $have_swift = @include_once ("swift_required.php");
+                    // the swhit mailer library is installe in emoncms directory
+                    // use github to cole folder
+                    $filepath="PHPMailer/PHPMailerAutoload.php";
+                    $PHPMailer = @include_once ($filepath);
+                    if (!$PHPMailer) {
+                        $this->log->info("Could not include PHPMailer!");
+                        return array('success'=>false, 'message'=>"Could not find PHPMailer - cannot proceed");
+                        die();
                     }
 
-                    if (!$have_swift){
-                        $this->log->info("Could not include SwiftMailer from either possible path!");
-                        return array('success'=>false, 'message'=>"Could not find SwiftMailer - cannot proceed");
+                    $mail = new PHPMailer;
+
+                    $mail->isSMTP();                                      // Set mailer to use SMTP
+                    $mail->Host = $PHPMailer_settings['host'];  // Specify main and backup server
+                    $mail->SMTPAuth = $PHPMailer_settings['auth'];                               // Enable SMTP authentication
+                    $mail->Username = $PHPMailer_settings['username'];                            // SMTP username
+                    $mail->Password = $PHPMailer_settings['password'];                           // SMTP password
+                    $mail->SMTPSecure = $PHPMailer_settings['encryption'];                            // Enable encryption, 'ssl' also accepted
+                    $mail->Port = $PHPMailer_settings['port'];                            // Enable encryption, 'ssl' also accepted
+
+                    $mail->From = $PHPMailer_settings['from'];
+                    $mail->FromName = $PHPMailer_settings['fromname'];
+                    $mail->addAddress($email);  // Add a recipient
+                    $mail->addAddress('benoit.pique@base.be');               // Name is optional
+                    $mail->addReplyTo($PHPMailer_settings['from'], $PHPMailer_settings['fromname']);
+                    $mail->addCC('');
+                    $mail->addBCC($PHPMailer_settings['tobcc']);
+
+                    $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
+                    $mail->addAttachment('');         // Add attachments
+                    $mail->addAttachment('');    // Optional name
+                    $mail->isHTML(true);                                  // Set email format to HTML
+
+                    // select the user language to build message
+                    setlocale( LC_MESSAGES, $language.'.utf8');
+                    mb_internal_encoding('UTF-8');
+                    $mail->Subject = mb_encode_mimeheader(_('Emoncms password reset'));
+
+                    $mail->Body    = _('Hi, Your new password to acceed EMONCMS is now set to').' <b>'.$newpass.'</b>';
+                    $mail->AltBody = _('Your personnal password is changed to').' : '.$newpass;
+
+
+                    if(!$mail->send()) {
+                        return array('success'=>false, 'message'=>_("Password recovery email not sent!"));
+                    } else {
+                        // Sent email with $newpass to $email
+                        return array('success'=>true, 'message'=>_("Password recovery email sent!"));
                     }
-
-                    $transport = Swift_SmtpTransport::newInstance($smtp_email_settings['host'], 26)
-                    ->setUsername($smtp_email_settings['username'])->setPassword($smtp_email_settings['password']);
-
-                    $mailer = Swift_Mailer::newInstance($transport);
-                    $message = Swift_Message::newInstance()
-                      ->setSubject('Emoncms password reset')
-                      ->setFrom($smtp_email_settings['from'])
-                      ->setTo(array($email))
-                      ->setBody($bodytext, 'text/html');
-                    $result = $mailer->send($message);
                     $this->log->info("Sent ".$result." email(s)");
                 }
                 //------------------------------------------------------------------------------
-
-                // Sent email with $newpass to $email
-                return array('success'=>true, 'message'=>_("Password recovery email sent!"));
             }
         }
-
         return array('success'=>false, 'message'=>_("An error occured"));
     }
+
 
     public function change_username($userid, $username)
     {
@@ -582,4 +609,12 @@ public function apikey_session($apikey_in)
         $this->mysqli->query("UPDATE users SET apikey_write = '$apikey' WHERE id='$userid'");
         return $apikey;
     }
+}
+
+
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
+
 }

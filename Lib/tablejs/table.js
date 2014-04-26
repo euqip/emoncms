@@ -304,8 +304,8 @@ var table = {
                 // Event code for clickable switch state icon's
                 $(table.element).on('click', '.iconbutton', function(e) {
                     e.preventDefault();
-                    var row =$(this).attr("row");
-                    var uid= $(this).attr("uid");
+                    var row = $(this).attr("row");
+                    var uid = $(this).attr("uid");
                     var field = ''; if ($(this).attr("field")!=undefined) {field=$(this).attr("field");}
                     var action = ''; if ($(this).attr("action")!=undefined) {action=$(this).attr("action");}
                     var myhref = ''; if ($(this).attr("href")!=undefined) {myhref=$(this).attr("href");}
