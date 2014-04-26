@@ -48,6 +48,39 @@
       'from'=>array('_SMTP_EMAIL_ADDR_' => '_SMTP_EMAIL_NAME_')
     );
 
+/** set the PHPMailer parameters
+**  avoid to use accentued characters in real name, it will not be handled has UTF-8
+**  SWIFTMailer did not send any mail!
+
+
+gmail example:
+
+      $PHPMailer_settings = array(
+      'host'=>'smtp.gmail.com',
+      'port'=> '587',
+      'auth'=> true,
+      'encryption' =>'tls',
+      'username'=>'gmailusername',
+      'password'=>'gmailpassword',
+      'from'=>'sent from or reply address',
+      'fromname'=>'fromrealname',
+      'tobcc'=>'fill it if you want to have mail content feedbackfeedback'
+    );
+**/
+
+      $PHPMailer_settings = array(
+      'host'=>'smtp.gmail.com',
+      'port'=> '587',
+      'auth'=> true,
+      'encryption' =>'tls',
+      'username'=>'gmailusername',
+      'password'=>'gmailpassword',
+      'from'=>'sent from or reply address',
+      'fromname'=>'fromrealname',
+      'tobcc'=>'fill it if you want to have mail content feedbackfeedback'
+    );
+
+
     $enable_password_reset = _ENABLE_PASSWORD_RESET_;
 
     // Checks for limiting garbage data?
