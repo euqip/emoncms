@@ -414,7 +414,7 @@ public function apikey_session($apikey_in)
                     $mail->isHTML(true);                                  // Set email format to HTML
 
                     // select the user language to build message
-                    setlocale( LC_MESSAGES, $language.'.utf8');
+                    setlocale( LC_MESSAGES, $lang.'.utf8');
                     mb_internal_encoding('UTF-8');
                     $mail->Subject = mb_encode_mimeheader(_('Emoncms password reset'));
 

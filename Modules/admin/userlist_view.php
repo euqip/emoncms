@@ -1,27 +1,27 @@
 <?php
-    global $path, $behavior;
-    $usergroupfield="";
+global $path, $behavior;
+$usergroupfield="";
 ?>
 
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
-        <h2><?php echo _('Users'); ?>
-            <a href='#modal-create' data-toggle="modal" id="adduser">
-                <small>
-                    <span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Add new user")?>'></span>
-                </small>
-            </a>
-            <a href='#'  id="expandall">
-                <small>
-                    <span class = "glyphicon glyphicon-expand" title = '<?php echo _("Expand all")?>'></span>
-                </small>
-            </a>
-            <a href='#'  id="collapseall">
-                <small>
-                    <span class = "glyphicon glyphicon-collapse-up" title = '<?php echo _("Collapse all")?>'></span>
-                </small>
-            </a>
-            <span class="alert-danger pull-right fade" id ="msgfeeback"></span>
-        </h2>
+<h2><?php echo _('Users'); ?>
+    <a href='#modal-create' data-toggle="modal" id="adduser">
+        <small>
+            <span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Add new user")?>'></span>
+        </small>
+    </a>
+    <a href='#'  id="expandall">
+        <small>
+            <span class = "glyphicon glyphicon-expand" title = '<?php echo _("Expand all")?>'></span>
+        </small>
+    </a>
+    <a href='#'  id="collapseall">
+        <small>
+            <span class = "glyphicon glyphicon-collapse-up" title = '<?php echo _("Collapse all")?>'></span>
+        </small>
+    </a>
+    <span class="alert-danger pull-right fade" id ="msgfeeback"></span>
+</h2>
 
 <div id="table"></div>
 
@@ -45,28 +45,49 @@
                         <td><input class="form-control options" id="newemail" type="text" value=""></td>
                         <td><small><p class="muted"><?php echo _('User Email, should be unique!') ?></p></small></td>
                     </tr>
-                    <tr>
-                        <td class="option_name"><?php echo _('Password') ?></td>
-                        <td><input class="form-control options" id="newpassword" type="text" value="<?php echo substr(hash('sha256', 'password'),1,8); ?>"></td>
-                        <td><small><p class="muted"><?php echo _('The password should be changed at first next login') ?></p></small></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3"><small><p class="muted"><?php echo _('These are the main user data, all the remaininng user parameters are updatable later') ?></p></small></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id = "createuser" class="btn btn-primary"><?php echo _('Create') ?></button>
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _('Cancel') ?></button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+                    so<tr>
+                    <td class="option_name"><?php echo _('Password') ?></td>
+                    <td><input class="form-control options" id="newpassword" type="text" value="<?php echo substr(hash('sha256', 'password'),1,8); ?>"></td>
+                    <td><small><p class="muted"><?php echo _('The password should be changed at first next login') ?></p></small></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><small><p class="muted"><?php echo _('These are the main user data, all the remaininng user parameters are updatable later') ?></p></small></td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id = "createuser" class="btn btn-primary"><?php echo _('Create') ?></button>
+            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _('Cancel') ?></button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+<button class="btn btn-primary" data-toggle="modal" data-target="#alertmsg">Feedback message</button>
+
+<div class="modal fade " tabindex="-1" id="alertmsg" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm emoncms-dialog"  id="alertmessage">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id= "feedbacktitle"></h4>
+        </div>
+        <div class="modal-body" id="feedbackmessage"></div>
+    </div>
+</div>
+</div>
 
 <script>
     var path = "<?php echo $path; ?>";
     var groupfield= "<?php echo $behavior['usergoup']; ?>";
     var expanded= "<?php echo $behavior['userlist_expanded']; ?>";
+    var success= "<?php echo _('Success'); ?>";
+    var error= "<?php echo _('Error'); ?>";
+
+
+
+
 
     var admin = {
         'userlist':function()
@@ -89,7 +110,7 @@
                 async: false,
                 success: function(data)
                 {
-                result = data;
+                    result = data;
                 }
             })
             if (result.success){
@@ -109,7 +130,7 @@
                 async: false,
                 success: function(data)
                 {
-                result = data;
+                    result = data;
                 }
             })
             if (result.success){
@@ -130,7 +151,22 @@
                 async: false,
                 success: function(data)
                 {
-                result = data;
+                    result = data;
+                    if (result.success){
+                        $('#feedbacktitle').html(success);
+                        var boxclass="alert-success";
+                    } else {
+                        $('#feedbacktitle').html(error);
+                        var boxclass="alert-error";
+                    }
+                    //$('#feedbacktitle').html("<div class='alert "+boxclass+"'>"+result.message+"</div>");
+                    $('#feedbackmessage').html(result.message);
+                    $('#alertmessage').addClass(boxclass);
+                    $('#alertmessage .modal-header').addClass(boxclass);
+                    $('#alertmsg').modal('show');
+                    setTimeout(function(){
+                      $('#alertmsg').modal('hide')
+                    }, 1000);
                 }
             })
             if (!result.success){
@@ -183,20 +219,19 @@
     }
 
     function module_event(evt, elt, row, uid, action){
-    console.log('Userlist module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
-    switch(action)
+        console.log('Userlist module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
+        switch(action)
         {
             case "passwordreset":
-                var uname=table.data[row].username;
-                var mail = table.data[row].email;
-                admin.passwordreset(uname, mail);
-                break;
+            var uname= table.data[row].username;
+            var mail = table.data[row].email;
+            admin.passwordreset(uname, mail);
+            break;
 
             default:
             //each unknown action is traznsfered to the module code
             //module_event(e,$(this),row,uid,action);
         }
     }
-
 
 </script>
