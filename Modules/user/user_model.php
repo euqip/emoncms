@@ -364,10 +364,10 @@ public function apikey_session($apikey_in)
                 $newpass = substr($newpass, 0, 10);
 
                 // Hash and salt
-                $hash = hash('sha256', $newpass);
-                $string = md5(uniqid(rand(), true));
-                $salt = substr($string, 0, 3);
-                $hash = hash('sha256', $salt . $hash);
+                $hash    = hash('sha256', $newpass);
+                $string  = md5(uniqid(rand(), true));
+                $salt    = substr($string, 0, 3);
+                $hash    = hash('sha256', $salt . $hash);
 
                 // Save hash and salt
                 $this->mysqli->query("UPDATE users SET password = '$hash', salt = '$salt' WHERE id = '$userid'");
@@ -386,32 +386,32 @@ public function apikey_session($apikey_in)
                     $PHPMailer = @include_once ($filepath);
                     if (!$PHPMailer) {
                         $this->log->info("Could not include PHPMailer!");
-                        return array('success'=>false, 'message'=>"Could not find PHPMailer - cannot proceed");
+                        return array('success'=>false, 'message'=>_("Could not find PHPMailer - cannot proceed"));
                         die();
                     }
 
                     $mail = new PHPMailer;
 
-                    $mail->isSMTP();                                      // Set mailer to use SMTP
-                    $mail->Host = $PHPMailer_settings['host'];  // Specify main and backup server
-                    $mail->SMTPAuth = $PHPMailer_settings['auth'];                               // Enable SMTP authentication
-                    $mail->Username = $PHPMailer_settings['username'];                            // SMTP username
-                    $mail->Password = $PHPMailer_settings['password'];                           // SMTP password
-                    $mail->SMTPSecure = $PHPMailer_settings['encryption'];                            // Enable encryption, 'ssl' also accepted
-                    $mail->Port = $PHPMailer_settings['port'];                            // Enable encryption, 'ssl' also accepted
+                    $mail->isSMTP();                                       // Set mailer to use SMTP
+                    $mail->Host       = $PHPMailer_settings['host'];       // Specify main and backup server
+                    $mail->SMTPAuth   = $PHPMailer_settings['auth'];       // Enable SMTP authentication
+                    $mail->Username   = $PHPMailer_settings['username'];   // SMTP username
+                    $mail->Password   = $PHPMailer_settings['password'];   // SMTP password
+                    $mail->SMTPSecure = $PHPMailer_settings['encryption']; // Enable encryption, 'ssl' also accepted
+                    $mail->Port       = $PHPMailer_settings['port'];       // Enable encryption, 'ssl' also accepted
 
-                    $mail->From = $PHPMailer_settings['from'];
-                    $mail->FromName = $PHPMailer_settings['fromname'];
-                    $mail->addAddress($email);  // Add a recipient
-                    $mail->addAddress('benoit.pique@base.be');               // Name is optional
+                    $mail->From       = $PHPMailer_settings['from'];
+                    $mail->FromName   = $PHPMailer_settings['fromname'];
+                    $mail->addAddress($email);                             // Add a recipient
+                    $mail->addAddress('benoit.pique@base.be');             // Name is optional
                     $mail->addReplyTo($PHPMailer_settings['from'], $PHPMailer_settings['fromname']);
                     $mail->addCC('');
                     $mail->addBCC($PHPMailer_settings['tobcc']);
 
-                    $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
-                    $mail->addAttachment('');         // Add attachments
-                    $mail->addAttachment('');    // Optional name
-                    $mail->isHTML(true);                                  // Set email format to HTML
+                    $mail->WordWrap   = 50;                                // Set word wrap to 50 characters
+                    $mail->addAttachment('');                              // Add attachments
+                    $mail->addAttachment('');                              // Optional name
+                    $mail->isHTML(true);                                   // Set email format to HTML
 
                     // select the user language to build message
                     setlocale( LC_MESSAGES, $lang.'.utf8');
@@ -581,15 +581,15 @@ public function apikey_session($apikey_in)
     public function set($userid,$data)
     {
         // Validation
-        $userid = intval($userid);
+        $userid   = intval($userid);
         $gravatar = preg_replace('/[^\w\s-.@]/','',$data->gravatar);
-        $name = preg_replace('/[^\s\p{L}]/u','',$data->name);
+        $name     = preg_replace('/[^\s\p{L}]/u','',$data->name);
         $location = preg_replace('/[^\s\p{L}]/u','',$data->location);
         $timezone = intval($data->timezone);
         $language = preg_replace('/[^\w\s-.]/','',$data->language); $_SESSION['lang'] = $language;
-        $bio = preg_replace('/[^\w\s-.]/','',$data->bio);
+        $bio      = preg_replace('/[^\w\s-.]/','',$data->bio);
 
-        $result = $this->mysqli->query("UPDATE users SET gravatar = '$gravatar', name = '$name', location = '$location', timezone = '$timezone', language = '$language', bio = '$bio' WHERE id='$userid'");
+        $result   = $this->mysqli->query("UPDATE users SET gravatar                   = '$gravatar', name = '$name', location = '$location', timezone = '$timezone', language = '$language', bio = '$bio' WHERE id = '$userid'");
     }
 
     // Generates a new random read apikey
@@ -611,10 +611,3 @@ public function apikey_session($apikey_in)
     }
 }
 
-
-function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
-    fwrite ($handle, $str."\n");
-    fclose ($handle);
-
-}

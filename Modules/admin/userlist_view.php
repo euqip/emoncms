@@ -23,6 +23,19 @@ $usergroupfield="";
     <span class="alert-danger pull-right fade" id ="msgfeeback"></span>
 </h2>
 
+<div class="row">
+    <div class="col-xs-1">
+    </div>
+    <div class="col-md-10">
+        <div class="alert alertmsg fade">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong><span id="feedbacktitle"></span></strong>
+            <span id="feedbackmessage"></span>
+        </div>
+    </div>
+</div>
+
+
 <div id="table"></div>
 
 
@@ -63,29 +76,19 @@ $usergroupfield="";
 </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-<button class="btn btn-primary" data-toggle="modal" data-target="#alertmsg">Feedback message</button>
-
-<div class="modal fade " tabindex="-1" id="alertmsg" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm emoncms-dialog"  id="alertmessage">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id= "feedbacktitle"></h4>
-        </div>
-        <div class="modal-body" id="feedbackmessage"></div>
-    </div>
-</div>
-</div>
-
 <script>
-    var path = "<?php echo $path; ?>";
-    var groupfield= "<?php echo $behavior['usergoup']; ?>";
-    var expanded= "<?php echo $behavior['userlist_expanded']; ?>";
-    var success= "<?php echo _('Success'); ?>";
-    var error= "<?php echo _('Error'); ?>";
+    var path       = "<?php echo $path; ?>";
+    var groupfield = "<?php echo $behavior['usergoup']; ?>";
+    var expanded   = "<?php echo $behavior['userlist_expanded']; ?>";
+    var success    = "<?php echo _('Success'); ?>";
+    var error      = "<?php echo _('Error'); ?>";
 
 
+    $('#startalert').click(function(){
+        $(".alert").fadeIn();
+        $(".alert").delay(200).addClass("in").fadeOut(3500);
+
+    });
 
 
 
@@ -159,22 +162,17 @@ $usergroupfield="";
                         $('#feedbacktitle').html(error);
                         var boxclass="alert-error";
                     }
-                    //$('#feedbacktitle').html("<div class='alert "+boxclass+"'>"+result.message+"</div>");
                     $('#feedbackmessage').html(result.message);
                     $('#alertmessage').addClass(boxclass);
-                    $('#alertmessage .modal-header').addClass(boxclass);
-                    $('#alertmsg').modal('show');
-                    setTimeout(function(){
-                      $('#alertmsg').modal('hide')
-                    }, 1000);
+                    $('.alertmsg').addClass(boxclass);
+                    $(".alertmsg").fadeIn();
+                    $(".alertmsg").delay(200).addClass("in").fadeOut(3500);
                 }
             })
             if (!result.success){
                 $("#error").html(result.message).show();
             }
-
         }
-
     }
 
     $("#createuser").click(admin.register);
@@ -183,6 +181,7 @@ $usergroupfield="";
         table.groupby = '';
         update(true);
     })
+
     $("#collapseall").click(function()
     {
         table.groupby = groupfield;
@@ -192,12 +191,12 @@ $usergroupfield="";
     table.element = "#table";
 
     table.fields = {
-        'id':{'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage user details'); ?>", 'link':"setuser?id=", 'colwidth':" style='width:30px;'"},
-        'pwd':{'title':"<?php echo _('Pwd Reset'); ?>", 'type':"iconbasic", 'icon':'glyphicon glyphicon-send','tooltip':"<?php echo _('Reset password and send new one'); ?>", 'icon_action':"passwordreset", 'colwidth':" style='width:30px;'"},
-        'username':{'title':"<?php echo _('Name'); ?>", 'type':"fixed"},
-        'email':{'title':"<?php echo _('Email address'); ?>", 'type':"fixed"},
-        'language':{'title':"<?php echo _('Langage'); ?>", 'type':"fixed"},
-        'lastlogin':{'title':"<?php echo _('Last login'); ?>", 'type':"fixed"},
+        'id'        :{ 'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage user details'); ?>", 'link':"setuser?id=", 'colwidth':" style='width:30px;'"},
+        'pwd'       :{ 'title':"<?php echo _('Pwd Reset'); ?>", 'type':"iconbasic", 'icon':'glyphicon glyphicon-send','tooltip':"<?php echo _('Reset password and send new one'); ?>", 'icon_action':"passwordreset", 'colwidth':" style='width:30px;'"},
+        'username'  :{ 'title':"<?php echo _('Name'); ?>", 'type':"fixed"},
+        'email'     :{ 'title':"<?php echo _('Email address'); ?>", 'type':"fixed"},
+        'language'  :{ 'title':"<?php echo _('Langage'); ?>", 'type':"fixed"},
+        'lastlogin' :{ 'title':"<?php echo _('Last login'); ?>", 'type':"fixed"},
     }
 
     table.groupby = groupfield;
@@ -219,7 +218,7 @@ $usergroupfield="";
     }
 
     function module_event(evt, elt, row, uid, action){
-        console.log('Userlist module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
+        //console.log('Userlist module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
         switch(action)
         {
             case "passwordreset":
@@ -233,5 +232,4 @@ $usergroupfield="";
             //module_event(e,$(this),row,uid,action);
         }
     }
-
 </script>

@@ -84,17 +84,17 @@
   </div>
 
 <div id="footer">
-    <span class="text-left">
-        <?php echo _('Powered by '); ?>
-        <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a>
-        <span class="emon-version"> | v<?php echo $emoncms_version; ?></span>
-    </span>
-    <span>
-       ---
-    </span>
-    <span class="text-right">
-        <a href="http://glyphicons.com/" target = "_blank"><?php echo _('With Glyphicons support');?></a>
-    </span>
+        <span class="text-left">
+            <?php echo _('Powered by '); ?>
+            <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a>
+            <span class="emon-version"> | v<?php echo $emoncms_version; ?></span>
+        </span>
+        <span>
+           ---
+        </span>
+        <span class="text-right">
+            <a href="http://glyphicons.com/" target = "_blank"><?php echo _('With Glyphicons support');?></a>
+        </span>
 </div>
 <!-- end of footer -->
 

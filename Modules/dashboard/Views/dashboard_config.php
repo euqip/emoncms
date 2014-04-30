@@ -89,7 +89,7 @@
     {
         e.preventDefault();
         var fields = {};
-        console.log ("dash id = "+ dashid);
+        //console.log ("dash id = "+ dashid);
 
 
         fields['name'] = $("#dash_name").val();
@@ -103,7 +103,7 @@
         if ($("#chk_published").is(":checked")) fields['published'] = true; else fields['published'] = false;
             if ($("#chk_showdescription").is(":checked")) fields['showdescription'] = true; else fields['showdescription'] = false;
 
-        console.log ("dash id = "+ dashid+ " alias="+fields['alias']+ " main="+fields['main']+ " public="+fields['public']);
+        //console.log ("dash id = "+ dashid+ " alias="+fields['alias']+ " main="+fields['main']+ " public="+fields['public']);
 
         $.ajax({
             url :  path+"dashboard/set.json",

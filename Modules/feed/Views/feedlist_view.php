@@ -312,7 +312,7 @@
     });
 
     function module_event(evt, elt, row, uid, action){
-        console.log('feed module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
+        //console.log('feed module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
         switch(action)
         {
             case "export-action":
@@ -384,7 +384,7 @@
             return false;
             }
         var cmd=path+"feed/csvexport.json?id="+feedid+"&start="+(export_start+(export_timezone*3600))+"&end="+(export_end+(export_timezone*3600))+"&interval="+export_interval;
-        console.log(cmd);
+        //console.log(cmd);
         window.open (cmd);
         //window.open(path+"feed/csvexport.json?id="+feedid+"&start="+(export_start+(export_timezone*3600))+"&end="+(export_end+(export_timezone*3600))+"&interval="+export_interval);
         $('#ExportModal').modal('hide');

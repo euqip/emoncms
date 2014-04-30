@@ -80,7 +80,7 @@
   });
 
       function module_event(evt, elt, row, uid, action){
-        console.log('inpur module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);                   
+        console.log('input module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);                   
       }
 
 

@@ -185,6 +185,13 @@ login block flags size style
     font-size:12px
 }
 
+.alertmsg {
+    position:absolute;
+    margin-top:50px;
+    z-index:1;
+}
+
+
 .readapikey .writeapikey  {
 
 }

@@ -51,7 +51,7 @@ Ask for user (session) Language when loading dashboard_langjs.php
     setInterval(function() { fast_update(); }, 30);
 
       $('.iconbutton').click(function (e){
-    console.log("iconbutton click");
+    //console.log("iconbutton click");
     var myhref = ''; if ($(this).attr("href")!=undefined) {myhref=$(this).attr("href");}
     // check if Myhref = '#'
     if (myhref=='#'){myhref='';}

@@ -115,7 +115,7 @@
         'createorg':function(fields)
         {
             var result = {};
-            console.log(fields);
+            //console.log(fields);
             $.ajax({
                 url: path+"admin/org/create.json",
                 type : 'POST',

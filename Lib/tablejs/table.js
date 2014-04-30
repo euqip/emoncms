@@ -136,7 +136,7 @@ var table = {
         $(table.element).on('click', 'a[type=sort]', function() {
             var field = $(this).attr('field');
             table.sort(field,1);
-            console.log(field);
+            //console.log(field);
         });
 
         // Event: delete row
@@ -316,7 +316,7 @@ var table = {
                         window.location.assign (myhref);
                         return false;
                     }
-                    console.log('row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action+' - href= '+myhref);
+                    //console.log('row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action+' - href= '+myhref);
                     //each standard icon action like view, delete, edit is dne here
                     if (field!=''){
                         //toggle icon field

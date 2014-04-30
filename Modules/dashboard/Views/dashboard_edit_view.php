@@ -142,7 +142,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   })
 
   $('.iconbutton').click(function (e){
-    console.log("iconbutton click");
+    //console.log("iconbutton click");
     var myhref = ''; if ($(this).attr("href")!=undefined) {myhref=$(this).attr("href");}
     // check if Myhref = '#'
     if (myhref=='#'){myhref='';}
