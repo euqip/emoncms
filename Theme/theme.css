@@ -186,7 +186,7 @@ login block flags size style
 }
 
 .alertmsg {
-    position:absolute;
+    position:fixed;
     margin-top:50px;
     z-index:1;
 }

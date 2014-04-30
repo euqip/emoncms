@@ -163,7 +163,6 @@ $usergroupfield="";
                         var boxclass="alert-error";
                     }
                     $('#feedbackmessage').html(result.message);
-                    $('#alertmessage').addClass(boxclass);
                     $('.alertmsg').addClass(boxclass);
                     $(".alertmsg").fadeIn();
                     $(".alertmsg").delay(200).addClass("in").fadeOut(3500);
