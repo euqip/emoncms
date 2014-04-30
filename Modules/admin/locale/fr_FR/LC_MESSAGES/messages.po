@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-26 10:59+0100\n"
-"PO-Revision-Date: 2014-04-26 11:00+0100\n"
+"POT-Creation-Date: 2014-04-30 18:49+0100\n"
+"PO-Revision-Date: 2014-04-30 18:58+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -34,7 +34,8 @@ msgstr "Ces changements doivent être appliqués"
 msgid "Apply changes"
 msgstr "Appliquer les modifications"
 
-#: ../../../update_view.php:42
+#: ../../../update_view.php:42 ../../../userlist_view (copie).php:85
+#: ../../../userlist_view.php:83
 msgid "Success"
 msgstr "Ok"
 
@@ -83,7 +84,8 @@ msgstr ""
 msgid "Schema item"
 msgstr "Schéma bdd"
 
-#: ../../../admin_db_view.php:7 ../../../userlist_view.php:161
+#: ../../../admin_db_view.php:7 ../../../userlist_view (copie).php:196
+#: ../../../userlist_view.php:195
 msgid "Name"
 msgstr "Nom"
 
@@ -93,11 +95,11 @@ msgstr "Satus"
 
 #: ../../../admin_controller.php:25
 msgid "not authoraized"
-msgstr ""
+msgstr "Accès non autorisé"
 
 #: ../../../admin_controller.php:47
 msgid "Database schema"
-msgstr ""
+msgstr "Schéma de base de données"
 
 #: ../../../admin_controller.php:102
 msgid "No orgfields provided"
@@ -108,13 +110,111 @@ msgid "No id provided"
 msgstr "Pas de clé d'enregistrement unique fournie"
 
 #: ../../../admin_controller.php:128
-#, fuzzy
 msgid "Update no done"
-msgstr "Mise à jour & Analyse"
+msgstr "Mise à jour non réalisée"
 
 #: ../../../admin_controller.php:133
 msgid "Unknown command!"
 msgstr "Commande inconnue!"
+
+#: ../../../userlist_view (copie).php:7 ../../../admin_main_view.php:22
+#: ../../../admin_main_view.php:25 ../../../admin_main_view (copie).php:20
+#: (copie).php:25 ../../../userlist_view.php:7
+msgid "Users"
+msgstr "Utilisateurs"
+
+#: ../../../userlist_view (copie).php:10 ../../../userlist_view.php:10
+msgid "Add new user"
+msgstr "Ajouter un utilisateur"
+
+#: ../../../userlist_view (copie).php:15 ../../../orglist_view.php:21
+#: ../../../userlist_view.php:15
+msgid "Expand all"
+msgstr "Déployer tout"
+
+#: ../../../userlist_view (copie).php:20 ../../../orglist_view.php:26
+#: ../../../userlist_view.php:20
+msgid "Collapse all"
+msgstr "Tasser tout"
+
+#: ../../../userlist_view (copie).php:34 ../../../userlist_view.php:47
+msgid "New user creation"
+msgstr "Création d'un nouvel utilisateur"
+
+#: ../../../userlist_view (copie).php:39 ../../../userlist_view.php:52
+msgid "User name"
+msgstr "nom d'utilisateur"
+
+#: ../../../userlist_view (copie).php:41 ../../../userlist_view.php:54
+msgid "The user name must be unique"
+msgstr "Le nom d'utilisateur doit être unique"
+
+#: ../../../userlist_view (copie).php:44 ../../../userlist_view.php:57
+msgid "User Email"
+msgstr "Adresse Email de l'utilisateur"
+
+#: ../../../userlist_view (copie).php:46 ../../../userlist_view.php:59
+msgid "User Email, should be unique!"
+msgstr "l'adresse mail doit être unique"
+
+#: ../../../userlist_view (copie).php:49 ../../../userlist_view.php:62
+msgid "Password"
+msgstr "Mot de Passe"
+
+#: ../../../userlist_view (copie).php:51 ../../../userlist_view.php:64
+msgid "The password should be changed at first next login"
+msgstr "Le mot de passe devra être modifié au prochain login"
+
+#: ../../../userlist_view (copie).php:54 ../../../userlist_view.php:67
+msgid ""
+"These are the main user data, all the remaininng user parameters are "
+"updatable later"
+msgstr ""
+"Ceci représente les données minimales de création d'un utilisateur.  Les "
+"autre données pourront être mises à jour plus tard."
+
+#: ../../../userlist_view (copie).php:59 ../../../orglist_view.php:75
+#: ../../../userlist_view.php:72
+msgid "Create"
+msgstr "Création"
+
+#: ../../../userlist_view (copie).php:60 ../../../orglist_view.php:76
+#: ../../../orglist_view.php:95 ../../../userlist_view.php:73
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../../../userlist_view (copie).php:86 ../../../userlist_view.php:84
+msgid "Error"
+msgstr "Error"
+
+#: ../../../userlist_view (copie).php:194 ../../../orglist_view.php:166
+#: ../../../userlist_view.php:193
+msgid "Id"
+msgstr "Clé"
+
+#: ../../../userlist_view (copie).php:194 ../../../userlist_view.php:193
+msgid "Manage user details"
+msgstr "Administrer les détails de l'utilisateur"
+
+#: ../../../userlist_view (copie).php:195 ../../../userlist_view.php:194
+msgid "Pwd Reset"
+msgstr "Reset du mot de passe"
+
+#: ../../../userlist_view (copie).php:195 ../../../userlist_view.php:194
+msgid "Reset password and send new one"
+msgstr "Reset du mot de passe et envoi du nouveau mot de passe à l'utilisateur"
+
+#: ../../../userlist_view (copie).php:197 ../../../userlist_view.php:196
+msgid "Email address"
+msgstr "Adresse courriel"
+
+#: ../../../userlist_view (copie).php:198 ../../../userlist_view.php:197
+msgid "Langage"
+msgstr "Langue"
+
+#: ../../../userlist_view (copie).php:199 ../../../userlist_view.php:198
+msgid "Last login"
+msgstr "Dernière utilisation"
 
 #: ../../../orglist_view.php:13 ../../../admin_main_view.php:12
 #: ../../../admin_main_view.php:15 ../../../admin_main_view (copie).php:10
@@ -125,14 +225,6 @@ msgstr "Organisations"
 #: ../../../orglist_view.php:16 ../../../orglist_view.php:42
 msgid "Add new organisation"
 msgstr "Ajouter une organisation"
-
-#: ../../../orglist_view.php:21 ../../../userlist_view.php:15
-msgid "Expand all"
-msgstr ""
-
-#: ../../../orglist_view.php:26 ../../../userlist_view.php:20
-msgid "Collapse all"
-msgstr ""
 
 #: ../../../orglist_view.php:38
 msgid ""
@@ -183,15 +275,6 @@ msgstr ""
 "Ceci représente les données minimales de création d'une organisation.  Les "
 "autre données pourront être mises à jour plus tard."
 
-#: ../../../orglist_view.php:75 ../../../userlist_view.php:59
-msgid "Create"
-msgstr "Création"
-
-#: ../../../orglist_view.php:76 ../../../orglist_view.php:95
-#: ../../../userlist_view.php:60
-msgid "Cancel"
-msgstr "Annuler"
-
 #: ../../../orglist_view.php:86
 msgid "Confirm organisation deletion"
 msgstr "Confirmation de supression d'une organisation"
@@ -219,10 +302,6 @@ msgstr "Modifier les détail de l'organisation"
 #: ../../../orglist_view.php:164
 msgid "Save"
 msgstr "Sauvegarder"
-
-#: ../../../orglist_view.php:166 ../../../userlist_view.php:159
-msgid "Id"
-msgstr "Clé"
 
 #: ../../../orglist_view.php:166
 msgid "Manage organisation details"
@@ -276,12 +355,6 @@ msgstr "Vue d'administration de l'application"
 msgid "Administer organisations"
 msgstr "Administrer les organisations"
 
-#: ../../../admin_main_view.php:22 ../../../admin_main_view.php:25
-#: ../../../admin_main_view (copie).php:20 (copie).php:25
-#: ../../../userlist_view.php:7
-msgid "Users"
-msgstr "Utilisateurs"
-
 #: ../../../admin_main_view.php:26 ../../../admin_main_view (copie).php:21
 msgid "Administer user accounts"
 msgstr "Administrer les comptes d'utilisateurs"
@@ -297,77 +370,6 @@ msgid ""
 msgstr ""
 "Lancez cette commande après une mise à jour de Emoncms, après l'installation "
 "d'un nouveau module ou pour tester l'intégrité de la base de données"
-
-#: ../../../userlist_view.php:10
-msgid "Add new user"
-msgstr ""
-
-#: ../../../userlist_view.php:34
-#, fuzzy
-msgid "New user creation"
-msgstr "Ajouter une organisation."
-
-#: ../../../userlist_view.php:39
-#, fuzzy
-msgid "User name"
-msgstr "Nom court"
-
-#: ../../../userlist_view.php:41
-#, fuzzy
-msgid "The user name must be unique"
-msgstr "Le nom court doit être unique"
-
-#: ../../../userlist_view.php:44
-msgid "User Email"
-msgstr ""
-
-#: ../../../userlist_view.php:46
-#, fuzzy
-msgid "User Email, should be unique!"
-msgstr "Doit être unique"
-
-#: ../../../userlist_view.php:49
-msgid "Password"
-msgstr ""
-
-#: ../../../userlist_view.php:51
-msgid "The password should be changed at first next login"
-msgstr ""
-
-#: ../../../userlist_view.php:54
-#, fuzzy
-msgid ""
-"These are the main user data, all the remaininng user parameters are "
-"updatable later"
-msgstr ""
-"Ceci représente les données minimales de création d'une organisation.  Les "
-"autre données pourront être mises à jour plus tard."
-
-#: ../../../userlist_view.php:159
-#, fuzzy
-msgid "Manage user details"
-msgstr "Administrer les détails"
-
-#: ../../../userlist_view.php:160
-msgid "Pwd Reset"
-msgstr ""
-
-#: ../../../userlist_view.php:160
-msgid "Reset password and send new one"
-msgstr ""
-
-#: ../../../userlist_view.php:162
-msgid "Email address"
-msgstr ""
-
-#: ../../../userlist_view.php:163
-#, fuzzy
-msgid "Langage"
-msgstr "Langue"
-
-#: ../../../userlist_view.php:164
-msgid "Last login"
-msgstr "Dernière utilisation"
 
 #~ msgid "Tag"
 #~ msgstr "Étiquette"

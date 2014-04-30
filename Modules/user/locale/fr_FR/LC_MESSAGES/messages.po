@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-26 11:06+0100\n"
-"PO-Revision-Date: 2014-04-26 11:15+0100\n"
+"POT-Creation-Date: 2014-04-30 19:14+0100\n"
+"PO-Revision-Date: 2014-04-30 19:15+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -21,22 +21,22 @@ msgstr ""
 msgid "Missing username, password or email parameter"
 msgstr "Il manque le nom d'utilisateur, le mot de passe ou l'adresse courriel"
 
-#: ../../../user_model.php:171 ../../../user_model.php:448
+#: ../../../user_model.php:171 ../../../user_model.php:447
 msgid "Username must only contain a-z and 0-9 characters"
 msgstr ""
 "Le nom d'utilisateur doit contenir uniquement des chiffres [0-9] et des "
 "lettres [a-z]"
 
-#: ../../../user_model.php:175 ../../../user_model.php:459
+#: ../../../user_model.php:175 ../../../user_model.php:458
 msgid "Username already exists"
 msgstr "Désolé, cet identifiant existe déjà"
 
 #: ../../../user_model.php:177 ../../../user_model.php:349
-#: ../../../user_model.php:468
+#: ../../../user_model.php:467
 msgid "Email address format error"
 msgstr "Aucune adresse mail n'est renseignée"
 
-#: ../../../user_model.php:179 ../../../user_model.php:446
+#: ../../../user_model.php:179 ../../../user_model.php:445
 msgid "Username length error"
 msgstr "La longueur du nom d'utilisateur est incorrect"
 
@@ -96,32 +96,36 @@ msgstr "Erreur d'authentification"
 msgid "Old password incorect"
 msgstr "Mot de passe actuel : "
 
-#: ../../../user_model.php:421
+#: ../../../user_model.php:389
+msgid "Could not find PHPMailer - cannot proceed"
+msgstr "PHPMaile non trouvé - impossible d'envoyer le mail"
+
+#: ../../../user_model.php:419
 msgid "Emoncms password reset"
 msgstr "Réinitialisation du mot de passe"
 
-#: ../../../user_model.php:422
+#: ../../../user_model.php:421
 msgid "Hi, Your new password to acceed EMONCMS is now set to"
 msgstr ""
 "Salut, votre nouveau mot de passe pour accéder à EMONCMS est maintenant"
 
-#: ../../../user_model.php:423
+#: ../../../user_model.php:422
 msgid "Your personnal password is changed to"
 msgstr "Votre mot de passe a été changé en"
 
-#: ../../../user_model.php:427
+#: ../../../user_model.php:426
 msgid "Password recovery email not sent!"
 msgstr "Email de ecouvrement de mot de passe non transmis!"
 
-#: ../../../user_model.php:430
+#: ../../../user_model.php:429
 msgid "Password recovery email sent!"
 msgstr "Le mail de changement de mot de passe a été transmis!"
 
-#: ../../../user_model.php:437
+#: ../../../user_model.php:436
 msgid "An error occured"
 msgstr "Il y a eu une erreur"
 
-#: ../../../user_model.php:443
+#: ../../../user_model.php:442
 msgid ""
 "As your using a cookie based remember me login, please logout and log back "
 "in to change username"
@@ -130,11 +134,11 @@ msgstr ""
 "le changement de nom d'utilisateur il suffit de se déconnecter et "
 "reconnecter."
 
-#: ../../../user_model.php:455
+#: ../../../user_model.php:454
 msgid "Username updated"
 msgstr "Nom d'utilisateur mis à jour"
 
-#: ../../../user_model.php:465
+#: ../../../user_model.php:464
 msgid ""
 "As your using a cookie based remember me login, please logout and log back "
 "in to change email"
@@ -142,7 +146,7 @@ msgstr ""
 "La connexion automatique est basée sur des cookies. Pour prendre en compte "
 "le changement d'adresse email il suffit de se déconnecter et reconnecter."
 
-#: ../../../user_model.php:471
+#: ../../../user_model.php:470
 msgid "Email updated"
 msgstr "Email mis à jour"
 
