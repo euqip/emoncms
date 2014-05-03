@@ -36,10 +36,23 @@ Emoncms version: <?php echo $emoncms_version; ?>
             <p><?php echo _('Run this after updating emoncms, after installing a new module or to check emoncms database status.'); ?></p>
         </td>
     </tr>
+    <tr>
+        <td>
+            <br>
+            <a href="#" class="btn btn-info"><?php echo _('Log4php installed?'); ?></a>
+        </td>
+        <td>
+            <h3><?php if(LOG4PHP_INSTALLED) echo _("yes"); else echo _("NO Log4php is not installed on this system"); ?></h3>
+            <p><?php echo _('To install Log4PHP'); ?></p>
+            <code>
+                sudo pear channel-discover pear.apache.org/log4php <br />
+                sudo pear install log4php/Apache_log4php <br />
+            </code>
+            ensure that log file has write permissions for www-data, pi and root.<br />
+            <code>
+                sudo chmod 660 emoncms.log<br /> 
+            </code>
+        </td>
+    </tr>
   </table>
 </div>
-
-
-<table class="table table-striped ">
-</table>
-

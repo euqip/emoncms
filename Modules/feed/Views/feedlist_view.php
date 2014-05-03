@@ -175,7 +175,6 @@
 
 <script>
 
-
     var path = "<?php echo $path; ?>";
     table.element = "#table";
 
@@ -275,12 +274,25 @@
 
 
     // Feed Export feature
-
-
-
     $('#export-timezone-list').on('change',function(e){
         $("#export-timezone").val($("#export-timezone-list").val());
         calcdownloadsize();
+/*
+=======
+    
+    $("#table").on("click",".icon-circle-arrow-down", function(){
+        var row = $(this).attr('row');
+        $("#SelectedExportFeed").html(table.data[row].tag+": "+table.data[row].name);
+        $("#export").attr('feedid',table.data[row].id);
+        
+        if ($("#export-timezone").val()=="") {
+            var u = user.get();
+            $("#export-timezone").val(parseInt(u.timezone));
+        }
+        
+        $('#ExportModal').modal('show');
+>>>>>>> 85f4e7d87c11406d72ea57fb13cfe83068389d82
+*/
     });
 
     $('#export-interval-list').on('change',function(e){

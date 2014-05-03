@@ -17,7 +17,7 @@
 
   define('EMONCMS_EXEC', 1);
 
-    $emoncms_version = "8.0.9";
+    $emoncms_version = "8.1.2";
 
   // 1) Load settings and core scripts
   require "process_settings.php";
@@ -68,9 +68,17 @@
     require("Modules/org/org_model.php");
     $org = new Org($mysqli,$redis,$rememberme);
 
-    if (get('apikey')){
+    if (isset($_GET['apikey']))
+    {
         $session = $user->apikey_session($_GET['apikey']);
-    } else {
+    } 
+    elseif (isset($_POST['apikey']))
+    {
+        $session = $user->apikey_session($_POST['apikey']);
+
+    }
+    else
+    {
         $session = $user->emon_session_start();
     }
 

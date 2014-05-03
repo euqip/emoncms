@@ -33,73 +33,73 @@
         <title>Emoncms</title>
     </head>
 
-<body>
-    <div id="wrap">
-        <!-- navbar -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="http://emoncms.org/">
-                    <img src="<?php echo $path; ?>Theme/favicon.png" style="width:28px;"/>
-                </a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <!-- menu left -->
-                <?php if (!isset($runmenu)) $runmenu = '';
-                echo $mainmenu.$runmenu;
-                ?>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-        <!-- end of navbar -->
-
-        <div id="topspacer"></div>
-        <!-- test text -->
-
-        <div class="content-block">
-
-            <?php if (isset($submenu) && ($submenu)) { ?>
-                <div id="submenu">
-                <div class="container">
-                    <?php echo $submenu; ?>
+    <body>
+        <div id="wrap">
+            <!-- navbar -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="http://emoncms.org/">
+                        <img src="<?php echo $path; ?>Theme/favicon.png" style="width:28px;"/>
+                    </a>
                 </div>
-        </div><br>
-        <?php } ?>
 
-        <?php
-        if (!isset($content)) $content = '';
-        if (!isset($fullwidth)) {
-          $fullwidth = false;
-          $content= '<div class="container">'.$content.'</div></div>';
-      };
-      echo $content;
-      ?>
-  </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <!-- menu left -->
+                    <?php if (!isset($runmenu)) $runmenu = '';
+                    echo $mainmenu.$runmenu;
+                    ?>
+                </div><!-- /.navbar-collapse -->
+            </nav>
+            <!-- end of navbar -->
 
-<div id="footer">
-        <span class="text-left">
-            <?php echo _('Powered by '); ?>
-            <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a>
-            <span class="emon-version"> | v<?php echo $emoncms_version; ?></span>
-        </span>
-        <span>
-           ---
-        </span>
-        <span class="text-right">
-            <a href="http://glyphicons.com/" target = "_blank"><?php echo _('With Glyphicons support');?></a>
-        </span>
-</div>
-<!-- end of footer -->
+            <div id="topspacer"></div>
+            <!-- test text -->
+
+            <div class="content-block">
+
+                <?php if (isset($submenu) && ($submenu)) { ?>
+                    <div id="submenu">
+                    <div class="container">
+                        <?php echo $submenu; ?>
+                    </div>
+            </div><br>
+            <?php } ?>
+
+            <?php
+            if (!isset($content)) $content = '';
+            if (!isset($fullwidth)) {
+              $fullwidth = false;
+              $content= '<div class="container">'.$content.'</div></div>';
+          };
+          echo $content;
+          ?>
+        </div>
+
+        <div id="footer">
+                <span class="text-left">
+                    <?php echo _('Powered by '); ?>
+                    <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a>
+                    <span class="emon-version"> | v<?php echo $emoncms_version; ?></span>
+                </span>
+                <span>
+                   ---
+                </span>
+                <span class="text-right">
+                    <a href="http://glyphicons.com/" target = "_blank"><?php echo _('With Glyphicons support');?></a>
+                </span>
+        </div>
+        <!-- end of footer -->
 
 <script src="<?php echo $path; ?>Lib/bootstrap/js/bootstrap.js"></script>
 
-</body>
+    </body>
 
 </html>

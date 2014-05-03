@@ -9,9 +9,11 @@
     http://openenergymonitor.org
 */
 
-global $path, $session, $module;
-if (!$module){$module = "input";}
-$itemname=_('Node'); 
+global $path, $session, $feed_settings;
+
+$enable_mysql_all = 0;
+if (isset($feed_settings['enable_mysql_all']) && $feed_settings['enable_mysql_all']==true) $enable_mysql_all = 1;
+
 ?>
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/processlist.js"></script>
@@ -37,7 +39,7 @@ $itemname=_('Node');
 
     </table>
 <div id = "alertmsg" class="container alert alert-warning" style="display:none;">
-    <div id = "no-process" style="display:none;"><?php echo _('You have no processes defined'); ?></div>    
+    <div id = "no-process" style="display:none;"><?php echo _('You have no processes defined'); ?></div>
 
 
 </div>
@@ -63,7 +65,7 @@ $itemname=_('Node');
             </div>
             <div class="form-group" id="type-input">
                 <select id="input-select"  class="form-control"></select>
-            </div>            
+            </div>
         </div>
            <!-- second block -->
         <div class="form-group" id="type-feed">
@@ -107,7 +109,7 @@ $itemname=_('Node');
                     <option value=2678400><?php echo _('Monthly'); ?></option>
                     <option value=31536000><?php echo _('Annual'); ?></option>
                 </select>
-            </div>            
+            </div>
         </div>
 
 
@@ -146,7 +148,7 @@ $itemname=_('Node');
                         <span id="resultmsg"></span>
                     </div>
                </div>
-            </div>           
+            </div>
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('ok'); ?></button>
               </div>
@@ -170,6 +172,8 @@ var inputvalue= "<?php echo _("Input value"); ?>";
 var feedvalue= "<?php echo _("Feed Value"); ?>";
 
 feedvalue
+
+processlist_ui.enable_mysql_all = <?php echo $enable_mysql_all; ?>;
 
 processlist_ui.inputid = <?php echo $inputid; ?>;
 

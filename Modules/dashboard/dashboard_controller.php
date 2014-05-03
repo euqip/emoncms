@@ -102,5 +102,3 @@ function dashboard_controller()
 
     return array('content'=>$result, 'submenu'=>$submenu);
 }
-
-?>

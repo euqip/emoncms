@@ -62,7 +62,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
             </p>
 
             <p class="register-item" style="display:none">
-                <button id="register" class="btn btn-primary" type="button"><?php echo _('Register'); ?></button> <?php echo '&nbsp;'._('or').'&nbsp' ?>
+                <button id="register" class="btn btn-primary" type="button"><?php echo _('Register'); ?></button> <?php echo '&nbsp;'._('or').'&nbsp;' ?>
                 <a id="cancel-link" href="#"><?php echo _('cancel'); ?></a>
             </p>
 

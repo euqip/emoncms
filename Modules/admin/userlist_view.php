@@ -191,7 +191,7 @@ $usergroupfield="";
 
     table.fields = {
         'id'        :{ 'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage user details'); ?>", 'link':"setuser?id=", 'colwidth':" style='width:30px;'"},
-        'pwd'       :{ 'title':"<?php echo _('Pwd Reset'); ?>", 'type':"iconbasic", 'icon':'glyphicon glyphicon-send','tooltip':"<?php echo _('Reset password and send new one'); ?>", 'icon_action':"passwordreset", 'colwidth':" style='width:30px;'"},
+        'pwd'       :{ 'title':"<?php echo _('Pwd'); ?>", 'type':"iconbasic", 'icon':'glyphicon glyphicon-send','tooltip':"<?php echo _('Reset password and send new one'); ?>", 'icon_action':"passwordreset", 'colwidth':" style='width:30px;'"},
         'username'  :{ 'title':"<?php echo _('Name'); ?>", 'type':"fixed"},
         'email'     :{ 'title':"<?php echo _('Email address'); ?>", 'type':"fixed"},
         'language'  :{ 'title':"<?php echo _('Langage'); ?>", 'type':"fixed"},

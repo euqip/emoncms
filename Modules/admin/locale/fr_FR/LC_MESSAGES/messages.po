@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-30 18:49+0100\n"
-"PO-Revision-Date: 2014-04-30 18:58+0100\n"
+"POT-Creation-Date: 2014-05-03 09:46+0100\n"
+"PO-Revision-Date: 2014-05-03 09:49+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -196,9 +196,9 @@ msgstr "Clé"
 msgid "Manage user details"
 msgstr "Administrer les détails de l'utilisateur"
 
-#: ../../../userlist_view (copie).php:195 ../../../userlist_view.php:194
+#: ../../../userlist_view (copie).php:195
 msgid "Pwd Reset"
-msgstr "Reset du mot de passe"
+msgstr "Reset MdP"
 
 #: ../../../userlist_view (copie).php:195 ../../../userlist_view.php:194
 msgid "Reset password and send new one"
@@ -370,6 +370,22 @@ msgid ""
 msgstr ""
 "Lancez cette commande après une mise à jour de Emoncms, après l'installation "
 "d'un nouveau module ou pour tester l'intégrité de la base de données"
+
+#: ../../../admin_main_view.php:42
+msgid "Log4php installed?"
+msgstr "Log4PHP installé?"
+
+#: ../../../admin_main_view.php:45
+msgid "yes"
+msgstr "Oui"
+
+#: ../../../admin_main_view.php:45
+msgid "NO Log4php is not installed on this system"
+msgstr "NON Log4PHP n'est pas installé"
+
+#: ../../../userlist_view.php:194
+msgid "Pwd"
+msgstr "Pass"
 
 #~ msgid "Tag"
 #~ msgstr "Étiquette"

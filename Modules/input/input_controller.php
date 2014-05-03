@@ -32,8 +32,8 @@ function input_controller()
 
     require "Modules/input/process_model.php"; // 886
     $process = new Process($mysqli,$input,$feed);
-
-
+    
+    $process->set_timezone_offset($user->get_timezone($session['userid']));
 
     if ($route->format == 'html')
     {
@@ -318,5 +318,3 @@ function input_controller()
 
     return array('content'=>$result);
 }
-
-?>

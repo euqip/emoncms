@@ -19,6 +19,8 @@ class Process
     private $feed;
     private $log;
 
+    private $timezoneoffset = 0;
+
     public function __construct($mysqli,$input,$feed)
     {
             $this->mysqli = $mysqli;
@@ -27,9 +29,21 @@ class Process
             $this->log = new EmonLogger(__FILE__);
     }
 
+    public function set_timezone_offset($timezoneoffset)
+    {
+        $this->timezoneoffset = $timezoneoffset;
+    }
+
     public function get_process_list()
     {
+
         $list = array();
+
+        // Note on engine selection
+
+        // The engines listed against each process are the recommended engines for each process - and is only used in the input and node config GUI dropdown selectors
+        // By using the create feed api and add input process its possible to create any feed type and add any process to it - this needs to be improved so that only
+        // feeds capable of using a particular processor can be used.
 
         // description | Arg type | function | No. of datafields if creating feed | Datatype | Engine
 
@@ -50,32 +64,33 @@ class Process
         $list[15]    = array(_("Rate of change"),ProcessArg::FEEDID,"ratechange",1,DataType::REALTIME,"Misc",array(Engine::PHPFIWA,Engine::PHPFINA,Engine::PHPTIMESERIES));
         $list[16]    = array(_("Histogram"),ProcessArg::FEEDID,"histogram",2,DataType::HISTOGRAM,"Power",array(Engine::MYSQL));
         $list[17]    = array(_("Daily Average"),ProcessArg::FEEDID,"average",2,DataType::HISTOGRAM,"Deleted",array(Engine::PHPFINA));               // need to remove
-        
+
         // to be reintroduced in post-processing
         $list[18]    = array(_("Heat flux"),ProcessArg::FEEDID,"heat_flux",1,DataType::REALTIME,"Deleted",array(Engine::PHPFIWA,Engine::PHPFINA,Engine::PHPTIMESERIES));
-        
+
         // need to remove - result can be achieved with allow_positive & power_to_kwhd
-        $list[19]    = array(_("Power gained to kWh/d"),ProcessArg::FEEDID,"power_acc_to_kwhd",1,DataType::DAILY,"Deleted",array(Engine::PHPFINA));
-        
+        $list[19] = array(_("Power gained to kWh/d"),ProcessArg::FEEDID,"power_acc_to_kwhd",1,DataType::DAILY,"Deleted",array(Engine::PHPTIMESERIES));
+
         // - look into implementation that doesnt need to store the ref feed
         $list[20]    = array(_("Total pulse count to pulse increment"),ProcessArg::FEEDID,"pulse_diff",1,DataType::REALTIME,"Pulse",array(Engine::PHPFINA,Engine::PHPTIMESERIES));
-        
+
         // fixed works now with redis - look into state implementation without feed
         $list[21]    = array(_("kWh to Power"),ProcessArg::FEEDID,"kwh_to_power",1,DataType::REALTIME,"Power",array(Engine::PHPFIWA,Engine::PHPFINA,Engine::PHPTIMESERIES));
-        
-        $list[22]    = array(_("- input"),ProcessArg::INPUTID,"subtract_input",0,DataType::UNDEFINED,"Input");
-        $list[23]    = array(_("kWh to kWh/d"),ProcessArg::FEEDID,"kwh_to_kwhd",2,DataType::DAILY,"Power",array(Engine::PHPFINA));                  // fixed works now with redis
-        $list[24]    = array(_("Allow positive"),ProcessArg::NONE,"allowpositive",0,DataType::UNDEFINED,"Limits");
-        $list[25]    = array(_("Allow negative"),ProcessArg::NONE,"allownegative",0,DataType::UNDEFINED,"Limits");
-        $list[26]    = array(_("Signed to unsigned"),ProcessArg::NONE,"signed2unsigned",0,DataType::UNDEFINED,"Misc");
-        $list[27]    = array(_("Max value"),ProcessArg::FEEDID,"max_value",1,DataType::DAILY,"Misc",array(Engine::PHPFINA));
-        $list[28]    = array(_("Min value"),ProcessArg::FEEDID,"min_value",1,DataType::DAILY,"Misc",array(Engine::PHPFINA));
-                              
-        $list[29]    = array(_(" + feed"),ProcessArg::FEEDID,"add_feed",0,DataType::UNDEFINED,"Feed");        // Klaus 24.2.2014
-        $list[30]    = array(_(" - feed"),ProcessArg::FEEDID,"sub_feed",0,DataType::UNDEFINED,"Feed");        // Klaus 24.2.
-        $list[31]    = array(_(" * feed"),ProcessArg::FEEDID,"multiply_by_feed",0,DataType::UNDEFINED,"Feed");
-        $list[32]    = array(_(" / feed"),ProcessArg::FEEDID,"divide_by_feed",0,DataType::UNDEFINED,"Feed");
-        
+
+        $list[22] = array(_("- input"),ProcessArg::INPUTID,"subtract_input",0,DataType::UNDEFINED,"Input");
+        $list[23] = array(_("kWh to kWh/d"),ProcessArg::FEEDID,"kwh_to_kwhd",2,DataType::DAILY,"Power",array(Engine::PHPTIMESERIES));                  // fixed works now with redis
+        $list[24] = array(_("Allow positive"),ProcessArg::NONE,"allowpositive",0,DataType::UNDEFINED,"Limits");
+        $list[25] = array(_("Allow negative"),ProcessArg::NONE,"allownegative",0,DataType::UNDEFINED,"Limits");
+        $list[26] = array(_("Signed to unsigned"),ProcessArg::NONE,"signed2unsigned",0,DataType::UNDEFINED,"Misc");
+        $list[27] = array(_("Max value"),ProcessArg::FEEDID,"max_value",1,DataType::DAILY,"Misc",array(Engine::PHPTIMESERIES));
+        $list[28] = array(_("Min value"),ProcessArg::FEEDID,"min_value",1,DataType::DAILY,"Misc",array(Engine::PHPTIMESERIES));
+
+        $list[29] = array(_(" + feed"),ProcessArg::FEEDID,"add_feed",0,DataType::UNDEFINED,"Feed");        // Klaus 24.2.2014
+        $list[30] = array(_(" - feed"),ProcessArg::FEEDID,"sub_feed",0,DataType::UNDEFINED,"Feed");        // Klaus 24.2.
+        $list[31] = array(_(" * feed"),ProcessArg::FEEDID,"multiply_by_feed",0,DataType::UNDEFINED,"Feed");
+        $list[32] = array(_(" / feed"),ProcessArg::FEEDID,"divide_by_feed",0,DataType::UNDEFINED,"Feed");
+        $list[33] = array(_("Reset to ZERO"),ProcessArg::NONE,"reset2zero",0,DataType::UNDEFINED,"Misc");
+
         // $list[29] = array(_("save to input"),ProcessArg::INPUTID,"save_to_input",1,DataType::UNDEFINED);
 
         return $list;
@@ -84,7 +99,7 @@ class Process
     public function input($time, $value, $processList)
     {
         $this->log->info("input() received time=$time, value=$value");
-           
+
         $process_list = $this->get_process_list();
         $pairs = explode(",",$processList);
         foreach ($pairs as $pair)
@@ -135,6 +150,12 @@ class Process
         return $value;
     }
 
+    public function reset2zero($arg, $time, $value)
+     {
+         $value = 0;
+         return $value;
+     }
+
     public function signed2unsigned($arg, $time, $value)
     {
         if($value < 0) $value = $value + 65536;
@@ -165,6 +186,25 @@ class Process
             return null; // should this be null for a divide by zero?
         }
     }
+
+	public function update_feed_data($id, $time, $value)
+	{
+		$time = mktime(0, 0, 0, date("m",$time), date("d",$time), date("Y",$time));
+
+		$feedname = "feed_".trim($id)."";
+		$result = $this->mysqli->query("SELECT * FROM $feedname WHERE `time` = '$time'");
+		$row = $result->fetch_array();
+
+		if (!$row)
+		{
+			$this->mysqli->query("INSERT INTO $feedname (time,data) VALUES ('$time','$value')");
+		}
+		else
+		{
+			$this->mysqli->query("UPDATE $feedname SET data = '$value' WHERE `time` = '$time'");
+		}
+		return $value;
+	}
 
     public function add_input($id, $time, $value)
     {
@@ -223,11 +263,11 @@ class Process
         if (!isset($last['value'])) $last['value'] = 0;
         $last_kwh = $last['value']*1;
         $last_time = $last['time']*1;
-        
+
         //$current_slot = floor($time_now / 86400) * 86400;
         //$last_slot = floor($last_time / 86400) * 86400;
-        $current_slot = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
-        $last_slot = mktime(0, 0, 0, date("m",$last_time), date("d",$last_time), date("Y",$last_time));       
+        $current_slot = $this->getstartday($time_now);
+        $last_slot = $this->getstartday($last_time);
 
         if ($last_time && ((time()-$last_time)<7200)) {
             // kWh calculation
@@ -239,14 +279,14 @@ class Process
             // rather than enter 0 we dont increase it
             $kwh_inc = 0;
         }
-        
+
         if($last_slot == $current_slot) {
             $new_kwh = $last_kwh + $kwh_inc;
         } else {
             # We are working in a new slot (new day) so don't increment it with the data from yesterday
             $new_kwh = $kwh_inc;
         }
-        
+
         $this->feed->update_data($feedid, $time_now, $current_slot, $new_kwh);
 
         return $value;
@@ -257,14 +297,14 @@ class Process
     {
         global $redis;
         if (!$redis) return $value; // return if redis is not available
-        
+
         $currentkwhd = $this->feed->get_timevalue($feedid);
         $last_time = strtotime($currentkwhd['time']);
-        
+
         //$current_slot = floor($time_now / 86400) * 86400;
         //$last_slot = floor($last_time / 86400) * 86400;
-        $current_slot = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
-        $last_slot = mktime(0, 0, 0, date("m",$last_time), date("d",$last_time), date("Y",$last_time));
+        $current_slot = $this->getstartday($time_now);
+        $last_slot = $this->getstartday($last_time);
 
         if ($redis->exists("process:kwhtokwhd:$feedid")) {
             $lastkwhvalue = $redis->hmget("process:kwhtokwhd:$feedid",array('time','value'));
@@ -273,7 +313,7 @@ class Process
             // kwh values should always be increasing so ignore ones that are less
             // assume they are errors
             if ($kwhinc<0) { $kwhinc = 0; $value = $lastkwhvalue['value']; }
-            
+
             if($last_slot == $current_slot) {
                 $new_kwh = $currentkwhd['value'] + $kwhinc;
             } else {
@@ -282,7 +322,7 @@ class Process
 
             $this->feed->update_data($feedid, $time_now, $current_slot, $new_kwh);
         }
-        
+
         $redis->hMset("process:kwhtokwhd:$feedid", array('time' => $time_now, 'value' => $value));
 
         return $value;
@@ -296,22 +336,22 @@ class Process
         // Get last value
         $last = $this->feed->get_timevalue($feedid);
         $last_time = strtotime($last['time']);
-        
+
         //$current_slot = floor($time_now / 86400) * 86400;
         //$last_slot = floor($last_time / 86400) * 86400;
-        $current_slot = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
-        $last_slot = mktime(0, 0, 0, date("m",$last_time), date("d",$last_time), date("Y",$last_time));
-        
+        $current_slot = $this->getstartday($time_now);
+        $last_slot = $this->getstartday($last_time);
+
         if (!isset($last['value'])) $last['value'] = 0;
         $ontime = $last['value'];
         $time_elapsed = 0;
-        
+
         if ($value > 0 && (($time_now-$last_time)<7200))
         {
             $time_elapsed = $time_now - $last_time;
             $ontime += $time_elapsed;
         }
-        
+
         if($last_slot != $current_slot) $ontime = $time_elapsed;
 
         $this->feed->update_data($feedid, $time_now, $current_slot, $ontime);
@@ -326,7 +366,7 @@ class Process
     {
         global $redis;
         if (!$redis) return $value; // return if redis is not available
-        
+
         if ($redis->exists("process:ratechange:$feedid")) {
             $lastvalue = $redis->hmget("process:ratechange:$feedid",array('time','value'));
             $ratechange = $value - $lastvalue['value'];
@@ -347,15 +387,15 @@ class Process
     {
         $last = $this->feed->get_timevalue($feedid);
         $last_time = strtotime($last['time']);
-        
+
         //$current_slot = floor($time_now / 86400) * 86400;
         //$last_slot = floor($last_time / 86400) * 86400;
-        $current_slot = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
-        $last_slot = mktime(0, 0, 0, date("m",$last_time), date("d",$last_time), date("Y",$last_time));
-               
+        $current_slot = $this->getstartday($time_now);
+        $last_slot = $this->getstartday($last_time);
+
         $new_kwh = $last['value'] + ($value / 1000.0);
         if ($last_slot != $current_slot) $new_kwh = ($value / 1000.0);
-        
+
         $this->feed->update_data($feedid, $time_now, $current_slot, $new_kwh);
 
         return $value;
@@ -373,7 +413,7 @@ class Process
     {
         $last = $this->feed->get_timevalue($feedid);
         $value = $last['value'] + $value;
-        $feedtime = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
+        $feedtime = $this->getstartday($time_now);
         $this->feed->update_data($feedid, $time_now, $feedtime, $value);
         return $value;
     }*/
@@ -401,7 +441,7 @@ class Process
 
         $new_value = round($value / $pot, 0, PHP_ROUND_HALF_UP) * $pot;
 
-        $time = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
+        $time = $this->getstartday($time_now);
 
         // Get the last time
         $lastvalue = $this->feed->get_timevalue($feedid);
@@ -471,7 +511,7 @@ class Process
     {
         global $redis;
         if (!$redis) return $value; // return if redis is not available
-        
+
         if ($redis->exists("process:kwhtopower:$feedid")) {
             $lastvalue = $redis->hmget("process:kwhtopower:$feedid",array('time','value'));
             $kwhinc = $value - $lastvalue['value'];
@@ -491,8 +531,8 @@ class Process
         $last = $this->feed->get_timevalue($feedid);
         $last_val = $last['value'];
         $last_time = strtotime($last['time']);
-        $feedtime = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
-        $time_check = mktime(0, 0, 0, date("m",$last_time), date("d",$last_time), date("Y",$last_time));
+        $feedtime = $this->getstartday($time_now);
+        $time_check = $this->getstartday($last_time);
 
         // Runs on setup and midnight to reset current value - (otherwise db sets 0 as new max)
         if ($time_check != $feedtime) {
@@ -509,8 +549,8 @@ class Process
         $last = $this->feed->get_timevalue($feedid);
         $last_val = $last['value'];
         $last_time = strtotime($last['time']);
-        $feedtime = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now));
-        $time_check = mktime(0, 0, 0, date("m",$last_time), date("d",$last_time), date("Y",$last_time));
+        $feedtime = $this->getstartday($time_now);
+        $time_check = $this->getstartday($last_time);
 
         // Runs on setup and midnight to reset current value - (otherwise db sets 0 as new min)
         if ($time_check != $feedtime) {
@@ -521,7 +561,7 @@ class Process
         return $value;
 
     }
-    
+
     public function add_feed($feedid, $time, $value)
     {
         $last = $this->feed->get_timevalue($feedid);
@@ -535,7 +575,7 @@ class Process
         $myvar = $last['value'] *1;
         return $value - $myvar;
     }
-    
+
     public function multiply_by_feed($feedid, $time, $value)
     {
         $last = $this->feed->get_timevalue($feedid);
@@ -547,7 +587,7 @@ class Process
     {
         $last  = $this->feed->get_timevalue($feedid);
         $myvar = $last['value'] *1;
-        
+
         if ($myvar!=0) {
             return $value / $myvar;
         } else {
@@ -557,7 +597,6 @@ class Process
 
     // No longer used
     public function average($feedid, $time_now, $value) { return $value; } // needs re-implementing
-    public function update_feed_data($id, $time, $value)  { return $value; }
     public function phaseshift($id, $time, $value) { return $value; }
     public function kwh_to_kwhd_old($feedid, $time_now, $value) { return $value; }
     public function power_acc_to_kwhd($feedid,$time_now,$value) { return $value; } // Process can now be achieved with allow positive process before power to kwhd
@@ -567,5 +606,13 @@ class Process
     // See http://harizanov.com/2012/05/measuring-the-solar-yield/ for more info on how to use it
     //------------------------------------------------------------------------------------------------------
     public function heat_flux($feedid,$time_now,$value) { return $value; } // Removed to be reintroduced as a post-processing based visualisation calculated on the fly.
+
+    // Get the start of the day
+    private function getstartday($time_now)
+    {
+        // $midnight  = mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now)) - ($this->timezoneoffset * 3600);
+        // $this->log->warn($midnight." ".date("Y-n-j H:i:s",$midnight)." [".$this->timezoneoffset."]");
+        return mktime(0, 0, 0, date("m",$time_now), date("d",$time_now), date("Y",$time_now)) - ($this->timezoneoffset * 3600);
+    }
 
 }
