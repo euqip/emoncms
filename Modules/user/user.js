@@ -13,7 +13,7 @@ var user = {
       success: function(data)
       {
         result = data;
-      } 
+      }
     });
     return result;
   },
@@ -26,11 +26,11 @@ var user = {
       url: path+"user/register.json",
       data: "&username="+username+"&password="+encodeURIComponent(password)+"&email="+email,
       dataType: 'json',
-      async: false, 
+      async: false,
       success: function(data)
       {
         result = data;
-      } 
+      }
     });
     return result;
   },
@@ -41,7 +41,7 @@ var user = {
     $.ajax({ url: path+"user/get.json", dataType: 'json', async: false, success: function(data) {result = data;} });
     return result;
   },
-  
+
   'passwordreset':function(username,email)
   {
     var result = {};
@@ -62,7 +62,7 @@ var user = {
     $.ajax({ url: path+"user/newapikeywrite.json", dataType: 'json', async: false, success: function(data) {result = data;} });
     return result;
   },
-  
+
   'newapikeyread':function()
   {
     var result = {};

@@ -141,22 +141,21 @@ $(".readapikey").html(list.data.apikey_read);
 var currentlanguage = list.data.language;
 
 list.fields = {
-    'gravatar':{'title':"<?php echo _('Gravatar'); ?>", 'type':'gravatar'},
-    'name':{'title':"<?php echo _('Name'); ?>", 'type':'text'},
-    'location':{'title':"<?php echo _('Location'); ?>", 'type':'text'},
-    'timezone':{'title':"<?php echo _('Timezone'); ?>", 'type':'timezone'},
-    'language':{'title':"<?php echo _('Language'); ?>", 'type':'select', 'options':lang},
-    'bio':{'title':"<?php echo _('Bio'); ?>", 'type':'text'},
-    'orgid':{'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect', 'options':orgs}
+    'gravatar' :{ 'title':"<?php echo _('Gravatar'); ?>", 'type':'gravatar'},
+    'name'     :{ 'title':"<?php echo _('Name'); ?>", 'type':'text'},
+    'location' :{ 'title':"<?php echo _('Location'); ?>", 'type':'text'},
+    'timezone' :{ 'title':"<?php echo _('Timezone'); ?>", 'type':'timezone'},
+    'language' :{ 'title':"<?php echo _('Language'); ?>", 'type':'select', 'options':lang},
+    'bio'      :{ 'title':"<?php echo _('Bio'); ?>", 'type':'text'},
+    'orgid'    :{ 'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect', 'options':orgs}
 }
 $(startprofile);
 list.init();
 
 $("#table").bind("onSave", function(e){
     user.set(list.data);
-
-// refresh the page if the language has been changed.
-if (list.data.language!=currentlanguage) window.location.href = path+"user/view";
+    // refresh the page if the language has been changed.
+    if (list.data.language!=currentlanguage) window.location.href = path+"user/view";
 });
 
 //------------------------------------------------------

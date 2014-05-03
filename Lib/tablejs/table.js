@@ -8,7 +8,8 @@
 
 */
 
-var table = {
+var table =
+{
 
     'data':0,
     'groupshow':{},
@@ -368,12 +369,9 @@ var table = {
                             //each unknown action is traznsfered to the module code
                             module_event(e,$(this),row,uid,action);
                           }
-
-
                     }
 
                 });
-
             }
         },
 
@@ -491,7 +489,6 @@ var table = {
                   out += "<span class='label label-"+color+"' title='"+type+value+"' style='cursor:default'>"+key+"</span> ";
                 }
               }
-
               return out;
             }
         },
@@ -527,39 +524,39 @@ var table = {
 
         'tzone':
         {
-          'draw': function(row,field)
-          {
-              var fld=table.fields[field];
-              var value= table.data[row][field]
-              var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
-              var action = '';if (fld.icon_action) action = fld.icon_action
-            var sign = value >= 0 ? '+' : '';
-            return "UTC "+sign+(value||0)+":00";
-          },
-          'edit':function(row,field)
-          {
-              var fld=table.fields[field];
-              var value= table.data[row][field]
-            var select = $('<select class="form-control"/>'),
+            'draw': function(row,field)
+            {
+                var fld=table.fields[field];
+                var value= table.data[row][field]
+                var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip
+                var action = '';if (fld.icon_action) action = fld.icon_action
+                var sign = value >= 0 ? '+' : '';
+                return "UTC "+sign+(value||0)+":00";
+            },
+            'edit':function(row,field)
+            {
+                var fld=table.fields[field];
+                var value= table.data[row][field]
+                var select = $('<select class="form-control"/>'),
                 selectedIndex = null,
                 sign;
 
-            for (var i=-12; i<=14; i++) {
-              var selected = "";
-              if (value == i) {
-                selected = 'selected';
-                selectedIndex = i;
-              }
-              sign = i >= 0 ? '+' : '';
-              select.append("<option value="+i+" "+selected+">UTC "+sign+i+":00</option>");
-            }
-            //If no selected index were set, then default to 0
-            if ( selectedIndex === null ) {
-                select.find("option[value='0']").attr('selected', 'selected');
-            }
-            return select.wrap('<p>').parent().html();  //return HTML-string
-          },
-        'save': function (row,field) { return $("[row="+row+"][field="+field+"] select").val() },
+                for (var i=-12; i<=14; i++) {
+                    var selected = "";
+                    if (value == i) {
+                        selected = 'selected';
+                        selectedIndex = i;
+                    }
+                    sign = i >= 0 ? '+' : '';
+                    select.append("<option value="+i+" "+selected+">UTC "+sign+i+":00</option>");
+                    }
+                    //If no selected index were set, then default to 0
+                if ( selectedIndex === null ) {
+                    select.find("option[value='0']").attr('selected', 'selected');
+                }
+                return select.wrap('<p>').parent().html();  //return HTML-string
+            },
+            'save': function (row,field) { return $("[row="+row+"][field="+field+"] select").val() },
          }
     }
 }
@@ -569,35 +566,35 @@ var table = {
 // Calculate and color updated time
 function list_format_updated(time)
 {
-  time = time * 1000;
-  var now = (new Date()).getTime();
-  var update = (new Date(time)).getTime();
-  var lastupdate = (now-update)/1000;
+    time = time * 1000;
+    var now = (new Date()).getTime();
+    var update = (new Date(time)).getTime();
+    var lastupdate = (now-update)/1000;
 
-  var secs = (now-update)/1000;
-  var mins = secs/60;
-  var hour = secs/3600
+    var secs = (now-update)/1000;
+    var mins = secs/60;
+    var hour = secs/3600
 
-  var updated = secs.toFixed(0)+"s ago";
-  if (secs>180) updated = mins.toFixed(0)+" mins ago";
-  if (secs>(3600*2)) updated = hour.toFixed(0)+" hours ago";
-  if (hour>24) updated = "inactive";
+    var updated = secs.toFixed(0)+"s ago";
+    if (secs>180) updated = mins.toFixed(0)+" mins ago";
+    if (secs>(3600*2)) updated = hour.toFixed(0)+" hours ago";
+    if (hour>24) updated = "inactive";
 
-  var color = "rgb(255,125,20)";
-  if (secs<25) color = "rgb(50,200,50)"
-  else if (secs<60) color = "rgb(240,180,20)";
+    var color = "rgb(255,125,20)";
+    if (secs<25) color = "rgb(50,200,50)"
+    else if (secs<60) color = "rgb(240,180,20)";
 
-  return "<span style='color:"+color+";'>"+updated+"</span>";
+    return "<span style='color:"+color+";'>"+updated+"</span>";
 }
 
 // Format value dynamically
 function list_format_value(value)
 {
-  if (value>=10) value = (1*value).toFixed(1);
-  if (value>=100) value = (1*value).toFixed(0);
-  if (value<10) value = (1*value).toFixed(2);
-  if (value<=-10) value = (1*value).toFixed(1);
-  if (value<=-100) value = (1*value).toFixed(0);
-  return value;
+    if (   value >=10)   value = (1* value ).toFixed(1);
+    if (   value >=100)  value = (1* value ).toFixed(0);
+    if (   value <10)    value = (1* value ).toFixed(2);
+    if (   value <=-10)  value = (1* value ).toFixed(1);
+    if (   value <=-100) value = (1* value ).toFixed(0);
+    return value ;
 }
 
