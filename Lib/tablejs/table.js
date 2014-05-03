@@ -249,6 +249,37 @@ var table = {
             'draw': function (row,field) { return table.fields[field].options[table.data[row][field]] }
         },
 
+        'tblselect':
+        {
+            /** 
+            **  This type of field will get its selection in a table provided by a model
+            **  The model returned data are an ID and a display text
+            **/
+          'draw':function(value)
+          {
+            for (i in list.fields[field].options)
+            {
+              var fld= list.fields[field].options[i];
+              if (fld.id==value){
+                return fld.toshow;
+              }
+            }
+            return "";
+          },
+          'edit':function(field,value)
+          {
+            var options = '';
+            for (i in list.fields[field].options)
+            {
+              var fld= list.fields[field].options[i];
+              var selected = ""; if (fld.id == value) selected = 'selected';
+              options += "<option value="+fld.id+" "+selected+">"+fld.toshow+"</option>";
+            }
+            return "<select class='form-control'>"+options+"</select>";
+          },
+          'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
+        },
+
         'checkbox':
         {
             'draw': function (row,field) { return table.data[row][field] },

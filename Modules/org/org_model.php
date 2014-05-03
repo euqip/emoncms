@@ -113,6 +113,14 @@ class Org
  * [list_orgs description]
  * @return json list of not deleted organisations
  */
+    public function list_orgnames()
+    {
+        $result = $this->mysqli->query("SELECT id, orgname as toshow FROM orgs WHERE delflag=0");
+        //$row = $result->fetch_object();
+        while ($row = $result->fetch_object()) $data[] = $row;
+        //$result = $data;
+        return $data;
+    }
     public function list_orgs()
     {
         $result = $this->mysqli->query("SELECT * FROM orgs WHERE delflag=0");

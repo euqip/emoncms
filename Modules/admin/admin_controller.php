@@ -81,7 +81,7 @@ function admin_controller()
                 case 'userlist':
                     $data = array();
                     //$result = $mysqli->query("SELECT id, ucase(LEFT(username,1)) as letter, username,email,language,lastlogin FROM users WHERE 1  ORDER By letter");
-                    $result = $mysqli->query("SELECT id, ".$behavior['userletter'].", username,email,language,lastlogin FROM users WHERE 1  ORDER By letter");
+                    $result = $mysqli->query("SELECT id, ".$behavior['userletter'].", username,email,language,lastlogin, orgid FROM users WHERE 1  ORDER By letter");
                     while ($row = $result->fetch_object()) $data[] = $row;
                     $result = $data;
                     break;

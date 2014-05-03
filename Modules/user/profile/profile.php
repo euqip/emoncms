@@ -13,9 +13,10 @@ http://openenergymonitor.org
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
 
-global $path;
+global $path, $org;
 
 $languages = get_available_languages();
+$organisations= $org->list_orgnames();
 
 function languagecodetotext()
 {
@@ -126,6 +127,7 @@ function languagecodetotext()
 
 var path = "<?php echo $path; ?>";
 var lang = <?php echo json_encode($languages); ?>;
+var orgs = <?php echo json_encode($organisations); ?>
 
 list.data = user.get();
 
@@ -144,8 +146,8 @@ list.fields = {
     'location':{'title':"<?php echo _('Location'); ?>", 'type':'text'},
     'timezone':{'title':"<?php echo _('Timezone'); ?>", 'type':'timezone'},
     'language':{'title':"<?php echo _('Language'); ?>", 'type':'select', 'options':lang},
-    'bio':{'title':"<?php echo _('Bio'); ?>", 'type':'text'}
-
+    'bio':{'title':"<?php echo _('Bio'); ?>", 'type':'text'},
+    'orgid':{'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect', 'options':orgs}
 }
 $(startprofile);
 list.init();

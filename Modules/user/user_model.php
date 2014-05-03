@@ -565,6 +565,12 @@ public function apikey_session($apikey_in)
         $timezone = intval($timezone);
         $this->mysqli->query("UPDATE users SET timezone = '$timezone' WHERE id='$userid'");
     }
+    public function set_orgid($userid,$irgid)
+    {
+        $userid = intval($userid);
+        $orgid = intval($orgid);
+        $this->mysqli->query("UPDATE users SET orgid = '$orgid' WHERE id='$userid'");
+    }
 
     //---------------------------------------------------------------------------------------
     // Special methods
@@ -573,7 +579,7 @@ public function apikey_session($apikey_in)
     public function get($userid)
     {
         $userid = intval($userid);
-        $result = $this->mysqli->query("SELECT id,username,email,gravatar,name,location,timezone,language,bio,apikey_write,apikey_read FROM users WHERE id=$userid");
+        $result = $this->mysqli->query("SELECT id,username,email,gravatar,name,location,timezone,language,bio,apikey_write,apikey_read, orgid, changepswd FROM users WHERE id=$userid");
         $data = $result->fetch_object();
         return $data;
     }
@@ -588,8 +594,18 @@ public function apikey_session($apikey_in)
         $timezone = intval($data->timezone);
         $language = preg_replace('/[^\w\s-.]/','',$data->language); $_SESSION['lang'] = $language;
         $bio      = preg_replace('/[^\w\s-.]/','',$data->bio);
+        $orgid    = preg_replace('/[^\w\s-.]/','',$data->orgid);
 
-        $result   = $this->mysqli->query("UPDATE users SET gravatar                   = '$gravatar', name = '$name', location = '$location', timezone = '$timezone', language = '$language', bio = '$bio' WHERE id = '$userid'");
+        $sql = "UPDATE users SET gravatar = '$gravatar',
+                                 name     = '$name',
+                                 location = '$location',
+                                 timezone = '$timezone',
+                                 language = '$language',
+                                 bio      = '$bio',
+                                 orgid    = $orgid
+                                 WHERE id = '$userid'";
+
+        $result   = $this->mysqli->query($sql);
     }
 
     // Generates a new random read apikey
