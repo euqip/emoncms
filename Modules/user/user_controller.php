@@ -24,7 +24,12 @@ function user_controller()
     if ($route->format == 'html')
     {
         if ($route->action == 'login' && !$session['read']) $result = view("Modules/user/login_block.php", array());
+        //if ($route->action == 'view' && $session['write']) $result = view("Modules/user/profile/profile.php", array());
         if ($route->action == 'view' && $session['write']) $result = view("Modules/user/profile/profile.php", array());
+        if ($route->action == 'myuser' && $session['write']){
+            $_SESSION['showuserid']=$_SESSION['userid'];
+            $result = view("Modules/user/profile/profile.php", array());
+        }
         if ($route->action == 'logout' && $session['read']) {$user->logout(); header('Location: '.$path);}
     }
 
@@ -49,8 +54,13 @@ function user_controller()
         if ($route->action == 'auth' && !$session['read']) $result = $user->get_apikeys_from_login(post('username'),post('password'));
 
         // Get and set - user by profile client
-        if ($route->action == 'get' && $session['write']) $result = $user->get($session['userid']);
+        if ($route->action == 'get' && $session['write']) {
+            $myuser=$session['userid'];
+            if (isset($_SESSION['showuserid'])) $myuser=$_SESSION['showuserid'];
+            $result = $user->get($myuser);
+        }
 
+        //if ($route->action == 'get' && $session['write']) $result = $user->get($session['userid']);
         if ($route->action == 'set' && $session['write']) $result = $user->set($session['userid'],json_decode(get('data')));
 
         if ($route->action == 'getconvert' && $session['write']) $result = $user->get_convert_status($session['userid']);

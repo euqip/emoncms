@@ -71,7 +71,7 @@
     if (isset($_GET['apikey']))
     {
         $session = $user->apikey_session($_GET['apikey']);
-    } 
+    }
     elseif (isset($_POST['apikey']))
     {
         $session = $user->apikey_session($_POST['apikey']);
@@ -136,22 +136,23 @@
     // 7) Output
     if ($route->format == 'json')
     {
-    if ($route->controller=='time') {
-        print $output['content'];
-    } elseif ($route->controller=='input' && $route->action=='post') {
-        print $output['content'];
-    } elseif ($route->controller=='input' && $route->action=='bulk') {
-        print $output['content'];
-    } else {
-        print json_encode($output['content']);
-    }
+        header('Content-Type: application/json');
+        if ($route->controller=='time') {
+            print $output['content'];
+        } elseif ($route->controller=='input' && $route->action=='post') {
+            print $output['content'];
+        } elseif ($route->controller=='input' && $route->action=='bulk') {
+            print $output['content'];
+        } else {
+            print json_encode($output['content']);
+        }
     }
     if ($route->format == 'html')
     {
-    $menu = load_menu();
-    $output['mainmenu'] = view("Theme/menu_view.php", array());
-    if ($embed == 0) print view("Theme/theme.php", $output);
-    if ($embed == 1) print view("Theme/embed.php", $output);
+        $menu = load_menu();
+        $output['mainmenu'] = view("Theme/menu_view.php", array());
+        if ($embed == 0) print view("Theme/theme.php", $output);
+        if ($embed == 1) print view("Theme/embed.php", $output);
     }
 
     $ltime = microtime(true) - $ltime;

@@ -117,7 +117,6 @@ public function apikey_session($apikey_in)
     public function emon_session_start()
     {
         session_start();
-
         if ($this->enable_rememberme)
         {
             // if php session exists
@@ -125,28 +124,23 @@ public function apikey_session($apikey_in)
                 // if rememberme emoncms cookie exists but is not valid then
                 // a valid cookie is a cookie who's userid, token and persistant token match a record in the db
                 if(!empty($_COOKIE[$this->rememberme->getCookieName()]) && !$this->rememberme->cookieIsValid($_SESSION['userid'])) {
-                $this->logout();
+                    $this->logout();
                 }
-            }
-            else
-            {
-
+            } else {
                 $loginresult = $this->rememberme->login();
                 if ($loginresult)
                 {
-                // Remember me login
-                $_SESSION['userid'] = $loginresult;
-                $_SESSION['read'] = 1;
-                $_SESSION['write'] = 1;
-                // There is a chance that an attacker has stolen the login token, so we store
-                // the fact that the user was logged in via RememberMe (instead of login form)
-                $_SESSION['cookielogin'] = true;
-                }
-                else
-                {
-                if($this->rememberme->loginTokenWasInvalid()) {
-                    // Stolen
-                }
+                    // Remember me login
+                    $_SESSION['userid'] = $loginresult;
+                    $_SESSION['read'] = 1;
+                    $_SESSION['write'] = 1;
+                    // There is a chance that an attacker has stolen the login token, so we store
+                    // the fact that the user was logged in via RememberMe (instead of login form)
+                    $_SESSION['cookielogin'] = true;
+                } else {
+                    if($this->rememberme->loginTokenWasInvalid()) {
+                        // Stolen
+                    }
                 }
             }
         }
@@ -626,4 +620,3 @@ public function apikey_session($apikey_in)
         return $apikey;
     }
 }
-

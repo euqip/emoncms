@@ -10,7 +10,8 @@
 */
 
 global $path, $session, $feed_settings;
-if (!$module){$module = "input";}
+//if ($module ==undefined){$module = "input";}
+$module = "input";
 $itemname=_('Node'); 
 
 $enable_mysql_all = 0;
@@ -150,39 +151,39 @@ if (isset($feed_settings['enable_mysql_all']) && $feed_settings['enable_mysql_al
 
 <script>
 
-var path = "<?php echo $path; ?>";
-var itemname = "<?php echo $itemname; ?>";
-var moveup = "<?php echo _("Move Up"); ?>";
-var movedown = "<?php echo _("Move Down"); ?>";
-var delprocess = "<?php echo _("Delete"); ?>";
-var createnew = "<?php echo _("CREATE NEW:"); ?>";
-var nodetext = "<?php echo _("Node"); ?>";
-var inputvalue= "<?php echo _("Input value"); ?>";
-var feedvalue= "<?php echo _("Feed Value"); ?>";
+    var path = "<?php echo $path; ?>";
+    var itemname = "<?php echo $itemname; ?>";
+    var moveup = "<?php echo _("Move Up"); ?>";
+    var movedown = "<?php echo _("Move Down"); ?>";
+    var delprocess = "<?php echo _("Delete"); ?>";
+    var createnew = "<?php echo _("CREATE NEW:"); ?>";
+    var nodetext = "<?php echo _("Node"); ?>";
+    var inputvalue= "<?php echo _("Input value"); ?>";
+    var feedvalue= "<?php echo _("Feed Value"); ?>";
 
-feedvalue
+    feedvalue
 
-processlist_ui.enable_mysql_all = <?php echo $enable_mysql_all; ?>;
+    processlist_ui.enable_mysql_all = <?php echo $enable_mysql_all; ?>;
 
-processlist_ui.inputid = <?php echo $inputid; ?>;
+    processlist_ui.inputid = <?php echo $inputid; ?>;
 
-//console.log(processlist_ui.inputid);
+    //console.log(processlist_ui.inputid);
 
-processlist_ui.feedlist = feed.list_assoc();
-processlist_ui.inputlist = input.list_assoc();
-processlist_ui.processlist = input.getallprocesses();
-processlist_ui.variableprocesslist = input.processlist(processlist_ui.inputid);
-processlist_ui.init();
+    processlist_ui.feedlist = feed.list_assoc();
+    processlist_ui.inputlist = input.list_assoc();
+    processlist_ui.processlist = input.getallprocesses();
+    processlist_ui.variableprocesslist = input.processlist(processlist_ui.inputid);
+    processlist_ui.init();
 
-$(document).ready(function() {
-  processlist_ui.draw();
-  processlist_ui.events();
-});
+    $(document).ready(function() {
+      processlist_ui.draw();
+      processlist_ui.events();
+    });
 
-// SET INPUT NAME
-var inputname = "";
-if (processlist_ui.inputlist[processlist_ui.inputid].description!="") inputname = processlist_ui.inputlist[processlist_ui.inputid].description; else inputname = processlist_ui.inputlist[processlist_ui.inputid].name;
-$("#inputname").html(itemname+processlist_ui.inputlist[processlist_ui.inputid].nodeid+": "+inputname);
+    // SET INPUT NAME
+    var inputname = "";
+    if (processlist_ui.inputlist[processlist_ui.inputid].description!="") inputname = processlist_ui.inputlist[processlist_ui.inputid].description; else inputname = processlist_ui.inputlist[processlist_ui.inputid].name;
+    $("#inputname").html(itemname+processlist_ui.inputlist[processlist_ui.inputid].nodeid+": "+inputname);
 
 
 </script>

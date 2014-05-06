@@ -61,7 +61,7 @@ function admin_controller()
 
             $result = view("Modules/admin/update_view.php", array('applychanges'=>$applychanges, 'updates'=>$updates));
         }
-// q is the arry providing the data
+// q is the array providing the data
         if ($session['write'] && $session['admin']){
             $username= $user->get_username([$session['userid']]);
 
@@ -86,8 +86,12 @@ function admin_controller()
                     $result = $data;
                     break;
                 case 'setuser':
+                    // by setting the $_session['userid'], the MyAccount function becomes unavailable
+                    /*
                     $_SESSION['userid'] = intval(get('id'));
-                    header("Location: ../user/view");
+                     */
+                    $_SESSION['showuserid'] = intval(get('id'));
+                    header("Location: ../user/view/".intval(get('id')));
                     break;
                 case 'org':
                     switch ($route->subaction){
