@@ -147,8 +147,10 @@ list.fields = {
     'timezone' :{ 'title':"<?php echo _('Timezone'); ?>", 'type':'timezone'},
     'language' :{ 'title':"<?php echo _('Language'); ?>", 'type':'select', 'options':lang},
     'bio'      :{ 'title':"<?php echo _('Bio'); ?>", 'type':'text'},
-    'orgid'    :{ 'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect', 'options':orgs}
-}
+    'orgid'    :{ 'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect', 'options':orgs},
+    'admin' :{ 'title':"<?php echo _('admin'); ?>", 'type':'checkbox'},
+    'orgadmin' :{ 'title':"<?php echo _('orgadmin'); ?>", 'type':'checkbox'},
+};
 $(startprofile);
 list.init();
 

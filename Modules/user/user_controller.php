@@ -27,7 +27,7 @@ function user_controller()
         //if ($route->action == 'view' && $session['write']) $result = view("Modules/user/profile/profile.php", array());
         if ($route->action == 'view' && $session['write']) $result = view("Modules/user/profile/profile.php", array());
         if ($route->action == 'currentuser' && $session['write']){
-            $_SESSION['showuserid']=$_SESSION['userid'];
+            $_SESSION['showuserid']=intval($_SESSION['userid']);
             $result = view("Modules/user/profile/profile.php", array());
         }
         if ($route->action == 'logout' && $session['read']) {$user->logout(); header('Location: '.$path);}
@@ -37,8 +37,8 @@ function user_controller()
     if ($route->format == 'json')
     {
         // Core session
-        $myuser=$session['userid'];
-        if (isset($_SESSION['showuserid'])) $myuser=$_SESSION['showuserid'];
+        $myuser=intval($session['userid']);
+        if (isset($_SESSION['showuserid'])) $myuser=intval($_SESSION['showuserid']);
         if ($route->action == 'login' && !$session['read']) $result = $user->login(post('username'),post('password'),post('rememberme'));
         if ($route->action == 'register' && $allowusersregister) $result = $user->register(post('username'),post('password'),post('email'));
         if ($route->action == 'logout' && $session['read']) $user->logout();

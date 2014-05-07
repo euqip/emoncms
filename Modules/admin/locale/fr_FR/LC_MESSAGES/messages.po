@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-03 09:46+0100\n"
-"PO-Revision-Date: 2014-05-03 09:49+0100\n"
+"PO-Revision-Date: 2014-05-07 18:17+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -194,7 +194,7 @@ msgstr "Clé"
 
 #: ../../../userlist_view (copie).php:194 ../../../userlist_view.php:193
 msgid "Manage user details"
-msgstr "Administrer les détails de l'utilisateur"
+msgstr "Administrer les détails utilisateur"
 
 #: ../../../userlist_view (copie).php:195
 msgid "Pwd Reset"
@@ -202,7 +202,7 @@ msgstr "Reset MdP"
 
 #: ../../../userlist_view (copie).php:195 ../../../userlist_view.php:194
 msgid "Reset password and send new one"
-msgstr "Reset du mot de passe et envoi du nouveau mot de passe à l'utilisateur"
+msgstr "Reset du mot de passe et envoi du nouveau mot de passe par courriel"
 
 #: ../../../userlist_view (copie).php:197 ../../../userlist_view.php:196
 msgid "Email address"

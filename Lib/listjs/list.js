@@ -71,6 +71,12 @@
           'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
       },
 
+        'checkbox':
+        {
+            'draw': function (value)  { return value; },
+            'edit': function (field,value) { return "<input type='checkbox' class='form-control' value='"+(value||'')+"' / >"; },
+            'save': function (field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();},
+        },
       'select':
       {
           'draw':function(value) { return value },
