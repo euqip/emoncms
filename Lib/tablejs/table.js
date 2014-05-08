@@ -462,7 +462,17 @@ var table =
                     key = 'max'; type = 2; break;
                   case 28:
                     key = 'min'; type = 2; break;
-                }
+                  case 29:
+                    key = '+ feed'; type = 4; break;
+                  case 30:
+                    key = '- feed'; type = 4; break;
+                  case 31:
+                    key = 'x feed'; type = 4; break;
+                  case 32:
+                    key = '/ feed'; type = 4; break;
+                  case 33:
+                    key = '= 0'; type = 3; break;
+                 }
 
                 value = keyvalue[1];
 
