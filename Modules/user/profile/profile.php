@@ -16,6 +16,7 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 global $path, $org;
 
 $languages = get_available_languages();
+$roles = get_available_roles();
 $organisations= $org->list_orgnames();
 
 function languagecodetotext()
@@ -30,6 +31,16 @@ function languagecodetotext()
     _('cy_GB');
 }
 
+function get_available_roles()
+{
+    return array(
+        '0'=>_('lambda'),
+        '1'=>_('System administrator'),
+        '3'=>_('organisation admin'),
+        '4'=>_('designer'),
+        '5'=>_('viewer')
+        );
+}
 
 
 ?>
@@ -127,6 +138,7 @@ function languagecodetotext()
 
 var path = "<?php echo $path; ?>";
 var lang = <?php echo json_encode($languages); ?>;
+var role = <?php echo json_encode($roles); ?>;
 var orgs = <?php echo json_encode($organisations); ?>
 
 list.data = user.get();
@@ -142,14 +154,13 @@ var currentlanguage = list.data.language;
 
 list.fields = {
     'gravatar' :{ 'title':"<?php echo _('Gravatar'); ?>", 'type':'gravatar'},
-    'name'     :{ 'title':"<?php echo _('Name'); ?>", 'type':'text'},
+    'name'     :{ 'title':"<?php echo _('Name'); ?>", 'type':'text','tooltip':'use letters (a-z) only, accented characters are allowed!'},
     'location' :{ 'title':"<?php echo _('Location'); ?>", 'type':'text'},
     'timezone' :{ 'title':"<?php echo _('Timezone'); ?>", 'type':'timezone'},
     'language' :{ 'title':"<?php echo _('Language'); ?>", 'type':'select', 'options':lang},
     'bio'      :{ 'title':"<?php echo _('Bio'); ?>", 'type':'text'},
     'orgid'    :{ 'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect', 'options':orgs},
-    'admin' :{ 'title':"<?php echo _('admin'); ?>", 'type':'checkbox'},
-    'orgadmin' :{ 'title':"<?php echo _('orgadmin'); ?>", 'type':'checkbox'},
+    'admin'    :{ 'title':"<?php echo _('User role'); ?>", 'type':'idselect', 'options':role},
 };
 $(startprofile);
 list.init();

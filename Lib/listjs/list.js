@@ -71,30 +71,30 @@
           'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
       },
 
-        'checkbox':
-        {
-            'draw': function (value)  { return value; },
-            'edit': function (field,value) { return "<input type='checkbox' class='form-control' value='"+(value||'')+"' / >"; },
-            'save': function (field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();},
-        },
-      'select':
+      'checkbox':
       {
-          'draw':function(value) { return value },
-          'edit':function(field,value)
-          {
-            var options = '';
-            for (i in list.fields[field].options)
-            {
-              var selected = ""; if (list.fields[field].options[i] == value) selected = 'selected';
-              options += "<option value="+list.fields[field].options[i]+" "+selected+">"+list.fields[field].options[i]+"</option>";
-          }
-          return "<select class='form-control'>"+options+"</select>";
-      },
-      'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
+        'draw': function (value)  { return value; },
+        'edit': function (field,value) { return "<input type='checkbox' class='form-control' value='"+(value||'')+"' / >"; },
+        'save': function (field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();},
+    },
+    'select':
+    {
+      'draw':function(value) { return value },
+      'edit':function(field,value)
+      {
+        var options = '';
+        for (i in list.fields[field].options)
+        {
+          var selected = ""; if (list.fields[field].options[i] == value) selected = 'selected';
+          options += "<option value="+list.fields[field].options[i]+" "+selected+">"+list.fields[field].options[i]+"</option>";
+      }
+      return "<select class='form-control'>"+options+"</select>";
   },
+  'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
+},
 
-  'tblselect':
-  {
+'tblselect':
+{
         /**
         **  This type of field will get its selection in a table provided by a model
         **  The model returned data are an ID and a display text
@@ -124,7 +124,28 @@
   'save':function(field) 
   {
     return $(list.element+' tr[field='+field+'] td[type=value] select').val();
-  }
+}
+},
+'idselect':
+{
+    /**
+    **  This type of field will get its selection in a json string with IDs
+    **
+    **/
+    'draw':function(value)    {
+        return list.fields[field].options[value];
+    },
+    'edit':function(field,value)    {
+        var options = '';
+        for (i in list.fields[field].options)
+        {
+            var fld= list.fields[field].options[i];
+            var selected = ""; if (i == value) selected = 'selected';
+            options += "<option value="+i+" "+selected+">"+fld+"</option>";
+        }
+        return "<select class='form-control'>"+options+"</select>";
+    },
+    'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
 },
 
 'timezone':

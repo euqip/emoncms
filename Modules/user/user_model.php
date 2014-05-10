@@ -573,7 +573,7 @@ public function apikey_session($apikey_in)
     public function get($userid)
     {
         $userid = intval($userid);
-        $result = $this->mysqli->query("SELECT id,username,email,gravatar,name,location,timezone,language,bio,apikey_write,apikey_read, orgid, changepswd, admin, orgadmin FROM users WHERE id=$userid");
+        $result = $this->mysqli->query("SELECT id,username,email,gravatar,name,location,timezone,language,bio,apikey_write,apikey_read, orgid, changepswd, admin FROM users WHERE id=$userid");
         $data = $result->fetch_object();
         return $data;
     }
@@ -582,23 +582,33 @@ public function apikey_session($apikey_in)
     {
         // Validation
         $userid   = intval($userid);
-        $gravatar = preg_replace('/[^\w\s-.@]/','',$data->gravatar);
-        $name     = preg_replace('/[^\s\p{L}]/u','',$data->name);
-        $location = preg_replace('/[^\s\p{L}]/u','',$data->location);
-        $timezone = intval($data->timezone);
-        $language = preg_replace('/[^\w\s-.]/','',$data->language); $_SESSION['lang'] = $language;
-        $bio      = preg_replace('/[^\w\s-.]/','',$data->bio);
-        $orgid    = preg_replace('/[^\w\s-.]/','',$data->orgid);
+        $gravatar = '  gravatar = "'.preg_replace('/[^\w\s-.@]/','',$data->gravatar).'"';
+        $name     = ', name     = "'.preg_replace('/[^\s\p{L}]/u','',$data->name).'"';
+        $location = ', location = "'.preg_replace('/[^\s\p{L}]/u','',$data->location).'"';
+        $timezone = ', timezone = "'.intval($data->timezone).'"';
+        $language = ', language = "'.preg_replace('/[^\w\s-.]/','',$data->language).'"';
+        $bio      = ', bio      = "'.preg_replace('/[^\w\s-.]/','',$data->bio).'"';
+        $orgid    = '';
+        $admin    = '';
+        //reserved action to system admin
+        $orgid    = ', orgid    = '.intval($data->orgid);
+        //reserved action to the orgadmin and system admin
+        $admin    = ', admin    = '.intval($data->admin);
 
-        $sql = "UPDATE users SET gravatar = '$gravatar',
-                                 name     = '$name',
-                                 location = '$location',
-                                 timezone = '$timezone',
-                                 language = '$language',
-                                 bio      = '$bio',
-                                 orgid    = $orgid
+        $sql = "UPDATE users SET $gravatar
+                                 $name
+                                 $location
+                                 $timezone
+                                 $language
+                                 $bio
+                                 $orgid
+                                 $admin
                                  WHERE id = '$userid'";
-
+        //change session language only if done by user!
+        //check if $userid == currentuser
+        if($userid==intval($session['userid'])){
+            $_SESSION['lang'] = preg_replace('/[^\w\s-.]/','',$data->language);
+        }
         $result   = $this->mysqli->query($sql);
     }
 
