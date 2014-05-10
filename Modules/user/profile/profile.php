@@ -154,13 +154,13 @@ var currentlanguage = list.data.language;
 
 list.fields = {
     'gravatar' :{ 'title':"<?php echo _('Gravatar'); ?>", 'type':'gravatar'},
-    'name'     :{ 'title':"<?php echo _('Name'); ?>", 'type':'text','tooltip':'use letters (a-z) only, accented characters are allowed!'},
-    'location' :{ 'title':"<?php echo _('Location'); ?>", 'type':'text'},
-    'timezone' :{ 'title':"<?php echo _('Timezone'); ?>", 'type':'timezone'},
-    'language' :{ 'title':"<?php echo _('Language'); ?>", 'type':'select', 'options':lang},
+    'name'     :{ 'title':"<?php echo _('Name'); ?>", 'type':'text','tooltip':'Use letters (a-z) only, accented characters are allowed!'},
+    'location' :{ 'title':"<?php echo _('Location'); ?>", 'type':'text','tooltip':'Use letters (a-z) only, accented characters are allowed!'},
+    'timezone' :{ 'title':"<?php echo _('Timezone'); ?>", 'type':'timezone','tooltip':'Choose your local time offset to UTC'},
+    'language' :{ 'title':"<?php echo _('Language'); ?>", 'type':'select','tooltip':'System available languages', 'options':lang},
     'bio'      :{ 'title':"<?php echo _('Bio'); ?>", 'type':'text'},
-    'orgid'    :{ 'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect', 'options':orgs},
-    'admin'    :{ 'title':"<?php echo _('User role'); ?>", 'type':'idselect', 'options':role},
+    'orgid'    :{ 'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect','tooltip':'Associate user to an Organisation', 'options':orgs},
+    'admin'    :{ 'title':"<?php echo _('User role'); ?>", 'type':'idselect','tooltip':'Specify the user role', 'options':role},
 };
 $(startprofile);
 list.init();

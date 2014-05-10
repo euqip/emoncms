@@ -66,15 +66,24 @@
     {
         'text':
         {
-          'draw':function(value) { return value; },
-          'edit':function(field,value) { return "<input type='text' class='form-control' value='"+(value||'')+"' / >"; },
+          'draw':function(value) {
+            return "<span>"+value+"</span>";
+          },
+          'edit':function(field,value) {
+            var fld=list.fields[field];
+            var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
+            return "<input type='text' class='form-control' title='"+tooltip+"' value='"+(value||'')+"' / >"; },
           'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
       },
 
       'checkbox':
       {
         'draw': function (value)  { return value; },
-        'edit': function (field,value) { return "<input type='checkbox' class='form-control' value='"+(value||'')+"' / >"; },
+        'edit': function (field,value) { 
+          var fld=list.fields[field];
+          var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
+          return "<input type='checkbox' class='form-control' title='"+tooltip+"' value='"+(value||'')+"' / >"; 
+        },
         'save': function (field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();},
     },
     'select':
@@ -83,12 +92,14 @@
       'edit':function(field,value)
       {
         var options = '';
+          var fld=list.fields[field];
+          var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
         for (i in list.fields[field].options)
         {
           var selected = ""; if (list.fields[field].options[i] == value) selected = 'selected';
           options += "<option value="+list.fields[field].options[i]+" "+selected+">"+list.fields[field].options[i]+"</option>";
       }
-      return "<select class='form-control'>"+options+"</select>";
+      return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
   },
   'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
 },
@@ -112,16 +123,18 @@
     },
     'edit':function(field,value)
     {
-        var options = '';
+          var fld1=list.fields[field];
+          var tooltip = '';if (fld1.tooltip) tooltip = fld1.tooltip;
+         var options = '';
         for (i in list.fields[field].options)
         {
           var fld= list.fields[field].options[i];
           var selected = ""; if (fld.id == value) selected = 'selected';
           options += "<option value="+fld.id+" "+selected+">"+fld.toshow+"</option>";
       }
-      return "<select class='form-control'>"+options+"</select>";
+      return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
   },
-  'save':function(field) 
+  'save':function(field)
   {
     return $(list.element+' tr[field='+field+'] td[type=value] select').val();
 }
@@ -139,11 +152,13 @@
         var options = '';
         for (i in list.fields[field].options)
         {
+          var fld1=list.fields[field];
+          var tooltip = '';if (fld1.tooltip) tooltip = fld1.tooltip;
             var fld= list.fields[field].options[i];
             var selected = ""; if (i == value) selected = 'selected';
             options += "<option value="+i+" "+selected+">"+fld+"</option>";
         }
-        return "<select class='form-control'>"+options+"</select>";
+        return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
     },
     'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
 },
