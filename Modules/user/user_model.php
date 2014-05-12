@@ -146,6 +146,7 @@ public function apikey_session($apikey_in)
         }
 
         if (isset($_SESSION['admin'])) $session['admin'] = $_SESSION['admin']; else $session['admin'] = 0;
+        if (isset($_SESSION['orgid'])) $session['orgid'] = $_SESSION['orgid']; else $session['orgid'] = 0;
         if (isset($_SESSION['read'])) $session['read'] = $_SESSION['read']; else $session['read'] = 0;
         if (isset($_SESSION['write'])) $session['write'] = $_SESSION['write']; else $session['write'] = 0;
         if (isset($_SESSION['userid'])) $session['userid'] = $_SESSION['userid']; else $session['userid'] = 0;
@@ -219,7 +220,7 @@ public function apikey_session($apikey_in)
         if (!$username || !$password) return array('success'=>false, 'message'=>_("Username or password empty"));
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
-        $sql = "SELECT id,password,admin,salt,language, changepswd FROM users WHERE username = '$username'";
+        $sql = "SELECT id,password,admin,salt,language, changepswd, orgid FROM users WHERE username = '$username'";
         $result = $this->mysqli->query($sql);
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect username - password, if you are sure its correct try clearing your browser cache"));
@@ -243,6 +244,7 @@ public function apikey_session($apikey_in)
             $_SESSION['read'] = 1;
             $_SESSION['write'] = 1;
             $_SESSION['admin'] = $userData->admin;
+            $_SESSION['orgid'] = $userData->orgid;
             $_SESSION['lang'] = $userData->language;
             $_SESSION['editmode'] = TRUE;
 

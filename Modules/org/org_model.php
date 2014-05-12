@@ -110,15 +110,23 @@ class Org
     }
 
 /**
- * [list_orgs description]
+ * list_organisations gives the list of available organisations
+ * the list is only available to the system administrators,
+ * other users receive only their own organisation
  * @return json list of not deleted organisations
  */
     public function list_orgnames()
     {
-        $result = $this->mysqli->query("SELECT id, orgname as toshow FROM orgs WHERE delflag=0");
-        //$row = $result->fetch_object();
-        while ($row = $result->fetch_object()) $data[] = $row;
-        //$result = $data;
+        $sql = "SELECT id, orgname as toshow FROM orgs WHERE delflag=0";
+        if((isset($_SESSION['admin'])) && ($_SESSION['admin']==1)){
+            $result = $this->mysqli->query($sql);
+            while ($row = $result->fetch_object()) $data[] = $row;
+        } else {
+            $sql = $sql." and id =".intval($_SESSION['orgid']);
+            $result = $this->mysqli->query($sql);
+            while ($row = $result->fetch_object()) $data[] = $row;
+        }
+        logitem ($sql);
         return $data;
     }
     public function list_orgs()
@@ -151,4 +159,10 @@ class Org
         $row = $result->fetch_array();
         return $row['id'];
     }
+}
+
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
 }
