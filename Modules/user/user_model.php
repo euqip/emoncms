@@ -629,4 +629,40 @@ public function apikey_session($apikey_in)
         $this->mysqli->query("UPDATE users SET apikey_write = '$apikey' WHERE id='$userid'");
         return $apikey;
     }
+/**
+ * [get_available_roles description]
+ * @return [array] [possible roles for the logged in user]
+ */
+    public function get_available_roles()
+    {
+        $roles= array();
+        if (isset($_SESSION['admin'])){
+            switch (intval($_SESSION['admin'])){
+                case 1: // sysstem administrator
+                    $roles=array(
+                        '0'=>_('lambda'),
+                        '1'=>_('System administrator'),
+                        '3'=>_('organisation admin'),
+                        '4'=>_('designer'),
+                        '5'=>_('viewer')
+                        );
+                    break;
+                case 3: // organisation administrator
+                    $roles=array(
+                        '3'=>_('organisation admin'),
+                        '4'=>_('designer'),
+                        '5'=>_('viewer')
+                        );
+                    break;
+                default: // simple user with design or view authorasations
+                    $roles=array(
+                        intval($_SESSION['admin']) =>_('user')
+                        );
+                    break;
+            }
+        }
+        return $roles;
+    }
+
+
 }

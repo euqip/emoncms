@@ -233,6 +233,7 @@ var table =
     },
     'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
     },
+
     'checkbox':    {
         'draw': function (row,field) { return table.data[row][field] },
         'edit': function (row,field) { return "<input type='checkbox'>" },

@@ -13,10 +13,10 @@ http://openenergymonitor.org
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
 
-global $path, $org;
+global $path, $user, $org;
 
 $languages = get_available_languages();
-$roles = get_available_roles();
+$roles = $user->get_available_roles();
 $organisations= $org->list_orgnames();
 
 function languagecodetotext()
@@ -30,19 +30,6 @@ function languagecodetotext()
     _('it_IT');
     _('cy_GB');
 }
-
-function get_available_roles()
-{
-    return array(
-        '0'=>_('lambda'),
-        '1'=>_('System administrator'),
-        '3'=>_('organisation admin'),
-        '4'=>_('designer'),
-        '5'=>_('viewer')
-        );
-}
-
-
 ?>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/profile.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/md5.js"></script>
