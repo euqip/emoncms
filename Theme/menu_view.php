@@ -27,7 +27,7 @@ if (!$session['write']) $menu_right[] = array('name'=>"Log In", 'path'=>"user/lo
     foreach ($menu_left as $item)
     {
         if (isset($item['session'])) {
-            if (isset($session[$item['session']]) && $session[$item['session']]==1) {
+            if (isset($session[$item['session']]) && (($session[$item['session']]==1) || ($session[$item['session']]==3))) {
                 echo "<li><a href=\"".$path.$item['path']."\">".$item['name']."</a></li>";
             }
         } else {
@@ -46,7 +46,7 @@ if (count($menu_dropdown) && $session['read']) { ?>
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras <b class="caret"></b></a>
         <ul class="dropdown-menu">
             <?php foreach ($menu_dropdown as $item) { ?>
-            <?php if (isset($session[$item['session']]) && $session[$item['session']]==1) { ?>
+            <?php if (isset($session[$item['session']]) && (($session[$item['session']]==1) || ($session[$item['session']]==3))) { ?>
             <li><a href="<?php echo $path.$item['path']; ?>"><?php echo $item['name']; ?></a></li>
             <?php } ?>
             <?php } ?>
@@ -62,7 +62,7 @@ if (count($menu_dropdown) && $session['read']) { ?>
     foreach ($menu_right as $item)
     {
         if (isset($item['session'])) {
-            if (isset($session[$item['session']]) && $session[$item['session']]==1) {
+            if (isset($session[$item['session']]) && (($session[$item['session']]==1) || ($session[$item['session']]==3))) {
                 echo "<li><a href=".$path.$item['path']." >".$item['name']."</a></li>";
             }
         } else {
@@ -71,8 +71,3 @@ if (count($menu_dropdown) && $session['read']) { ?>
     }
     ?>
 </ul>
-
-
-
-
-

@@ -99,9 +99,6 @@ function admin_controller()
                     $result = $mysqli->query($sql);
                     while ($row = $result->fetch_object()) $data[] = $row;
                     $result = $data;
-                            logitem ('session admin: '.intval($_SESSION['admin']));
-                           logitem ($sql);
-
                     break;
                 case 'setuser':
                     // by setting the $_session['userid'], the MyAccount function becomes unavailable
@@ -164,9 +161,3 @@ function admin_controller()
         header("Location: ".$path);
         }
     }
-
-function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
-    fwrite ($handle, $str."\n");
-    fclose ($handle);
-}
