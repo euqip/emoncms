@@ -79,11 +79,29 @@ function admin_controller()
                     $result = $data;
                     break;
                 case 'userlist':
+                    $wherecond = "0";
+                    if (isset ($_SESSION['admin'])){
+                        switch (intval($_SESSION['admin'])){
+                            case 1:
+                                $wherecond ="1";
+                                break;
+                            case 3:
+                                $wherecond = "orgid = ".intval($_SESSION['orgid']);
+                                break;
+                            default:
+                                $whercond = "0";
+                                break;
+                        }
+                    }
+                    $sql = "SELECT id, ".$behavior['userletter'].", username,email,language,lastlogin, orgid FROM users WHERE ".$wherecond." ORDER By letter";
                     $data = array();
                     //$result = $mysqli->query("SELECT id, ucase(LEFT(username,1)) as letter, username,email,language,lastlogin FROM users WHERE 1  ORDER By letter");
-                    $result = $mysqli->query("SELECT id, ".$behavior['userletter'].", username,email,language,lastlogin, orgid FROM users WHERE 1  ORDER By letter");
+                    $result = $mysqli->query($sql);
                     while ($row = $result->fetch_object()) $data[] = $row;
                     $result = $data;
+                            logitem ('session admin: '.intval($_SESSION['admin']));
+                           logitem ($sql);
+
                     break;
                 case 'setuser':
                     // by setting the $_session['userid'], the MyAccount function becomes unavailable
@@ -146,3 +164,9 @@ function admin_controller()
         header("Location: ".$path);
         }
     }
+
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
+}

@@ -126,7 +126,6 @@ class Org
             $result = $this->mysqli->query($sql);
             while ($row = $result->fetch_object()) $data[] = $row;
         }
-        logitem ($sql);
         return $data;
     }
     public function list_orgs()
@@ -159,10 +158,4 @@ class Org
         $row = $result->fetch_array();
         return $row['id'];
     }
-}
-
-function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
-    fwrite ($handle, $str."\n");
-    fclose ($handle);
 }
