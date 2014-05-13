@@ -158,4 +158,10 @@ class Org
         $row = $result->fetch_array();
         return $row['id'];
     }
+    public function lastlogin($orgid)
+    {
+            $result = $this->mysqli->query("UPDATE orgs SET lastuse =now() WHERE id = '$orgid'");
+            return $result;
+    }
+
 }

@@ -63,10 +63,10 @@
     // 3) User sessions
     require "Modules/user/rememberme_model.php";
     $rememberme = new Rememberme($mysqli);
-    require("Modules/user/user_model.php");
-    $user = new User($mysqli,$redis,$rememberme);
     require("Modules/org/org_model.php");
     $org = new Org($mysqli,$redis,$rememberme);
+    require("Modules/user/user_model.php");
+    $user = new User($mysqli,$redis,$rememberme,$org);
 
     if (isset($_GET['apikey']))
     {

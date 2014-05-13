@@ -20,8 +20,9 @@ class User
     private $enable_rememberme = false;
     private $redis;
     private $log;
+    private $org;
 
-    public function __construct($mysqli,$redis,$rememberme)
+    public function __construct($mysqli,$redis,$rememberme,$org)
     {
         //copy the settings value, otherwise the enable_rememberme will always be false.
         global $enable_rememberme, $path;
@@ -32,6 +33,8 @@ class User
 
         $this->redis = $redis;
         $this->log = new EmonLogger(__FILE__);
+
+        $this->org = $org;
     }
 
     //---------------------------------------------------------------------------------------
@@ -183,8 +186,10 @@ public function apikey_session($apikey_in)
 
         $apikey_write = md5(uniqid(mt_rand(), true));
         $apikey_read = md5(uniqid(mt_rand(), true));
+        $orgid=0;
+        if ((isset($_SESSION['admin']))  && $_SESSION['admin']==3) $orgid=intval($_SESSION['orgid']);
 
-        if (!$this->mysqli->query("INSERT INTO users ( username, password, email, salt ,apikey_read, apikey_write, admin ) VALUES ( '$username' , '$hash', '$email', '$salt', '$apikey_read', '$apikey_write', 0 );")) {
+        if (!$this->mysqli->query("INSERT INTO users ( username, password, email, salt ,apikey_read, apikey_write, admin, orgid ) VALUES ( '$username' , '$hash', '$email', '$salt', '$apikey_read', '$apikey_write', 0, '$orgid' );")) {
             return array('success'=>false, 'message'=>_("Error creating user"));
         }
 
@@ -236,6 +241,7 @@ public function apikey_session($apikey_in)
         {
             $id=$userData->id;
             $this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
+            $this->org->lastlogin($userData->orgid);
             //if ($userdata->forcenewpwd =1)
 
             session_regenerate_id();
@@ -297,6 +303,7 @@ public function apikey_session($apikey_in)
         $_SESSION['read'] = 0;
         $_SESSION['write'] = 0;
         $_SESSION['admin'] = 0;
+        $_SESSION['orgid'] = 0;
         session_regenerate_id(true);
         session_destroy();
     }
@@ -305,7 +312,6 @@ public function apikey_session($apikey_in)
     {
             $result=$this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
             return $result;
-
     }
 
 
