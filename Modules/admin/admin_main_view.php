@@ -9,21 +9,24 @@ Emoncms version: <?php echo $emoncms_version; ?>
     <tr>
         <td>
             <br>
-            <a href="<?php echo $path; ?>admin/orgs" class="btn btn-info"><?php echo _('Organisations'); ?></a>
-        </td>
-        <td>
-            <h3><?php echo _('Organisations'); ?></h3>
-            <p><?php echo _('Administer organisations'); ?></p>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <br>
             <a href="<?php echo $path; ?>admin/users" class="btn btn-info"><?php echo _('Users'); ?></a>
         </td>
         <td>
             <h3><?php echo _('Users'); ?></h3>
             <p><?php echo _('Administer user accounts'); ?></p>
+        </td>
+    </tr>
+    <?php
+    if ((isset ($_SESSION['admin'])) && ($_SESSION['admin']==1)){
+        ?>
+    <tr>
+        <td>
+            <br>
+            <a href="<?php echo $path; ?>admin/orgs" class="btn btn-info"><?php echo _('Organisations'); ?></a>
+        </td>
+        <td>
+            <h3><?php echo _('Organisations'); ?></h3>
+            <p><?php echo _('Administer organisations'); ?></p>
         </td>
     </tr>
     <tr>
@@ -54,5 +57,8 @@ Emoncms version: <?php echo $emoncms_version; ?>
             </code>
         </td>
     </tr>
+        <?php
+    }
+    ?>
   </table>
 </div>
