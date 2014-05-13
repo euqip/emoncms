@@ -186,10 +186,15 @@ public function apikey_session($apikey_in)
 
         $apikey_write = md5(uniqid(mt_rand(), true));
         $apikey_read = md5(uniqid(mt_rand(), true));
-        $orgid=0;
-        if ((isset($_SESSION['admin']))  && $_SESSION['admin']==3) $orgid=intval($_SESSION['orgid']);
+        $orgid = 0;
+        $admin = 0;
+        if ((isset($_SESSION['admin']))  && $_SESSION['admin']==3) {
+            $orgid=intval($_SESSION['orgid']);
+            // define user by default as viewer, the orgadmin is able to update this
+            $admin = 5;
+        }
 
-        if (!$this->mysqli->query("INSERT INTO users ( username, password, email, salt ,apikey_read, apikey_write, admin, orgid ) VALUES ( '$username' , '$hash', '$email', '$salt', '$apikey_read', '$apikey_write', 0, '$orgid' );")) {
+        if (!$this->mysqli->query("INSERT INTO users ( username, password, email, salt ,apikey_read, apikey_write, admin, orgid ) VALUES ( '$username' , '$hash', '$email', '$salt', '$apikey_read', '$apikey_write', '$admin', '$orgid' );")) {
             return array('success'=>false, 'message'=>_("Error creating user"));
         }
 
