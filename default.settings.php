@@ -16,7 +16,7 @@
     $feed_settings = array(
 
         'enable_mysql_all'=>true,
-        
+
         'timestore'=>array(
             'adminkey'=>"_TS_ADMINKEY_"
         ),
