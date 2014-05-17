@@ -76,7 +76,7 @@ function dashboard_controller()
             $result = $dashboard->dashclone($session['userid'], get('id'));
             $result = view("Modules/dashboard/Views/dashboard_list.php",array());
 
-            $menu = $dashboard->build_menu($session['userid'],"view"); 
+            $menu = $dashboard->build_menu($session['userid'],"view");
             $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('menu'=>$menu, 'type'=>"view"));
           }
 
@@ -84,7 +84,7 @@ function dashboard_controller()
 
     if ($route->format == 'json')
     {
-        if ($route->action=='list' && $session['write']) $result = $dashboard->get_list($session['userid'], false, false);
+        if ($route->action=='list' && $session['write']) $result = $dashboard->get_list($session['userid'], $session['orgid'], false, false);
 
         if ($route->action=='set' && $session['write']) $result = $dashboard->set($session['userid'],get('id'),get('fields'));
         if ($route->action=='setcontent' && $session['write']) $result = $dashboard->set_content($session['userid'],post('id'),post('content'),post('height'));
@@ -92,8 +92,8 @@ function dashboard_controller()
 
         if ($route->action=='create' && $session['write']) $result = $dashboard->create($session['userid']);
         if ($route->action=='clone' && $session['write']) {
-            // this action will return the record id only see html response , it will redraw the list 
-            // with new duplicated dasboard 
+            // this action will return the record id only see html response , it will redraw the list
+            // with new duplicated dasboard
             $result = $dashboard->dashclone($session['userid'], get('id'));
         }
     }
@@ -102,3 +102,4 @@ function dashboard_controller()
 
     return array('content'=>$result, 'submenu'=>$submenu);
 }
+

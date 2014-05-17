@@ -54,7 +54,7 @@ var table =
                 var colwidth = ''; if (fld.colwidth!=undefined) colwidth = fld.colwidth;
                 var display = 'yes'; if (fld.display!=undefined) display = fld.display;
                 if (display =="yes"){
-                    html += "<th><a type='sort' field='"+field+"' title='"+tooltip+"'"+colwidth+">"+title+"</a></th>";
+                    html += "<th><a type='sort' field='"+field+"' title='"+tooltip+"' "+colwidth+">"+title+"</a></th>";
                 }
             }
             html += "</tr>";
@@ -75,7 +75,7 @@ var table =
         for (field in table.fields) {
             var fld = table.fields[field];
             var tooltip = ''; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
-            var colwidth = ''; if (fld.colwidth!=undefined) colwidth = ""+fld.colwidth+"'";
+            var colwidth = ''; if (fld.colwidth!=undefined) colwidth = ""+fld.colwidth+"";
             var display = 'yes'; if (fld.display!=undefined) display = fld.display;
             if (display =="yes"){
                 html += "<td row='"+row+"' field='"+field+"'"+colwidth+" >"
@@ -235,9 +235,26 @@ var table =
     },
 
     'checkbox':    {
-        'draw': function (row,field) { return table.data[row][field] },
-        'edit': function (row,field) { return "<input type='checkbox'>" },
+        'draw': function (row,field) {
+            var result = '';
+            var fld=table.fields[field];
+            var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
+            var icon = 'glyphicon-flag';if (fld.icon) icon = fld.icon;
+            if (table.data[row][field]) {result="<div class='iconbutton' title='"+tooltip+"'><span class='glyphicon "+icon+"'> </span></div>";}
+            return result
+        },
+        'edit': function (row,field) { return "<input type='checkbox'  class='form-control'>" },
         'save': function (row,field) { return $("[row="+row+"][field="+field+"] input").prop('checked')},
+    },
+    'fixedcheckbox':    {
+        'draw': function (row,field) {
+            var result = '';
+            var fld=table.fields[field];
+            var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
+            var icon = 'glyphicon-flag';if (fld.icon) icon = fld.icon;
+            if (table.data[row][field]) {result="<div class='iconbutton' title='"+tooltip+"'><span class='glyphicon "+icon+"'> </span></div>";}
+            return result
+        },
     },
     'delete':    {
         'draw': function (row,field) {

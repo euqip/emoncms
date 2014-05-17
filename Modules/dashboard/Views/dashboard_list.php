@@ -11,7 +11,7 @@ global $path;
             <a href="#" class="adddashboard">
                 <small><span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Add new dashbord")?>'></span></small>
             </a>
-        </h2>    
+        </h2>
     </div>
 
 
@@ -19,7 +19,7 @@ global $path;
 
     <div id="nodashboards" class="alert alert-block">
         <h4 class="alert-heading"><?php echo _('No dashboards created'); ?></h4>
-        <p><?php echo _('Maybe you would like to add your first dashboard using the button') ?> 
+        <p><?php echo _('Maybe you would like to add your first dashboard using the button') ?>
             <button type="button" id ="adddashboard" class="btn btn-default btn-lg">
                 <span> <?php echo _("Add new dashbord")?></span>
                 <span class="glyphicon glyphicon-plus"></span>
@@ -38,7 +38,7 @@ global $path;
                     <div class="type-danger ">
                         <div> <?php echo _('WARNING deleting a dashboard is permanent'); ?> </div>
                     </div>
-                </div>           
+                </div>
                 <div class="modal-footer">
                     <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
                     <button class="btn" id="confirmdelete"><span class="emoncms-dialog-button-icon glyphicon glyphicon-trash"></span><?php echo _('Delete permanently'); ?></button>
@@ -62,7 +62,7 @@ table.fields = {
     'delete-action':{'title':'','tooltip':"<?php echo _('Suppress dashboard'); ?>", 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
     'edit-action':{'title':'','tooltip':"<?php echo _('Edit dashboard attributes'); ?>",'alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes", 'colwidth':" style='width:30px;'"},
     'clone-action':{'title':'','tooltip':"<?php echo _('Duplicate'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-random", 'link':path+"dashboard/clone?id=", 'display':"yes", 'colwidth':" style='width:30px;'"},
-
+    'mine':{'title':'','tooltip':"<?php echo _('Mine'); ?>", 'type':"fixedcheckbox", 'icon':"glyphicon glyphicon-flag", 'link':path+"dashboard/clone?id=", 'display':"yes", 'colwidth':" style='width:30px;'"},
     'id':{'title':"<?php echo _('Id'); ?>", 'type':"fixed",'tooltip':"<?php echo _('Dashboard id'); ?>", 'display':"yes", 'colwidth':" style='width:30px;'"},
     'name':{'title':"<?php echo _('Name'); ?>", 'type':"text",'tooltip':"<?php echo _('Dashboard name'); ?>", 'display':"yes", 'colwidth':" style='width:200px;'"},
     'alias':{'title':"<?php echo _('Alias'); ?>", 'type':"text",'tooltip':"<?php echo _('Dashboard Alias'); ?>", 'display':"yes", 'colwidth':" style='width:200px;'"},
@@ -88,9 +88,9 @@ function update() {
     if (table.data.length != 0) {
         $("#nodashboards").hide();
         $("#localheading").show();
-    } else { 
-        $("#nodashboards").show(); 
-        $("#localheading").hide(); 
+    } else {
+        $("#nodashboards").show();
+        $("#localheading").hide();
     };
 }
 
@@ -111,12 +111,12 @@ $("#table").bind("onDelete", function(e,id,row){
 $('#confirmdelete').click(function(e){
     var id = $('#myModal').attr('dashboardid');
     var row = $('#myModal').attr('dashboardrow');
-    dashboard.remove(id); 
+    dashboard.remove(id);
     table.remove(row);
     update();
 
     $('#myModal').modal('hide');
-})  
+})
 
 $(".adddashboard").click(function(){
     $.ajax({type: 'POST',
@@ -143,7 +143,7 @@ function module_event(evt, elt, row, uid, action){
     {
         case "export-action":
         $("#SelectedExportFeed").html(table.data[row].tag+": "+table.data[row].name);
-        $("#export").attr('feedid',table.data[row].id);        
+        $("#export").attr('feedid',table.data[row].id);
         if ($("#export-timezone").val()=="") {
             var u = user.get();
             $("#export-timezone").val(parseInt(u.timezone));
@@ -158,7 +158,7 @@ function module_event(evt, elt, row, uid, action){
 //each unknown action is traznsfered to the module code
 //module_event(e,$(this),row,uid,action);
 }
-update();       
+update();
 }
 
 </script>

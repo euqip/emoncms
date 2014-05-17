@@ -45,26 +45,30 @@ class Dashboard
         $id = (int) $id;
 
         // Get content, name and description from origin dashboard
-        $result = $this->mysqli->query("SELECT content,name,description FROM dashboard WHERE userid = '$userid' AND id='$id'");
+        $result = $this->mysqli->query("SELECT content,name,description,orgid FROM dashboard WHERE userid = '$userid' AND id='$id'");
         $row = $result->fetch_array();
 
         // Name for cloned dashboard
         $name = $row['name']._(' clone');
+        $orgid = $row['orgid'];
 
-        $this->mysqli->query("INSERT INTO dashboard (`userid`,`content`,`name`,`description`) VALUES ('$userid','{$row['content']}','$name','{$row['description']}')");
+        $this->mysqli->query("INSERT INTO dashboard (`userid`, `orgid`,`content`,`name`,`description`) VALUES ('$userid','$orgid','{$row['content']}','$name','{$row['description']}')");
 
         return $this->mysqli->insert_id;
     }
 
-    public function get_list($userid, $public, $published)
+    public function get_list($userid, $orgid, $public, $published)
     {
         $userid = (int) $userid;
 
-        $qB = ""; $qC = "";
+        $qB = ""; $qC = "";$oid='';
         if ($public==true) $qB = " and public=1";
         if ($published==true) $qC = " and published=1";
-        $result = $this->mysqli->query("SELECT id, name, alias, description, main, published, public, showdescription FROM dashboard WHERE userid='$userid'".$qB.$qC);
-
+        if ($orgid==true) $oid = " or (orgid=$orgid)";
+        $owner = "IF(userid=".$userid.",true,false) as mine";
+        $sql="SELECT id, name, alias, description, main, published, public, showdescription,".$owner." FROM dashboard WHERE userid='$userid'".$qB.$qC.$oid;
+logitem ($sql);
+        $result = $this->mysqli->query($sql);
         $list = array();
         while ($row = $result->fetch_object())
         {
@@ -76,7 +80,8 @@ class Dashboard
             'description' => $row->description,
             'main' => (bool) $row->main,
             'published'=> (bool) $row->published,
-            'public'=> (bool) $row->public
+            'public'=> (bool) $row->public,
+            'mine'=> (bool) $row->mine
         );
         }
         return $list;
@@ -184,7 +189,7 @@ class Dashboard
             $dashpath = 'dashboard/'.$location;
         }
 
-        $dashboards = $this->get_list($userid, $public, $published);
+        $dashboards = $this->get_list($userid, $session['orgid'], $public, $published);
         $topmenu="";
         foreach ($dashboards as $dashboard)
         {
@@ -207,6 +212,28 @@ class Dashboard
         }
         return $topmenu;
     }
+    public function upgradedasboards($userid)
+    {
+        $userid = (int) $userid;
+        $uid = "";
+        if ($userid==true) $uid = " and users.userid=".$useerid;
+        $sql = "update  `users`, `dashboard` SET `dashboard`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `dashboard`.`userid` =`users`.`id`".$uid;
+        $this->mysqli->query($sql);
+        if ($this->mysqli->affected_rows>0){
+            return array('success'=>true, 'message'=>$this->mysqli->affected_rows.' '._('Dashboards are assigned to organisations'));
+        } else {
+            return array('success'=>false, 'message'=>_('No dashboard were assigned to organisations'));
+        }
 
+
+        //$sql = "update  `users`, `input` SET `input`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `input`.`userid` =`users`.`id`".$uid;
+        //$sql = "update  `users`, `feeds` SET `feeds`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `feeds`.`userid` =`users`.`id`".$uid;
+        //$sql = "update  `users`, `myelectric` SET `myelectric`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `myelectric`.`userid` =`users`.`id`".$uid;
+
+    }
+
+}function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
 }
-
