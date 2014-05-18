@@ -32,22 +32,13 @@ class Dashboard
         return $this->mysqli->insert_id;
     }
 
-    public function delete($id,$uid,$oid,$admin)
+    public function delete($id,$cond)
     {
         //* dashboard deletion only available to owner, system admin, org admin
         $id = (int) $id;
-        switch ($admin){
-            case $author['sysadmin']:
-                $cond = "id = '$id'";
-                break;
-            case $author['orgadmin']:
-                $cond = "id = '$id' and orgid='$oid'";
-                break;
-            default:
-                $cond = "id = '$id' and userid='$uid'";
-                break;
-        }
-        $result = $this->mysqli->query("DELETE FROM dashboard WHERE $cond");
+        $sql = "DELETE FROM dashboard WHERE id = $id and $cond";
+        $result = $this->mysqli->query($sql);
+        logitem ($admin. '   '.$sql);
         return $result;
     }
 

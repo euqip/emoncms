@@ -17,9 +17,6 @@
 
   define('EMONCMS_EXEC', 1);
 
-
-    */
-    
     $emoncms_version = "8.2.3";
 
   // 1) Load settings and core scripts

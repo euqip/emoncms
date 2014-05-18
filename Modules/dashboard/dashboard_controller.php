@@ -25,7 +25,7 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 function dashboard_controller()
 {
-    global $mysqli, $path, $session, $route, $user;
+    global $mysqli, $path, $session, $route, $user, $author;
 
     require "Modules/dashboard/dashboard_model.php";
     $dashboard = new Dashboard($mysqli);
@@ -84,11 +84,23 @@ function dashboard_controller()
 
     if ($route->format == 'json')
     {
+        switch ($session['admin']){
+            case $author['sysadmin']:
+                $cond = "";
+                break;
+            case $author['orgadmin']:
+                $cond = "orgid='".$session['orgid']."'";
+                break;
+            default:
+                $cond = "userid='".$session['userid']."'";
+                break;
+        }
+
         if ($route->action=='list' && $session['write']) $result = $dashboard->get_list($session['userid'], $session['orgid'], false, false);
 
         if ($route->action=='set' && $session['write']) $result = $dashboard->set($session['userid'],get('id'),get('fields'));
         if ($route->action=='setcontent' && $session['write']) $result = $dashboard->set_content($session['userid'],post('id'),post('content'),post('height'));
-        if ($route->action=='delete' && $session['write']) $result = $dashboard->delete(get('id'),$session['userid'], $session['orgid'], $session['admin']);
+        if ($route->action=='delete' && $session['write']) $result = $dashboard->delete(get('id'),$cond);
 
         if ($route->action=='create' && $session['write']) $result = $dashboard->create($session['userid']);
         if ($route->action=='clone' && $session['write']) {
