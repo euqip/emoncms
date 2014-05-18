@@ -73,7 +73,7 @@ function dashboard_controller()
         }
         if ($route->action == "clone" && $session['write']) {
             //iconlink action is changed to html presentation
-            $result = $dashboard->dashclone($session['userid'], get('id'));
+            $result = $dashboard->dashclone($session['userid'], $session['orgid'], get('id'));
             $result = view("Modules/dashboard/Views/dashboard_list.php",array());
 
             $menu = $dashboard->build_menu($session['userid'],"view");
@@ -88,13 +88,13 @@ function dashboard_controller()
 
         if ($route->action=='set' && $session['write']) $result = $dashboard->set($session['userid'],get('id'),get('fields'));
         if ($route->action=='setcontent' && $session['write']) $result = $dashboard->set_content($session['userid'],post('id'),post('content'),post('height'));
-        if ($route->action=='delete' && $session['write']) $result = $dashboard->delete(get('id'));
+        if ($route->action=='delete' && $session['write']) $result = $dashboard->delete(get('id'),$session['userid'], $session['orgid'], $session['admin']);
 
         if ($route->action=='create' && $session['write']) $result = $dashboard->create($session['userid']);
         if ($route->action=='clone' && $session['write']) {
             // this action will return the record id only see html response , it will redraw the list
             // with new duplicated dasboard
-            $result = $dashboard->dashclone($session['userid'], get('id'));
+            $result = $dashboard->dashclone($session['userid'], $session['orgid'], get('id'));
         }
     }
 

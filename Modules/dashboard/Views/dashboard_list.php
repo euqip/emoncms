@@ -69,7 +69,7 @@ table.fields = {
 // 'description':{'title':"<?php echo _('Description'); ?>", 'type':"text"},
 'main':{'title':"<?php echo _('Main'); ?>",'tooltip':"<?php echo _('set as main'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-star", 'falseicon':"glyphicon glyphicon-star-empty", 'display':"yes", 'colwidth':" style='width:30px;'"},
 'public':{'title':"<?php echo _('Public'); ?>", 'tooltip': "<?php echo _('make dashbord public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock", 'iconaction':"public", 'display':"yes", 'colwidth':" style='width:30px;'"},
-'published':{'title':"<?php echo _('Publish'); ?>",'tooltip':"<?php echo _('Publish dashbord'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'display':"yes", 'colwidth':" style='width:30px;'"},
+'published':{'title':"<?php echo _('Publish'); ?>",'tooltip':"<?php echo _('Publish dashbord, make it usable by other users within organisation'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'display':"yes", 'colwidth':" style='width:30px;'"},
 
 'draw-action':{'title':'','tooltip':"<?php echo _('Design this dashboard'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-edit", 'link':path+"dashboard/edit?id=", 'display':"yes", 'colwidth':" style='width:30px;'"},
 'view-action':{'title':'','tooltip':"<?php echo _('Show the result dashboard'); ?>", 'type':"iconlink", 'link':path+"dashboard/view?id=", 'display':"yes", 'colwidth':" style='width:30px;'"},

@@ -148,3 +148,10 @@ gmail example:
         //'orgletter'=> "country as letter" will group organisations by countries
 
         );
+    $author=array(
+      'lamba'    => 0,
+      'sysadmin' => 1,
+      'orgadmin' => 3,
+      'viewer'   => 4,
+      'designer' => 5
+      );

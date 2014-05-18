@@ -32,14 +32,26 @@ class Dashboard
         return $this->mysqli->insert_id;
     }
 
-    public function delete($id)
+    public function delete($id,$uid,$oid,$admin)
     {
+        //* dashboard deletion only available to owner, system admin, org admin
         $id = (int) $id;
-        $result = $this->mysqli->query("DELETE FROM dashboard WHERE id = '$id'");
+        switch ($admin){
+            case $author['sysadmin']:
+                $cond = "id = '$id'";
+                break;
+            case $author['orgadmin']:
+                $cond = "id = '$id' and orgid='$oid'";
+                break;
+            default:
+                $cond = "id = '$id' and userid='$uid'";
+                break;
+        }
+        $result = $this->mysqli->query("DELETE FROM dashboard WHERE $cond");
         return $result;
     }
 
-    public function dashclone($userid, $id)
+    public function dashclone($userid, $oid, $id)
     {
         $userid = (int) $userid;
         $id = (int) $id;
@@ -50,9 +62,9 @@ class Dashboard
 
         // Name for cloned dashboard
         $name = $row['name']._(' clone');
-        $orgid = $row['orgid'];
+        //$orgid = $session['orgid'];
 
-        $this->mysqli->query("INSERT INTO dashboard (`userid`, `orgid`,`content`,`name`,`description`) VALUES ('$userid','$orgid','{$row['content']}','$name','{$row['description']}')");
+        $this->mysqli->query("INSERT INTO dashboard (`userid`, `orgid`,`content`,`name`,`description`) VALUES ('$userid','$oid','{$row['content']}','$name','{$row['description']}')");
 
         return $this->mysqli->insert_id;
     }
@@ -60,11 +72,12 @@ class Dashboard
     public function get_list($userid, $orgid, $public, $published)
     {
         $userid = (int) $userid;
+        // need to change conditions to be able to filter public and published
 
         $qB = ""; $qC = "";$oid='';
         if ($public==true) $qB = " and public=1";
         if ($published==true) $qC = " and published=1";
-        if ($orgid==true) $oid = " or (orgid=$orgid)";
+        if ($orgid==true) $oid = " or (orgid=$orgid and published=1)";
         $owner = "IF(userid=".$userid.",true,false) as mine";
         $sql="SELECT id, name, alias, description, main, published, public, showdescription,".$owner." FROM dashboard WHERE userid='$userid'".$qB.$qC.$oid;
 logitem ($sql);
