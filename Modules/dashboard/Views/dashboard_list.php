@@ -5,6 +5,10 @@ global $path;
 <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
 
+<div class="feedback pull-right fade">
+    <span id ="msgfeedback"></span>
+</div>
+
 <div class="container">
     <div id="localheading">
         <h2><?php echo _('Dashboard'); ?>
@@ -32,7 +36,7 @@ global $path;
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">"<?php echo _('Are you sure you want to delete this dashboard?'); ?>"</h4>
+                    <h4 class="modal-title"><?php echo _('Are you sure you want to delete this dashboard?'); ?></h4>
                 </div>
                 <div class="modal-body">
                     <div class="type-danger ">

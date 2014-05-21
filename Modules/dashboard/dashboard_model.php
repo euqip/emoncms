@@ -32,31 +32,34 @@ class Dashboard
         return $this->mysqli->insert_id;
     }
 
-    public function delete($id,$cond)
+    public function delete($id,$cond='')
     {
         //* dashboard deletion only available to owner, system admin, org admin
         $id = (int) $id;
         $sql = "DELETE FROM dashboard WHERE id = $id and $cond";
         $result = $this->mysqli->query($sql);
-        logitem ($admin. '   '.$sql);
-        return $result;
+        if ($this->mysqli->affected_rows>0){
+            return array('success'=>true, 'message'=>_('Dashboard successfully deleted'));
+        } else {
+            return array('success'=>false, 'message'=>_('No deletion!'));
+        }
+        //return $result;
     }
 
-    public function dashclone($userid, $oid, $id)
+    public function dashclone($cond, $userid, $id)
     {
         $userid = (int) $userid;
         $id = (int) $id;
 
         // Get content, name and description from origin dashboard
-        $result = $this->mysqli->query("SELECT content,name,description,orgid FROM dashboard WHERE userid = '$userid' AND id='$id'");
+        $sql = "SELECT content,name,description,orgid FROM dashboard WHERE id='$id' AND ".$cond;
+        $result = $this->mysqli->query($sql);
         $row = $result->fetch_array();
-
-        // Name for cloned dashboard
+         // Name for cloned dashboard
         $name = $row['name']._(' clone');
         //$orgid = $session['orgid'];
-
-        $this->mysqli->query("INSERT INTO dashboard (`userid`, `orgid`,`content`,`name`,`description`) VALUES ('$userid','$oid','{$row['content']}','$name','{$row['description']}')");
-
+        $sql = "INSERT INTO dashboard (`userid`, `orgid`,`content`,`name`,`description`) VALUES ('$userid','{$row['orgid']}','{$row['content']}','$name','{$row['description']}')";
+        $this->mysqli->query($sql);
         return $this->mysqli->insert_id;
     }
 
@@ -71,7 +74,6 @@ class Dashboard
         if ($orgid==true) $oid = " or (orgid=$orgid and published=1)";
         $owner = "IF(userid=".$userid.",true,false) as mine";
         $sql="SELECT id, name, alias, description, main, published, public, showdescription,".$owner." FROM dashboard WHERE userid='$userid'".$qB.$qC.$oid;
-logitem ($sql);
         $result = $this->mysqli->query($sql);
         $list = array();
         while ($row = $result->fetch_object())
@@ -91,7 +93,7 @@ logitem ($sql);
         return $list;
     }
 
-    public function set_content($userid, $id, $content, $height)
+    public function set_content($userid, $id, $cond, $content, $height)
     {
         $userid = (int) $userid;
         $id = (int) $id;
@@ -100,14 +102,14 @@ logitem ($sql);
 
         //echo $content;
 
-        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE userid = '$userid' AND id='$id'");
+        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE $cond AND id='$id'");
         $row = $result->fetch_array();
-        if ($row) $this->mysqli->query("UPDATE dashboard SET content = '$content', height = '$height' WHERE userid='$userid' AND id='$id'");
+        if ($row) $this->mysqli->query("UPDATE dashboard SET content = '$content', height = '$height' WHERE $cond AND id='$id'");
 
         return array('success'=>true);
     }
 
-    public function set($userid,$id,$fields)
+    public function set($userid, $cond, $id, $fields)
     {
         $userid = (int) $userid;
         $id = (int) $id;
@@ -128,7 +130,8 @@ logitem ($sql);
         if (isset($fields->main))
         {
             $main = (bool)$fields->main;
-            if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE userid='$userid' and id<>'$id'");
+            //if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE $cond and id<>'$id'");
+            if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE $cond and id<>'$id'");
             $array[] = "`main` = '".$main ."'";
         }
 
@@ -138,7 +141,7 @@ logitem ($sql);
         // Convert to a comma seperated string for the mysql query
         $fieldstr = implode(",",$array);
 
-        $this->mysqli->query("UPDATE dashboard SET ".$fieldstr." WHERE userid='$userid' and `id` = '$id'");
+        $this->mysqli->query("UPDATE dashboard SET ".$fieldstr." WHERE $cond and `id` = '$id'");
 
         if ($this->mysqli->affected_rows>0){
             return array('success'=>true, 'message'=>_('Field updated'));
@@ -155,14 +158,14 @@ logitem ($sql);
         return $result->fetch_array();
     }
 
-    public function get($userid, $id, $public, $published)
+    public function get($cond='', $id, $public, $published)
     {
-        $userid = (int) $userid;
+        //$userid = (int) $userid;
         $id = (int) $id;
         $qB = ""; if ($public==true) $qB = " and public=1";
         $qC = ""; if ($published==true) $qC = " and published=1";
 
-        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE userid='$userid' and id='$id'".$qB.$qC);
+        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE id='$id' and ".$cond.$qB.$qC);
         return $result->fetch_array();
     }
 
@@ -235,9 +238,4 @@ logitem ($sql);
         //$sql = "update  `users`, `myelectric` SET `myelectric`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `myelectric`.`userid` =`users`.`id`".$uid;
 
     }
-
-}function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
-    fwrite ($handle, $str."\n");
-    fclose ($handle);
 }

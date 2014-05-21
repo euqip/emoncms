@@ -33,6 +33,18 @@ function dashboard_controller()
     // id, userid, content, height, name, alias, description, main, public, published, showdescription
 
     $result = false; $submenu = '';
+    switch ($session['admin']){
+    case $author['sysadmin']:
+        $cond = "";
+        break;
+    case $author['orgadmin']:
+        $cond = "orgid='".$session['orgid']."'";
+        break;
+    default:
+        $cond = "userid='".$session['userid']."'";
+        break;
+        }
+
 
     if ($route->format == 'html')
     {
@@ -47,7 +59,7 @@ function dashboard_controller()
         if ($route->action == "view" && $session['read'])
         {
             if ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
-            elseif (isset($_GET['id'])) $dash = $dashboard->get($session['userid'],get('id'),false,false);
+            elseif (isset($_GET['id'])) $dash = $dashboard->get($cond,get('id'),false,false);
             else $dash = $dashboard->get_main($session['userid']);
 
             if ($dash) {
@@ -73,7 +85,7 @@ function dashboard_controller()
         }
         if ($route->action == "clone" && $session['write']) {
             //iconlink action is changed to html presentation
-            $result = $dashboard->dashclone($session['userid'], $session['orgid'], get('id'));
+            $result = $dashboard->dashclone($cond,$session['userid'], get('id'));
             $result = view("Modules/dashboard/Views/dashboard_list.php",array());
 
             $menu = $dashboard->build_menu($session['userid'],"view");
@@ -82,31 +94,20 @@ function dashboard_controller()
 
     }
 
-    if ($route->format == 'json')
+    if ($route->format == 'json' && $session['write'])
     {
-        switch ($session['admin']){
-            case $author['sysadmin']:
-                $cond = "";
-                break;
-            case $author['orgadmin']:
-                $cond = "orgid='".$session['orgid']."'";
-                break;
-            default:
-                $cond = "userid='".$session['userid']."'";
-                break;
-        }
 
-        if ($route->action=='list' && $session['write']) $result = $dashboard->get_list($session['userid'], $session['orgid'], false, false);
+        if ($route->action=='list') $result = $dashboard->get_list($session['userid'], $session['orgid'], false, false);
 
-        if ($route->action=='set' && $session['write']) $result = $dashboard->set($session['userid'],get('id'),get('fields'));
-        if ($route->action=='setcontent' && $session['write']) $result = $dashboard->set_content($session['userid'],post('id'),post('content'),post('height'));
-        if ($route->action=='delete' && $session['write']) $result = $dashboard->delete(get('id'),$cond);
+        if ($route->action=='set') $result = $dashboard->set($session['userid'], $cond, get('id'),get('fields'));
+        if ($route->action=='setcontent') $result = $dashboard->set_content($session['userid'],post('id'),$cond, post('content'),post('height'));
+        if ($route->action=='delete') $result = $dashboard->delete(get('id'),$cond);
 
-        if ($route->action=='create' && $session['write']) $result = $dashboard->create($session['userid']);
-        if ($route->action=='clone' && $session['write']) {
+        if ($route->action=='create') $result = $dashboard->create($session['userid']);
+        if ($route->action=='clone') {
             // this action will return the record id only see html response , it will redraw the list
             // with new duplicated dasboard
-            $result = $dashboard->dashclone($session['userid'], $session['orgid'], get('id'));
+            $result = $dashboard->dashclone($cond,$session['userid'], get('id'));
         }
     }
 
