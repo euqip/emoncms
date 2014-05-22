@@ -9,10 +9,10 @@ $schema['dashboard'] = array(
     'name' => array('type' => "varchar(30)", 'default'=>'no name'),
     'alias' => array('type' => "varchar(10)"),
     'description' => array('type' => "varchar(255)", 'default'=>'no description'),
-    'main' => array('type' => 'tinyint(1)', 'default'=>FALSE),
-    'public' => array('type' => 'tinyint(1)', 'default'=>FALSE),
-    'published' => array('type' => 'tinyint(1)', 'default'=>FALSE),
-    'menu' => array('type' => 'tinyint(1)', 'default'=>FALSE),
-    'showdescription' => array('type' => 'tinyint(1)', 'default'=>FALSE)
+    'main' => array('type' => 'tinyint(1)', 'default'=>0),
+    'public' => array('type' => 'tinyint(1)', 'default'=>0),
+    'published' => array('type' => 'tinyint(1)', 'default'=>0),
+    'menu' => array('type' => 'tinyint(1)', 'default'=>0),
+    'showdescription' => array('type' => 'tinyint(1)', 'default'=>0)
 );
 
