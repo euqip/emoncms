@@ -110,7 +110,11 @@ h2{
 /*
 required for the dashboard submenu
 */
-
+.menudash{
+    width:90%;
+    height:50px;
+    overflow: hidden;
+}
 .dashlist{
     float:left;
     color:#888;

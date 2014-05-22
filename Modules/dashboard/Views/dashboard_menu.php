@@ -12,11 +12,12 @@ http://openenergymonitor.org
 global $path, $session, $useckeditor;
 ?>
 
-<span class="dashlist"><?php echo _("Dashboards:"); ?></span>
 
-<ul class="greydashmenu">
-    <?php echo $menu; ?>
-</ul>
+<div class="menudash">
+    <span class="dashlist"><?php echo _("Dashboards:"); ?></span>
+    <ul class="greydashmenu">
+        <?php echo $menu; ?>
+    </ul>
 
 <?php if ($session['write']) { ?>
 
@@ -42,7 +43,8 @@ global $path, $session, $useckeditor;
 
     <span href="<?php echo $path; ?>dashboard/list" class="iconbutton" title="<?php echo _('List view'); ?>">
         <span class="glyphicon glyphicon-th-list"></span>
-    </span>   
+    </span>
+</div>
 </div>
 
 <?php }

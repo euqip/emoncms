@@ -63,7 +63,7 @@ class Dashboard
         return $this->mysqli->insert_id;
     }
 
-    public function get_list($userid, $orgid, $public, $published)
+    public function get_list($userid, $cond, $public, $published)
     {
         $userid = (int) $userid;
         // need to change conditions to be able to filter public and published
@@ -71,9 +71,9 @@ class Dashboard
         $qB = ""; $qC = "";$oid='';
         if ($public==true) $qB = " and public=1";
         if ($published==true) $qC = " and published=1";
-        if ($orgid==true) $oid = " or (orgid=$orgid and published=1)";
+        if ($cond<>'') $cond = "".$cond."";
         $owner = "IF(userid=".$userid.",true,false) as mine";
-        $sql="SELECT id, name, alias, description, main, published, public, showdescription,".$owner." FROM dashboard WHERE userid='$userid'".$qB.$qC.$oid;
+        $sql="SELECT id, name, alias, description, main, published, public, menu, showdescription,".$owner." FROM dashboard WHERE ".$cond.$qB.$qC;
         $result = $this->mysqli->query($sql);
         $list = array();
         while ($row = $result->fetch_object())
@@ -87,6 +87,7 @@ class Dashboard
             'main' => (bool) $row->main,
             'published'=> (bool) $row->published,
             'public'=> (bool) $row->public,
+            'menu'=> (bool) $row->menu,
             'mine'=> (bool) $row->mine
         );
         }
@@ -114,6 +115,7 @@ class Dashboard
         $userid = (int) $userid;
         $id = (int) $id;
         $fields = json_decode(stripslashes($fields));
+        if ($cond<>'') $cond = $cond. " and ";
 
         $array = array();
 
@@ -131,17 +133,18 @@ class Dashboard
         {
             $main = (bool)$fields->main;
             //if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE $cond and id<>'$id'");
-            if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE $cond and id<>'$id'");
+            if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE $cond id<>$id");
             $array[] = "`main` = '".$main ."'";
         }
 
+        if (isset($fields->menu)) $array[] = "`menu` = '".((bool)$fields->menu)."'";
         if (isset($fields->public)) $array[] = "`public` = '".((bool)$fields->public)."'";
         if (isset($fields->published)) $array[] = "`published` = '".((bool)$fields->published)."'";
         if (isset($fields->showdescription)) $array[] = "`showdescription` = '".((bool)$fields->showdescription)."'";
         // Convert to a comma seperated string for the mysql query
         $fieldstr = implode(",",$array);
-
-        $this->mysqli->query("UPDATE dashboard SET ".$fieldstr." WHERE $cond and `id` = '$id'");
+        $sql = "UPDATE dashboard SET ".$fieldstr." WHERE $cond `id`='$id'";
+        $this->mysqli->query($sql);
 
         if ($this->mysqli->affected_rows>0){
             return array('success'=>true, 'message'=>_('Field updated'));
@@ -195,8 +198,9 @@ class Dashboard
         } else {
             $dashpath = 'dashboard/'.$location;
         }
+        $cond = " menu = '1' and userid = $userid";
 
-        $dashboards = $this->get_list($userid, $session['orgid'], $public, $published);
+        $dashboards = $this->get_list($userid, $cond, $public, $published);
         $topmenu="";
         foreach ($dashboards as $dashboard)
         {

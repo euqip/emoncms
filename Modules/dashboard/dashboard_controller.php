@@ -35,7 +35,7 @@ function dashboard_controller()
     $result = false; $submenu = '';
     switch ($session['admin']){
     case $author['sysadmin']:
-        $cond = "";
+        $cond = "1";
         break;
     case $author['orgadmin']:
         $cond = "orgid='".$session['orgid']."'";
@@ -44,7 +44,6 @@ function dashboard_controller()
         $cond = "userid='".$session['userid']."'";
         break;
         }
-
 
     if ($route->format == 'html')
     {
@@ -96,8 +95,7 @@ function dashboard_controller()
 
     if ($route->format == 'json' && $session['write'])
     {
-
-        if ($route->action=='list') $result = $dashboard->get_list($session['userid'], $session['orgid'], false, false);
+        if ($route->action=='list') $result = $dashboard->get_list($session['userid'], $cond, false, false);
 
         if ($route->action=='set') $result = $dashboard->set($session['userid'], $cond, get('id'),get('fields'));
         if ($route->action=='setcontent') $result = $dashboard->set_content($session['userid'],post('id'),$cond, post('content'),post('height'));

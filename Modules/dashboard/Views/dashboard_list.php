@@ -72,6 +72,7 @@ table.fields = {
     'alias':{'title':"<?php echo _('Alias'); ?>", 'type':"text",'tooltip':"<?php echo _('Dashboard Alias'); ?>", 'display':"yes", 'colwidth':" style='width:200px;'"},
 // 'description':{'title':"<?php echo _('Description'); ?>", 'type':"text"},
 'main':{'title':"<?php echo _('Main'); ?>",'tooltip':"<?php echo _('set as main'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-star", 'falseicon':"glyphicon glyphicon-star-empty", 'display':"yes", 'colwidth':" style='width:30px;'"},
+'menu':{'title':"<?php echo _('Menu'); ?>",'tooltip':"<?php echo _('Show it in sub-menu for quick access'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-thumbs-up", 'falseicon':"glyphicon glyphicon-thumbs-down", 'display':"yes", 'colwidth':" style='width:30px;'"},
 'public':{'title':"<?php echo _('Public'); ?>", 'tooltip': "<?php echo _('make dashbord public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock", 'iconaction':"public", 'display':"yes", 'colwidth':" style='width:30px;'"},
 'published':{'title':"<?php echo _('Publish'); ?>",'tooltip':"<?php echo _('Publish dashbord, make it usable by other users within organisation'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'display':"yes", 'colwidth':" style='width:30px;'"},
 
