@@ -74,7 +74,6 @@ class Dashboard
         if ($cond<>'') $cond = "".$cond."";
         $owner = "IF(userid=".$userid.",true,false) as mine";
         $sql="SELECT id, name, alias, description, main, published, public, menu, showdescription,".$owner." FROM dashboard WHERE ".$cond.$qB.$qC;
-        logitem ($sql);
         $result = $this->mysqli->query($sql);
         $list = array();
         while ($row = $result->fetch_object())
@@ -243,11 +242,4 @@ class Dashboard
         //$sql = "update  `users`, `myelectric` SET `myelectric`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `myelectric`.`userid` =`users`.`id`".$uid;
 
     }
-}
-
-
-function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
-    fwrite ($handle, $str."\n");
-    fclose ($handle);
 }

@@ -91,7 +91,7 @@ function dashboard_controller()
         if ($route->action == "view" && $session['read'])
         {
             if ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
-            elseif (isset($_GET['id'])) $dash = $dashboard->get($cond,get('id'),false,false);
+            elseif (isset($_GET['id'])) $dash = $dashboard->get($condrd ,get('id'),false,false);
             else $dash = $dashboard->get_main($session['userid']);
 
             if ($dash) {
