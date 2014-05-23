@@ -68,12 +68,13 @@ class Dashboard
         $userid = (int) $userid;
         // need to change conditions to be able to filter public and published
 
-        $qB = ""; $qC = "";$oid='';
+        $qB = ""; $qC = "";
         if ($public==true) $qB = " and public=1";
         if ($published==true) $qC = " and published=1";
         if ($cond<>'') $cond = "".$cond."";
         $owner = "IF(userid=".$userid.",true,false) as mine";
         $sql="SELECT id, name, alias, description, main, published, public, menu, showdescription,".$owner." FROM dashboard WHERE ".$cond.$qB.$qC;
+        logitem ($sql);
         $result = $this->mysqli->query($sql);
         $list = array();
         while ($row = $result->fetch_object())
@@ -242,4 +243,11 @@ class Dashboard
         //$sql = "update  `users`, `myelectric` SET `myelectric`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `myelectric`.`userid` =`users`.`id`".$uid;
 
     }
+}
+
+
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
 }
