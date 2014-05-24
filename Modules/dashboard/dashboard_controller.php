@@ -87,6 +87,7 @@ function dashboard_controller()
             $menu = $dashboard->build_menu($session['userid'],"view");
             $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('menu'=>$menu, 'type'=>"view"));
         }
+        logitem ('$route->action '.$route->action.' read : '.$session['read'].' admin :'.$session['admin']);
 
         if ($route->action == "view" && $session['read'])
         {
@@ -104,7 +105,7 @@ function dashboard_controller()
             $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('id'=>$dash['id'], 'menu'=>$menu, 'type'=>"view"));
         }
 
-        if ($route->action == "edit" && $session['write'])
+        if ($route->action == "edit" && $session['write']  and ($session['admin']<>$author['viewer']))
         {
             if ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
             elseif (isset($_GET['id'])) $dash = $dashboard->get($session['userid'],get('id'),false,false);
@@ -147,3 +148,8 @@ function dashboard_controller()
     return array('content'=>$result, 'submenu'=>$submenu);
 }
 
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
+}

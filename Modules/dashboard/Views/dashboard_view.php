@@ -13,7 +13,7 @@ Ask for user (session) Language when loading dashboard_langjs.php
 */
 
   global $session, $path; ?>
-  
+
   <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard_langjs.php?lang=<?php echo $session['lang']; ?>"></script>
     <link href="<?php echo $path; ?>Modules/dashboard/Views/js/widget.css" rel="stylesheet">
 

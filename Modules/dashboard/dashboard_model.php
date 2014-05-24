@@ -161,7 +161,7 @@ class Dashboard
         return $result->fetch_array();
     }
 
-    public function get($cond='', $id, $public, $published)
+    public function get($cond, $id, $public, $published)
     {
         //$userid = (int) $userid;
         $id = (int) $id;

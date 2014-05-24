@@ -111,7 +111,7 @@ h2{
 required for the dashboard submenu
 */
 .menudash{
-    width:90%;
+    width:100%;
     height:50px;
     overflow: hidden;
 }
@@ -145,6 +145,10 @@ required for the dashboard submenu
     text-decoration: none;
     font: 13px/27px sans-serif;
     text-transform: none;
+}
+.menu-icon{
+    text-align:right;
+    padding:4px;
 }
 
 .form-inline .form-group input select{
