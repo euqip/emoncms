@@ -16,7 +16,7 @@ function input_controller()
 {
     //return array('content'=>"ok");
 
-    global $mysqli, $redis, $user, $org, $session, $route, $max_node_id_limit, $feed_settings;
+    global $mysqli, $redis, $user, $org, $session, $route, $max_node_id_limit, $feed_settings, $author;
 
     // There are no actions in the input module that can be performed with less than write privileges
     if (!$session['write']) return array('content'=>false);
@@ -32,8 +32,52 @@ function input_controller()
 
     require "Modules/input/process_model.php"; // 886
     $process = new Process($mysqli,$input,$feed);
-    
+
     $process->set_timezone_offset($user->get_timezone($session['userid']));
+
+    $actions=array(
+        'delete'    => 'yes',
+        'clone'     => 'yes',
+        'edit'      => 'yes',
+        'draw'      => 'yes',
+        'view'      => 'yes',
+        'mine'      => 'yes',
+        );
+
+    switch ($session['admin']){
+    case $author['sysadmin']:
+        // sysadmin reads and updates all
+        $cond = "1";
+        $condrd = "1";
+        break;
+    case $author['orgadmin']:
+        //orgadmin reads and updates all within his organisation
+        $cond = "orgid='".$session['orgid']."'";
+        $condrd = "orgid='".$session['orgid']."'";
+        break;
+    case $author['viewer']:
+        //viewer sees all withi organisation but is not allowed to update
+        $cond = "orgid=0 and userid='".$session['userid']."'";
+        $condrd = "orgid='".$session['orgid']."'";
+            $actions['delete']= 'no';
+            $actions['edit']= 'no';
+            $actions['draw']= 'no';
+            $actions['mine']= 'no';
+        break;
+    case $author['designer']:
+        //designer updates own and reads all (dashbords)
+        $cond = "orgid='".$session['orgid']."' and userid='".$session['userid']."'";
+        $condrd = "orgid='".$session['orgid']."'";
+        $actions=array(
+            );
+        break;
+    default:
+        //default is equivalent to now organisations the user is only able to read ans update his own dashboards
+        $cond = "userid='".$session['userid']."'";
+        break;
+        }
+
+
 
     if ($route->format == 'html')
     {
@@ -45,7 +89,7 @@ function input_controller()
     if ($route->format == 'json')
     {
         /*
-        
+
         input/bulk.json?data=[[0,16,1137],[2,17,1437,3164],[4,19,1412,3077]]
 
         The first number of each node is the time offset (see below).
@@ -64,7 +108,7 @@ function input_controller()
         (number of seconds since 1970-01-01 00:00:00 UTC)
 
         Examples:
-        
+
         // legacy mode: 4 is 0, 2 is -2 and 0 is -4 seconds to now.
           input/bulk.json?data=[[0,16,1137],[2,17,1437,3164],[4,19,1412,3077]]
         // offset mode: -6 is -16 seconds to now.
@@ -81,16 +125,16 @@ function input_controller()
         if ($route->action == 'bulk')
         {
             $valid = true;
-            
+
             if (!isset($_GET['data']) && isset($_POST['data']))
             {
                 $data = json_decode(post('data'));
             }
-            else 
+            else
             {
                 $data = json_decode(get('data'));
             }
-            
+
             $userid = $session['userid'];
             $dbinputs = $input->get_inputs($userid);
 
@@ -104,7 +148,7 @@ function input_controller()
                         $time_ref = time() - (int) $_GET['sentat'];
                     }  elseif (isset($_POST['sentat'])) {
                         $time_ref = time() - (int) $_POST['sentat'];
-                    } 
+                    }
                     // Offset mode: input/bulk.json?data=[[-10,16,1137],[-8,17,1437,3164],[-6,19,1412,3077]]&offset=-10
                     elseif (isset($_GET['offset'])) {
                         $time_ref = time() - (int) $_GET['offset'];
@@ -116,7 +160,7 @@ function input_controller()
                         $time_ref = (int) $_GET['time'];
                     } elseif (isset($_POST['time'])) {
                         $time_ref = (int) $_POST['time'];
-                    } 
+                    }
                     // Legacy mode: input/bulk.json?data=[[0,16,1137],[2,17,1437,3164],[4,19,1412,3077]]
                     else {
                         $time_ref = time() - (int) $data[$len-1][0];
@@ -148,7 +192,7 @@ function input_controller()
                                 {
                                     if (!isset($dbinputs[$nodeid][$name]))
                                     {
-                                        $inputid = $input->create_input($userid, $nodeid, $name);
+                                        $inputid = $input->create_input($userid, $orgid, $nodeid, $name);
                                         $dbinputs[$nodeid][$name] = true;
                                         $dbinputs[$nodeid][$name] = array('id'=>$inputid, 'processList'=>'');
                                         $input->set_timevalue($dbinputs[$nodeid][$name]['id'],$time,$value);
@@ -263,13 +307,14 @@ function input_controller()
                 }
 
                 $userid = $session['userid'];
+                $orgid = $session['orgid'];
                 $dbinputs = $input->get_inputs($userid);
 
                 $tmp = array();
                 foreach ($data as $name => $value)
                 {
                     if (!isset($dbinputs[$nodeid][$name])) {
-                        $inputid = $input->create_input($userid, $nodeid, $name);
+                        $inputid = $input->create_input($userid, $orgid, $nodeid, $name);
                         $dbinputs[$nodeid][$name] = true;
                         $dbinputs[$nodeid][$name] = array('id'=>$inputid);
                         $input->set_timevalue($dbinputs[$nodeid][$name]['id'],$time,$value);
@@ -294,12 +339,12 @@ function input_controller()
                 $result = "Error: $error\n";
         }
 
-        if ($route->action == "clean") $result = $input->clean($session['userid']);
-        if ($route->action == "list") $result = $input->getlist($session['userid']);
-        if ($route->action == "getinputs") $result = $input->get_inputs($session['userid']);
+        if ($route->action == "clean") $result = $input->clean($session['userid'],$cond);
+        if ($route->action == "list") $result = $input->getlist($session['userid'],$condrd);
+        if ($route->action == "getinputs") $result = $input->get_inputs($session['userid'],$condrd);
         if ($route->action == "getallprocesses") $result = $process->get_process_list();
 
-        if (isset($_GET['inputid']) && $input->belongs_to_user($session['userid'],get("inputid")))
+        if (isset($_GET['inputid']) && $input->belongs_to('userid',$session['userid'],get("inputid")))
         {
             if ($route->action == "delete") $result = $input->delete($session['userid'],get("inputid"));
 
@@ -312,7 +357,7 @@ function input_controller()
                 if ($route->subaction == "delete") $result = $input->delete_process(get("inputid"),get('processid'));
                 if ($route->subaction == "move") $result = $input->move_process(get("inputid"),get('processid'),get('moveby'));
                 if ($route->subaction == "reset") $result = $input->reset_process(get("inputid"));
-            }           
+            }
         }
     }
 

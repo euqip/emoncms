@@ -33,23 +33,23 @@ class Input
     public function check_node_id_valid($nodeid)
     {
         global $max_node_id_limit;
-        
+
         // As highlighted by developer:fake-name PHP's doesnt have a function
         // for checking if a string will cast to a valid integer.
         //
         // is_numeric is the closest function but it allows input of:
-        // Octal, e-notation (+0123.45e6) & Hex. 
-        // 
-        // Casting with (int) will convert input such as Array({stuff}) to 1 
-        // whereas NAN would be a more appropriate result.  
+        // Octal, e-notation (+0123.45e6) & Hex.
         //
-        // Other languages such as Python will return an error if you try and 
+        // Casting with (int) will convert input such as Array({stuff}) to 1
+        // whereas NAN would be a more appropriate result.
+        //
+        // Other languages such as Python will return an error if you try and
         // cast a variable in this way.
         //
         // checking against isNumeric will probably catch *most*
         // of the potential issues for now but it may be good look at catching
         // non-integer numbers at some point
-        
+
         if (!is_numeric ($nodeid))
         {
             return false;
@@ -73,19 +73,20 @@ class Input
 
     }
     // USES: redis input & user
-    public function create_input($userid, $nodeid, $name)
+    public function create_input($userid, $orgid, $nodeid, $name)
     {
         global $max_node_id_limit;
         $userid = (int) $userid;
         $nodeid = (int) $nodeid;
 
         $name = preg_replace('/[^\w\s-.]/','',$name);
-        $this->mysqli->query("INSERT INTO input (userid,name,nodeid) VALUES ('$userid','$name','$nodeid')");
+        $this->mysqli->query("INSERT INTO input (userid,orgid,name,nodeid) VALUES ('$userid','$orgid','$name','$nodeid')");
 
         $id = $this->mysqli->insert_id;
 
         if ($this->redis) {
             $this->redis->sAdd("user:inputs:$userid", $id);
+            $this->redis->sAdd("user:inputs:$orgid", $id);
             $this->redis->hMSet("input:$id",array('id'=>$id,'nodeid'=>$nodeid,'name'=>$name,'description'=>"", 'processList'=>""));
         }
         return $id;
@@ -115,12 +116,30 @@ class Input
     }
 
     // used in conjunction with controller before calling another method
+    //more generic function
+    public function belongs_to($whatid,$idval, $inputid)
+    {
+        $userid = (int) $userid;
+        $inputid = (int) $inputid;
+
+        $result = $this->mysqli->query("SELECT id FROM input WHERE $whatid = '$idval' AND id = '$inputid'");
+        if ($result->fetch_array()) return true; else return false;
+    }
     public function belongs_to_user($userid, $inputid)
     {
         $userid = (int) $userid;
         $inputid = (int) $inputid;
 
         $result = $this->mysqli->query("SELECT id FROM input WHERE userid = '$userid' AND id = '$inputid'");
+        if ($result->fetch_array()) return true; else return false;
+    }
+
+    public function belongs_to_org($orgid, $inputid)
+    {
+        $userid = (int) $userid;
+        $inputid = (int) $inputid;
+
+        $result = $this->mysqli->query("SELECT id FROM input WHERE orgid = '$orgid' AND id = '$inputid'");
         if ($result->fetch_array()) return true; else return false;
     }
 
@@ -166,18 +185,18 @@ class Input
         $userid = (int) $userid;
         $inputid = (int) $inputid;
         $processid = (int) $processid;                                    // get process type (ProcessArg::)
-        
+
         $process = $process_class->get_process($processid);
         $processtype = $process[1];                                       // Array position 1 is the processtype: VALUE, INPUT, FEED
         $datatype = $process[4];                                          // Array position 4 is the datatype
-        
+
         switch ($processtype) {
             case ProcessArg::VALUE:                                       // If arg type value
                 if ($arg == '') return array('success'=>false, 'message'=>_('Argument must be a valid number greater or less than 0.'));
-                
+
                 $arg = (float)$arg;
                 $arg = str_replace(',','.',$arg); // hack to fix locale issue that converts . to ,
-                    
+
                 break;
             case ProcessArg::INPUTID:                                     // If arg type input
                 $arg = (int) $arg;
@@ -261,7 +280,7 @@ class Input
         $id = (int) $id;
         $this->set_processlist($id, "");
     }
-    
+
     public function get_inputs($userid)
     {
         if ($this->redis) {
@@ -290,7 +309,7 @@ class Input
 
         return $dbinputs;
     }
-    
+
     public function mysql_get_inputs($userid)
     {
         $userid = (int) $userid;
@@ -309,17 +328,19 @@ class Input
     // This public function gets a users input list, its used to create the input/list page
     //-----------------------------------------------------------------------------------------------
     // USES: redis input & user & lastvalue
-    
-    public function getlist($userid)
+
+    public function getlist($userid,$cond)
     {
         if ($this->redis) {
-            return $this->redis_getlist($userid);
+        logitem ('redis: '.$userid." ".$cond);
+
+            return $this->redis_getlist($userid,$cond);
         } else {
-            return $this->mysql_getlist($userid);
+            return $this->mysql_getlist($userid,$cond);
         }
     }
-    
-    public function redis_getlist($userid)
+
+    public function redis_getlist($userid,$cond)
     {
         $userid = (int) $userid;
         if (!$this->redis->exists("user:inputs:$userid")) $this->load_to_redis($userid);
@@ -336,13 +357,14 @@ class Input
         }
         return $inputs;
     }
-    
-    public function mysql_getlist($userid)
+
+    public function mysql_getlist($userid,$cond)
     {
         $userid = (int) $userid;
         $inputs = array();
-        
-        $result = $this->mysqli->query("SELECT id,nodeid,name,description,processList,time,value FROM input WHERE `userid` = '$userid'");
+        //$sql = "SELECT id,nodeid,name,description,processList,time,value FROM input WHERE `userid` = '$userid'";
+        $sql = "SELECT id,nodeid,name,description,processList,time,value FROM input WHERE $cond";
+        $result = $this->mysqli->query($sql);
         while ($row = (array)$result->fetch_object())
         {
             $row['time'] = strtotime($row['time']);
@@ -372,7 +394,7 @@ class Input
     {
         // LOAD REDIS
         $id = (int) $id;
-        
+
         if ($this->redis) {
             if (!$this->redis->exists("input:$id")) $this->load_input_to_redis($id);
             return $this->redis->hget("input:$id",'processList');
@@ -387,7 +409,7 @@ class Input
     public function get_last_value($id)
     {
         $id = (int) $id;
-        
+
         if ($this->redis) {
             return $this->redis->hget("input:lastvalue:$id",'value');
         } else {
@@ -432,13 +454,13 @@ class Input
                 // if input: get input name
                 } elseif ($process[1] == ProcessArg::FEEDID){
                     $arg = $this->feed->get_field($arg,'name');
-                    
+
                     // Delete process list if feed does not exist
                     if (isset($arg['success']) && !$arg['success']) {
                       $this->delete_process($id, $index+1);
                       $arg = "Feed does not exist!";
                     }
-                    
+
                 }
                 // if feed: get feed name
 
@@ -447,14 +469,14 @@ class Input
                     $arg
                 );
                 // Populate list array
-                
+
                 $index++;
             }
         }
         return $list;
     }
     */
-    
+
     // USES: redis input & user
     public function delete($userid, $inputid)
     {
@@ -463,7 +485,7 @@ class Input
         // Inputs are deleted permanentely straight away rather than a soft delete
         // as in feeds - as no actual feed data will be lost
         $this->mysqli->query("DELETE FROM input WHERE userid = '$userid' AND id = '$inputid'");
-        
+
         if ($this->redis) {
             $this->redis->del("input:$inputid");
             $this->redis->srem("user:inputs:$userid",$inputid);
@@ -480,7 +502,7 @@ class Input
             if ($row['processList']==NULL || $row['processList']=='')
             {
                 $result = $this->mysqli->query("DELETE FROM input WHERE userid = '$userid' AND id = '$inputid'");
-                
+
                 if ($this->redis) {
                     $this->redis->del("input:$inputid");
                     $this->redis->srem("user:inputs:$userid",$inputid);
@@ -524,4 +546,30 @@ class Input
         }
     }
 
+    public function upgradeinputs($userid)
+    {
+        $userid = (int) $userid;
+        $uid = "";
+        if ($userid==true) $uid = " and users.userid=".$useerid;
+        $sql = "update  `users`, `input` SET `input`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `input`.`userid` =`users`.`id`".$uid;
+        //$sql = "update  `users`, `dashboard` SET `dashboard`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `dashboard`.`userid` =`users`.`id`".$uid;
+        $this->mysqli->query($sql);
+        if ($this->mysqli->affected_rows>0){
+            return array('success'=>true, 'message'=>$this->mysqli->affected_rows.' '._('Inputs are assigned to organisations'));
+        } else {
+            return array('success'=>false, 'message'=>_('No input were assigned to organisations'));
+        }
+
+
+        //$sql = "update  `users`, `input` SET `input`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `input`.`userid` =`users`.`id`".$uid;
+        //$sql = "update  `users`, `feeds` SET `feeds`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `feeds`.`userid` =`users`.`id`".$uid;
+        //$sql = "update  `users`, `myelectric` SET `myelectric`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `myelectric`.`userid` =`users`.`id`".$uid;
+
+    }
+}
+
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
 }

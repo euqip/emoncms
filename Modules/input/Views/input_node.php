@@ -7,7 +7,7 @@
 <div class="container">
     <div id="localheading"><h2><?php echo _('Inputs'); ?>
       <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Input API Help'); ?>"></span></small></a>
-      </h2>    
+      </h2>
     </div>
     <div id="table"></div>
 
@@ -52,11 +52,11 @@
     table.draw();
     if (table.data.length != 0) {
       $("#noinputs").hide();
-      $("#apihelphead").hide();      
+      $("#apihelphead").hide();
       $("#localheading").show();
     } else {
       $("#noinputs").show();
-      $("#apihelphead").show(); 
+      $("#apihelphead").show();
       $("#localheading").hide();
     }
   }
@@ -65,7 +65,7 @@
   var updater = setInterval(update, updateinterval);
 
   $("#table").bind("onSave", function(e,id,fields_to_update){
-    input.set(id,fields_to_update); 
+    input.set(id,fields_to_update);
     updater = setInterval(update, updateinterval);
   });
   update();
@@ -80,7 +80,7 @@
   });
 
       function module_event(evt, elt, row, uid, action){
-        console.log('input module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);                   
+        console.log('input module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
       }
 
 

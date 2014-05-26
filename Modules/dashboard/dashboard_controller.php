@@ -34,14 +34,14 @@ function dashboard_controller()
 
     $result = false; $submenu = '';
     $actions=array(
-        'delete' => 'yes',
-        'clone'  => 'yes',
-        'edit'   => 'yes',
-        'draw'   => 'yes',
-        'view'   => 'yes',
-        'public'        => 'yes',
-        'published'     => 'yes',
-        'mine'          => 'yes',
+        'delete'    => 'yes',
+        'clone'     => 'yes',
+        'edit'      => 'yes',
+        'draw'      => 'yes',
+        'view'      => 'yes',
+        'public'    => 'yes',
+        'published' => 'yes',
+        'mine'      => 'yes',
         );
 
     switch ($session['admin']){
