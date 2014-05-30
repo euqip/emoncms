@@ -30,8 +30,8 @@ if (isset($feed_settings['enable_mysql_all']) && $feed_settings['enable_mysql_al
 <div id="processlist-ui">
     <table class="table">
         <tr>
-            <th style='width:5%;'></th>
-            <th style='width:5%;'><?php echo _('Order'); ?></th>
+            <th style='width:15%;'></th>
+            <th style='width:10%;'><?php echo _('Order'); ?></th>
             <th><?php echo _('Process'); ?></th>
             <th><?php echo _('Arg'); ?></th>
             <th></th>

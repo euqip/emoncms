@@ -136,7 +136,8 @@ function input_controller()
             }
 
             $userid = $session['userid'];
-            $dbinputs = $input->get_inputs($userid);
+            $orgid = $session['orgid'];
+            $dbinputs = $input->get_inputs($userid,$orgid);
 
             $len = count($data);
             if ($len>0)
@@ -308,7 +309,7 @@ function input_controller()
 
                 $userid = $session['userid'];
                 $orgid = $session['orgid'];
-                $dbinputs = $input->get_inputs($userid);
+                $dbinputs = $input->get_inputs($userid,$orgid);
 
                 $tmp = array();
                 foreach ($data as $name => $value)
@@ -338,13 +339,32 @@ function input_controller()
             else
                 $result = "Error: $error\n";
         }
-
+        /*
         if ($route->action == "clean") $result = $input->clean($session['userid'],$cond);
         if ($route->action == "list") $result = $input->getlist($session['userid'],$condrd);
         if ($route->action == "getinputs") $result = $input->get_inputs($session['userid'],$condrd);
         if ($route->action == "getallprocesses") $result = $process->get_process_list();
+        */
+        $userid=$session['userid'];
+        $orgid=$session['orgid'];
+        switch ($route->action){
+            case 'clean':
+                $result = $input->clean($userid,$cond);
+                break;
+            case 'list':
+                $result = $input->getlist($userid,$orgid,$condrd);
+                break;
+            case 'getinputs':
+                $result = $input->get_inputs($userid,$cond);
+                break;
+            case 'getallprocesses':
+                $result = $process->get_process_list();
+                break;
 
-        if (isset($_GET['inputid']) && $input->belongs_to('userid',$session['userid'],get("inputid")))
+       }
+
+        //if (isset($_GET['inputid']) && $input->belongs_to('userid',$session['userid'],get("inputid")))
+        if (isset($_GET['inputid']) && $input->belongs_to('orgid',$session['orgid'],get("inputid")))
         {
             if ($route->action == "delete") $result = $input->delete($session['userid'],get("inputid"));
 

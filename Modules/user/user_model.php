@@ -47,6 +47,7 @@ public function apikey_session($apikey_in)
         $session = array();
         //set defaults
         $session['userid'] = '';
+        $session['uorgid'] = '';
         $session['read'] = 0;
         $session['write'] = 0;
         $session['admin'] = 0;
@@ -62,8 +63,9 @@ public function apikey_session($apikey_in)
             $session['read'] = 1;
             $session['write'] = 1;
             $session['lang'] = $this->redis->get("userlangkey:$apikey_in");
-            if ($session['lang']==''){
-            $result = $this->mysqli->query("SELECT id, language FROM users WHERE apikey_write='$apikey_in'");
+            $session['orgid']= $this->redis->get("userorgid:$apikey_in");
+            if ($session['lang']=='' || $session['orgid']==''){
+            $result = $this->mysqli->query("SELECT id, language, orgid FROM users WHERE apikey_write='$apikey_in'");
                 if ($result->num_rows == 1)
                 {
                     $row = $result->fetch_array();
@@ -71,9 +73,11 @@ public function apikey_session($apikey_in)
                     {
                         //session_regenerate_id();
                         $session['lang'] = $row['language'];
+                        $session['orgid'] = $row['orgid'];
 
                         if ($this->redis) $this->redis->set("writeapikey:$apikey_in",$row['id']);
                         if ($this->redis) $this->redis->set("userlangkey:$apikey_in",$row['language']);
+                        if ($this->redis) $this->redis->set("userorgid:$apikey_in",$row['orgid']);
                     }
 
                 }
@@ -81,7 +85,7 @@ public function apikey_session($apikey_in)
         }
         else
         {
-            $result = $this->mysqli->query("SELECT id, language FROM users WHERE apikey_write='$apikey_in'");
+            $result = $this->mysqli->query("SELECT id, language, orgid FROM users WHERE apikey_write='$apikey_in'");
             if ($result->num_rows == 1)
             {
                 $row = $result->fetch_array();
@@ -92,14 +96,16 @@ public function apikey_session($apikey_in)
                     $session['read'] = 1;
                     $session['write'] = 1;
                     $session['lang'] = $row['language'];
+                    $session['orgid'] = $row['orgid'];
 
                     if ($this->redis) $this->redis->set("writeapikey:$apikey_in",$row['id']);
                     if ($this->redis) $this->redis->set("userlangkey:$apikey_in",$row['language']);
+                    if ($this->redis) $this->redis->set("userorgid:$orgid",$row['orgid']);
                 }
             }
             else
             {
-            $result = $this->mysqli->query("SELECT id, language FROM users WHERE apikey_read='$apikey_in'");
+            $result = $this->mysqli->query("SELECT id, language, orgid FROM users WHERE apikey_read='$apikey_in'");
             if ($result->num_rows == 1)
             {
                 $row = $result->fetch_array();
@@ -109,6 +115,7 @@ public function apikey_session($apikey_in)
                     $session['userid'] = $row['id'];
                     $session['read'] = 1;
                     $session['lang'] = $row['language'];
+                    $session['orgid'] = $row['orgid'];
                 }
             }
             }
