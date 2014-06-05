@@ -10,15 +10,12 @@
   http://openenergymonitor.org
 
   */
+  $emoncms_version = "8.2.6";
 
   $ltime = microtime(true);
   date_default_timezone_set('UTC');
-
-
   define('EMONCMS_EXEC', 1);
 
-  $emoncms_version = "8.2.5";
-  
   // 1) Load settings and core scripts
   require "process_settings.php";
   require "core.php";
