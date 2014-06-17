@@ -147,48 +147,86 @@ $modulename = _('Nodes');
 <script>
 
   var path = "<?php echo $path; ?>";
-  
+
   processlist_ui.enable_mysql_all = <?php echo $enable_mysql_all; ?>;
-  
+
   var nodes = node.getall();
-  
+
   var decoders = {
-  
+
     nodecoder: {
       name: 'No decoder',
       variables:[]
     },
-  
+
     lowpowertemperaturenode: {
       name: 'Low power temperature node',
       updateinterval: 60,
       variables: [
         {name: 'Temperature', type: 1, scale: 0.01, units: '°C' },
-        {name: 'Battery Voltage', type: 1, scale:0.001, units: 'V'}
+        {name: 'Battery Voltage', type: 1, scale:0.001, units: 'V'},
+        {name: 'RSSI', type: 0 }
       ]
     },
-    
+
     emonTxV3_RFM12B_DiscreteSampling: {
       name: 'EmonTx V3 RFM12B DiscreteSampling',
       updateinterval: 10,
       variables: [
-        {name: 'Power 1', type: 1, units: 'W'}, 
-        {name: 'Power 2', type: 1, units: 'W'}, 
-        {name: 'Power 3', type: 1, units: 'W'}, 
+        {name: 'Power 1', type: 1, units: 'W'},
+        {name: 'Power 2', type: 1, units: 'W'},
+        {name: 'Power 3', type: 1, units: 'W'},
         {name: 'Power 4', type: 1, units: 'W'},
-        {name: 'Vrms', type: 1, scale: 0.01, units: 'V'}, 
-        {name: 'temp', type: 1, scale: 0.1, units: '°C'}
+        {name: 'Vrms', type: 1, scale: 0.01, units: 'V'},
+        {name: 'temp', type: 1, scale: 0.1, units: '°C'},
+        {name: 'RSSI', type: 0 }
       ]
     },
 };
 
-redraw();
+    emonTxV3_continuous_whtotals: {
+      name: 'EmonTx V3 (Continuous sampling with Wh totals)',
+      updateinterval: 10,
+      variables: [
+        {name: 'Message Number', type: 2 },
+        {name: 'Power CT1', type: 1, units: 'W'},
+        {name: 'Power CT2', type: 1, units: 'W'},
+        {name: 'Power CT3', type: 1, units: 'W'},
+        {name: 'Power CT4', type: 1, units: 'W'},
+        {name: 'Wh CT1', type: 2, units: 'Wh'},
+        {name: 'Wh CT2', type: 2, units: 'Wh'},
+        {name: 'Wh CT3', type: 2, units: 'Wh'},
+        {name: 'Wh CT4', type: 2, units: 'Wh'},
+        {name: 'RSSI', type: 0 }
+      ]
+    },
 
-var variable_edit_mode = false;
-var interval = setInterval(update,updateinterval);
+    emonTH_DHT22_DS18B20: {
+      name: 'EmonTH DHT22 DS18B20',
+      updateinterval: 60,
+      variables: [
+        {name: 'Internal temperature', type: 1, scale: 0.1, units: '°C'},
+        {name: 'External temperature', type: 1, scale: 0.1, units: '°C'},
+        {name: 'Humidity', type: 1, scale: 0.1, units: '%'},
+        {name: 'Battery Voltage', type: 1, scale: 0.1, units: 'V'},
+        {name: 'RSSI', type: 0 }
+      ]
+    },
 
-function update()
-{
+    custom: {
+      name: 'Custom decoder',
+      variables:[]
+    },
+  };
+
+ redraw();
+
+ var variable_edit_mode = false;
+
+ var interval = setInterval(update,5000);
+
+ function update()
+ {
    nodes = node.getall();
    redraw();
 }
