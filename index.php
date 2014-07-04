@@ -10,7 +10,7 @@
   http://openenergymonitor.org
 
   */
-  $emoncms_version = "8.2.6";
+  $emoncms_version = "8.2.8";
 
   $ltime = microtime(true);
   date_default_timezone_set('UTC');
@@ -53,8 +53,8 @@
     }
 
     if (!$mysqli->connect_error && $dbtest==true) {
-    require "Lib/dbschemasetup.php";
-    if (!db_check($mysqli,$database)) db_schema_setup($mysqli,load_db_schema(),true);
+        require "Lib/dbschemasetup.php";
+        if (!db_check($mysqli,$database)) db_schema_setup($mysqli,load_db_schema(),true);
     }
 
     // 3) User sessions
@@ -91,17 +91,17 @@
     // If no route specified use defaults
     if (!$route->controller && !$route->action)
     {
-    // Non authenticated defaults
-    if (!$session['read'])
-    {
-        $route->controller = $default_controller;
-        $route->action = $default_action;
-    }
-    else // Authenticated defaults
-    {
-        $route->controller = $default_controller_auth;
-        $route->action = $default_action_auth;
-    }
+        // Non authenticated defaults
+        if (!$session['read'])
+        {
+            $route->controller = $default_controller;
+            $route->action = $default_action;
+        }
+        else // Authenticated defaults
+        {
+            $route->controller = $default_controller_auth;
+            $route->action = $default_action_auth;
+        }
     }
 
     if ($route->controller == 'api') $route->controller = 'input';
@@ -116,16 +116,16 @@
     // is returned from the controller.
     if (!$output['content'] && $public_profile_enabled && $route->controller!='admin')
     {
-    $userid = $user->get_id($route->controller);
-    if ($userid) {
-        $route->subaction = $route->action;
-        $session['userid'] = $userid;
-        $session['username'] = $route->controller;
-        $session['read'] = 1;
-        $session['profile'] = 1;
-        $route->action = $public_profile_action;
-        $output = controller($public_profile_controller);
-    }
+        $userid = $user->get_id($route->controller);
+        if ($userid) {
+            $route->subaction = $route->action;
+            $session['userid'] = $userid;
+            $session['username'] = $route->controller;
+            $session['read'] = 1;
+            $session['profile'] = 1;
+            $route->action = $public_profile_action;
+            $output = controller($public_profile_controller);
+        }
     }
 
     // $mysqli->close();

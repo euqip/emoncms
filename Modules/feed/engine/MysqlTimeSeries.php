@@ -84,7 +84,7 @@ class MysqlTimeSeries
         if ($range > 180000 && $dp > 0) // 50 hours
         {
             $td = $range / $dp;
-            $stmt = $this->mysqli->prepare("SELECT time, data FROM $feedname WHERE time BETWEEN ? AND ? LIMIT 1");
+            $stmt = $this->mysqli->prepare("SELECT time, data FROM $feedname WHERE time BETWEEN ? AND ? ORDER BY time ASC LIMIT 1");
             $t = $start; $tb = 0;
             $stmt->bind_param("ii", $t, $tb);
             $stmt->bind_result($dataTime, $dataValue);
@@ -106,11 +106,11 @@ class MysqlTimeSeries
                 $td = intval($range / $dp);
                 $sql = "SELECT FLOOR(time/$td) AS time, AVG(data) AS data".
                     " FROM $feedname WHERE time BETWEEN $start AND $end".
-                    " GROUP BY 1";
+                    " GROUP BY 1 ORDER BY time ASC";
             } else {
                 $td = 1;
                 $sql = "SELECT time, data FROM $feedname".
-                    " WHERE time BETWEEN $start AND $end ORDER BY time DESC";
+                    " WHERE time BETWEEN $start AND $end ORDER BY time ASC";
             }
 
             $result = $this->mysqli->query($sql);
@@ -313,6 +313,24 @@ class MysqlTimeSeries
                 $sql = "SELECT time, from_unixtime(time,'%d/%m/%Y') AS humandate,from_unixtime(time,'%H:%i:%s') AS humantime, data FROM $feedname".
                     " WHERE time BETWEEN $start AND $end ORDER BY time DESC";
             }
+
+            /**
+             *  official version
+             *
+            if ($range > 5000 && $dp > 0)
+            {
+                $td = intval($range / $dp);
+                $sql = "SELECT FLOOR(time/$td) AS time, AVG(data) AS data".
+                    " FROM $feedname WHERE time BETWEEN $start AND $end".
+                    " GROUP BY 1 ORDER BY time ASC";
+            } else {
+                $td = 1;
+                $sql = "SELECT time, data FROM $feedname".
+                    " WHERE time BETWEEN $start AND $end ORDER BY time ASC";
+            }
+
+
+             */
 
 
             $result = $this->mysqli->query($sql);
