@@ -17,6 +17,7 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 function db_schema_setup($mysqli, $schema, $apply)
 {
+logitem ('db_schema_setup');
     $operations = array();
     while ($table = key($schema))
     {
@@ -24,6 +25,7 @@ function db_schema_setup($mysqli, $schema, $apply)
         $result = $mysqli->query("SHOW TABLES LIKE '".$table."'");
         if (($result != null ) && ($result->num_rows==1))
         {
+logitem ('table seems to exist!'.$table);
             // $out[] = array('Table',$table,"ok");
             //-----------------------------------------------------
             // Check table fields from schema
@@ -88,6 +90,7 @@ function db_schema_setup($mysqli, $schema, $apply)
             // Create table from schema
             //-----------------------------------------------------
             $query = "CREATE TABLE " . $table . " (";
+logitem ('table creation: '.$table);
             while ($field = key($schema[$table]))
             {
                 if ($field!='index'){
@@ -117,6 +120,8 @@ function db_schema_setup($mysqli, $schema, $apply)
                 $query .= ")";
                 $query .= " ENGINE=MYISAM";
                 if ($query) $operations[] = $query;
+
+logitem ($query);
                 if ($query && $apply) $mysqli->query($query);
             }
         }
@@ -124,4 +129,9 @@ function db_schema_setup($mysqli, $schema, $apply)
     }
 
     return $operations;
+}
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
 }
