@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
 
@@ -19,7 +19,7 @@ function db_schema_setup($mysqli, $schema, $apply)
 {
     $operations = array();
     while ($table = key($schema))
-    { 
+    {
         // if table exists:
         $result = $mysqli->query("SHOW TABLES LIKE '".$table."'");
         if (($result != null ) && ($result->num_rows==1))
@@ -29,7 +29,7 @@ function db_schema_setup($mysqli, $schema, $apply)
             // Check table fields from schema
             //-----------------------------------------------------
             while ($field = key($schema[$table]))
-            { 
+            {
                 if ($field!='index'){
                     $type = $schema[$table][$field]['type'];
                     if (isset($schema[$table][$field]['Null'])) $null = $schema[$table][$field]['Null']; else $null = "YES";
@@ -52,7 +52,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                       $result = $mysqli->query("DESCRIBE $table `$field`");
                       $array = $result->fetch_array();
                       $query = "";
-                      
+
                       if ($array['Type']!=$type) $query .= ";";
                       if (isset($default) && $array['Default']!=$default) $query .= " Default '$default'";
                       if ($array['Null']!=$null && $null=="NO") $query .= " not null";
@@ -64,7 +64,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                       if ($query && $apply) $mysqli->query($query);
                     }
                 } else{
-                    while ($index = key($schema[$table][$field]))                    
+                    while ($index = key($schema[$table][$field]))
                     {
                         $nonunique = 1;
                         $sql = "` ADD INDEX (`".$index."`)";
@@ -110,7 +110,10 @@ function db_schema_setup($mysqli, $schema, $apply)
                     {
                       $query .= ", ";
                     }
+                } else {
+                    next($schema[$table]);
                 }
+
                 $query .= ")";
                 $query .= " ENGINE=MYISAM";
                 if ($query) $operations[] = $query;
