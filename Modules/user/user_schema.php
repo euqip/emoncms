@@ -10,7 +10,8 @@ $schema['users'] = array(
     'apikey_write' => array('type' => 'varchar(64)'),
     'apikey_read' => array('type' => 'varchar(64)'),
     'lastlogin' => array('type' => 'datetime'),
-    'admin' => array('type' => 'int(11)', 'Null'=>'NO', 'comments'=>'defines the user role, 1 = system admin'),
+    'admin' => array('type' => 'int(11)', 'Null'=>'NO'),
+    //'admin' => array('type' => 'int(11)', 'Null'=>'NO', 'comments'=>'defines the user role, 1 = system admin'),
 
     // User profile fields
     'gravatar' => array('type' => 'varchar(30)', 'default'=>''),
