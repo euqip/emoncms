@@ -86,7 +86,7 @@ class Input
         $id = $this->mysqli->insert_id;
 
         if ($this->redis) {
-            logitem ('create_input : '.$id);
+            //logitem ('create_input : '.$id);
             $this->redis->sAdd("user:inputs:$userid", $id);
             $this->redis->sAdd("org:inputs:$orgid", $id);
             $this->redis->hMSet("input:$id",array('id'=>$id,'nodeid'=>$nodeid,'name'=>$name,'description'=>"", 'processList'=>""));
@@ -405,7 +405,7 @@ class Input
 
         if ($this->redis) {
             if (!$this->redis->exists("input:$id")) $this->load_input_to_redis($id);
-            logitem ('redis process list for id :'.$id);
+            //logitem ('redis process list for id :'.$id);
             return $this->redis->hget("input:$id",'processList');
         } else {
             $result = $this->mysqli->query("SELECT processList FROM input WHERE `id` = '$id'");
@@ -594,8 +594,10 @@ class Input
     }
 }
 
+/**
 function logitem($str){
     $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
     fwrite ($handle, $str."\n");
     fclose ($handle);
 }
+**/
