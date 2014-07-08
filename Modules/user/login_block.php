@@ -30,7 +30,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
             <?php echo (flagselector($path,__FILE__)); ?>
 
 
-            <div class ="form-group login-item" tabindex="1">
+            <div class ="form-group login-item1" tabindex="1">
                 <label for="username" class="text-muted"><?php echo _('Username:'); ?></label>
                 <input type="text" class="form-control" id="username" placeholder="<?php echo _('Enter your Username'); ?>" />
             </div>
@@ -40,7 +40,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
                 <input type="email" class="form-control" id="email" placeholder="<?php echo _('Enter your Email address'); ?>" />
             </div>
 
-            <div class ="form-group login-item" tabindex="3">
+            <div class ="form-group login-item1" tabindex="3">
                 <label for="password" class="text-muted"><?php echo _('Password:'); ?></label>
                 <input type="password" class="form-control" id="password" placeholder="<?php echo _('Enter your password'); ?>" />
             </div>
