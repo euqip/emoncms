@@ -17,7 +17,6 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 function db_schema_setup($mysqli, $schema, $apply)
 {
-logitem ('db_schema_setup');
     $operations = array();
     while ($table = key($schema))
     {
@@ -25,7 +24,6 @@ logitem ('db_schema_setup');
         $result = $mysqli->query("SHOW TABLES LIKE '".$table."'");
         if (($result != null ) && ($result->num_rows==1))
         {
-logitem ('table seems to exist!'.$table);
             // $out[] = array('Table',$table,"ok");
             //-----------------------------------------------------
             // Check table fields from schema
@@ -80,17 +78,19 @@ logitem ('table seems to exist!'.$table);
                         {
                             $query="ALTER TABLE  `".$table.$sql;
                             $operations[] = $query;
+                            if ($query && $apply) $mysqli->query($query);
                         }
                 next($schema[$table][$field]);
                     }
                 }
                 next($schema[$table]);
             }
+        } else {
             //-----------------------------------------------------
             // Create table from schema
             //-----------------------------------------------------
+            //ini_set('max_execution_time', 50);
             $query = "CREATE TABLE " . $table . " (";
-logitem ('table creation: '.$table);
             while ($field = key($schema[$table]))
             {
                 if ($field!='index'){
@@ -114,24 +114,18 @@ logitem ('table creation: '.$table);
                       $query .= ", ";
                     }
                 } else {
+                    //logitem('Do nothing with index for now!');
                     next($schema[$table]);
                 }
-
-                $query .= ")";
-                $query .= " ENGINE=MYISAM";
-                if ($query) $operations[] = $query;
-
-logitem ($query);
-                if ($query && $apply) $mysqli->query($query);
             }
+            $query .= ")";
+            $query .= " ENGINE=MYISAM";
+            if ($query) $operations[] = $query;
+            if ($query && $apply) $mysqli->query($query);
+
         }
        next($schema);
     }
 
     return $operations;
-}
-function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
-    fwrite ($handle, $str."\n");
-    fclose ($handle);
 }
