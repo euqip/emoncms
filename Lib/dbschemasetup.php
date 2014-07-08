@@ -90,6 +90,7 @@ function db_schema_setup($mysqli, $schema, $apply)
             // Create table from schema
             //-----------------------------------------------------
             //ini_set('max_execution_time', 50);
+            $comma= '';
             $query = "CREATE TABLE " . $table . " (";
             while ($field = key($schema[$table]))
             {
@@ -100,6 +101,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                     if (isset($schema[$table][$field]['Key'])) $key = $schema[$table][$field]['Key']; else $key = null;
                     if (isset($schema[$table][$field]['default'])) $default = $schema[$table][$field]['default']; else $default = null;
                     if (isset($schema[$table][$field]['Extra'])) $extra = $schema[$table][$field]['Extra']; else $extra = null;
+                    $query .= $comma;
 
                     $query .= '`'.$field.'`';
                     $query .= " $type";
@@ -109,10 +111,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                     if ($key) $query .= " primary key";
 
                     next($schema[$table]);
-                    if (key($schema[$table]))
-                    {
-                      $query .= ", ";
-                    }
+                    $comma=', ';
                 } else {
                     //logitem('Do nothing with index for now!');
                     next($schema[$table]);
@@ -122,7 +121,7 @@ function db_schema_setup($mysqli, $schema, $apply)
             $query .= " ENGINE=MYISAM";
             if ($query) $operations[] = $query;
             if ($query && $apply) $mysqli->query($query);
-
+        }
         }
        next($schema);
     }
