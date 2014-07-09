@@ -122,7 +122,6 @@ function db_schema_setup($mysqli, $schema, $apply)
             if ($query) $operations[] = $query;
             if ($query && $apply) $mysqli->query($query);
         }
-        }
        next($schema);
     }
 
