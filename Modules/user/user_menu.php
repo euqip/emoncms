@@ -2,7 +2,8 @@
 
   //$domain = "messages";
   //bindtextdomain($domain, "Modules/user/locale");
-  bindtextdomain($domain, dirname(__FILE__)."/locale");
+//  bindtextdomain($domain, dirname(__FILE__)."/locale");
+  bindtextdomain($domain, "../locale");
   //bind_textdomain_codeset($domain, 'UTF-8');
 
     $menu_right[] = array('name'=> dgettext($domain, "Account"), 'path'=>"user/view" , 'session'=>"write");
