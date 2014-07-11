@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<?php echo $path; ?>Lib/datetimepicker/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/datetimepicker/js/locales/bootstrap-datetimepicker.<?php echo substr($session['lang'],0,2); ?>.js" charset="UTF-8"></script>
 <!-- source: https://github.com/smalot/bootstrap-datetimepicker -->
+<div id="apihelphead"><div class="apihelp"><a href="api"><?php echo _('Feed API Help'); ?></a></div></div>
 <div class="container">
         <div id="localheading">
           <h2><?php echo _('Feeds'); ?>
