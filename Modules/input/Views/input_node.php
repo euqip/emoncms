@@ -4,7 +4,7 @@
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
-<div id="apihelphead"><div style="float:right;"><a href="api"><?php echo _('Input API Help'); ?></a></div></div>
+<div id="apihelphead"><div class="apihelp"><a href="api"><?php echo _('Input API Help'); ?></a></div></div>
 <div class="container">
     <div id="localheading"><h2><?php echo _('Inputs'); ?>
       <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Input API Help'); ?>"></span></small></a>
