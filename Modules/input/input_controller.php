@@ -45,7 +45,7 @@ function input_controller()
     if ($route->format == 'json')
     {
         /*
-        
+
         input/bulk.json?data=[[0,16,1137],[2,17,1437,3164],[4,19,1412,3077]]
 
         The first number of each node is the time offset (see below).
@@ -64,7 +64,7 @@ function input_controller()
         (number of seconds since 1970-01-01 00:00:00 UTC)
 
         Examples:
-        
+
         // legacy mode: 4 is 0, 2 is -2 and 0 is -4 seconds to now.
           input/bulk.json?data=[[0,16,1137],[2,17,1437,3164],[4,19,1412,3077]]
         // offset mode: -6 is -16 seconds to now.
@@ -81,16 +81,16 @@ function input_controller()
         if ($route->action == 'bulk')
         {
             $valid = true;
-            
+
             if (!isset($_GET['data']) && isset($_POST['data']))
             {
                 $data = json_decode(post('data'));
             }
-            else 
+            else
             {
                 $data = json_decode(get('data'));
             }
-            
+
             $userid = $session['userid'];
             $dbinputs = $input->get_inputs($userid);
 
@@ -104,7 +104,7 @@ function input_controller()
                         $time_ref = time() - (int) $_GET['sentat'];
                     }  elseif (isset($_POST['sentat'])) {
                         $time_ref = time() - (int) $_POST['sentat'];
-                    } 
+                    }
                     // Offset mode: input/bulk.json?data=[[-10,16,1137],[-8,17,1437,3164],[-6,19,1412,3077]]&offset=-10
                     elseif (isset($_GET['offset'])) {
                         $time_ref = time() - (int) $_GET['offset'];
@@ -116,7 +116,7 @@ function input_controller()
                         $time_ref = (int) $_GET['time'];
                     } elseif (isset($_POST['time'])) {
                         $time_ref = (int) $_POST['time'];
-                    } 
+                    }
                     // Legacy mode: input/bulk.json?data=[[0,16,1137],[2,17,1437,3164],[4,19,1412,3077]]
                     else {
                         $time_ref = time() - (int) $data[$len-1][0];
@@ -312,7 +312,7 @@ function input_controller()
                 if ($route->subaction == "delete") $result = $input->delete_process(get("inputid"),get('processid'));
                 if ($route->subaction == "move") $result = $input->move_process(get("inputid"),get('processid'),get('moveby'));
                 if ($route->subaction == "reset") $result = $input->reset_process(get("inputid"));
-            }           
+            }
         }
     }
 

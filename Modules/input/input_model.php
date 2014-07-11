@@ -33,23 +33,23 @@ class Input
     public function check_node_id_valid($nodeid)
     {
         global $max_node_id_limit;
-        
+
         // As highlighted by developer:fake-name PHP's doesnt have a function
         // for checking if a string will cast to a valid integer.
         //
         // is_numeric is the closest function but it allows input of:
-        // Octal, e-notation (+0123.45e6) & Hex. 
-        // 
-        // Casting with (int) will convert input such as Array({stuff}) to 1 
-        // whereas NAN would be a more appropriate result.  
+        // Octal, e-notation (+0123.45e6) & Hex.
         //
-        // Other languages such as Python will return an error if you try and 
+        // Casting with (int) will convert input such as Array({stuff}) to 1
+        // whereas NAN would be a more appropriate result.
+        //
+        // Other languages such as Python will return an error if you try and
         // cast a variable in this way.
         //
         // checking against isNumeric will probably catch *most*
         // of the potential issues for now but it may be good look at catching
         // non-integer numbers at some point
-        
+
         if (!is_numeric ($nodeid))
         {
             return false;
@@ -166,18 +166,18 @@ class Input
         $userid = (int) $userid;
         $inputid = (int) $inputid;
         $processid = (int) $processid;                                    // get process type (ProcessArg::)
-        
+
         $process = $process_class->get_process($processid);
         $processtype = $process[1];                                       // Array position 1 is the processtype: VALUE, INPUT, FEED
         $datatype = $process[4];                                          // Array position 4 is the datatype
-        
+
         switch ($processtype) {
             case ProcessArg::VALUE:                                       // If arg type value
                 if ($arg == '') return array('success'=>false, 'message'=>_('Argument must be a valid number greater or less than 0.'));
-                
+
                 $arg = (float)$arg;
                 $arg = str_replace(',','.',$arg); // hack to fix locale issue that converts . to ,
-                    
+
                 break;
             case ProcessArg::INPUTID:                                     // If arg type input
                 $arg = (int) $arg;
@@ -261,7 +261,7 @@ class Input
         $id = (int) $id;
         $this->set_processlist($id, "");
     }
-    
+
     public function get_inputs($userid)
     {
         if ($this->redis) {
@@ -290,7 +290,7 @@ class Input
 
         return $dbinputs;
     }
-    
+
     public function mysql_get_inputs($userid)
     {
         $userid = (int) $userid;
@@ -309,7 +309,7 @@ class Input
     // This public function gets a users input list, its used to create the input/list page
     //-----------------------------------------------------------------------------------------------
     // USES: redis input & user & lastvalue
-    
+
     public function getlist($userid)
     {
         if ($this->redis) {
@@ -318,7 +318,7 @@ class Input
             return $this->mysql_getlist($userid);
         }
     }
-    
+
     public function redis_getlist($userid)
     {
         $userid = (int) $userid;
@@ -336,12 +336,12 @@ class Input
         }
         return $inputs;
     }
-    
+
     public function mysql_getlist($userid)
     {
         $userid = (int) $userid;
         $inputs = array();
-        
+
         $result = $this->mysqli->query("SELECT id,nodeid,name,description,processList,time,value FROM input WHERE `userid` = '$userid'");
         while ($row = (array)$result->fetch_object())
         {
@@ -372,7 +372,7 @@ class Input
     {
         // LOAD REDIS
         $id = (int) $id;
-        
+
         if ($this->redis) {
             if (!$this->redis->exists("input:$id")) $this->load_input_to_redis($id);
             return $this->redis->hget("input:$id",'processList');
@@ -387,7 +387,7 @@ class Input
     public function get_last_value($id)
     {
         $id = (int) $id;
-        
+
         if ($this->redis) {
             return $this->redis->hget("input:lastvalue:$id",'value');
         } else {
@@ -432,13 +432,13 @@ class Input
                 // if input: get input name
                 } elseif ($process[1] == ProcessArg::FEEDID){
                     $arg = $this->feed->get_field($arg,'name');
-                    
+
                     // Delete process list if feed does not exist
                     if (isset($arg['success']) && !$arg['success']) {
                       $this->delete_process($id, $index+1);
                       $arg = "Feed does not exist!";
                     }
-                    
+
                 }
                 // if feed: get feed name
 
@@ -447,14 +447,14 @@ class Input
                     $arg
                 );
                 // Populate list array
-                
+
                 $index++;
             }
         }
         return $list;
     }
     */
-    
+
     // USES: redis input & user
     public function delete($userid, $inputid)
     {
@@ -463,7 +463,7 @@ class Input
         // Inputs are deleted permanentely straight away rather than a soft delete
         // as in feeds - as no actual feed data will be lost
         $this->mysqli->query("DELETE FROM input WHERE userid = '$userid' AND id = '$inputid'");
-        
+
         if ($this->redis) {
             $this->redis->del("input:$inputid");
             $this->redis->srem("user:inputs:$userid",$inputid);
@@ -480,7 +480,7 @@ class Input
             if ($row['processList']==NULL || $row['processList']=='')
             {
                 $result = $this->mysqli->query("DELETE FROM input WHERE userid = '$userid' AND id = '$inputid'");
-                
+
                 if ($this->redis) {
                     $this->redis->del("input:$inputid");
                     $this->redis->srem("user:inputs:$userid",$inputid);
