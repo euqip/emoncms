@@ -94,7 +94,7 @@ msgid "Status"
 msgstr "Satus"
 
 #: ../../../admin_controller.php:25
-msgid "not authoraized"
+msgid "not authoarized"
 msgstr "Accès non autorisé"
 
 #: ../../../admin_controller.php:47

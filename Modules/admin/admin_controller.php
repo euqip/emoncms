@@ -22,7 +22,7 @@ function admin_controller()
     //
     // result and sessionadmin need to be set to avoid errors when session is expired.
     //
-    $result= _('not authoraized');
+    $result= _('not authoarized');
     $sessionadmin= ($updatelogin || $session['admin'])? true:false;
     //when not authorized, redirect to login form (to be done)
 
