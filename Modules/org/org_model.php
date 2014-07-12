@@ -117,6 +117,7 @@ class Org
  */
     public function list_orgnames()
     {
+        $data=array();
         $sql = "SELECT id, orgname as toshow FROM orgs WHERE delflag=0";
         if((isset($_SESSION['admin'])) && ($_SESSION['admin']==1)){
             $result = $this->mysqli->query($sql);
