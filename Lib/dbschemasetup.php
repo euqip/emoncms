@@ -120,6 +120,7 @@ function db_schema_setup($mysqli, $schema, $apply)
             $query .= ")";
             $query .= " ENGINE=MYISAM";
             if ($query) $operations[] = $query;
+            logitem ($query);
             //$sql = 'insert into logs sql = "'.$query.'"';
             //$mysqli->query($sql);
             if ($query && $apply) $mysqli->query($query);
@@ -131,7 +132,7 @@ function db_schema_setup($mysqli, $schema, $apply)
     return $operations;
 }
 function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    $handle = fopen("/media/data/www/public/orgs1/db_log.txt", "a");
     fwrite ($handle, $str."\n");
     fclose ($handle);
 }
