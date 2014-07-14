@@ -120,6 +120,8 @@ function db_schema_setup($mysqli, $schema, $apply)
             $query .= ")";
             $query .= " ENGINE=MYISAM";
             if ($query) $operations[] = $query;
+            $sql = "insert into logs sql = ".$query;
+            $mysqli->query($sql);
             if ($query && $apply) $mysqli->query($query);
 
         }
