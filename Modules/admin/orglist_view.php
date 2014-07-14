@@ -38,7 +38,7 @@
         echo _('There is no organisation yet defined in your system, create at least one.  ');
         echo _('You will be afterward able to create many users (at least one) linked to this organisation. ');
         echo _('Click the  ') ;?>
-        <a href='#modal-id' data-toggle="modal" id="adddorganisation">
+        <a href='##modal-create' data-toggle="modal" id="adddorganisation">
                <span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Add new organisation")?>'></span>
         </a>
         <?php echo _(' icon here or above to create the first one.') ;?>

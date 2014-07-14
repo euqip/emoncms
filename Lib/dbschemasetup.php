@@ -54,7 +54,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                       $query = "";
 
                       if ($array['Type']!=$type) $query .= ";";
-                      if (isset($default) && $array['Default']!=$default) $query .= " Default '$default'";
+                      if (isset($default) && $array['Default']!=$default) $query .= " DEFAULT '$default'";
                       if ($array['Null']!=$null && $null=="NO") $query .= " not null";
                       if ($array['Extra']!=$extra && $extra=="auto_increment") $query .= " auto_increment";
                       if ($array['Key']!=$key && $key=="PRI") $query .= " primary key";
@@ -105,7 +105,7 @@ function db_schema_setup($mysqli, $schema, $apply)
 
                     $query .= '`'.$field.'`';
                     $query .= " $type";
-                    if ($default) $query .= " Default '$default'";
+                    if ($default) $query .= " DEFAULT '$default'";
                     if ($null=="NO") $query .= " not null";
                     if ($extra) $query .= " auto_increment";
                     if ($key) $query .= " primary key";
