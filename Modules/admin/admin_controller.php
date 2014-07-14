@@ -150,8 +150,6 @@ function admin_controller()
                             break;
                         default:
                             return array('success'=>false, 'message'=>_("Unknown command!"));
-
-
                     }
                     break;
                 }

@@ -18,9 +18,11 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 function db_schema_setup($mysqli, $schema, $apply)
 {
     $operations = array();
+    logitem("table setup");
     while ($table = key($schema))
     {
         // if table exists:
+        logitem ($table);
         $result = $mysqli->query("SHOW TABLES LIKE '".$table."'");
         if (($result != null ) && ($result->num_rows==1))
         {
@@ -113,7 +115,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                     next($schema[$table]);
                     $comma=', ';
                 } else {
-                    //logitem('Do nothing with index for now!');
+                    logitem('Do nothing with index for now!');
                     next($schema[$table]);
                 }
             }
@@ -121,18 +123,15 @@ function db_schema_setup($mysqli, $schema, $apply)
             $query .= " ENGINE=MYISAM";
             if ($query) $operations[] = $query;
             logitem ($query);
-            //$sql = 'insert into logs sql = "'.$query.'"';
-            //$mysqli->query($sql);
             if ($query && $apply) $mysqli->query($query);
-
         }
        next($schema);
     }
-
     return $operations;
 }
 function logitem($str){
-    $handle = fopen("/media/data/www/public/orgs1/db_log.txt", "a");
+    //$handle = fopen("/media/data/www/public/orgs1/db_log.txt", "a");
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
     fwrite ($handle, $str."\n");
     fclose ($handle);
 }
