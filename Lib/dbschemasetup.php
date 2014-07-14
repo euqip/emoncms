@@ -105,7 +105,7 @@ function db_schema_setup($mysqli, $schema, $apply)
 
                     $query .= '`'.$field.'`';
                     $query .= " $type";
-                    if ($default) $query .= " DEFAULT '$default'";
+                    if ($default) $query .= " DEFAULT $default";
                     if ($null=="NO") $query .= " not null";
                     if ($extra) $query .= " auto_increment";
                     if ($key) $query .= " primary key";
@@ -120,8 +120,8 @@ function db_schema_setup($mysqli, $schema, $apply)
             $query .= ")";
             $query .= " ENGINE=MYISAM";
             if ($query) $operations[] = $query;
-            $sql = 'insert into logs sql = "'.$query.'"';
-            $mysqli->query($sql);
+            //$sql = 'insert into logs sql = "'.$query.'"';
+            //$mysqli->query($sql);
             if ($query && $apply) $mysqli->query($query);
 
         }
