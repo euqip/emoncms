@@ -51,7 +51,7 @@ function admin_controller()
             );
 
             if (!$updates[0]['operations']) {
-                $result .= $updates[0]['operations']
+                $result .= $updates[0]['operations'];
 
             // In future versions we could check against db version number as to what updates should be applied
             $updates[] = $update->u0001($applychanges);
