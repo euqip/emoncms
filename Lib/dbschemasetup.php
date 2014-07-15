@@ -107,7 +107,7 @@ function db_schema_setup($mysqli, $schema, $apply)
 
                     $query .= '`'.$field.'`';
                     $query .= " $type";
-                    if ($default) $query .= " DEFAULT ".$default;
+                    if (isset($default)) $query .= " DEFAULT '$default'";
                     if ($null=="NO") $query .= " not null";
                     if ($extra) $query .= " auto_increment";
                     if ($key) $query .= " primary key";
