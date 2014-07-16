@@ -86,7 +86,6 @@ class Input
         $id = $this->mysqli->insert_id;
 
         if ($this->redis) {
-            //logitem ('create_input : '.$id);
             $this->redis->sAdd("user:inputs:$userid", $id);
             $this->redis->sAdd("org:inputs:$orgid", $id);
             $this->redis->hMSet("input:$id",array('id'=>$id,'nodeid'=>$nodeid,'name'=>$name,'description'=>"", 'processList'=>""));
@@ -405,7 +404,6 @@ class Input
 
         if ($this->redis) {
             if (!$this->redis->exists("input:$id")) $this->load_input_to_redis($id);
-            //logitem ('redis process list for id :'.$id);
             return $this->redis->hget("input:$id",'processList');
         } else {
             $result = $this->mysqli->query("SELECT processList FROM input WHERE `id` = '$id'");
@@ -585,19 +583,8 @@ class Input
         } else {
             return array('success'=>false, 'message'=>_('No input were assigned to organisations'));
         }
-
-
         //$sql = "update  `users`, `input` SET `input`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `input`.`userid` =`users`.`id`".$uid;
         //$sql = "update  `users`, `feeds` SET `feeds`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `feeds`.`userid` =`users`.`id`".$uid;
         //$sql = "update  `users`, `myelectric` SET `myelectric`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `myelectric`.`userid` =`users`.`id`".$uid;
-
     }
 }
-
-/**
-function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
-    fwrite ($handle, $str."\n");
-    fclose ($handle);
-}
-**/

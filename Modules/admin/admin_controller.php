@@ -22,12 +22,9 @@ function admin_controller()
     //
     // result and sessionadmin need to be set to avoid errors when session is expired.
     //
-    //$result= _('not authorized');
+    $result= _('not authorized');
     $sessionadmin= ($updatelogin || $session['admin'])? true:false;
     //when not authorized, redirect to login form (to be done)
-
-    $result= _('not authorized '.$route->action."  ".get('apply')."   ".$sessionadmin);
-
     if ($sessionadmin)
     {
         if ($route->action == 'view') $result = view("Modules/admin/admin_main_view.php", array());
@@ -42,7 +39,6 @@ function admin_controller()
             require_once "Lib/dbschemasetup.php";
 
             $update = new Update($mysqli);
-            $result .= " Update flag";
 
             $updates = array();
             $updates[] = array(
