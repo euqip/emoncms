@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 
     All Emoncms code is released under the GNU Affero General Public License.
@@ -11,6 +12,14 @@
     http://openenergymonitor.org
 
 */
+/*
+  redirecct to index.php when calling an existing file, salme as non existing file
+ */
+
+if (!defined('EMONCMS_EXEC')){
+  $redir =  $_SERVER['SERVER_NAME'].preg_replace('/[a-z][A-Z][0-9]*\.php/', 'index.php', $_SERVER['REQUEST_URI']);
+  header ('Location:'.$redir);
+}
 
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
