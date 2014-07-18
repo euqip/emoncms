@@ -1,4 +1,13 @@
 
+# This file is a base model to run emoncms on an NGINX web server
+# Adapt it to your document root location.
+# ATTENTION : NGINX does not support .htaccess files or similar mechanisme
+# the web server needs to be restarted after configuration changes!
+# NGINX has an instruction to reload config file, and so avoid to restart.
+# NGINX config file is typically found at /etc/nginx/nginx.conf
+#
+# 
+
 user http;
 worker_processes  1;
 
@@ -62,12 +71,16 @@ http {
                 }
 
                 location /relative_path_to/emoncms/ {
-			#try to load existing files or folder or send to index.php
-                        try_files $uri $uri/ /public/emoncms/index.php?q=$uri$is_args&$args;
+                    # application first location
+			            #try to load existing files or folder or send to index.php
+                        try_files $uri $uri/ /emoncms/index.php?q=$uri$is_args&$args;
+                        index index.php;
                 }
 
                location //relative_path_to/emoncms/otherserver/ {
-                        try_files $uri $uri/ /public/orgs1/index.php?q=$uri$is_args&$args;
+                    # same application second location
+                        try_files $uri $uri/ /otherserver/index.php?q=$uri$is_args&$args;
+                        index index.php;
                 }
 
 
