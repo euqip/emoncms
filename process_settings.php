@@ -11,7 +11,7 @@
     http://openenergymonitor.org
 */
 /*
-  redirecct to index.php when calling an existing file, salme as non existing file
+  redirect to index.php when calling an existing file, salme as non existing file
  */
 
 if (!defined('EMONCMS_EXEC')){
