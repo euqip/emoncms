@@ -8,6 +8,11 @@
   Part of the OpenEnergyMonitor project:
   http://openenergymonitor.org
 */
+if (!defined('EMONCMS_EXEC')){
+    // works with APACHE and NGINX
+  $redir =  $_SERVER['SERVER_NAME'].preg_replace('/\/[a-zA-Z0-9-+.]*\.php/', '/index.php', $_SERVER['REQUEST_URI']);
+  header ('Location:'.$redir);
+}
 
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
