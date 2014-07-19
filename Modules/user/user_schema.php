@@ -21,6 +21,7 @@ $schema['users'] = array(
     'language' => array('type' => 'varchar(5)', 'default'=>'en_EN'),
     'bio' => array('type' => 'text', 'default'=>''),
     'changepswd' => array('type' => 'int(1)', 'default'=>'0'),
+    'csvparam' => array('type'=>'varchar(2)', 'default'=>',.'),
     'index' => array(
         'orgid'=> array('unique'=>false),
         'username'=> array('unique'=>true)

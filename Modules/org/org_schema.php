@@ -28,6 +28,7 @@ $schema['orgs'] = array(
     'createdate' => array('type' => 'datetime', 'Null'=>'YES'),
     'createby' => array('type' => 'varchar(30)', 'default'=>'', 'Null'=>'NO'),
     'createbyid' => array('type' => 'int(11)', 'Null'=>'YES'),
+    'csvparam' => array('type'=>'varchar(2)', 'default'=>',.'),
     'index' => array(
         'orgname' => array('unique'=>true),
         'longname' => array('unique'=>true)
