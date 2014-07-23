@@ -53,11 +53,11 @@
     if (table.data.length != 0) {
       $("#noinputs").hide();
       $("#apihelphead").hide();
-      $("#localheading").show();
+      $("#localheading").hide();
     } else {
       $("#noinputs").show();
       $("#apihelphead").show();
-      $("#localheading").hide();
+      $("#localheading").show();
     }
   }
 
