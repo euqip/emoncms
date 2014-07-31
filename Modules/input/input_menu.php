@@ -6,4 +6,3 @@ $domain = "messages";
 bindtextdomain($domain, dirname(__FILE__)."/locale");
 $menu_left[] = array('name'=> dgettext($domain, "Input"), 'path'=>"input/node" , 'session'=>"write", 'order' => 1 );
 
-?>

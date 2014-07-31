@@ -164,8 +164,7 @@ $modulename = _('Nodes');
       updateinterval: 60,
       variables: [
         {name: 'Temperature', type: 1, scale: 0.01, units: '°C' },
-        {name: 'Battery Voltage', type: 1, scale:0.001, units: 'V'},
-        {name: 'RSSI', type: 0 }
+        {name: 'Battery Voltage', type: 1, scale:0.001, units: 'V'}
       ]
     },
 
@@ -177,9 +176,8 @@ $modulename = _('Nodes');
         {name: 'Power 2', type: 1, units: 'W'},
         {name: 'Power 3', type: 1, units: 'W'},
         {name: 'Power 4', type: 1, units: 'W'},
-        {name: 'Vrms', type: 1, scale: 0.01, units: 'V'},
-        {name: 'temp', type: 1, scale: 0.1, units: '°C'},
-        {name: 'RSSI', type: 0 }
+        {name: 'Vrms', type: 1, scale: 0.01, units: 'V'}, 
+        {name: 'temp', type: 1, scale: 0.1, units: '°C'}
       ]
     },
 };
@@ -193,11 +191,10 @@ $modulename = _('Nodes');
         {name: 'Power CT2', type: 1, units: 'W'},
         {name: 'Power CT3', type: 1, units: 'W'},
         {name: 'Power CT4', type: 1, units: 'W'},
-        {name: 'Wh CT1', type: 2, units: 'Wh'},
-        {name: 'Wh CT2', type: 2, units: 'Wh'},
-        {name: 'Wh CT3', type: 2, units: 'Wh'},
-        {name: 'Wh CT4', type: 2, units: 'Wh'},
-        {name: 'RSSI', type: 0 }
+        {name: 'Wh CT1', type: 2, units: 'Wh'}, 
+        {name: 'Wh CT2', type: 2, units: 'Wh'}, 
+        {name: 'Wh CT3', type: 2, units: 'Wh'}, 
+        {name: 'Wh CT4', type: 2, units: 'Wh'}
       ]
     },
 
@@ -209,7 +206,6 @@ $modulename = _('Nodes');
         {name: 'External temperature', type: 1, scale: 0.1, units: '°C'},
         {name: 'Humidity', type: 1, scale: 0.1, units: '%'},
         {name: 'Battery Voltage', type: 1, scale: 0.1, units: 'V'},
-        {name: 'RSSI', type: 0 }
       ]
     },
 

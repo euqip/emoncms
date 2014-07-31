@@ -15,12 +15,12 @@
 
   function vis_controller()
   {
-    global $mysqli, $redis, $session, $route, $user, $timestore_adminkey;
+    global $mysqli, $redis, $session, $route, $user, $feed_settings;
 
     $result = false;
 
     require "Modules/feed/feed_model.php";
-    $feed = new Feed($mysqli,$redis, $timestore_adminkey);
+    $feed = new Feed($mysqli,$redis, $feed_settings);
 
     require "Modules/vis/multigraph_model.php";
     $multigraph = new Multigraph($mysqli);
@@ -40,8 +40,8 @@
     $visualisations = array(
         'realtime' => array('options'=>array(array('feedid',1))),
         // Hex colour EDC240 is the default color for flot. since we want existing setups to not change, we set the default value to it manually now,
-        'rawdata'=> array('options'=>array(array('feedid',1),array('fill',7,0),array('units',5,'W'),array('colour',5,'EDC240'))),
-        'bargraph'=> array('options'=>array(array('feedid',2),array('colour',5,'EDC240'))),
+        'rawdata'=> array('options'=>array(array('feedid',1),array('fill',7,0),array('colour',5,'EDC240'),array('units',5,'W'),array('dp',7,'1'),array('scale',6,'1'))),
+        'bargraph'=> array('options'=>array(array('feedid',1),array('colour',5,'EDC240'),array('interval',7,'86400'),array('units',5,''),array('dp',7,'1'),array('scale',6,'1'),array('delta',7,'0'))),
         'timestoredaily'=> array('options'=>array(array('feedid',1),array('units',5,'kWh'))),
         'smoothie'=> array('options'=>array(array('feedid',1),array('ufac',6))),
         'histgraph'=> array('options'=>array(array('feedid',3),array('barwidth',7,50),array('start',7,0),array('end',7,0))),
@@ -113,8 +113,8 @@
                               $array[$key] = $feedid;
                               $array[$key.'name'] = $f['name'];
 
-                              if ($f['userid']!=$session['userid'] || $f['datatype']!=$type) $array['valid'] = false;
-                              if ($f['public'] && $f['datatype']==$type) $array['valid'] = true;
+                              if ($f['userid']!=$session['userid']) $array['valid'] = false;
+                              if ($f['public']) $array['valid'] = true;
                             } else {
                               $array['valid'] = false;
                             }
@@ -144,7 +144,7 @@
 
                 $result = view("Modules/".$visdir.$viskey.".php", $array);
 
-                if ($array['valid'] == false) $result .= "<div style='position:absolute; top:0px; left:0px; background-color:rgba(240,240,240,0.5); width:100%; height:100%; text-align:center; padding-top:100px;'><h3>Feed type or authentication not valid</h3></div>";
+                if ($array['valid'] == false) $result .= "<div style='position:absolute; top:0px; left:0px; background-color:rgba(240,240,240,0.5); width:100%; height:100%; text-align:center; padding-top:100px;'><h3>Authentication not valid</h3></div>";
 
             }
             next($visualisations);

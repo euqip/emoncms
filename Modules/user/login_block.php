@@ -20,7 +20,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
 
 <div style="margin: 0px auto; max-width:392px; padding:10px;">
     <div style="max-width:392px; margin-right:20px; padding-top:45px; padding-bottom:15px; color: #888;">
-        <img style="margin:12px;" src="<?php echo $path; ?>Theme/emoncms_logo.png" width="256" height="46" />
+        <img style="margin:12px;" src="<?php echo $path; ?>Theme/emoncms_logo.png" alt="Emoncms" width="256" height="46" />
     </div>
 
     <div class="login-container">
@@ -69,6 +69,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
             <div id="passwordreset-block" style="display:none">
                 <hr>
                 <div id="passwordreset-message"></div>
+
                 <div id="passwordreset-input">
                     <div class ="form-group" tabindex="5">
                         <label for="passwordreset-username" class="text-muted"><?php echo _('Enter account name:'); ?></label>
@@ -90,11 +91,9 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
 
 <script>
 
-var path = "<?php echo $path; ?>";
-var register_open = false;
-var passwordreset = "<?php echo $enable_password_reset; ?>";
+/*global user:false */
 
-if (!passwordreset) $("#passwordreset-link").hide();
+"use strict";
 
 $("#passwordreset-link").click(function(){
     $("#passwordreset-block").show();
@@ -120,21 +119,16 @@ $("#passwordreset-submit").click(function(){
     }
 });
 
-$("#register-link").click(function(){
-    $(".login-item").hide();
-    $(".register-item").show();
-    $("#error").hide();
-    register_open = true;
-    return false;
-});
+    var register_open = false;
+    var passwordreset = "<?php echo $enable_password_reset; ?>";
 
-$("#cancel-link").click(function(){
-    $(".login-item").show();
-    $(".register-item").hide();
-    $("#error").hide();
-    register_open = false;
-    return false;
-});
+    if (!passwordreset) $("#passwordreset-link").hide();
+
+    $("#passwordreset-link").click(function(){
+        $("#passwordreset-block").show();
+        $("#passwordreset-input").show();
+        $("#passwordreset-message").html("");
+    });
 
 $("input").keypress(function(event) {
 //login or register when pressing enter
@@ -180,21 +174,45 @@ function register(){
 
         if (result.success)
         {
-            var result = user.login(username,password);
-            if (result.success)
-            {
-                window.location.href = path+"user/view";
-            }
+            window.location.href = path+"user/view";
         }
         else
         {
             $("#error").html(result.message).show();
         }
     }
-}
 
-$("#login").click(login);
-$("#register").click(register);
+    function register(){
+        var username = $("input[name='username']").val();
+        var password = $("input[name='password']").val();
+        var confirmpassword = $("input[name='confirm-password']").val();
+        var email = $("input[name='email']").val();
 
+        if (password != confirmpassword)
+        {
+            $("#error").html("Passwords do not match").show();
+        }
+        else
+        {
+            var result = user.register(username,password,email);
 
+            if (result.success)
+            {
+                result = user.login(username,password);
+                if (result.success)
+                {
+                    window.location.href = path+"user/view";
+                }
+            }
+            else
+            {
+                $("#error").html(result.message).show();
+            }
+        }
+    }
+
+    $("#login").click(login);
+    $("#register").click(register);
+
+});
 </script>

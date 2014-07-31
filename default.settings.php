@@ -18,8 +18,8 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
     $username = "_DB_USER_";
     $password = "_DB_PASSWORD_";
-    $server   = "_DB_HOST_";
-    $database = "_DATABASE_";
+    $server   = "localhost";
+    $database = "emoncms";
 
     $redis_enabled = true;
 
@@ -40,13 +40,16 @@ defined('EMONCMS_EXEC') or die('Restricted access');
         // Make sure that emoncms has write permission's to the datadirectory folders
 
         'phpfiwa'=>array(
-            //'datadir'=>'/home/username/emoncmsdata/phpfiwa/'
+            'datadir'=>'/var/lib/phpfiwa/'
         ),
         'phpfina'=>array(
-            //'datadir'=>'/home/username/emoncmsdata/phpfina/'
+            'datadir'=>'/var/lib/phpfina/'
         ),
         'phptimeseries'=>array(
-            //'datadir'=>'/home/username/emoncmsdata/phptimeseries/'
+            'datadir'=>'/var/lib/phptimeseries/'
+        ),
+        'phptimestore'=>array(
+            'datadir'=>'/var/lib/phptimestore/'
         )
     );
 
@@ -92,8 +95,12 @@ gmail example:
     );
 
 
-    $enable_password_reset = _ENABLE_PASSWORD_RESET_;
-
+    // To enable / disable password reset set to either true / false
+    // default value of " _ENABLE_PASSWORD_RESET_ " required for .deb only
+    // uncomment 1 of the 2 following lines & comment out the 3rd line.
+    // $enable_password_reset = true;
+    // $enable_password_reset = false;
+    $enable_password_reset = false;
     // Checks for limiting garbage data?
     $max_node_id_limit = 32;
 
