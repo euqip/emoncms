@@ -55,7 +55,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
 
             <p class="login-item">
                 <?php if ($enable_rememberme) { ?><label class="checkbox text-muted"><input type="checkbox" tabindex="5" id="rememberme" value="1" name="rememberme"><?php echo '&nbsp;'._('Remember me'); ?></label><br /><?php } ?>
-                <button id="login" class="btn btn-primary" tabindex="6" type="button"><?php echo _('Login'); ?></button>
+                <button id="login" class="btn btn-primary" tabindex="6" type="submit"><?php echo _('Login'); ?></button>
                 <?php if ($allowusersregister) { echo '&nbsp;'._('or').'&nbsp' ?><a id="register-link"  href="#"><?php echo _('register'); ?></a><?php } ?>
                 <?php echo '&nbsp;'._('or').'&nbsp' ?>
                 <a id="passwordreset-link" href="#" ><?php echo _("Forgotten password")?></a>
@@ -87,13 +87,15 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
     </div>
 
 </div>
-</div>
+
 
 <script>
 
 /*global user:false */
 
 "use strict";
+
+var path = "<?php echo $path; ?>";
 
 $("#passwordreset-link").click(function(){
     $("#passwordreset-block").show();
@@ -214,5 +216,5 @@ function register(){
     $("#login").click(login);
     $("#register").click(register);
 
-});
+};
 </script>
