@@ -117,7 +117,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                 }
             }
             $query .= ")";
-            $query .= " ENGINE=MYISAM";
+            $query .= " ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
             if ($query) $operations[] = $query;
             if ($query && $apply) $mysqli->query($query);
         }

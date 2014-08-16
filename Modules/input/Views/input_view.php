@@ -4,37 +4,21 @@
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/custom-table-fields.js"></script>
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/processlist.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/process_info.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
 
-<style>
-input[type="text"] {
-         width: 88%;
-}
-
-#table td:nth-of-type(1) { width:5%;}
-#table td:nth-of-type(2) { width:10%;}
-#table td:nth-of-type(3) { width:25%;}
-
-#table td:nth-of-type(7) { width:30px; text-align: center; }
-#table td:nth-of-type(8) { width:30px; text-align: center; }
-#table td:nth-of-type(9) { width:30px; text-align: center; }
-</style>
-
-<br>
-<div id="apihelphead"><div style="float:right;"><a href="api"><?php echo _('Input API Help'); ?></a></div></div>
+<div id="apihelphead"><div><a href="api"><?php echo _('Input API Help'); ?></a></div></div>
 
 <div class="container">
     <div id="localheading"><h2><?php echo _('Inputs'); ?></h2></div>
-    
-    <div id="processlist-ui" style="padding:20px; background-color:#efefef; display:none">
-    
+
+    <div id="processlist-ui" style="display:none">
+
     <div style="font-size:30px; padding-bottom:20px; padding-top:18px"><b><span id="inputname"></span></b> config</div>
     <p><?php echo _('Input processes are executed sequentially with the result being passed back for further processing by the next processor in the input processing list.'); ?></p>
-    
+
         <table class="table">
 
             <tr>
@@ -51,7 +35,7 @@ input[type="text"] {
         </table>
 
         <table class="table">
-        <tr><th>Add process:</th><tr>
+        <tr><th>Add process:</th></tr>
         <tr>
             <td>
                 <div class="input-prepend input-append">
@@ -65,9 +49,9 @@ input[type="text"] {
                         <select id="input-select" style="width:140px;"></select>
                     </span>
 
-                    <span id="type-feed">        
+                    <span id="type-feed">
                         <select id="feed-select" style="width:140px;"></select>
-                        
+
                         <input type="text" id="feed-name" style="width:150px;" placeholder="Feed name..." />
                         <input type="hidden" id="feed-tag"/>
 
@@ -94,7 +78,7 @@ input[type="text"] {
                             <option value=1800>30 mins</option>
                             <option value=3600>1 hour</option>
                         </select>
-                        
+
                     </span>
                     <button id="process-add" class="btn btn-info"><?php echo _('Add'); ?></button>
                 </div>
@@ -105,11 +89,10 @@ input[type="text"] {
         </tr>
         </table>
     </div>
-    <br>
-    
+    here comes the table
     <div id="table"></div>
 
-    <div id="noinputs" class="alert alert-block hide">
+    <div id="noinputs" class="alert alert-block">
             <h4 class="alert-heading"><?php echo _('No inputs created'); ?></h4>
             <p><?php echo _('Inputs is the main entry point for your monitoring device. Configure your device to post values here, you may want to follow the <a href="api">Input API helper</a> as a guide for generating your request.'); ?></p>
     </div>
@@ -119,30 +102,30 @@ input[type="text"] {
 <script>
 
     var path = "<?php echo $path; ?>";
-    
+
     var firstrun = true;
     var assoc_inputs = {};
 
     // Extend table library field types
-    for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
+    //for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
 
     table.element = "#table";
 
-    table.fields = {
-        //'id':{'type':"fixed"},
-        'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed"},
-        'name':{'title':'<?php echo _("Key"); ?>','type':"text"},
-        'description':{'title':'<?php echo _("Name"); ?>','type':"text"},
-        'processList':{'title':'<?php echo _('Process list'); ?>','type':"processlist"},
-        'time':{'title':'last updated', 'type':"updated"},
-        'value':{'type':"value"},
+  table.fields = {
+    // Actions
+    //'save-action':{'title':'','tooltip':'<?php echo _("Save"); ?>', 'type':"save", 'display':"no"},
+    'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
+    'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes", 'colwidth':" style='width:30px;'"},
 
-        // Actions
-        'edit-action':{'title':'', 'type':"edit"},
-        'delete-action':{'title':'', 'type':"delete"},
-        'view-action':{'title':'', 'type':"iconbasic", 'icon':'icon-wrench'}
+    'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':"", 'display':"no"},
+    'name':{'title':'<?php echo _("name"); ?>','type':"text", 'colwidth':" style='width:100px;'"},
+    'description':{'title':'<?php echo _("Description"); ?>','type':"text", 'colwidth':" style='width:200px;'"},
+    'processList':{'title':'<?php echo _("Process list"); ?>','type':"processlist",'colwidth':" style='width:250px;'"},
+    'time':{'title':'<?php echo _("Last updated"); ?>', 'type':"updated", 'colwidth':" style='width:150px;'"},
+    'value':{'title':'<?php echo _("Value"); ?>','type':"value",'colwidth':" style='width:70px;'"},
 
-    }
+    'view-action':{'title':'','tooltip':'<?php echo _("Edit Process"); ?>', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'glyphicon glyphicon-wrench', 'display':"yes", 'colwidth':" style='width:30px;'"},
+  }
 
     table.groupprefix = "Node ";
     table.groupby = 'nodeid';
@@ -150,26 +133,26 @@ input[type="text"] {
     update();
 
     function update()
-    {   
-        $.ajax({ url: path+"input/list.json", dataType: 'json', async: true, success: function(data) {
-        
-            table.data = data;
-            table.draw();
-            if (table.data.length != 0) {
-                $("#noinputs").hide();
-                $("#apihelphead").show();
-                $("#localheading").show();
-            } else {
-                $("#noinputs").show();
-                $("#localheading").hide();
-                $("#apihelphead").hide();
-            }
-            
-            if (firstrun) {
-                firstrun = false;
-                load_all(); 
-            }
-        }});
+    {
+        //$.ajax({ url: path+"input/list.json", dataType: 'json', async: true, success: function(data) {
+
+        //table.data = data;
+        table.data = input.list();
+        table.draw();
+        if (table.data.length != 0) {
+            $("#noinputs").hide();
+            $("#apihelphead").show();
+            $("#localheading").show();
+        } else {
+            $("#noinputs").show();
+            $("#localheading").hide();
+            $("#apihelphead").hide();
+        }
+
+        if (firstrun) {
+            firstrun = false;
+            load_all();
+        }
     }
 
     var updater = setInterval(update, 10000);
@@ -187,32 +170,32 @@ input[type="text"] {
         input.remove(id);
         update();
     });
-    
-    
+
+
 //------------------------------------------------------------------------------------------------------------------------------------
 // Process list UI js
 //------------------------------------------------------------------------------------------------------------------------------------
- 
+
     $("#table").on('click', '.icon-wrench', function() {
-        
+
         var i = table.data[$(this).attr('row')];
         console.log(i);
         processlist_ui.inputid = i.id;
-        
+
         var processlist = [];
         if (i.processList!="")
         {
             var tmp = i.processList.split(",");
             for (n in tmp)
             {
-                var process = tmp[n].split(":"); 
+                var process = tmp[n].split(":");
                 processlist.push(process);
             }
         }
-        
+
         processlist_ui.variableprocesslist = processlist;
         processlist_ui.draw();
-        
+
         // SET INPUT NAME
         var inputname = "";
         if (processlist_ui.inputlist[processlist_ui.inputid].description!="") {
@@ -222,14 +205,14 @@ input[type="text"] {
             inputname = processlist_ui.inputlist[processlist_ui.inputid].name;
             $("#feed-name").val("node:"+processlist_ui.inputlist[processlist_ui.inputid].nodeid+":"+inputname);
         }
-        
+
         $("#inputname").html("Node"+processlist_ui.inputlist[processlist_ui.inputid].nodeid+": "+inputname);
-        
+
         $("#feed-tag").val("Node:"+processlist_ui.inputlist[processlist_ui.inputid].nodeid);
-        
+
         $("#processlist-ui").show();
         window.scrollTo(0,0);
-        
+
     });
 
 function load_all()
@@ -237,7 +220,7 @@ function load_all()
     for (z in table.data) assoc_inputs[table.data[z].id] = table.data[z];
     console.log(assoc_inputs);
     processlist_ui.inputlist = assoc_inputs;
-    
+
     // Inputlist
     var out = "";
     for (i in processlist_ui.inputlist) {
@@ -245,12 +228,12 @@ function load_all()
       out += "<option value="+input.id+">Node "+input.nodeid+":"+input.name+" "+input.description+"</option>";
     }
     $("#input-select").html(out);
-    
+
     $.ajax({ url: path+"feed/list.json", dataType: 'json', async: true, success: function(result) {
-        
+
         var feeds = {};
         for (z in result) feeds[result[z].id] = result[z];
-        
+
         processlist_ui.feedlist = feeds;
         // Feedlist
         var out = "<option value=-1>CREATE NEW:</option>";
@@ -259,7 +242,7 @@ function load_all()
         }
         $("#feed-select").html(out);
     }});
-    
+
     $.ajax({ url: path+"input/getallprocesses.json", async: true, dataType: 'json', success: function(result){
         processlist_ui.processlist = result;
         var processgroups = [];
@@ -286,11 +269,11 @@ function load_all()
             out += "</optgroup>";
         }
         $("#process-select").html(out);
-        
+
         $("#description").html(process_info[1]);
         processlist_ui.showfeedoptions(1);
     }});
-   
+
     processlist_ui.events();
 }
 </script>

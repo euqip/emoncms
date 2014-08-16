@@ -132,7 +132,9 @@
     // 7) Output
     if ($route->format == 'json')
     {
-        header('Content-Type: application/json');
+        header('Content-Type: application/json; charset=utf-8');
+
+
         if ($route->controller=='time') {
             print $output['content'];
         } elseif ($route->controller=='input' && $route->action=='post') {
@@ -140,6 +142,7 @@
         } elseif ($route->controller=='input' && $route->action=='bulk') {
             print $output['content'];
         } else {
+            print_r ($output['content']);
             print json_encode($output['content']);
         }
     }

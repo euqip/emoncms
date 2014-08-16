@@ -17,10 +17,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <!--
-            <script type="text/javascript" src="<?php echo $path; ?>Lib/jquery-1.9.1.min.js"></script>
-        -->
-        <script type="text/javascript" src="<?php echo $path; ?>Lib/jquery-1.11.0.js"></script>
         <link href="<?php echo $path; ?>Lib/bootstrap/css/bootstrap.css" rel="stylesheet">
         <!-- Thanks to Baptiste Gaultier for the emoncms dial icon http://bit.ly/zXgScz -->
         <link rel="shortcut icon" href="<?php echo $path; ?>Theme/favicon.png" />
@@ -30,6 +26,8 @@
         <link rel="apple-touch-startup-image" href="<?php echo $path; ?>Theme/ios_load.png">
         <link rel="apple-touch-icon" href="<?php echo $path; ?>Theme/logo_normal.png">
         <link href="<?php echo $path; ?>Theme/theme.css" rel="stylesheet">
+        <!--   -->
+        <script src="<?php echo $path; ?>Lib/jquery-1.11.0.js"></script>
         <title>Emoncms</title>
     </head>
 
@@ -79,6 +77,7 @@
               $fullwidth = false;
               $content= '<div class="container">'.$content.'</div></div>';
           };
+          echo '<!-- content comes here -->';
           echo $content;
           ?>
         </div>
@@ -97,6 +96,11 @@
                 </span>
         </div>
         <!-- end of footer -->
+
+<!--
+    <script type="text/javascript" src="<?php echo $path; ?>Lib/jquery-1.9.1.min.js"></script>
+-->
+
 
 <script src="<?php echo $path; ?>Lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript">

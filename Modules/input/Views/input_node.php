@@ -4,14 +4,18 @@
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
+<!--
+input_node.php
+-->
 <div class="container">
     <div id="localheading"><h2><?php echo _('Inputs'); ?>
       <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Input API Help'); ?>"></span></small></a>
       </h2>
     </div>
+    here comes the table
     <div id="table"></div>
 
-    <div id="noinputs" class="alert alert-block hide">
+    <div id="noinputs" class="alert alert-block">
             <h4 class="alert-heading"><?php echo _('No inputs created'); ?></h4>
             <p><?php echo _('Inputs is the main entry point for your monitoring device. Configure your device to post values here, you may want to follow the <a href="api">Input API helper</a> as a guide for generating your request.'); ?></p>
     </div>
@@ -50,13 +54,13 @@
   {
     table.data = input.list();
     table.draw();
-    if (table.data.length != 0) {
-      $("#noinputs").hide();
-      $("#apihelphead").hide();
-      $("#localheading").hide();
-    } else {
+    if (table.data.length = 0) {
       $("#noinputs").show();
       $("#apihelphead").show();
+      $("#localheading").hide();
+    } else {
+      $("#noinputs").hide();
+      $("#apihelphead").hide();
       $("#localheading").show();
     }
   }
