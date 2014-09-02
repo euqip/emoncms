@@ -86,11 +86,11 @@ var processlist_ui =
                 // Move process up or down
                 out += '<td>';
                 if (i > 0) {
-                    out += '<a class="move-process" href="#" title="'+movedown+'" processid='+i+' moveby=-1 ><span class="glyphicon glyphicon-arrow-up"></span></a>';
+                    out += '<a class="move-process" href="#" title="'+moveup+'" processid='+i+' moveby=-1 ><span class="glyphicon glyphicon-arrow-up"></span></a>';
                 }
 
                 if (i < this.variableprocesslist.length-1) {
-                    out += '<a class="move-process" href="#" title="'+moveup+'" processid='+i+' moveby=1 ><span class="glyphicon glyphicon-arrow-down"></span></a>';
+                    out += '<a class="move-process" href="#" title="'+movedown+'" processid='+i+' moveby=1 ><span class="glyphicon glyphicon-arrow-down"></span></a>';
                 }
                 out += '</td>';
 

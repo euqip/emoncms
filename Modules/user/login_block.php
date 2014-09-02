@@ -97,6 +97,9 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
 
 var path = "<?php echo $path; ?>";
 
+$("#login").click(login);
+$("#register").click(register);
+
 $("#passwordreset-link").click(function(){
     $("#passwordreset-block").show();
     $("#passwordreset-input").show();
@@ -213,8 +216,6 @@ function register(){
         }
     }
 
-    $("#login").click(login);
-    $("#register").click(register);
 
 };
 </script>

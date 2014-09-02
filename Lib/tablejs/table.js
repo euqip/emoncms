@@ -282,11 +282,14 @@ var table =
             var fld=table.fields[field];
             var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
             var action =''; if (fld.iconaction) action = fld.iconaction;
-            var icon=fld.trueicon;
+            var icon =''; if (fld.icon) icon = fld.icon;
+            if (fld.trueicon) icon = fld.trueicon;
             if (table.data[row][field] == false){
                 icon=fld.falseicon;
             }
-            return "<div href='#' title='"+tooltip+"' class='iconbutton' type='"+action+"' field='"+field+"' row='"+row+"' uid='"+table.data[row]['id']+"'><span class='"+icon+"' ></span></div>";
+            //if field is set, then the action is not performed
+            return "<div href='#' title='"+tooltip+"' class='iconbutton' action='"+action+"' row='"+row+"' uid='"+table.data[row]['id']+"'><span class='"+icon+"' ></span></div>";
+//            return "<div href='#' title='"+tooltip+"' class='iconbutton' action='"+action+"' field='"+field+"' row='"+row+"' uid='"+table.data[row]['id']+"'><span class='"+icon+"' ></span></div>";
         //if (table.data[row][field] == true) return "<a class='"+fld.trueicon+"' type='input' title='"+fld.tooltip+"'></a>";
         //if (table.data[row][field] == false) return "<a class='"+fld.falseicon+"' type='input' title='"+fld.tooltip+"'></a>";
         },

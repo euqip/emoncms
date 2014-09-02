@@ -161,6 +161,11 @@ required for the dashboard submenu
     background-color: #faf2cc;
 }
 
+.shortpading{
+    padding-right: 1px;
+    padding-left: 1px;
+}
+
 tbody  tr .form-control{
     height: 24px;
     margin-bottom: -4px;
@@ -212,6 +217,13 @@ login block flags size style
 
 .readapikey .writeapikey  {
 
+}
+
+.modal.modal-wide .modal-dialog {
+  width: 90%;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
 }
 
 

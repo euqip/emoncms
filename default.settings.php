@@ -163,6 +163,8 @@ gmail example:
         //orgletter MUST be present but may be a constant
         // see userletter  above and apply same rules, on countries for example
         //'orgletter'=> "country as letter" will group organisations by countries
+        'inputgroup'=> "nodeid",
+        'inputlist_expanded'=>FALSE,
 
         );
     $author=array(

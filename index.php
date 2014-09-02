@@ -142,7 +142,7 @@
         } elseif ($route->controller=='input' && $route->action=='bulk') {
             print $output['content'];
         } else {
-            print_r ($output['content']);
+            //print_r ($output['content']);
             print json_encode($output['content']);
         }
     }

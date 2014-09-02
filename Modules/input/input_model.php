@@ -536,8 +536,24 @@ class Input
             'processList'=>$row->processList
         ));
     }
-
+//check if necessary
     private function load_org_to_redis($orgid)
+    {
+        $result = $this->mysqli->query("SELECT id,nodeid,userid,name,description,processList FROM input WHERE `orgid` = '$orgid'");
+        while ($row = $result->fetch_object())
+        {
+            $this->redis->sAdd("org:inputs:$orgid", $row->id);
+            $this->redis->hMSet("input:$row->id",array(
+                'id'=>$row->id,
+                'nodeid'=>$row->nodeid,
+                'name'=>$row->name,
+                'description'=>$row->description,
+                'processList'=>$row->processList
+            ));
+        }
+    }
+
+    private function load_to_redis_org($orgid)
     {
         $result = $this->mysqli->query("SELECT id,nodeid,userid,name,description,processList FROM input WHERE `orgid` = '$orgid'");
         while ($row = $result->fetch_object())
