@@ -28,168 +28,99 @@
         </h2>
     </div>
 
-<div class="modal fade  emoncms-dialog type-primary modal-wide" id="processlist-ui" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title"><span id="inputname"> </span><small> <?php echo _(' -> Process configuration') ?></small></h3>
-            </div>
-            <div class="modal-body">
-                <p><?php echo _('Input processes are executed sequentially with the result being passed to next processor for further processing.'); ?></p>
-                <table class="table">
-                    <tr>
-                        <th style='width:5%;'></th>
-                        <th style='width:5%;'><?php echo _('Order'); ?></th>
-                        <th><?php echo _('Process'); ?></th>
-                        <th><?php echo _('Arg'); ?></th>
-                        <th></th>
-                        <th><?php echo _('Actions'); ?></th>
-                    </tr>
-
-                    <tbody id="variableprocesslist"></tbody>
-
-                </table>
-<div class="bs-example">
-    <?php echo _("Add process:"); ?>
-    <form class="">
-        <div class="row">
-            <div class="col-xs-3 shortpading">
-                <select id ="process-select" class="form-control"></select>
-            </div>
-            <div class="col-xs-1 shortpading" id = "type-value" style="display:none;">
-                <input  id ="value-input" type="text" class="form-control" placeholder="">
-            </div>
-            <div class="col-xs-1 shortpading" id = "type-input" style="display:none;">
-                <select  id="input-select" class="form-control"></select>
-            </div>
-            <div id="type-feed">
-                <div class="col-xs-2 shortpading">
-                    <select id = "feed-select" class="form-control">  </select>
+    <div class="modal fade  emoncms-dialog type-primary modal-wide" id="processlist-ui" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title"><span id="inputname"> </span><small> <?php echo _(' -> Process configuration') ?></small></h3>
                 </div>
-                <div class="col-xs-2 shortpading">
-                    <input id ="feed-name" type="text" class="form-control" placeholder="<?php echo _('Feed name...'); ?>" />
-                    <input type="hidden" id="feed-tag"/>
+                <div class="modal-body">
+                    <p><?php echo _('Input processes are executed sequentially with the result being passed to next processor for further processing.'); ?></p>
+                    <table class="table">
+                        <tr>
+                            <th style='width:5%;'></th>
+                            <th style='width:5%;'><?php echo _('Order'); ?></th>
+                            <th><?php echo _('Process'); ?></th>
+                            <th><?php echo _('Arg'); ?></th>
+                            <th></th>
+                            <th><?php echo _('Actions'); ?></th>
+                        </tr>
+
+                        <tbody id="variableprocesslist"></tbody>
+
+                    </table>
+                    <div class="bs-example">
+                        <?php echo _("Add process:"); ?>
+                        <form class="">
+                            <div class="row">
+                                <div class="col-xs-3 shortpading">
+                                    <select id ="process-select" class="form-control"></select>
+                                </div>
+                                <div class="col-xs-1 shortpading" id = "type-value" style="display:none;">
+                                    <input  id ="value-input" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="col-xs-1 shortpading" id = "type-input" style="display:none;">
+                                    <select  id="input-select" class="form-control"></select>
+                                </div>
+                                <div id="type-feed">
+                                    <div class="col-xs-2 shortpading">
+                                        <select id = "feed-select" class="form-control">  </select>
+                                    </div>
+                                    <div class="col-xs-2 shortpading">
+                                        <input id ="feed-name" type="text" class="form-control" placeholder="<?php echo _('Feed name...'); ?>" />
+                                        <input type="hidden" id="feed-tag"/>
+                                    </div>
+                                    <div class="col-xs-1 shortpading">
+                                        <span><?php echo _("Feed Engine:"); ?></span>
+                                    </div>
+                                    <div class="col-xs-2 shortpading">
+                                        <select id="feed-engine" class="form-control">
+                                            <option value=6 ><?php echo _("PHPFIWA : Fixed Interval With Averaging"); ?> </option>
+                                            <option value=5 ><?php echo _("PHPFINA : Fixed Interval No Averaging"); ?> </option>
+                                            <option value=2 ><?php echo _("PHPTIMESERIES : Variable Interval No Averaging"); ?> </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-1 shortpading">
+                                        <select id="feed-interval" class="form-control">
+                                            <option value=""><?php echo _("Select interval"); ?></option>
+                                            <option value=5>5 <?php echo _("s"); ?></option>
+                                            <option value=10>10 <?php echo _("s"); ?></option>
+                                            <option value=15>15 <?php echo _("s"); ?></option>
+                                            <option value=20>20 <?php echo _("s"); ?></option>
+                                            <option value=30>30 <?php echo _("s"); ?></option>
+                                            <option value=60>60 <?php echo _("s"); ?></option>
+                                            <option value=120>2 <?php echo _("mins"); ?></option>
+                                            <option value=300>5 <?php echo _("mins"); ?></option>
+                                            <option value=600>10 <?php echo _("mins"); ?></option>
+                                            <option value=900>15 <?php echo _("mins"); ?></option>
+                                            <option value=1200>20 <?php echo _("mins"); ?></option>
+                                            <option value=1800>30 <?php echo _("mins"); ?></option>
+                                            <option value=3600>1 <?php echo _("hour"); ?></option>
+                                            <option value=21600>6 <?php echo _('hours'); ?></option>
+                                            <option value=43200>12 <?php echo _('hours'); ?></option>
+                                            <option selected value=86400><?php echo _('Daily'); ?></option>
+                                            <option value=604800><?php echo _('Weekly'); ?></option>
+                                            <option value=2678400><?php echo _('Monthly'); ?></option>
+                                            <option value=31536000><?php echo _('Annual'); ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button id="process-add" class="btn btn-info col-xs-1 shortpading"><?php echo _('Add'); ?></button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <br />
+                    <div id="description" class="row"></div>
                 </div>
-                <div class="col-xs-1 shortpading">
-                    <span><?php echo _("Feed Engine:"); ?></span>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _('Exit') ?></button>
                 </div>
-                <div class="col-xs-2 shortpading">
-                    <select id="feed-engine" class="form-control">
-                        <option value=6 ><?php echo _("PHPFIWA : Fixed Interval With Averaging"); ?> </option>
-                        <option value=5 ><?php echo _("PHPFINA : Fixed Interval No Averaging"); ?> </option>
-                        <option value=2 ><?php echo _("PHPTIMESERIES : Variable Interval No Averaging"); ?> </option>
-                    </select>
-                </div>
-                <div class="col-xs-1 shortpading">
-                    <select id="feed-interval" class="form-control">
-                        <option value=""><?php echo _("Select interval"); ?></option>
-                        <option value=5>5 <?php echo _("s"); ?></option>
-                        <option value=10>10 <?php echo _("s"); ?></option>
-                        <option value=15>15 <?php echo _("s"); ?></option>
-                        <option value=20>20 <?php echo _("s"); ?></option>
-                        <option value=30>30 <?php echo _("s"); ?></option>
-                        <option value=60>60 <?php echo _("s"); ?></option>
-                        <option value=120>2 <?php echo _("mins"); ?></option>
-                        <option value=300>5 <?php echo _("mins"); ?></option>
-                        <option value=600>10 <?php echo _("mins"); ?></option>
-                        <option value=900>15 <?php echo _("mins"); ?></option>
-                        <option value=1200>20 <?php echo _("mins"); ?></option>
-                        <option value=1800>30 <?php echo _("mins"); ?></option>
-                        <option value=3600>1 <?php echo _("hour"); ?></option>
-                        <option value=21600>6 <?php echo _('hours'); ?></option>
-                        <option value=43200>12 <?php echo _('hours'); ?></option>
-                        <option selected value=86400><?php echo _('Daily'); ?></option>
-                        <option value=604800><?php echo _('Weekly'); ?></option>
-                        <option value=2678400><?php echo _('Monthly'); ?></option>
-                        <option value=31536000><?php echo _('Annual'); ?></option>
-                    </select>
-                </div>
-            </div>
-            <button id="process-add" class="btn btn-info col-xs-1 shortpading"><?php echo _('Add'); ?></button>
-        </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
-    </form>
-</div>
-
-        <table class="table">
-        <tr><th><?php echo _("Add process:"); ?></th></tr>
-        <tr>
-            <td>
-                <div class="input-prepend input-append">
-                <!--
-                    <select id="process-select1"><fait/select>
-
-                    <span id="type-value1" style="display:none">
-                        <input type="text" id="value-input1" style="width:125px" />fait
-                    </span>
-
-                    <span id="type-input1" style="display:none">
-                        <select id="input-select1" style="width:140px;">fait</select>
-                    </span>
-
-                    <span id="type-feed">
-                        <select id="feed-select" style="width:140px;">fait</select> 
-
-                        <input type="text" id="feed-name" style="width:150px;" placeholder="<?php echo _('Feed name...'); ?>"/>
-                        <input type="hidden" id="feed-tag"/>
-
-                        <span class="add-on feed-engine-label"><?php echo _("Feed engine:"); ?> </span>
-                        <select id="feed-engine">
-                            <option value=6 ><?php echo _("Fixed Interval With Averaging (PHPFIWA)"); ?> </option>
-                            <option value=5 ><?php echo _("Fixed Interval No Averaging (PHPFINA)"); ?> </option>
-                            <option value=2 ><?php echo _("Variable Interval No Averaging (PHPTIMESERIES)"); ?> </option>
-                        </select>
-
-                        <select id="feed-interval" style="width:130px">
-                            <option value=""><?php echo _("Select interval"); ?></option>
-                            <option value=5>5 <?php echo _("s"); ?></option>
-                            <option value=10>10 <?php echo _("s"); ?></option>
-                            <option value=15>15 <?php echo _("s"); ?></option>
-                            <option value=20>20 <?php echo _("s"); ?></option>
-                            <option value=30>30 <?php echo _("s"); ?></option>
-                            <option value=60>60 <?php echo _("s"); ?></option>
-                            <option value=120>2 <?php echo _("mins"); ?></option>
-                            <option value=300>5 <?php echo _("mins"); ?></option>
-                            <option value=600>10 <?php echo _("mins"); ?></option>
-                            <option value=900>15 <?php echo _("mins"); ?></option>
-                            <option value=1200>20 <?php echo _("mins"); ?></option>
-                            <option value=1800>30 <?php echo _("mins"); ?></option>
-                            <option value=3600>1 <?php echo _("hour"); ?></option>
-                            <option value=21600>6 <?php echo _('hours'); ?></option>
-                            <option value=43200>12 <?php echo _('hours'); ?></option>
-                            <option selected value=86400><?php echo _('Daily'); ?></option>
-                            <option value=604800><?php echo _('Weekly'); ?></option>
-                            <option value=2678400><?php echo _('Monthly'); ?></option>
-                            <option value=31536000><?php echo _('Annual'); ?></option>
-                        </select>
-
-                    </span>
-                    <button id="process-add" class="btn btn-info"><?php echo _('Add'); ?></button>
-                    -->
-                </div>
-            </td>
-        </tr>
-        <tr>
-          <td id="description"></td>
-        </tr>
-        </table>
-
-
-            </div>
-            <div class="modal-footer">
-                <!--
-                <button type="button" id = "createorg" class="btn btn-primary"><?php echo _('Create') ?></button>
-                -->
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _('Exit') ?></button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-    <!--
-    <div id="processlist-ui1 class="modal fade  emoncms-dialog type-success">
-    -->
     <div id="table"></div>
 
     <div id="noinputs" class="alert alert-block">
