@@ -159,17 +159,17 @@ gmail example:
         'orglist_expanded'=>FALSE,
         'orggroup'=> "letter",
         //orggroup may be '', than no groups are made, it is used in organisations list view
-        'orgletter'=> "ucase(LEFT(orgname,1)) as letter"
+        'orgletter'=> "ucase(LEFT(orgname,1)) as letter",
         //orgletter MUST be present but may be a constant
         // see userletter  above and apply same rules, on countries for example
         //'orgletter'=> "country as letter" will group organisations by countries
         'inputgroup'=> "nodeid",
-        'inputinterval'=> 50000,
-        'inputlist_expanded'=>TRUE,
+        'inputinterval'=> 500000,
+        'inputlistexpanded'=>TRUE,
 
         'feedgroup'=> "nodeid",
         'feedinterval'=> 50000,
-        'feedlist_expanded'=>TRUE,
+        'feedlistexpanded'=>1,
 
         );
     $author=array(
