@@ -10,6 +10,7 @@
   http://openenergymonitor.org
 
   */
+ /*
   $ltime = microtime(true);
   date_default_timezone_set('UTC');
   define('EMONCMS_EXEC', 1);
@@ -20,6 +21,9 @@
   require "core.php";
   require "route.php";
   require "locale.php";
+  */
+
+  require_once "bootstrap.php";
 
   $path = get_application_path();
 
@@ -52,7 +56,8 @@
     }
 
     if (!$mysqli->connect_error && $dbtest==true) {
-        require "Lib/dbschemasetup.php";
+        require CORE . 'Model' . DS . 'dbschemasetup.php';
+            //require "Lib/dbschemasetup.php";
         if (!db_check($mysqli,$database)) db_schema_setup($mysqli,load_db_schema(),true);
     }
 

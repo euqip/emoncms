@@ -86,7 +86,7 @@
                 <span class="text-left">
                     <?php echo _('Powered by '); ?>
                     <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a>
-                    <span class="emon-version"> | v<?php echo $emoncms_version; ?></span>
+                    <span class="emon-version"> | v<?php echo Configure::read('EmonCMS.version'); ?></span>
                 </span>
                 <span>
                    ---

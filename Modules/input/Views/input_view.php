@@ -15,16 +15,17 @@
     <div id="localheading">
         <h2><?php echo _('Inputs'); ?>
             <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Inputs API Help'); ?>"></span></small></a>
-            <a href='#'  id="expandall">
-                <small>
-                    <span class = "glyphicon glyphicon-expand" title = '<?php echo _("Expand all")?>'></span>
-                </small>
-            </a>
-            <a href='#'  id="collapseall">
-                <small>
-                    <span class = "glyphicon glyphicon-collapse-up" title = '<?php echo _("Collapse all")?>'></span>
-                </small>
-            </a>
+            <small>
+                <a href='#'  id="expandall">
+                    <span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Expand all")?> '></span>
+                </a>
+                <a href='#'  id="collapseall">
+                    <span class = "glyphicon glyphicon-minus-sign" title = '<?php echo _("Collapse all")?>'></span>
+                </a>
+                <a href='#'  id="nogroups">
+                    <span class = "glyphicon glyphicon glyphicon-list-alt" title = '<?php echo _("Hide groups")?>'></span>
+                </a>
+            </small>
         </h2>
     </div>
 
@@ -136,9 +137,9 @@
 
     var firstrun = true;
     var assoc_inputs = {};
-    var updateinterval =100000;
+    var updateinterval ="<?php echo $behavior['inputinterval']; ?>";
     var groupfield= "<?php echo $behavior['inputgroup']; ?>";
-    var expanded= "<?php echo $behavior['inputlist_expanded']; ?>";
+    var expanded= <?php echo $behavior['inputlistexpanded']; ?>;
 
 
     var moveup = "<?php echo _("Move Up"); ?>";
@@ -161,7 +162,8 @@
     //'view-action':{'title':'','tooltip':'<?php echo _("Edit Process"); ?>', 'type':"iconlink", 'link':path+"input/process/list.html?inputid=", 'icon':'glyphicon glyphicon-wrench', 'display':"yes", 'colwidth':" style='width:30px;'"},
     'view-action':{'title':'','tooltip':'<?php echo _("Edit Processes"); ?>', 'type':'icon', 'icon':'glyphicon glyphicon-wrench', 'display':"yes", 'colwidth':" style='width:30px;'", 'iconaction':'wrench'},
 
-    'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':"", 'display':"no"},
+    'nodeid':{'title':'<?php echo _("Node"); ?>','type':"fixed",'display':"dynamic", 'colwidth':" style='width:50px;'"},
+    //'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':"", 'display':"yes", 'colwidth':" style='width:50px;'"},
     //'id':{'title':'<?php echo _(""); ?>','type':"fixed",'colwidth':"", 'display':"yes"},
     'name':{'title':'<?php echo _("name"); ?>','type':"text", 'colwidth':" style='width:100px;'"},
     'description':{'title':'<?php echo _("Description"); ?>','type':"text", 'colwidth':" style='width:200px;'"},
@@ -175,44 +177,64 @@
     table.groupprefix = "Node ";
     table.groupby = 'nodeid';
 
-    update(expanded);
+    update();
     $("#expandall").click(function()
     {
-        table.groupby = '';
-        //table.groupby = groupfield;
-        update(true);
+        table.groupby = groupfield;
+        table.expand = true;
+        table.tablegrpidshow = false;
+        table.state = 1;
+        update();
     })
     $("#collapseall").click(function()
     {
         table.groupby = groupfield;
-        update(false);
+        table.collapse = true
+        table.tablegrpidshow = false;
+        table.state = 0;
+        update();
+    })
+    $("#nogroups").click(function()
+    {
+        table.groupby = '';
+        table.expand = true;
+        table.tablegrpidshow = true;
+        table.state = 2;
+        update();
     })
 
-    function update(how)
+
+    function update()
     {
         //$.ajax({ url: path+"input/list.json", dataType: 'json', async: true, success: function(data) {
 
         //table.data = data;
-        table.expanded_by_default = how;
+        if (firstrun) {
+            table.expand=expanded;
+            table.collapse=!expanded;
+            table.state=expanded;
+        }
+        var how=table.state;
+
         table.data = input.list();
         table.draw();
+        $("#collapseall").hide();
+        $("#expandall").hide();
         if (table.data.length != 0) {
-           $("#noinputs").hide();
+            $("#noinputs").hide();
             $("#apihelphead").hide();
             $("#localheading").show();
-            if(table.expanded_by_default){
-                $("#collapseall").show();
-                $("#expandall").hide();
-            } else {
-                $("#collapseall").hide();
-                $("#expandall").show();
-            }
         } else {
             $("#noinputs").show();
             $("#apihelphead").show();
-            $("#localheading").hide();
-            $("#collapseall").hide();
-            $("#expandall").hide();
+            //$("#localheading").hide();
+        };
+        if(how){
+            $("#collapseall").show();
+            //$("#expandall").hide();
+        } else {
+            //$("#collapseall").hide();
+            $("#expandall").show();
         };
 
 
@@ -255,12 +277,10 @@
         }
     }
     function editprocesslist(row,uid){
-        
         //var row = table.data[$(this).attr('row')];
         var row = table.data[row];
         //console.log("The row to edit:"+row);
         processlist_ui.inputid = row.id;
-        
         var processlist = [];
         if (row.processList!="")
         {

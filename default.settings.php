@@ -164,7 +164,12 @@ gmail example:
         // see userletter  above and apply same rules, on countries for example
         //'orgletter'=> "country as letter" will group organisations by countries
         'inputgroup'=> "nodeid",
-        'inputlist_expanded'=>FALSE,
+        'inputinterval'=> 50000,
+        'inputlist_expanded'=>TRUE,
+
+        'feedgroup'=> "nodeid",
+        'feedinterval'=> 50000,
+        'feedlist_expanded'=>TRUE,
 
         );
     $author=array(

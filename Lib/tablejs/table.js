@@ -13,7 +13,11 @@ var table =
     'sortfield':null,
     'sortable':true,
     'groupprefix':"",
-    'expanded_by_default':true,
+    'expanded':true,
+    'collapse':false,
+    'expand':false,
+    'state':0,
+    'tablegrpidshow':false,
     'draw':function()
     {
         if (table.data && table.sortable) {
@@ -31,16 +35,37 @@ var table =
             if (!group) group = 'NoGroup';
             if (!groups[group]) {groups[group] = ""; group_num++;}
             groups[group] += table.draw_row(row);
+
+            // when a collapse or an expand are triggered set it for each group
+
         }
-        var html = "";
         for (group in groups)
         {
+            if (table.collapse==true) {
+                table.groupshow[group]=false;
+            }
+            if (table.expand==true) {
+                table.groupshow[group]=true;
+            }
+        }
+        var html = "";
+        table.collapse=false;
+        table.expand=false;
+
+        for (group in groups)
+        {
+            //groups presentation is tri state
+            //1: no groups to enable full table sort
+            //2: collapsed grous to  reduce amont of information on screen
+            //3: expanded groups like original prsentation
             // Minimized group persistance, see lines: 4,92,93
-            var visible = '', symbol ='<span class="glyphicon glyphicon-minus-sign"></span>';
-            if (table.groupshow[group]==undefined) table.groupshow[group]=table.expanded_by_default;
-            if (table.groupshow[group]==false) {symbol = '<span class="glyphicon glyphicon-plus-sign"></span>'; visible = "display:none";}
+            var minus='<span class="glyphicon glyphicon-minus-sign"></span>';
+            var plus ='<span class="glyphicon glyphicon-plus-sign"></span>';
+            var visible = '', symbol =minus;
+            if (table.groupshow[group]==undefined) table.groupshow[group]=table.expanded;
+            if (table.groupshow[group]==false) {symbol = plus; visible = "display:none";}
             if (group_num>1) {
-                html += "<tr class='groupheader'><th colspan='4'><a class='MINMAX' group='"+group+"' >"+symbol+"</a> "+table.groupprefix+group+"</th>";
+                html += "<tr class='groupheader'><th colspan='4'><a class='MINMAX' group='"+group+"' >"+symbol+table.groupprefix+group+"</a> </th>";
                 var count = 0; for (field in table.fields) count++;   // Calculate amount of padding required
                 for (i=1; i<count-1; i++) html += "<th></th>";          // Add th padding
                     html += "</tr>";
@@ -53,7 +78,7 @@ var table =
                 var tooltip = ''; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
                 var colwidth = ''; if (fld.colwidth!=undefined) colwidth = fld.colwidth;
                 var display = 'yes'; if (fld.display!=undefined) display = fld.display;
-                if (display =="yes"){
+                if ((display =="yes")||((display=="dynamic") && (table.tablegrpidshow==true))){
                     html += "<th><a type='sort' field='"+field+"' title='"+tooltip+"' "+colwidth+">"+title+"</a></th>";
                 }
             }
@@ -77,7 +102,7 @@ var table =
             var tooltip = ''; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
             var colwidth = ''; if (fld.colwidth!=undefined) colwidth = ""+fld.colwidth+"";
             var display = 'yes'; if (fld.display!=undefined) display = fld.display;
-            if (display =="yes"){
+            if ((display =="yes")||((display=="dynamic") && (table.tablegrpidshow==true))){
                 html += "<td row='"+row+"' field='"+field+"'"+colwidth+" >"
                 html += table.fieldtypes[fld.type].draw(row,field)+"</td>";
             }
