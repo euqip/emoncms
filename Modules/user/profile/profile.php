@@ -44,8 +44,8 @@ function languagecodetotext()
         <div id="account">
 
             <span class="text-muted"><?php echo _('Username'); ?></span>
-            <span id ="edit-username" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span>
-            <span id ="save-username" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Edit'); ?>></span>
+            <span id ="edit-username" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = '<?php echo _('Edit'); ?>'></span>
+            <span id ="save-username" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = '<?php echo _('Edit'); ?>'></span>
 
             <p>
                 <div id="username-view" style="display:inline">
@@ -59,8 +59,8 @@ function languagecodetotext()
 
 
             <span class="text-muted"><?php echo _('Email'); ?></span>
-            <span id ="edit-email" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span>
-            <span id ="save-email" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Edit'); ?>></span>
+            <span id ="edit-email" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = '<?php echo _('Edit'); ?>'></span>
+            <span id ="save-email" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = '<?php echo _('Edit'); ?>'></span>
             <p>
                 <div id="email-view" style="display:inline">
                     <span class="email"></span>

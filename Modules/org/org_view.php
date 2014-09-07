@@ -45,8 +45,8 @@ function languagecodetotext()
         <div id="account">
 
             <span class="text-muted"><?php echo _('Username'); ?></span>
-            <span id ="edit-username" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span>
-            <span id ="save-username" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Edit'); ?>></span>
+            <span id ="edit-username" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = '<?php echo _('Edit'); ?>'></span>
+            <span id ="save-username" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = '<?php echo _('Edit'); ?>'></span>
 
             <p>
                 <div id="username-view" style="display:inline">
@@ -56,12 +56,12 @@ function languagecodetotext()
                     <input class="username form-control" type="text" size ="40">
                 </div>
             </p>
-            <div id="change-username-error" class="alert-danger" style="display:none; width:100%"></div> 
+            <div id="change-username-error" class="alert-danger" style="display:none; width:100%"></div>
 
 
             <span class="text-muted"><?php echo _('Email'); ?></span>
-            <span id ="edit-email" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span>
-            <span id ="save-email" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Edit'); ?>></span>
+            <span id ="edit-email" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = '<?php echo _('Edit'); ?>'></span>
+            <span id ="save-email" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = '<?php echo _('Edit'); ?>'></span>
             <p>
                 <div id="email-view" style="display:inline">
                     <span class="email"></span>
@@ -70,7 +70,7 @@ function languagecodetotext()
                     <input class="email form-control" type="email" size="40">
                 </div>
             </p>
-            <div id="change-email-error" class="alert-danger" style="display:none; width:100%"></div> 
+            <div id="change-email-error" class="alert-danger" style="display:none; width:100%"></div>
 
             <p>
                 <span class="text-muted"><?php echo _('Write API Key'); ?> </span>

@@ -11,11 +11,14 @@
 
 
 <div class="container">
+
     <div id="apihelphead"><div><a href="api"><?php echo _('Inputs API Help'); ?></a></div></div>
     <div id="localheading">
         <h2><?php echo _('Inputs'); ?>
-            <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Inputs API Help'); ?>"></span></small></a>
             <small>
+                <a href="api">
+                    <span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Inputs API Help'); ?>"></span>
+                </a>
                 <a href='#'  id="expandall">
                     <span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Expand all")?> '></span>
                 </a>
@@ -27,6 +30,12 @@
                 </a>
             </small>
         </h2>
+    </div>
+    <div id="table"></div>
+
+    <div id="noinputs" class="alert alert-block">
+            <h4 class="alert-heading"><?php echo _('No inputs created'); ?></h4>
+            <p><?php echo _('Inputs is the main entry point for your monitoring device. Configure your device to post values here, you may want to follow the <a href="api">Input API helper</a> as a guide for generating your request.'); ?></p>
     </div>
 
     <div class="modal fade  emoncms-dialog type-primary modal-wide" id="processlist-ui" data-backdrop="static">
@@ -122,12 +131,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div id="table"></div>
-
-    <div id="noinputs" class="alert alert-block">
-            <h4 class="alert-heading"><?php echo _('No inputs created'); ?></h4>
-            <p><?php echo _('Inputs is the main entry point for your monitoring device. Configure your device to post values here, you may want to follow the <a href="api">Input API helper</a> as a guide for generating your request.'); ?></p>
-    </div>
 
 </div>
 
@@ -154,6 +157,8 @@
     //for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
 
     table.element = "#table";
+    table.collapsetext= "<?php echo _("Collapse this Group"); ?>";
+    table.expandtext= "<?php echo _("Expand this Group"); ?>";
 
   table.fields = {
     // Actions
@@ -214,8 +219,6 @@
             table.collapse=!expanded;
             table.state=expanded;
         }
-        var how=table.state;
-
         table.data = input.list();
         table.draw();
         $("#collapseall").hide();
@@ -227,13 +230,10 @@
         } else {
             $("#noinputs").show();
             $("#apihelphead").show();
-            //$("#localheading").hide();
         };
-        if(how){
+        if(table.state){
             $("#collapseall").show();
-            //$("#expandall").hide();
         } else {
-            //$("#collapseall").hide();
             $("#expandall").show();
         };
 

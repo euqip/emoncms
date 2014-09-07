@@ -1,5 +1,5 @@
 <?php
-    global $session,$path;
+    global $session,$path,$behavior;
 ?>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/user.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
@@ -10,19 +10,34 @@
 <script type="text/javascript" src="<?php echo $path; ?>Lib/datetimepicker/js/locales/bootstrap-datetimepicker.<?php echo substr($session['lang'],0,2); ?>.js" charset="UTF-8"></script>
 <!-- source: https://github.com/smalot/bootstrap-datetimepicker -->
 <div class="container">
-        <div id="localheading">
-          <h2><?php echo _('Feeds'); ?>
-            <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Feeds API Help'); ?>"></span></small></a>
-            <a href="#" id="refreshfeedsize" ><small><span class = "glyphicon glyphicon-refresh" title = "<?php echo _('Refresh feed size'); ?>"></span></small></a>
-          </h2>
-        </div>
+    <div id="localheading">
+        <h2><?php echo _('Feeds'); ?>
+            <small>
+                <a href="api">
+                    <span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Feeds API Help'); ?>"></span>
+                </a>
+                <a href="#" id="refreshfeedsize">
+                    <span class = "glyphicon glyphicon-refresh" title = "<?php echo _('Refresh feed size'); ?>"></span>
+                </a>
+                <a href='#'  id="expandall">
+                    <span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Expand all")?> '></span>
+                </a>
+                <a href='#'  id="collapseall">
+                    <span class = "glyphicon glyphicon-minus-sign" title = '<?php echo _("Collapse all")?>'></span>
+                </a>
+                <a href='#'  id="nogroups">
+                    <span class = "glyphicon glyphicon glyphicon-list-alt" title = '<?php echo _("Hide groups")?>'></span>
+                </a>
+            </small>
+        </h2>
+    </div>
 
-        <div id="table"></div>
+    <div id="table"></div>
 
-        <div id="nofeeds" class="alert alert-block hide">
-                <h4 class="alert-heading"><?php echo _('No feeds created'); ?></h4>
-                <p><?php echo _('Feeds are where your monitoring data is stored. The recommended route for creating feeds is to start by creating inputs (see the inputs tab). Once you have inputs you can either log them straight to feeds or if you want you can add various levels of input processing to your inputs to create things like daily average data or to calibrate inputs before storage. You may want to follow the link as a guide for generating your request.'); ?><a href="api"><?php echo _('Feed API helper'); ?></a></p>
-        </div>
+    <div id="nofeeds" class="alert alert-block hide">
+        <h4 class="alert-heading"><?php echo _('No feeds created'); ?></h4>
+        <p><?php echo _('Feeds are where your monitoring data is stored. The recommended route for creating feeds is to start by creating inputs (see the inputs tab). Once you have inputs you can either log them straight to feeds or if you want you can add various levels of input processing to your inputs to create things like daily average data or to calibrate inputs before storage. You may want to follow the link as a guide for generating your request.'); ?><a href="api"><?php echo _('Feed API helper'); ?></a></p>
+    </div>
 </div>
 
 <div class="modal fade emoncms-dialog type-primary" id="ExportModal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -175,6 +190,14 @@
 <script>
 
     var path = "<?php echo $path; ?>";
+    var firstrun = true;
+    var updateinterval ="<?php echo $behavior['feedinterval']; ?>";
+    var groupfield= "<?php echo $behavior['feedgroup']; ?>";
+    var expanded= <?php echo $behavior['feedlistexpanded']; ?>;
+    table.element = "#table";
+    table.collapsetext= "<?php echo _("Collapse this Group"); ?>";
+    table.expandtext= "<?php echo _("Expand this Group"); ?>";
+
     table.element = "#table";
 
   table.fields = {
@@ -204,14 +227,44 @@
     }
 >>>>>>> f78a8022ecc4c3ed3878e462ed13fc052024e627
 */
-    table.groupby = 'tag';
+    //table.groupby = 'tag';
+    table.groupprefix = groupfield+": ";
+    table.groupby = groupfield;
     table.deletedata = false;
 
     table.draw();
     update();
-
+    $("#expandall").click(function()
+    {
+        table.groupby = groupfield;
+        table.expand = true;
+        table.tablegrpidshow = false;
+        table.state = 1;
+        update();
+    })
+    $("#collapseall").click(function()
+    {
+        table.groupby = groupfield;
+        table.collapse = true
+        table.tablegrpidshow = false;
+        table.state = 0;
+        update();
+    })
+    $("#nogroups").click(function()
+    {
+        table.groupby = '';
+        table.expand = true;
+        table.tablegrpidshow = true;
+        table.state = 2;
+        update();
+    })
     function update()
     {
+        if (firstrun) {
+            table.expand=expanded;
+            table.collapse=!expanded;
+            table.state=expanded;
+        }
         table.data = feed.list();
         for (z in table.data)
         {
@@ -224,6 +277,8 @@
             }
         }
         table.draw();
+        $("#collapseall").hide();
+        $("#expandall").hide();
 
 
         if (table.data.length != 0) {
@@ -233,10 +288,15 @@
             $("#nofeeds").show();
             $("#localheading").hide();
         }
+        if(table.state){
+            $("#collapseall").show();
+        } else {
+            $("#expandall").show();
+        }
+        firstrun=false;
     }
-    var updatetime=10000;
 
-    var updater = setInterval(update, updatetime);
+    var updater = setInterval(update, updateinterval);
 
     $("#table").bind("onEdit", function(e){
         clearInterval(updater);
@@ -244,7 +304,7 @@
 
     $("#table").bind("onSave", function(e,id,fields_to_update){
         feed.set(id,fields_to_update);
-        updater = setInterval(update, updatetime);
+        updater = setInterval(update, updateinterval);
         update()
     });
 
@@ -268,7 +328,7 @@
         update();
 
         $('#myModal').modal('hide');
-        updater = setInterval(update, updatetime);
+        updater = setInterval(update, updateinterval);
     })
 
 
