@@ -167,8 +167,8 @@ gmail example:
         'inputinterval'=> 500000,
         'inputlistexpanded'=>TRUE,
 
-        'feedgroup'=> "nodeid",
-        'feedinterval'=> 50000,
+        'feedgroup'=> "tag",
+        'feedinterval'=> 500000,
         'feedlistexpanded'=>1,
 
         );
