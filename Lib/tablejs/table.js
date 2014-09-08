@@ -11,6 +11,7 @@ var table =
     'eventsadded':false,
     'deletedata':true,
     'sortfield':null,
+    'sortorder':null,
     'sortable':true,
     'groupprefix':"",
     'expanded':true,
@@ -29,9 +30,15 @@ var table =
         table.plus='<span class="glyphicon glyphicon-plus-sign" title="'+table.expandtext+'"></span>';
         if (table.data && table.sortable) {
             table.data.sort(function(a,b) {
-                if(a[table.sortfield]<b[table.sortfield]) return -1;
-                if(a[table.sortfield]>b[table.sortfield]) return 1;
-                return 0;
+                if (table.sortorder==1){
+                    if(a[table.sortfield]<b[table.sortfield]) return -1;
+                    if(a[table.sortfield]>b[table.sortfield]) return 1;
+                    return 0;
+                } else{
+                    if(a[table.sortfield]>b[table.sortfield]) return -1;
+                    if(a[table.sortfield]<b[table.sortfield]) return 1;
+                    return 0;
+                }
             });
         }
         var group_num = 0;
@@ -133,7 +140,13 @@ var table =
     },
     'sort':function(field,dir)
     {
+        if(table.sortfield == field){
+            table.sortorder = -table.sortorder;
+        }else{
+            table.sortorder = 1;
+        }
         table.sortfield = field;
+        //table.sortorder = dir;
         table.draw();
     },
     'add_events':function() {
@@ -147,7 +160,9 @@ var table =
         // Event: sort by field
         $(table.element).on('click', 'a[type=sort]', function() {
             var field = $(this).attr('field');
-            table.sort(field,1);
+            var dir = $(this).attr('sortorder');
+            if (dir == undefined) dir=1;
+            table.sort(field,dir);
         //console.log(field);
         });
         // Event: delete row
