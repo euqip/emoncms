@@ -5,7 +5,7 @@
 <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
 
-<link href="<?php echo $path; ?>Lib/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<link href="<?php echo $path; ?>Lib/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" >
 <script type="text/javascript" src="<?php echo $path; ?>Lib/datetimepicker/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/datetimepicker/js/locales/bootstrap-datetimepicker.<?php echo substr($session['lang'],0,2); ?>.js" charset="UTF-8"></script>
 <!-- source: https://github.com/smalot/bootstrap-datetimepicker -->
@@ -49,8 +49,8 @@
              </div>
             <div class="modal-body">
                 <div>
-                    <span><?php echo _('Selected feed:') ?> </span><b><span id="SelectedExportFeed"></span></b></p>
-                    <p><?php echo _('Select the dates range interval that you wish to export: (From - To)') ?> </p>
+                    <span><?php echo _('Selected feed:') ?> </span><b><span id="SelectedExportFeed"></span></b>
+                    <p><?php echo _('Select the dates range interval that you wish to export: (From - To)') ?></p>
                 </div>
                 <div id="modalhtml" class="container">
                     <div class="row">
@@ -108,8 +108,8 @@
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <select id="export-timezone-list" class="form-control" >
                                     <?php
-                                    for ($tt=-12; $tt<=12; $tt++)
-                                        {
+                                    if(!isset($selected)) $selected = 0;
+                                    for ($tt=-12; $tt<=12; $tt++){
                                             $tt1= substr("0".abs($tt),-2);
                                             $plus= ($tt<0)?'-':'+';
                                             //need to select the user timezone!!! for better ergonomy, not present in $session
@@ -181,7 +181,7 @@
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
                 <button class="btn" id="confirmdelete"><span class="emoncms-dialog-button-icon glyphicon glyphicon-trash"></span><?php echo _('Delete Feed'); ?></button>
-             </div>
+            </div>
         </div>
     </div>
 </div>
@@ -227,39 +227,37 @@
     }
 >>>>>>> f78a8022ecc4c3ed3878e462ed13fc052024e627
 */
-    //table.groupby = 'tag';
     table.groupprefix = groupfield+": ";
     table.groupby = groupfield;
     table.deletedata = false;
 
     table.draw();
     update();
-    $("#expandall").click(function()
-    {
+    $("#expandall").click(function() {
         table.groupby = groupfield;
         table.expand = true;
         table.tablegrpidshow = false;
         table.state = 1;
         update();
     })
-    $("#collapseall").click(function()
-    {
+
+    $("#collapseall").click(function() {
         table.groupby = groupfield;
         table.collapse = true
         table.tablegrpidshow = false;
         table.state = 0;
         update();
     })
-    $("#nogroups").click(function()
-    {
+
+    $("#nogroups").click(function() {
         table.groupby = '';
         table.expand = true;
         table.tablegrpidshow = true;
         table.state = 2;
         update();
     })
-    function update()
-    {
+
+    function update() {
         if (firstrun) {
             table.expand=expanded;
             table.collapse=!expanded;
@@ -357,7 +355,6 @@
     $('#export-interval-list').on('change',function(e){
         $("#export-interval").val($("#export-interval-list").val());
         calcdownloadsize();
-
     });
 
     $('.form_datetime').datetimepicker({
@@ -372,13 +369,11 @@
         showMeridian: 0
     });
 
-    $('#export-start-div').on('change', function(e)
-    {
+    $('#export-start-div').on('change', function(e)    {
         calcdownloadsize();
     });
 
-    $('#export-end-div').on('change', function(e)
-    {
+    $('#export-end-div').on('change', function(e)    {
         calcdownloadsize();
     });
 
@@ -421,8 +416,7 @@
     }
 
 
-    $("#export").click(function()
-    {
+    $("#export").click(function(){
         var feedid = $(this).attr('feedid');
         var export_start = parse_timepicker_time($("#export-start").val());
         var export_end = parse_timepicker_time($("#export-end").val());
@@ -463,8 +457,7 @@
 
 
 
-    function parse_timepicker_time(timestr)
-    {
+    function parse_timepicker_time(timestr){
         var tmp = timestr.split(" ");
         if (tmp.length!=2) return false;
 

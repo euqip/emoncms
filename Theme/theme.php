@@ -68,32 +68,32 @@
                     <div class="container">
                         <?php echo $submenu; ?>
                     </div>
-            </div><br>
-            <?php } ?>
+                    </div><br>
+                <?php } ?>
 
-            <?php
-            if (!isset($content)) $content = '';
-            if (!isset($fullwidth)) {
-              $fullwidth = false;
-              $content= '<div class="container">'.$content.'</div></div>';
-          };
-          echo '<!-- content comes here -->';
-          echo $content;
-          ?>
-        </div>
+                <?php
+                if (!isset($content)) $content = '';
+                if (!isset($fullwidth)) {
+                    $fullwidth = false;
+                    $content= '<div class="container">'.$content.'</div></div>';
+                    };
+                ?>
+                <?php echo '<!-- content comes here -->'; ?>
+                <?php echo $content; ?>
+            </div>
 
         <div id="footer">
-                <span class="text-left">
-                    <?php echo _('Powered by '); ?>
-                    <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a>
-                    <span class="emon-version"> | v<?php echo Configure::read('EmonCMS.version'); ?></span>
-                </span>
-                <span>
-                   ---
-                </span>
-                <span class="text-right">
-                    <a href="http://glyphicons.com/" target = "_blank"><?php echo _('With Glyphicons support');?></a>
-                </span>
+            <span class="text-left">
+                <?php echo _('Powered by '); ?>
+                <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a>
+                <span class="emon-version"> | v<?php echo Configure::read('EmonCMS.version'); ?></span>
+            </span>
+            <span>
+               ---
+            </span>
+            <span class="text-right">
+                <a href="http://glyphicons.com/" target = "_blank"><?php echo _('With Glyphicons support');?></a>
+            </span>
         </div>
         <!-- end of footer -->
 
@@ -102,19 +102,18 @@
 -->
 
 
-<script src="<?php echo $path; ?>Lib/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript">
-    var $buoop = {};
-    $buoop.ol = window.onload;
-    window.onload=function(){
-     try {if ($buoop.ol) $buoop.ol();}catch (e) {}
-     var e = document.createElement("script");
-     e.setAttribute("type", "text/javascript");
-     e.setAttribute("src", "//browser-update.org/update.js");
-     document.body.appendChild(e);
-    }
-</script>
-
+        <script src="<?php echo $path; ?>Lib/bootstrap/js/bootstrap.js"></script>
+        <script type="text/javascript">
+            var $buoop = {};
+            $buoop.ol = window.onload;
+            window.onload=function(){
+             try {if ($buoop.ol) $buoop.ol();}catch (e) {}
+             var e = document.createElement("script");
+             e.setAttribute("type", "text/javascript");
+             e.setAttribute("src", "//browser-update.org/update.js");
+             document.body.appendChild(e);
+            }
+        </script>
 
     </body>
 

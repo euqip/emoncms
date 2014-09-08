@@ -4,24 +4,6 @@ $usergroupfield="";
 ?>
 
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
-<h2><?php echo _('Users'); ?>
-    <a href='#modal-create' data-toggle="modal" id="adduser">
-        <small>
-            <span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Add new user")?>'></span>
-        </small>
-    </a>
-    <a href='#'  id="expandall">
-        <small>
-            <span class = "glyphicon glyphicon-expand" title = '<?php echo _("Expand all")?>'></span>
-        </small>
-    </a>
-    <a href='#'  id="collapseall">
-        <small>
-            <span class = "glyphicon glyphicon-collapse-up" title = '<?php echo _("Collapse all")?>'></span>
-        </small>
-    </a>
-    <span class="alert-danger pull-right fade" id ="msgfeeback"></span>
-</h2>
 
 <div class="row">
     <div class="col-xs-1">
@@ -35,6 +17,24 @@ $usergroupfield="";
     </div>
 </div>
 
+<div id="localheading">
+    <h2><?php echo _('Users'); ?>
+        <small>
+            <a href='#modal-create' data-toggle="modal" id="adduser">
+                <span class = "glyphicon glyphicon-user" title = "<?php echo _("Add new user")?>"></span>
+            </a>
+            <a href='#'  id="expandall">
+                <span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Expand all")?> '></span>
+            </a>
+            <a href='#'  id="collapseall">
+                <span class = "glyphicon glyphicon-minus-sign" title = '<?php echo _("Collapse all")?>'></span>
+            </a>
+            <a href='#'  id="nogroups">
+                <span class = "glyphicon glyphicon glyphicon-list-alt" title = '<?php echo _("Hide groups")?>'></span>
+            </a>
+        </small>
+    </h2>
+</div>
 
 <div id="table"></div>
 
@@ -78,6 +78,7 @@ $usergroupfield="";
 
 <script>
     var path       = "<?php echo $path; ?>";
+    var firstrun   = true;
     var groupfield = "<?php echo $behavior['usergoup']; ?>";
     var expanded   = "<?php echo $behavior['userlist_expanded']; ?>";
     var success    = "<?php echo _('Success'); ?>";
@@ -177,14 +178,27 @@ $usergroupfield="";
     $("#createuser").click(admin.register);
     $("#expandall").click(function()
     {
-        table.groupby = '';
-        update(true);
+        table.groupby = groupfield;
+        table.expand = true;
+        table.tablegrpidshow = false;
+        table.state = 1;
+        update();
     })
-
     $("#collapseall").click(function()
     {
         table.groupby = groupfield;
-        update(false);
+        table.collapse = true
+        table.tablegrpidshow = false;
+        table.state = 0;
+        update();
+    })
+    $("#nogroups").click(function()
+    {
+        table.groupby = '';
+        table.expand = true;
+        table.tablegrpidshow = true;
+        table.state = 2;
+        update();
     })
 
     table.element = "#table";
@@ -192,7 +206,8 @@ $usergroupfield="";
     table.fields = {
         'id'        :{ 'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage user details'); ?>", 'link':"setuser?id=", 'colwidth':" style='width:30px;'"},
         'pwd'       :{ 'title':"<?php echo _('Pwd'); ?>", 'type':"iconbasic", 'icon':'glyphicon glyphicon-send','tooltip':"<?php echo _('Reset password and send new one'); ?>", 'icon_action':"passwordreset", 'colwidth':" style='width:30px;'"},
-        'username'  :{ 'title':"<?php echo _('Name'); ?>", 'type':"fixed"},
+        'lettre'    :{ 'title':"<?php echo _(''); ?>", 'type':"fixed"},
+        'username'  :{ 'title':"<?php echo _('Name'); ?>", 'type':"text", 'tooltip':"<?php echo _('User Fullname'); ?>", 'display':'yes'},
         'email'     :{ 'title':"<?php echo _('Email address'); ?>", 'type':"fixed"},
         'language'  :{ 'title':"<?php echo _('Langage'); ?>", 'type':"fixed"},
         'lastlogin' :{ 'title':"<?php echo _('Last login'); ?>", 'type':"fixed"},
@@ -202,18 +217,24 @@ $usergroupfield="";
     update(expanded);
 
     function update(how){
-        table.expanded_by_default = how;
+        //table.expanded_by_default = how;
         table.data = admin.userlist();
+        if (firstrun) {
+            table.expand=expanded;
+            table.collapse=!expanded;
+            table.state=expanded;
+        }
 
         table.draw();
         //check if no data are present to show how to proceed.
-        if(table.expanded_by_default){
+        if(table.state){
             $("#collapseall").show();
             $("#expandall").hide();
         } else {
             $("#collapseall").hide();
             $("#expandall").show();
         }
+        firstrun = false;
     }
 
     function module_event(evt, elt, row, uid, action){

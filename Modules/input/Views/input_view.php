@@ -159,6 +159,7 @@
     table.element = "#table";
     table.collapsetext= "<?php echo _("Collapse this Group"); ?>";
     table.expandtext= "<?php echo _("Expand this Group"); ?>";
+    table.groupprefix = "<?php echo _("Node: "); ?>";
 
   table.fields = {
     // Actions
@@ -179,8 +180,7 @@
     'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
   }
 
-    table.groupprefix = "Node ";
-    table.groupby = 'nodeid';
+    table.groupby = groupfield;
 
     update();
     $("#expandall").click(function()
