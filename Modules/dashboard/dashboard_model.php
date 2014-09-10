@@ -73,7 +73,7 @@ class Dashboard
         if ($published==true) $qC = " and published=1";
         if ($cond<>'') $cond = "".$cond."";
         $owner = "IF(userid=".$userid.",true,false) as mine";
-        $sql="SELECT id, name, alias, description, main, published, public, menu, showdescription,".$owner." FROM dashboard WHERE ".$cond.$qB.$qC;
+        $sql="SELECT id, name,  ucase(LEFT(name,1)) as letter, alias, description, main, published, public, menu, showdescription,".$owner." FROM dashboard WHERE ".$cond.$qB.$qC;
         $result = $this->mysqli->query($sql);
         $list = array();
         while ($row = $result->fetch_object())
@@ -81,6 +81,7 @@ class Dashboard
         $list[] = array (
             'id' => (int) $row->id,
             'name' => $row->name,
+            'letter' => $row->letter,
             'alias' => $row->alias,
             'showdescription' => (bool) $row->showdescription,
             'description' => $row->description,

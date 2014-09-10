@@ -36,7 +36,7 @@ function admin_controller()
             else $applychanges = true;
 
             require "Modules/admin/update_class.php";
-            require_once "Lib/dbschemasetup.php";
+            require_once "Core/Model/dbschemasetup.php";
 
             $update = new Update($mysqli);
 

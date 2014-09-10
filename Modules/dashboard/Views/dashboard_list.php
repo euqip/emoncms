@@ -1,5 +1,5 @@
 <?php
-global $path, $actions;
+global $path, $actions, $behavior;
 ?>
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard.js"></script>
@@ -11,10 +11,22 @@ global $path, $actions;
 
 <div class="container">
     <div id="localheading">
-        <h2><?php echo _('Dashboard'); ?>
-            <a href="#" class="adddashboard">
-                <small><span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Add new dashbord")?>'></span></small>
-            </a>
+        <h2><?php echo _('Dashboards'); ?>
+           <small>
+                <a href="#" class="adddashboard">
+                    <span class = "glyphicon glyphicon-dashboard" title = "<?php echo _("Add new dashboard")?>"></span>
+                </a>
+                <a href='#'  id="expandall">
+                    <span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Expand all")?> '></span>
+                </a>
+                <a href='#'  id="collapseall">
+                    <span class = "glyphicon glyphicon-minus-sign" title = '<?php echo _("Collapse all")?>'></span>
+                </a>
+                <a href='#'  id="nogroups">
+                    <span class = "glyphicon glyphicon glyphicon-list-alt" title = '<?php echo _("Hide groups")?>'></span>
+                </a>
+                <span class="alert-danger pull-right fade" id ="msgfeeback"></span>
+            </small>
         </h2>
     </div>
 
@@ -55,10 +67,39 @@ global $path, $actions;
     <script>
 
     var path = "<?php echo $path; ?>";
+    var groupfield= "<?php echo $behavior['dashgroup']; ?>";
+    var expanded= "<?php echo $behavior['dashlist_expanded']; ?>";
+    var firstrun   = true;
+    var success    = "<?php echo _('Success'); ?>";
+    var error      = "<?php echo _('Error'); ?>";
 
 // Extemd table library field types
 //for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
 
+    $("#expandall").click(function()
+    {
+        table.groupby = groupfield;
+        table.expand = true;
+        table.tablegrpidshow = false;
+        table.state = 1;
+        update();
+    })
+    $("#collapseall").click(function()
+    {
+        table.groupby = groupfield;
+        table.collapse = true
+        table.tablegrpidshow = false;
+        table.state = 0;
+        update();
+    })
+    $("#nogroups").click(function()
+    {
+        table.groupby = '';
+        table.expand = true;
+        table.tablegrpidshow = true;
+        table.state = 2;
+        update();
+    })
 table.element = "#table";
 
 table.fields = {
@@ -86,8 +127,15 @@ table.deletedata = false;
 
 update();
 
+
+
 function update() {
     table.data = dashboard.list();
+    if (firstrun) {
+        table.expand=expanded;
+        table.collapse=!expanded;
+        table.state=expanded;
+    }
     table.draw();
     if (table.data.length != 0) {
         $("#nodashboards").hide();
@@ -96,6 +144,14 @@ function update() {
         $("#nodashboards").show();
         $("#localheading").hide();
     };
+    if(table.state){
+        $("#collapseall").show();
+        $("#expandall").hide();
+    } else {
+        $("#collapseall").hide();
+        $("#expandall").show();
+    }
+    firstrun = false;
 }
 
 $("#table").bind("onEdit", function(e){});
