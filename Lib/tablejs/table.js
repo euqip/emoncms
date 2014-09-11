@@ -11,36 +11,18 @@ var table =
     'eventsadded':false,
     'deletedata':true,
     'sortfield':null,
-    'sortorder':null,
     'sortable':true,
     'groupprefix':"",
-    'expanded':true,
-    'collapse':false,
-    'expand':false,
-    'state':0,
+    'expanded_by_default':true,
+    'collapse':true,
     'tablegrpidshow':false,
-    'collapsetext':"Collapse group",
-    'expandtext':"Expand group",
-    'minus':'',
-    'plus' :'',
-
     'draw':function()
     {
-        table.minus='<span class="glyphicon glyphicon-minus-sign" title="'+table.collapsetext+'"></span>';
-        table.plus='<span class="glyphicon glyphicon-plus-sign" title="'+table.expandtext+'"></span>';
-        if (table.data && table.sortable && table.sortfield) {
+        if (table.data && table.sortable) {
             table.data.sort(function(a,b) {
-             var x=a[table.sortfield].toUpperCase().replace(" ", "");
-             var y=b[table.sortfield].toUpperCase().replace(" ", "");
-                if (table.sortorder==1){
-                    if(x<y) return -1;
-                    if(x>y) return 1;
-                    return 0;
-                } else{
-                    if(x>y) return -1;
-                    if(x<y) return 1;
-                    return 0;
-                }
+                if(a[table.sortfield]<b[table.sortfield]) return -1;
+                if(a[table.sortfield]>b[table.sortfield]) return 1;
+                return 0;
             });
         }
         var group_num = 0;
@@ -51,38 +33,21 @@ var table =
             if (!group) group = 'NoGroup';
             if (!groups[group]) {groups[group] = ""; group_num++;}
             groups[group] += table.draw_row(row);
-
-            // when a collapse or an expand are triggered set it for each group
-
-        }
-        // translate icon titles
-        for (group in groups)
-        {
-            if (table.collapse==true) {
-                table.groupshow[group]=false;
-            }
-            if (table.expand==true) {
-                table.groupshow[group]=true;
-            }
         }
         var html = "";
-        table.collapse=false;
-        table.expand=false;
-
         for (group in groups)
         {
             //groups presentation is tri state
-            //2: no groups to enable full table sort
-            //0: collapsed grous to  reduce amont of information on screen
-            //1: expanded groups like original prsentation
+            //1: no groups to enable full table sort
+            //2: collapsed grous to  reduce amont of information on screen
+            //3: expanded groups like original prsentation
             // Minimized group persistance, see lines: 4,92,93
-            //var minus='<span class="glyphicon glyphicon-minus-sign"></span>';
-            //var plus ='<span class="glyphicon glyphicon-plus-sign"></span>';
-            var visible = '', symbol = table.minus;
-            if (table.groupshow[group]==undefined) table.groupshow[group]=table.expanded;
-            if (table.groupshow[group]==false) {symbol = table.plus; visible = "display:none";}
+            var visible = '', symbol ='<span class="glyphicon glyphicon-minus-sign"></span>';
+            if (table.groupshow[group]==undefined) table.groupshow[group]=table.expanded_by_default;
+            if (table.groupshow[group]==false) {symbol = '<span class="glyphicon glyphicon-plus-sign"></span>'; visible = "display:none";}
+            if (table.collapse==true) {symbol = '<span class="glyphicon glyphicon-plus-sign"></span>'; visible = "display:none";}
             if (group_num>1) {
-                html += "<tr class='groupheader'><th colspan='4'><a class='MINMAX' group='"+group+"' >"+symbol+table.groupprefix+group+"</a> </th>";
+                html += "<tr class='groupheader'><th colspan='4'><a class='MINMAX' group='"+group+"' >"+symbol+"</a> "+table.groupprefix+group+"</th>";
                 var count = 0; for (field in table.fields) count++;   // Calculate amount of padding required
                 for (i=1; i<count-1; i++) html += "<th></th>";          // Add th padding
                     html += "</tr>";
@@ -142,13 +107,7 @@ var table =
     },
     'sort':function(field,dir)
     {
-        if(table.sortfield == field){
-            table.sortorder = -table.sortorder;
-        }else{
-            table.sortorder = 1;
-        }
         table.sortfield = field;
-        //table.sortorder = dir;
         table.draw();
     },
     'add_events':function() {
@@ -156,15 +115,13 @@ var table =
         $(table.element).on('click', '.MINMAX', function() {
             var group = $(this).attr('group');
             var state = table.groupshow[group];
-            if (state == true) { $("#"+group).hide(); $(this).html(table.plus+table.groupprefix+group); table.groupshow[group] = false; }
-            if (state == false) { $("#"+group).show(); $(this).html(table.minus+table.groupprefix+group); table.groupshow[group] = true; }
+            if (state == true) { $("#"+group).hide(); $(this).html('<span class="glyphicon glyphicon-plus-sign"></span>'); table.groupshow[group] = false; }
+            if (state == false) { $("#"+group).show(); $(this).html('<span class="glyphicon glyphicon-minus-sign"></span>'); table.groupshow[group] = true; }
         });
         // Event: sort by field
         $(table.element).on('click', 'a[type=sort]', function() {
             var field = $(this).attr('field');
-            var dir = $(this).attr('sortorder');
-            if (dir == undefined) dir=1;
-            table.sort(field,dir);
+            table.sort(field,1);
         //console.log(field);
         });
         // Event: delete row
