@@ -28,15 +28,17 @@ var table =
     {
         table.minus='<span class="glyphicon glyphicon-minus-sign" title="'+table.collapsetext+'"></span>';
         table.plus='<span class="glyphicon glyphicon-plus-sign" title="'+table.expandtext+'"></span>';
-        if (table.data && table.sortable) {
+        if (table.data && table.sortable && table.sortfield) {
             table.data.sort(function(a,b) {
+             var x=a[table.sortfield].toUpperCase().replace(" ", "");
+             var y=b[table.sortfield].toUpperCase().replace(" ", "");
                 if (table.sortorder==1){
-                    if(a[table.sortfield]<b[table.sortfield]) return -1;
-                    if(a[table.sortfield]>b[table.sortfield]) return 1;
+                    if(x<y) return -1;
+                    if(x>y) return 1;
                     return 0;
                 } else{
-                    if(a[table.sortfield]>b[table.sortfield]) return -1;
-                    if(a[table.sortfield]<b[table.sortfield]) return 1;
+                    if(x>y) return -1;
+                    if(x<y) return 1;
                     return 0;
                 }
             });
