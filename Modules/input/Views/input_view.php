@@ -282,7 +282,7 @@
         //console.log("The row to edit:"+row);
         processlist_ui.inputid = row.id;
         var processlist = [];
-        if (row.processList!="")
+        if (i.processList!=null && i.processList!="")
         {
             var tmp = row.processList.split(",");
             for (n in tmp)
