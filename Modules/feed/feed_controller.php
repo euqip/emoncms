@@ -46,7 +46,7 @@ function feed_controller()
         } elseif ($route->action == "getid" && $session['read']) {
             $result = $feed->get_id($session['userid'],get('name'));
         } elseif ($route->action == "create" && $session['write']) {
-            $result = $feed->create($session['userid'],get('name'),get('datatype'),get('engine'),json_decode(get('options')));
+            $result = $feed->create($session['userid'],$session['orgid'],get('name'),get('datatype'),get('engine'),json_decode(get('options')));
         } elseif ($route->action == "updatesize" && $session['write']) {
             $result = $feed->update_user_feeds_size($session['userid']);
         } else {
@@ -81,22 +81,23 @@ function feed_controller()
                     if ($route->action == "update") $result = $feed->update_data($feedid,time(),get("time"),get('value'));
                     if ($route->action == "delete") $result = $feed->delete($feedid);
                     if ($route->action == "getmeta") $result = $feed->get_meta($feedid);
-                    
+
                     if ($route->action == "csvexport") $feed->csv_export($feedid,get('start'),get('end'),get('interval'));
-                    
-                    if ($f['engine']==Engine::TIMESTORE)
-                    {
-                        if ($route->action == "export") $result = $feed->timestore_export($feedid,get('layer'),get('start'));
+
+                    if ($f['engine']==Engine::TIMESTORE) {
+                        if ($route->action == "export") $result = $feed->timestore_export($feedid,get('start'),get('layer'));
                         if ($route->action == "exportmeta") $result = $feed->timestore_export_meta($feedid);
-                        
                         if ($route->action == "scalerange") $result = $feed->timestore_scale_range($feedid,get('start'),get('end'),get('value'));
-                    } elseif ($f['engine']==Engine::MYSQL)	{
+                    } elseif ($f['engine']==Engine::MYSQL) {
                         if ($route->action == "export") $result = $feed->mysqltimeseries_export($feedid,get('start'));
                         if ($route->action == "deletedatapoint") $result = $feed->mysqltimeseries_delete_data_point($feedid,get('feedtime'));
                         if ($route->action == "deletedatarange") $result = $feed->mysqltimeseries_delete_data_range($feedid,get('start'),get('end'));
-
-                    } elseif ($f['engine']==Engine::PHPTIMESERIES)	{
+                    } elseif ($f['engine']==Engine::PHPTIMESERIES) {
                         if ($route->action == "export") $result = $feed->phptimeseries_export($feedid,get('start'));
+                    } elseif ($f['engine']==Engine::PHPFIWA) {
+                        if ($route->action == "export") $result = $feed->phpfiwa_export($feedid,get('start'),get('layer'));
+                    } elseif ($f['engine']==Engine::PHPFINA) {
+                        if ($route->action == "export") $result = $feed->phpfina_export($feedid,get('start'));
                     }
                 }
             }

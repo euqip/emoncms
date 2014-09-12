@@ -10,7 +10,8 @@ $schema['users'] = array(
     'apikey_write' => array('type' => 'varchar(64)'),
     'apikey_read' => array('type' => 'varchar(64)'),
     'lastlogin' => array('type' => 'datetime'),
-    'admin' => array('type' => 'int(11)', 'Null'=>'NO', 'comment'=>'set to 1 to define system administrator'),
+    //'admin' => array('type' => 'int(11)', 'Null'=>'NO'),
+    'admin' => array('type' => 'int(11)', 'Null'=>'NO', 'comments'=>'defines the user role, 1 = system admin'),
 
     // User profile fields
     'gravatar' => array('type' => 'varchar(30)', 'default'=>''),
@@ -19,6 +20,8 @@ $schema['users'] = array(
     'timezone' => array('type' => 'int(11)', 'default'=>0),
     'language' => array('type' => 'varchar(5)', 'default'=>'en_EN'),
     'bio' => array('type' => 'text', 'default'=>''),
+    'changepswd' => array('type' => 'int(1)', 'default'=>'0'),
+    'csvparam' => array('type'=>'varchar(2)', 'default'=>',.'),
     'index' => array(
         'orgid'=> array('unique'=>false),
         'username'=> array('unique'=>true)

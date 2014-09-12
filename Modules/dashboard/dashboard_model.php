@@ -32,57 +32,70 @@ class Dashboard
         return $this->mysqli->insert_id;
     }
 
-    public function delete($id)
+    public function delete($id,$cond='')
     {
+        //* dashboard deletion only available to owner, system admin, org admin
         $id = (int) $id;
-        $result = $this->mysqli->query("DELETE FROM dashboard WHERE id = '$id'");
-        return $result;
+        $sql = "DELETE FROM dashboard WHERE id = $id and $cond";
+        $result = $this->mysqli->query($sql);
+        if ($this->mysqli->affected_rows>0){
+            return array('success'=>true, 'message'=>_('Dashboard successfully deleted'));
+        } else {
+            return array('success'=>false, 'message'=>_('No deletion!'));
+        }
+        //return $result;
     }
 
-    public function dashclone($userid, $id)
+    public function dashclone($cond, $userid, $id)
     {
         $userid = (int) $userid;
         $id = (int) $id;
 
         // Get content, name and description from origin dashboard
-        $result = $this->mysqli->query("SELECT content,name,description FROM dashboard WHERE userid = '$userid' AND id='$id'");
+        $sql = "SELECT content,name,description,orgid FROM dashboard WHERE id='$id' AND ".$cond;
+        $result = $this->mysqli->query($sql);
         $row = $result->fetch_array();
-
-        // Name for cloned dashboard
+         // Name for cloned dashboard
         $name = $row['name']._(' clone');
-
-        $this->mysqli->query("INSERT INTO dashboard (`userid`,`content`,`name`,`description`) VALUES ('$userid','{$row['content']}','$name','{$row['description']}')");
-
+        //$orgid = $session['orgid'];
+        $sql = "INSERT INTO dashboard (`userid`, `orgid`,`content`,`name`,`description`) VALUES ('$userid','{$row['orgid']}','{$row['content']}','$name','{$row['description']}')";
+        $this->mysqli->query($sql);
         return $this->mysqli->insert_id;
     }
 
-    public function get_list($userid, $public, $published)
+    public function get_list($userid, $cond, $public, $published)
     {
         $userid = (int) $userid;
+        // need to change conditions to be able to filter public and published
 
         $qB = ""; $qC = "";
         if ($public==true) $qB = " and public=1";
         if ($published==true) $qC = " and published=1";
-        $result = $this->mysqli->query("SELECT id, name, alias, description, main, published, public, showdescription FROM dashboard WHERE userid='$userid'".$qB.$qC);
-
+        if ($cond<>'') $cond = "".$cond."";
+        $owner = "IF(userid=".$userid.",true,false) as mine";
+        $sql="SELECT id, name,  ucase(LEFT(name,1)) as letter, alias, description, main, published, public, menu, showdescription,".$owner." FROM dashboard WHERE ".$cond.$qB.$qC;
+        $result = $this->mysqli->query($sql);
         $list = array();
         while ($row = $result->fetch_object())
         {
         $list[] = array (
             'id' => (int) $row->id,
             'name' => $row->name,
+            'letter' => $row->letter,
             'alias' => $row->alias,
             'showdescription' => (bool) $row->showdescription,
             'description' => $row->description,
             'main' => (bool) $row->main,
             'published'=> (bool) $row->published,
-            'public'=> (bool) $row->public
+            'public'=> (bool) $row->public,
+            'menu'=> (bool) $row->menu,
+            'mine'=> (bool) $row->mine
         );
         }
         return $list;
     }
 
-    public function set_content($userid, $id, $content, $height)
+    public function set_content($userid, $id, $cond, $content, $height)
     {
         $userid = (int) $userid;
         $id = (int) $id;
@@ -91,18 +104,19 @@ class Dashboard
 
         //echo $content;
 
-        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE userid = '$userid' AND id='$id'");
+        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE $cond AND id='$id'");
         $row = $result->fetch_array();
-        if ($row) $this->mysqli->query("UPDATE dashboard SET content = '$content', height = '$height' WHERE userid='$userid' AND id='$id'");
+        if ($row) $this->mysqli->query("UPDATE dashboard SET content = '$content', height = '$height' WHERE $cond AND id='$id'");
 
         return array('success'=>true);
     }
 
-    public function set($userid,$id,$fields)
+    public function set($userid, $cond, $id, $fields)
     {
         $userid = (int) $userid;
         $id = (int) $id;
         $fields = json_decode(stripslashes($fields));
+        if ($cond<>'') $cond = $cond. " and ";
 
         $array = array();
 
@@ -119,17 +133,19 @@ class Dashboard
         if (isset($fields->main))
         {
             $main = (bool)$fields->main;
-            if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE userid='$userid' and id<>'$id'");
+            //if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE $cond and id<>'$id'");
+            if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE $cond id<>$id");
             $array[] = "`main` = '".$main ."'";
         }
 
+        if (isset($fields->menu)) $array[] = "`menu` = '".((bool)$fields->menu)."'";
         if (isset($fields->public)) $array[] = "`public` = '".((bool)$fields->public)."'";
         if (isset($fields->published)) $array[] = "`published` = '".((bool)$fields->published)."'";
         if (isset($fields->showdescription)) $array[] = "`showdescription` = '".((bool)$fields->showdescription)."'";
         // Convert to a comma seperated string for the mysql query
         $fieldstr = implode(",",$array);
-
-        $this->mysqli->query("UPDATE dashboard SET ".$fieldstr." WHERE userid='$userid' and `id` = '$id'");
+        $sql = "UPDATE dashboard SET ".$fieldstr." WHERE $cond `id`='$id'";
+        $this->mysqli->query($sql);
 
         if ($this->mysqli->affected_rows>0){
             return array('success'=>true, 'message'=>_('Field updated'));
@@ -146,14 +162,14 @@ class Dashboard
         return $result->fetch_array();
     }
 
-    public function get($userid, $id, $public, $published)
+    public function get($cond, $id, $public, $published)
     {
-        $userid = (int) $userid;
+        //$userid = (int) $userid;
         $id = (int) $id;
         $qB = ""; if ($public==true) $qB = " and public=1";
         $qC = ""; if ($published==true) $qC = " and published=1";
 
-        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE userid='$userid' and id='$id'".$qB.$qC);
+        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE id='$id' and ".$cond.$qB.$qC);
         return $result->fetch_array();
     }
 
@@ -183,8 +199,9 @@ class Dashboard
         } else {
             $dashpath = 'dashboard/'.$location;
         }
+        $cond = " menu = '1' and userid = $userid";
 
-        $dashboards = $this->get_list($userid, $public, $published);
+        $dashboards = $this->get_list($userid, $cond, $public, $published);
         $topmenu="";
         foreach ($dashboards as $dashboard)
         {
@@ -207,6 +224,23 @@ class Dashboard
         }
         return $topmenu;
     }
+    public function upgradedasboards($userid)
+    {
+        $userid = (int) $userid;
+        $uid = "";
+        if ($userid==true) $uid = " and users.userid=".$useerid;
+        $sql = "update  `users`, `dashboard` SET `dashboard`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `dashboard`.`userid` =`users`.`id`".$uid;
+        $this->mysqli->query($sql);
+        if ($this->mysqli->affected_rows>0){
+            return array('success'=>true, 'message'=>$this->mysqli->affected_rows.' '._('Dashboards are assigned to organisations'));
+        } else {
+            return array('success'=>false, 'message'=>_('No dashboard were assigned to organisations'));
+        }
 
+
+        //$sql = "update  `users`, `input` SET `input`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `input`.`userid` =`users`.`id`".$uid;
+        //$sql = "update  `users`, `feeds` SET `feeds`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `feeds`.`userid` =`users`.`id`".$uid;
+        //$sql = "update  `users`, `myelectric` SET `myelectric`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `myelectric`.`userid` =`users`.`id`".$uid;
+
+    }
 }
-

@@ -8,6 +8,11 @@
   Part of the OpenEnergyMonitor project:
   http://openenergymonitor.org
 */
+if (!defined('EMONCMS_EXEC')){
+    // works with APACHE and NGINX
+  $redir =  $_SERVER['SERVER_NAME'].preg_replace('/\/[a-zA-Z0-9-+.]*\.php/', '/index.php', $_SERVER['REQUEST_URI']);
+  header ('Location:'.$redir);
+}
 
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
@@ -88,7 +93,7 @@ function set_lang_by_user($lang)
     //gettext did not work with this change (Upbuntu 13.10 php5)
     setlocale(LC_ALL,$lang.'.UTF-8');
     //Because the locales are relative to execution folder
-    //Language settings may be set once 
+    //Language settings may be set once
     //a different setting in module is always possible
     $domain = "messages";
     bindtextdomain($domain, 'locale');
@@ -101,7 +106,7 @@ function set_emoncms_lang($lang)
 {
     // If no language defined use the language browser
     if ($lang == ''){
-        set_lang(lang_http_accept());      
+        set_lang(lang_http_accept());
     }
     set_lang_by_user($lang);
 }

@@ -39,24 +39,88 @@ $modulename = _('Nodes');
             <div>
                 <span><?php echo _('Selected feed:') ?> </span><b><span id="SelectedExportFeed"></span></b></p>
                 <p><?php echo _('Select the dates range interval that you wish to export: (From - To)') ?> </p>
-                <select id="feed-interval" style="width:130px">
-                    <option value="">Select interval</option>
-                    <option value=5>5s</option>
-                    <option value=10>10s</option>
-                    <option value=15>15s</option>
-                    <option value=20>20s</option>
-                    <option value=30>30s</option>
-                    <option value=60>60s</option>
-                    <option value=120>2 mins</option>
-                    <option value=300>5 mins</option>
-                    <option value=600>10 mins</option>
-                    <option value=900>15 mins</option>
-                    <option value=1200>20 mins</option>
-                    <option value=1800>30 mins</option>
-                    <option value=3600>1 hour</option>
-                </select>
-            </span>
-            <button id="process-add" class="btn btn-info"><?php echo _('Add'); ?></button>
+            </div>
+            <div id="modalhtml" class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group"  id="export-start-div">
+                            <div class="input-group date form_datetime" title="<?php echo _('Start Date'); ?>" data-date="" data-date-format="dd MM yyyy hh:ii:ss" data-link-field="export-start" data-link-format="yyyy/mm/dd hh:ii:ss">
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                            <input type="hidden" id="export-start" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" id="export-end-div">
+                            <div class="input-group date form_datetime" title="<?php echo _('End Date'); ?>" data-date="" data-date-format="dd MM yyyy hh:ii:ss" data-link-field="export-end" data-link-format="yyyy/mm/dd hh:ii:ss">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <input class="form-control" size="16" type="text" value="" readonly>
+                            </div>
+                            <input type="hidden" id="export-end" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <p><?php echo _('Select the time interval with time reference that you wish to export:') ?> </p>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-group"  title="<?php echo _('Select samples time interval'); ?>" data-link-field="dtp_input3">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <select id="export-interval-list" class="form-control" placeholder="Select interval" >
+                                    <option value=5>5<?php echo _('s'); ?></option>
+                                    <option value=10>10<?php echo _('s'); ?></option>
+                                    <option value=30>30<?php echo _('s'); ?></option>
+                                    <option value=60>1<?php echo _('min'); ?></option>
+                                    <option value=300>5 <?php echo _('mins'); ?></option>
+                                    <option value=600>10 <?php echo _('mins'); ?></option>
+                                    <option value=900>15 <?php echo _('mins'); ?></option>
+                                    <option value=1800>30 <?php echo _('mins'); ?></option>
+                                    <option value=3600>1 <?php echo _('hour'); ?></option>
+                                    <option value=21600>6 <?php echo _('hours'); ?></option>
+                                    <option value=43200>12 <?php echo _('hours'); ?></option>
+                                    <option selected value=86400><?php echo _('Daily'); ?></option>
+                                    <option value=604800><?php echo _('Weekly'); ?></option>
+                                    <option value=2678400><?php echo _('Monthly'); ?></option>
+                                    <option value=31536000><?php echo _('Annual'); ?></option>
+                                </select>
+                            </div>
+                            <input type="hidden" id="export-interval" value="" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-group"  title="<?php echo _('Select Time zone (for day export)'); ?>" data-link-field="dtp_input4">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <select id="export-timezone-list" class="form-control" >
+                                    <?php
+                                    for ($tt=-12; $tt<=12; $tt++)
+                                    {
+                                        $tt1= substr("0".abs($tt),-2);
+                                        $plus= ($tt<0)?'-':'+';
+                                            //need to select the user timezone!!! for better ergonomy, not present in $session
+                                            //$selected=($tt==0)? 'selected':'';
+                                        echo "<option ".$selected." value=".$tt."> UTC ".$plus.$tt1.":00 </option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <input type="hidden" id="export-timezone" value="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <h5><?php echo _('Feed intervals note:') ?></h5>
+                        <p>
+                            <?php echo _('if the selected interval is shorter than the feed interval the feed interval will be used instead.')?>
+                            <?php echo _('Averages are only returned for feed engines with built in averaging.')?>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <span class="pull-left"><?php echo _('Estimated download size '); ?> : <span id="downloadsize">0</span>kB</span>
@@ -82,81 +146,85 @@ $modulename = _('Nodes');
 
 <script>
 
-    var path = "<?php echo $path; ?>";
-    var updateinterval=5000;
-    var nodes = node.getall();
+  var path = "<?php echo $path; ?>";
 
+  processlist_ui.enable_mysql_all = <?php echo $enable_mysql_all; ?>;
 
-    var decoders = {
-        nodecoder: {
-            name: 'No decoder',
-            variables:[]
-        },
+  var nodes = node.getall();
 
-        lowpowertemperaturenode: {
-            name: 'Low power temperature node',
-            updateinterval: 60,
-            variables: [
-            {name: 'Temperature', type: 1, scale: 0.01, units: '°C' },
-            {name: 'Battery Voltage', type: 1, scale:0.001, units: 'V'}
-            ]
-        },
+  var decoders = {
 
-        emonTxV3_RFM12B_DiscreteSampling: {
-          name: 'EmonTx V3 RFM12B DiscreteSampling',
-          updateinterval: 10,
-          variables: [
-          {name: 'Power 1', type: 1, units: 'W'},
-          {name: 'Power 2', type: 1, units: 'W'},
-          {name: 'Power 3', type: 1, units: 'W'},
-          {name: 'Power 4', type: 1, units: 'W'},
-          {name: 'Vrms', type: 1, scale: 0.01, units: 'V'},
-          {name: 'temp', type: 1, scale: 0.1, units: '°C'}
-          ]
-      },
+    nodecoder: {
+      name: 'No decoder',
+      variables:[]
+    },
 
-      emonTxV3_continuous_whtotals: {
-          name: 'EmonTx V3 (Continuous sampling with Wh totals)',
-          updateinterval: 10,
-          variables: [
-          {name: 'Message Number', type: 2 },
-          {name: 'Power CT1', type: 1, units: 'W'},
-          {name: 'Power CT2', type: 1, units: 'W'},
-          {name: 'Power CT3', type: 1, units: 'W'},
-          {name: 'Power CT4', type: 1, units: 'W'},
-          {name: 'Wh CT1', type: 2, units: 'Wh'},
-          {name: 'Wh CT2', type: 2, units: 'Wh'},
-          {name: 'Wh CT3', type: 2, units: 'Wh'},
-          {name: 'Wh CT4', type: 2, units: 'Wh'}
-          ]
-      },
+    lowpowertemperaturenode: {
+      name: 'Low power temperature node',
+      updateinterval: 60,
+      variables: [
+        {name: 'Temperature', type: 1, scale: 0.01, units: '°C' },
+        {name: 'Battery Voltage', type: 1, scale:0.001, units: 'V'}
+      ]
+    },
 
-      emonTH_DHT22_DS18B20: {
-          name: 'EmonTH DHT22 DS18B20',
-          updateinterval: 60,
-          variables: [
-          {name: 'Internal temperature', type: 1, scale: 0.1, units: '°C'},
-          {name: 'External temperature', type: 1, scale: 0.1, units: '°C'},
-          {name: 'Humidity', type: 1, scale: 0.1, units: '%'},
-          {name: 'Battery Voltage', type: 1, scale: 0.1, units: 'V'},
-          ]
-      },
-
-      custom: {
-        name: 'Custom decoder',
-        variables:[]
+    emonTxV3_RFM12B_DiscreteSampling: {
+      name: 'EmonTx V3 RFM12B DiscreteSampling',
+      updateinterval: 10,
+      variables: [
+        {name: 'Power 1', type: 1, units: 'W'},
+        {name: 'Power 2', type: 1, units: 'W'},
+        {name: 'Power 3', type: 1, units: 'W'},
+        {name: 'Power 4', type: 1, units: 'W'},
+        {name: 'Vrms', type: 1, scale: 0.01, units: 'V'}, 
+        {name: 'temp', type: 1, scale: 0.1, units: '°C'}
+      ]
     },
 };
 
-redraw();
+    emonTxV3_continuous_whtotals: {
+      name: 'EmonTx V3 (Continuous sampling with Wh totals)',
+      updateinterval: 10,
+      variables: [
+        {name: 'Message Number', type: 2 },
+        {name: 'Power CT1', type: 1, units: 'W'},
+        {name: 'Power CT2', type: 1, units: 'W'},
+        {name: 'Power CT3', type: 1, units: 'W'},
+        {name: 'Power CT4', type: 1, units: 'W'},
+        {name: 'Wh CT1', type: 2, units: 'Wh'}, 
+        {name: 'Wh CT2', type: 2, units: 'Wh'}, 
+        {name: 'Wh CT3', type: 2, units: 'Wh'}, 
+        {name: 'Wh CT4', type: 2, units: 'Wh'}
+      ]
+    },
 
-var variable_edit_mode = false;
-var interval = setInterval(update,updateinterval);
+    emonTH_DHT22_DS18B20: {
+      name: 'EmonTH DHT22 DS18B20',
+      updateinterval: 60,
+      variables: [
+        {name: 'Internal temperature', type: 1, scale: 0.1, units: '°C'},
+        {name: 'External temperature', type: 1, scale: 0.1, units: '°C'},
+        {name: 'Humidity', type: 1, scale: 0.1, units: '%'},
+        {name: 'Battery Voltage', type: 1, scale: 0.1, units: 'V'},
+      ]
+    },
 
-function update()
-{
- nodes = node.getall();
+    custom: {
+      name: 'Custom decoder',
+      variables:[]
+    },
+  };
+
  redraw();
+
+ var variable_edit_mode = false;
+
+ var interval = setInterval(update,5000);
+
+ function update()
+ {
+   nodes = node.getall();
+   redraw();
 }
 function redraw()
 {
@@ -249,7 +317,7 @@ $("#nodes").html(out);
 
   // Draw in line editing for a variable when the pencil icon is clicked.
   $("#nodes").on("click", ".edit-variable", function() {
-    console.log("edit variable");
+    //console.log("edit variable");
 
     // Fetch the nodeid and variableid from closest table row (tr)
     var nodeid = $(this).closest('tr').attr('node');

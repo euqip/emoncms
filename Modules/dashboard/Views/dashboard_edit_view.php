@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
 All Emoncms code is released under the GNU Affero General Public License.
@@ -13,7 +13,7 @@ http://openenergymonitor.org
 Ask for user (session) Language when loading dashboard_langjs.php
 */
 
-global $session,$path; 
+global $session,$path;
 
 if (!$dashboard['height']) $dashboard['height'] = 400;
 ?>
@@ -30,16 +30,16 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   <?php require_once "Modules/dashboard/Views/loadwidgets.php"; ?>
 
 <div id="dashboardpage">
-    
+
 </div>
 
 <div style="background-color:#ddd; padding:4px;">
   <span id="widget-buttons"></span>
   <span id="when-selected">
-    <button id="options-button" class="btn" title="<?php echo _('configure selected widget'); ?>"><span class="glyphicon glyphicon-wrench"></span><?php echo _('Configure'); ?></button>      
-    <button id="delete-button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span><?php echo _('Delete'); ?></button>  
-  </span> 
-  <button id="save-dashboard" class="btn btn-success" style="float:right"><?php echo _('Not modified'); ?></button> 
+    <button id="options-button" class="btn" title="<?php echo _('configure selected widget'); ?>"><span class="glyphicon glyphicon-wrench"></span><?php echo _('Configure'); ?></button>
+    <button id="delete-button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span><?php echo _('Delete'); ?></button>
+  </span>
+  <button id="save-dashboard" class="btn btn-success" style="float:right"><?php echo _('Not modified'); ?></button>
 </div>
 
 <div id="page-container" style="height:<?php echo $dashboard['height']; ?>px; position:relative;">
@@ -56,7 +56,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
               </div>
               <div class="modal-body">
                 <div id="msgcontent">
-                  
+
                 </div>
               </div>
             <div class="modal-footer">
@@ -89,7 +89,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
     var fn = window[fname];
     $.extend(widgets,fn());
   }
- 
+
   var redraw = 0;
   var reloadiframe = 0;
 
@@ -107,29 +107,29 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   setInterval(function() { update(); }, 10000);
   setInterval(function() { fast_update(); }, 30);
 
-  
+
   $("#save-dashboard").click(function (){
     //recalculate the height so the page_height is shrunk to the minimum but still wrapping all components
     //otherwise a user can drag a component far down then up again and a too high value will be stored to db.
     designer.page_height = 0;
-    designer.scan(); 
+    designer.scan();
     $.ajax({
       type: "POST",
       url :  path+"dashboard/setcontent.json",
       data : "&id="+dashid+'&content='+encodeURIComponent($("#page").html())+'&height='+designer.page_height,
       dataType: 'json',
       success : function(data) { console.log(data); if (data.success==true) $("#save-dashboard").attr('class','btn btn-success').text('<?php echo _("Saved") ?>');
-      } 
+      }
     });
   });
-  
+
 
   $(window).resize(function(){
     designer.draw();
   });
 
 
-  $("#options-button").click(function(event) { 
+  $("#options-button").click(function(event) {
       html= designer.draw_options($("#"+designer.selected_box).attr("class"));
       $('#msgcontent').html(html);
       $('#widget_options').modal('show');
@@ -142,7 +142,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   })
 
   $('.iconbutton').click(function (e){
-    console.log("iconbutton click");
+    //console.log("iconbutton click");
     var myhref = ''; if ($(this).attr("href")!=undefined) {myhref=$(this).attr("href");}
     // check if Myhref = '#'
     if (myhref=='#'){myhref='';}
@@ -154,7 +154,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
     })
 
 /*
-function saveoptions(){        
+function saveoptions(){
             $(".options").each(function() {
                 if ($(this).attr("id")=="html")
                 {

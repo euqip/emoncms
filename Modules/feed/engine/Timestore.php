@@ -13,7 +13,7 @@ class Timestore
 
     private $timestoreApi;
     private $dir = "/var/lib/timestore/";
-    
+
     public function __construct($settings)
     {
         require "Modules/feed/engine/TimestoreApi.php";
@@ -47,7 +47,7 @@ class Timestore
         }
 
     }
-    
+
     public function update($feedid,$time,$value)
     {
       $this->post($feedid,$time,$value);
@@ -62,9 +62,9 @@ class Timestore
         if ($end == 0) $end = time();
 
         $meta = $this->get_meta($feedid);
-        
+
         $start = round($start/$meta['interval'])*$meta['interval'];
-        
+
         if ($outinterval<1) $outinterval = 1;
         $npoints = ceil(($end - $start) / $outinterval);
         $end = $start + ($npoints * $outinterval);
@@ -139,11 +139,11 @@ class Timestore
         return true;
     }
 
-    public function export($feedid,$layer,$start)
+    public function export($feedid,$start,$layer)
     {
         $feedid = (int) $feedid;
-        $layer = (int) $layer;
         $start = (int) $start;
+        $layer = (int) $layer;
 
         $meta = $this->get_meta($feedid);
 
@@ -163,11 +163,8 @@ class Timestore
         // Write to output stream
         $fh = @fopen( 'php://output', 'w' );
 
-        $primaryfeedname = $this->dir.$feedname;
-        $primary = fopen($primaryfeedname, 'rb');
-        $primarysize = filesize($primaryfeedname);
-
-        //$localsize = intval((($start - $meta['start']) / $meta['interval']) * 4);
+        $primary = fopen($this->dir.$feedname, 'rb');
+        $primarysize = filesize($this->dir.$feedname);
 
         $localsize = $start;
         $localsize = intval($localsize / 4) * 4;
@@ -261,7 +258,7 @@ class Timestore
         $size += filesize($this->dir.str_pad($feedid, 16, '0', STR_PAD_LEFT)."_5_.dat");
         return $size;
     }
-    
+
     public function csv_export($feedid,$start,$end,$outinterval)
     {
         $colsepar=",";
@@ -273,7 +270,7 @@ class Timestore
         $start = (int) $start;
         $end = (int) $end;
         $outinterval = (int) $outinterval;
-        
+
         $meta->decimation = array(20, 6, 6, 4, 7);
 
         /* Sanity check */
@@ -332,7 +329,7 @@ class Timestore
 
         // Write to output stream
         $exportfh = @fopen( 'php://output', 'w' );
-        
+
         $data = array();
 
         // Open the timestore layer file for reading in data in range between start and end

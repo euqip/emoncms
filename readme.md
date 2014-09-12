@@ -73,7 +73,8 @@ Download emoncms using git:
     
 Once installed you can pull in updates with:
 
-    git pull
+    $ cd /var/www/emoncms
+    $ git pull
     
 ### Create a MYSQL database
 
@@ -123,6 +124,29 @@ You will also want to modify SMTP settings and the password reset flag further d
 
 Save (Ctrl-X), type Y and exit
 
+The next step is to edit the _inittab_ and _boot cmdline config_ file to allow the python gateway to use the serial port, type:
+
+    sudo nano /etc/inittab
+
+At the bottom of the file comment out the line, by adding a ‘#’ at beginning:
+
+    # T0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100
+
+[Ctrl+X] then [y] then [Enter] to save and exit
+
+Edit boot cmdline.txt
+
+    sudo nano /boot/cmdline.txt
+
+replace the line:
+
+    dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 
+    root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait
+
+with:
+
+    dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait
+  
 ### Install add-on emoncms modules
     
     cd /var/www/emoncms/Modules
@@ -217,6 +241,15 @@ PHP supported timezones are listed here: http://php.net/manual/en/timezones.php
 Now save and close and restart your apache.
 
     sudo /etc/init.d/apache2 restart
+    
+## Install Logger
+
+    sudo pear channel-discover pear.apache.org/log4php
+    sudo pear install log4php/Apache_log4php
+    
+ensure that log file has write permissions for www-data, pi and root.
+    
+    sudo chmod 660 emoncms.log 
 
 # More information
 

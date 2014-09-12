@@ -13,9 +13,11 @@ http://openenergymonitor.org
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
 
-global $path;
+global $path, $user, $org;
 
 $languages = get_available_languages();
+$roles = $user->get_available_roles();
+$organisations= $org->list_orgnames();
 
 function languagecodetotext()
 {
@@ -28,9 +30,6 @@ function languagecodetotext()
     _('it_IT');
     _('cy_GB');
 }
-
-
-
 ?>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/profile.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/md5.js"></script>
@@ -45,8 +44,8 @@ function languagecodetotext()
         <div id="account">
 
             <span class="text-muted"><?php echo _('Username'); ?></span>
-            <span id ="edit-username" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span>
-            <span id ="save-username" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Edit'); ?>></span>
+            <span id ="edit-username" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = '<?php echo _('Edit'); ?>'></span>
+            <span id ="save-username" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = '<?php echo _('Edit'); ?>'></span>
 
             <p>
                 <div id="username-view" style="display:inline">
@@ -60,8 +59,8 @@ function languagecodetotext()
 
 
             <span class="text-muted"><?php echo _('Email'); ?></span>
-            <span id ="edit-email" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = <?php echo _('Edit'); ?>></span>
-            <span id ="save-email" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = <?php echo _('Edit'); ?>></span>
+            <span id ="edit-email" style="float:right; display:inline;" class='glyphicon glyphicon-pencil'  title = '<?php echo _('Edit'); ?>'></span>
+            <span id ="save-email" style="float:right; display:none;" class='glyphicon glyphicon-floppy-save'  title = '<?php echo _('Edit'); ?>'></span>
             <p>
                 <div id="email-view" style="display:inline">
                     <span class="email"></span>
@@ -126,6 +125,8 @@ function languagecodetotext()
 
 var path = "<?php echo $path; ?>";
 var lang = <?php echo json_encode($languages); ?>;
+var role = <?php echo json_encode($roles); ?>;
+var orgs = <?php echo json_encode($organisations); ?>
 
 list.data = user.get();
 
@@ -139,22 +140,22 @@ $(".readapikey").html(list.data.apikey_read);
 var currentlanguage = list.data.language;
 
 list.fields = {
-    'gravatar':{'title':"<?php echo _('Gravatar'); ?>", 'type':'gravatar'},
-    'name':{'title':"<?php echo _('Name'); ?>", 'type':'text'},
-    'location':{'title':"<?php echo _('Location'); ?>", 'type':'text'},
-    'timezone':{'title':"<?php echo _('Timezone'); ?>", 'type':'timezone'},
-    'language':{'title':"<?php echo _('Language'); ?>", 'type':'select', 'options':lang},
-    'bio':{'title':"<?php echo _('Bio'); ?>", 'type':'text'}
-
-}
+    'gravatar' :{ 'title':"<?php echo _('Gravatar'); ?>", 'type':'gravatar'},
+    'name'     :{ 'title':"<?php echo _('Name'); ?>", 'type':'text','tooltip':"<?php echo _('Use letters (a-z) only, accented characters are allowed!')?>"},
+    'location' :{ 'title':"<?php echo _('Location'); ?>", 'type':'text','tooltip':"<?php echo _('Use letters (a-z) only, accented characters are allowed!')?>"},
+    'timezone' :{ 'title':"<?php echo _('Timezone'); ?>", 'type':'timezone','tooltip':"<?php echo _('Choose your local time offset to UTC')?>"},
+    'language' :{ 'title':"<?php echo _('Language'); ?>", 'type':'select','tooltip':"<?php echo _('System available languages')?>", 'options':lang},
+    'bio'      :{ 'title':"<?php echo _('Bio'); ?>", 'type':'text'},
+    'orgid'    :{ 'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect','tooltip':"<?php echo _('Associate user to an Organisation')?>", 'options':orgs},
+    'admin'    :{ 'title':"<?php echo _('User role'); ?>", 'type':'idselect','tooltip':"<?php echo _('Specify the user role')?>", 'options':role},
+};
 $(startprofile);
 list.init();
 
 $("#table").bind("onSave", function(e){
     user.set(list.data);
-
-// refresh the page if the language has been changed.
-if (list.data.language!=currentlanguage) window.location.href = path+"user/view";
+    // refresh the page if the language has been changed.
+    if (list.data.language!=currentlanguage) window.location.href = path+"user/view";
 });
 
 //------------------------------------------------------

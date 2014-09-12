@@ -268,7 +268,6 @@ fclose($f);
 
 function getcontent($server, $port, $file)
 {
-
    //$cont = "";
    $ip = gethostbyname($server);
    $fp = fsockopen($ip, $port);

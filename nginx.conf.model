@@ -1,0 +1,92 @@
+
+# This file is a base model to run emoncms on an NGINX web server
+# Adapt it to your document root location.
+# ATTENTION : NGINX does not support .htaccess files or similar mechanisme
+# the web server needs to be restarted after configuration changes!
+# NGINX has an instruction to reload config file, and so avoid to restart.
+# NGINX config file is typically found at /etc/nginx/nginx.conf
+#
+# 
+
+user http;
+worker_processes  1;
+
+
+#error_log  /path/to/NGINX/logs/nginx_error.log debug;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+        worker_connections  1024;
+}
+
+# log rotations :
+# https://www.digitalocean.com/community/tutorials/how-to-configure-logging-and-log-rotation-in-nginx-on-an-ubuntu-vps
+
+# how to replace the apache .htaccess file in nginx
+# http://blog.martinfjordvald.com/2011/02/nginx-primer-2-from-apache-to-nginx/
+# the conditions are set in de configuration file, this file is read at server start
+# seems that there is no way to change config at run time (without restarting the NGINX server)
+ 
+
+http {
+        include       mime.types;
+        default_type  application/octet-stream;
+
+        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                          '$status $body_bytes_sent "$http_referer" '
+                          '"$http_user_agent" "$http_x_forwarded_for"';
+
+        #access_log  logs/access.log  main;
+        access_log  //path/to/NGINX/logs/access.log  main;
+
+
+        sendfile        on;
+
+        keepalive_timeout  15;
+
+        gzip  on;
+        gzip_comp_level 1;
+
+        server {
+
+                listen       80;
+                server_name  localhost;
+                #server_name myservername
+                root /myserver/www/path/;
+ 
+                location ~ \.php {
+                        fastcgi_pass unix:/run/php-fpm/php-fpm.sock;
+                        fastcgi_index index.php;
+                        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                        include fastcgi_params;
+                }
+
+                location / {
+			#index variable represents all possible index files, here also the _h5ai
+			index  index.html  index.php  /_h5ai/server/php/index.php;
+                }
+
+                location /relative_path_to/emoncms/ {
+                    # application first location
+			            #try to load existing files or folder or send to index.php
+                        try_files $uri $uri/ /emoncms/index.php?q=$uri$is_args&$args;
+                        index index.php;
+                }
+
+               location //relative_path_to/emoncms/otherserver/ {
+                    # same application second location
+                        try_files $uri $uri/ /otherserver/index.php?q=$uri$is_args&$args;
+                        index index.php;
+                }
+
+
+		location ~ /\.ht {
+			#avoid access to Apache .ht files
+            		deny  all;
+	        }
+        }
+}

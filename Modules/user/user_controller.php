@@ -24,7 +24,12 @@ function user_controller()
     if ($route->format == 'html')
     {
         if ($route->action == 'login' && !$session['read']) $result = view("Modules/user/login_block.php", array());
+        //if ($route->action == 'view' && $session['write']) $result = view("Modules/user/profile/profile.php", array());
         if ($route->action == 'view' && $session['write']) $result = view("Modules/user/profile/profile.php", array());
+        if ($route->action == 'currentuser' && $session['write']){
+            $_SESSION['showuserid']=intval($_SESSION['userid']);
+            $result = view("Modules/user/profile/profile.php", array());
+        }
         if ($route->action == 'logout' && $session['read']) {$user->logout(); header('Location: '.$path);}
     }
 
@@ -32,14 +37,20 @@ function user_controller()
     if ($route->format == 'json')
     {
         // Core session
+        $myuser=intval($session['userid']);
+        if (isset($_SESSION['showuserid'])) $myuser=intval($_SESSION['showuserid']);
         if ($route->action == 'login' && !$session['read']) $result = $user->login(post('username'),post('password'),post('rememberme'));
         if ($route->action == 'register' && $allowusersregister) $result = $user->register(post('username'),post('password'),post('email'));
         if ($route->action == 'logout' && $session['read']) $user->logout();
 
-        if ($route->action == 'changeusername' && $session['write']) $result = $user->change_username($session['userid'],get('username'));
-        if ($route->action == 'changeemail' && $session['write']) $result = $user->change_email($session['userid'],get('email'));
-        if ($route->action == 'changepassword' && $session['write']) $result = $user->change_password($session['userid'],get('old'),get('new'));
-        
+        if ($route->action == 'changeusername' && $session['write']) $result = $user->change_username($myuser,get('username'));
+        if ($route->action == 'changeemail' && $session['write']) $result = $user->change_email($myuser,get('email'));
+        if ($route->action == 'changepassword' && $session['write']) $result = $user->change_password($myuser,get('old'),get('new'));
+        if ($route->action == 'forcepwdchange' && $session['write']) $result = $user->forcenewpwd(post('userid'));
+        //if ($route->action == 'changeusername' && $session['write']) $result = $user->change_username($session['userid'],get('username'));
+        //if ($route->action == 'changeemail' && $session['write']) $result = $user->change_email($session['userid'],get('email'));
+        //if ($route->action == 'changepassword' && $session['write']) $result = $user->change_password($session['userid'],get('old'),get('new'));
+
         if ($route->action == 'passwordreset') $result = $user->passwordreset(get('username'),get('email'));
         // Apikey
         if ($route->action == 'newapikeyread' && $session['write']) $result = $user->new_apikey_read($session['userid']);
@@ -48,9 +59,11 @@ function user_controller()
         if ($route->action == 'auth' && !$session['read']) $result = $user->get_apikeys_from_login(post('username'),post('password'));
 
         // Get and set - user by profile client
-        if ($route->action == 'get' && $session['write']) $result = $user->get($session['userid']);
+        if ($route->action == 'get' && $session['write']) $result = $user->get($myuser);
+        if ($route->action == 'set' && $session['write']) $result = $user->set($myuser,json_decode(post('data')));
 
-        if ($route->action == 'set' && $session['write']) $result = $user->set($session['userid'],json_decode(get('data')));
+        //if ($route->action == 'get' && $session['write']) $result = $user->get($session['userid']);
+        //if ($route->action == 'set' && $session['write']) $result = $user->set($session['userid'],json_decode(get('data')));
 
         if ($route->action == 'getconvert' && $session['write']) $result = $user->get_convert_status($session['userid']);
         if ($route->action == 'setconvert' && $session['write']) $result = $user->set_convert_status($session['userid']);

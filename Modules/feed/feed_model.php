@@ -20,12 +20,17 @@ class Feed
     private $redis;
     public $engine;
     private $histogram;
-    private $csvdownloadlimit_mb;
+    private $csvdownloadlimit_mb = 10;
+    private $log;
+
+    // 5 years of daily data
+    private $max_npoints_returned = 1825;
 
     public function __construct($mysqli,$redis,$settings)
     {
         $this->mysqli = $mysqli;
         $this->redis = $redis;
+        $this->log = new EmonLogger(__FILE__);
 
         // Load different storage engines
         require "Modules/feed/engine/MysqlTimeSeries.php";
@@ -63,12 +68,19 @@ class Feed
 
         $this->histogram = new Histogram($mysqli);
 
-        if (isset($settings['csvdownloadlimit_mb'])) $this->csvdownloadlimit_mb = $settings['csvdownloadlimit_mb']; else $this->csvdownloadlimit_mb = 10;
+        if (isset($settings['csvdownloadlimit_mb'])) {
+            $this->csvdownloadlimit_mb = $settings['csvdownloadlimit_mb'];
+        }
+
+        if (isset($settings['max_npoints_returned'])) {
+            $this->max_npoints_returned = $settings['max_npoints_returned'];
+        }
     }
 
-    public function create($userid,$name,$datatype,$engine,$options_in)
+    public function create($userid,$orgid,$name,$datatype,$engine,$options_in)
     {
         $userid = (int) $userid;
+        $orgid = (int) $orgid;
         $name = preg_replace('/[^\w\s-]/','',$name);
         $datatype = (int) $datatype;
         $engine = (int) $engine;
@@ -93,8 +105,23 @@ class Feed
                     'tag'=>'',
                     'public'=>false,
                     'size'=>0,
-                    'engine'=>$engine
+                    'engine'=>$engine,
+                    'orgid'=>$orgid
                 ));
+                $this->redis->sAdd("org:feeds:$orgid", $feedid);
+
+                $this->redis->hMSet("feed:$feedid",array(
+                    'id'=>$feedid,
+                    'userid'=>$userid,
+                    'name'=>$name,
+                    'datatype'=>$datatype,
+                    'tag'=>'',
+                    'public'=>false,
+                    'size'=>0,
+                    'engine'=>$engine,
+                    'orgid'=>$orgid
+                ));
+
             }
 
             $options = array();
@@ -112,6 +139,7 @@ class Feed
 
             if ($engineresult == false)
             {
+                $this->log->warn("Feed model: failed to create feed model feedid=$feedid");
                 // Feed engine creation failed so we need to delete the meta entry for the feed
 
                 $this->mysqli->query("DELETE FROM feeds WHERE `id` = '$feedid'");
@@ -156,7 +184,7 @@ class Feed
     public function get_id($userid,$name)
     {
         $userid = intval($userid);
-        $name = preg_replace('/[^\w\s-]/','',$name);
+        $name = preg_replace('/[^\w\s-:]/','',$name);
         $result = $this->mysqli->query("SELECT id FROM feeds WHERE userid = '$userid' AND name = '$name'");
         if ($result->num_rows>0) { $row = $result->fetch_array(); return $row['id']; } else return false;
     }
@@ -199,6 +227,26 @@ class Feed
 
         $feeds = array();
         $feedids = $this->redis->sMembers("user:feeds:$userid");
+        foreach ($feedids as $id)
+        {
+            $row = $this->redis->hGetAll("feed:$id");
+
+            $lastvalue = $this->get_timevalue($id);
+            $row['time'] = strtotime($lastvalue['time']);
+            $row['value'] = $lastvalue['value'];
+            $feeds[] = $row;
+        }
+
+        return $feeds;
+    }
+
+    public function redis_get_org_feeds($orgid)
+    {
+        $orgid = (int) $orgid;
+        if (!$this->redis->exists("org:feeds:$orgid")) $this->load_to_redis_org($orgid);
+
+        $feeds = array();
+        $feedids = $this->redis->sMembers("org:feeds:$orgid");
         foreach ($feedids as $id)
         {
             $row = $this->redis->hGetAll("feed:$id");
@@ -356,8 +404,8 @@ class Feed
         $array = array();
 
         // Repeat this line changing the field name to add fields that can be updated:
-        if (isset($fields->name)) $array[] = "`name` = '".preg_replace('/[^\w\s-]/','',$fields->name)."'";
-        if (isset($fields->tag)) $array[] = "`tag` = '".preg_replace('/[^\w\s-]/','',$fields->tag)."'";
+        if (isset($fields->name)) $array[] = "`name` = '".preg_replace('/[^\w\s-:]/','',$fields->name)."'";
+        if (isset($fields->tag)) $array[] = "`tag` = '".preg_replace('/[^\w\s-:]/','',$fields->tag)."'";
         if (isset($fields->public)) $array[] = "`public` = '".intval($fields->public)."'";
         if (isset($fields->engine)) $array[] = "`engine` = '".intval($fields->engine)."'";
 
@@ -454,9 +502,12 @@ class Feed
         $engine = $this->get_engine($feedid);
 
         // Call to engine get_data method
-        if ($dp>800) $dp = 800;
-        $outinterval = round(($end - $start) / $dp)/1000;
+        $range = ($end - $start) * 0.001;
+        if ($dp>$this->max_npoints_returned) $dp = $this->max_npoints_returned;
+        if ($dp<1) $dp = 1;
+        $outinterval = round($range / $dp);
         return $this->engine[$engine]->get_data($feedid,$start,$end,$outinterval);
+
     }
 
     public function get_average($feedid,$start,$end,$outinterval)
@@ -469,6 +520,10 @@ class Feed
         $engine = $this->get_engine($feedid);
 
         // Call to engine get_average method
+        if ($outinterval<1) $outinterval = 1;
+        $range = ($end - $start) * 0.001;
+        $npoints = ($range / $outinterval);
+        if ($npoints>$this->max_npoints_returned) $outinterval = round($range / $this->max_npoints_returned);
         return $this->engine[$engine]->get_data($feedid,$start,$end,$outinterval);
     }
 
@@ -481,7 +536,10 @@ class Feed
         //print_r($engine);
        // Download limit
         $downloadsize = (($end - $start) / $outinterval) * 17; // 17 bytes per dp
-        if ($downloadsize>($this->csvdownloadlimit_mb*1048576)) return false;
+        if ($downloadsize>($this->csvdownloadlimit_mb*1048576)) {
+            $this->log->warn("Feed model: csv download limit exeeded downloadsize=$downloadsize feedid=$feedid");
+            return false;
+        }
 
         // Call to engine get_average method
         return $this->engine[$engine]->csv_export($feedid,$start,$end,$outinterval);
@@ -582,6 +640,14 @@ class Feed
         return $this->engine[Engine::PHPTIMESERIES]->export($feedid,$start);
     }
 
+    public function phpfiwa_export($feedid,$start,$layer) {
+        return $this->engine[Engine::PHPFIWA]->export($feedid,$start,$layer);
+    }
+
+    public function phpfina_export($feedid,$start) {
+        return $this->engine[Engine::PHPFINA]->export($feedid,$start);
+    }
+
 
 
     public function set_timevalue($feedid, $value, $time)
@@ -623,13 +689,35 @@ class Feed
             ));
         }
     }
+    public function load_to_redis_org($orgid)
+    {
+        $result = $this->mysqli->query("SELECT id,userid,orgid,name,datatype,tag,public,size,engine FROM feeds WHERE `orgid` = '$orgid'");
+        while ($row = $result->fetch_object())
+        {
+            $this->redis->sAdd("org:feeds:$orgid", $row->id);
+            $this->redis->hMSet("feed:$row->id",array(
+            'id'=>$row->id,
+            'userid'=>$row->userid,
+            'orgid'=>$row->orgid,
+            'name'=>$row->name,
+            'datatype'=>$row->datatype,
+            'tag'=>$row->tag,
+            'public'=>$row->public,
+            'size'=>$row->size,
+            'engine'=>$row->engine
+            ));
+        }
+    }
 
     public function load_feed_to_redis($id)
     {
         $result = $this->mysqli->query("SELECT id,userid,name,datatype,tag,public,size,engine FROM feeds WHERE `id` = '$id'");
         $row = $result->fetch_object();
 
-        if (!$row) return false;
+        if (!$row) {
+            $this->log->warn("Feed model: Requested feed does not exist feedid=$id");
+            return false;
+        }
 
         $this->redis->hMSet("feed:$row->id",array(
             'id'=>$row->id,

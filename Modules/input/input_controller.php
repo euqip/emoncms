@@ -16,7 +16,7 @@ function input_controller()
 {
     //return array('content'=>"ok");
 
-    global $mysqli, $redis, $user, $session, $route, $max_node_id_limit, $feed_settings;
+    global $mysqli, $redis, $user, $org, $session, $route, $max_node_id_limit, $feed_settings, $author;
 
     // There are no actions in the input module that can be performed with less than write privileges
     if (!$session['write']) return array('content'=>false);
@@ -33,13 +33,56 @@ function input_controller()
     require "Modules/input/process_model.php"; // 886
     $process = new Process($mysqli,$input,$feed);
 
+    $process->set_timezone_offset($user->get_timezone($session['userid']));
+
+    $actions=array(
+        'delete'    => 'yes',
+        'clone'     => 'yes',
+        'edit'      => 'yes',
+        'draw'      => 'yes',
+        'view'      => 'yes',
+        'mine'      => 'yes',
+        );
+
+    switch ($session['admin']){
+    case $author['sysadmin']:
+        // sysadmin reads and updates all
+        $cond = "1";
+        $condrd = "1";
+        break;
+    case $author['orgadmin']:
+        //orgadmin reads and updates all within his organisation
+        $cond = "orgid='".$session['orgid']."'";
+        $condrd = "orgid='".$session['orgid']."'";
+        break;
+    case $author['viewer']:
+        //viewer sees all withi organisation but is not allowed to update
+        $cond = "orgid=0 and userid='".$session['userid']."'";
+        $condrd = "orgid='".$session['orgid']."'";
+            $actions['delete']= 'no';
+            $actions['edit']= 'no';
+            $actions['draw']= 'no';
+            $actions['mine']= 'no';
+        break;
+    case $author['designer']:
+        //designer updates own and reads all (dashbords)
+        $cond = "orgid='".$session['orgid']."' and userid='".$session['userid']."'";
+        $condrd = "orgid='".$session['orgid']."'";
+        $actions=array(
+            );
+        break;
+    default:
+        //default is equivalent to now organisations the user is only able to read ans update his own dashboards
+        $cond = "userid='".$session['userid']."'";
+        break;
+        }
+
 
 
     if ($route->format == 'html')
     {
         if ($route->action == 'api') $result = view("Modules/input/Views/input_api.php", array());
-        if ($route->action == 'node') $result =  view("Modules/input/Views/input_node.php", array());
-        if ($route->action == 'process') $result = view("Modules/input/Views/process_list.php",array('inputid'=> intval(get('inputid'))));
+        if ($route->action == 'view') $result =  view("Modules/input/Views/input_view.php", array());
     }
 
     if ($route->format == 'json')
@@ -92,7 +135,8 @@ function input_controller()
             }
 
             $userid = $session['userid'];
-            $dbinputs = $input->get_inputs($userid);
+            $orgid = $session['orgid'];
+            $dbinputs = $input->get_inputs($userid,$orgid);
 
             $len = count($data);
             if ($len>0)
@@ -148,7 +192,7 @@ function input_controller()
                                 {
                                     if (!isset($dbinputs[$nodeid][$name]))
                                     {
-                                        $inputid = $input->create_input($userid, $nodeid, $name);
+                                        $inputid = $input->create_input($userid, $orgid, $nodeid, $name);
                                         $dbinputs[$nodeid][$name] = true;
                                         $dbinputs[$nodeid][$name] = array('id'=>$inputid, 'processList'=>'');
                                         $input->set_timevalue($dbinputs[$nodeid][$name]['id'],$time,$value);
@@ -263,13 +307,14 @@ function input_controller()
                 }
 
                 $userid = $session['userid'];
-                $dbinputs = $input->get_inputs($userid);
+                $orgid = $session['orgid'];
+                $dbinputs = $input->get_inputs($userid,$orgid);
 
                 $tmp = array();
                 foreach ($data as $name => $value)
                 {
                     if (!isset($dbinputs[$nodeid][$name])) {
-                        $inputid = $input->create_input($userid, $nodeid, $name);
+                        $inputid = $input->create_input($userid, $orgid, $nodeid, $name);
                         $dbinputs[$nodeid][$name] = true;
                         $dbinputs[$nodeid][$name] = array('id'=>$inputid);
                         $input->set_timevalue($dbinputs[$nodeid][$name]['id'],$time,$value);
@@ -293,13 +338,26 @@ function input_controller()
             else
                 $result = "Error: $error\n";
         }
+        $userid=$session['userid'];
+        $orgid=$session['orgid'];
+        switch ($route->action){
+            case 'clean':
+                $result = $input->clean($userid,$cond);
+                break;
+            case 'list':
+                $result = $input->getlist($userid,$orgid,$condrd);
+                break;
+            case 'getinputs':
+                $result = $input->get_inputs($userid,$cond);
+                break;
+            case 'getallprocesses':
+                $result = $process->get_process_list();
+                break;
 
-        if ($route->action == "clean") $result = $input->clean($session['userid']);
-        if ($route->action == "list") $result = $input->getlist($session['userid']);
-        if ($route->action == "getinputs") $result = $input->get_inputs($session['userid']);
-        if ($route->action == "getallprocesses") $result = $process->get_process_list();
+       }
 
-        if (isset($_GET['inputid']) && $input->belongs_to_user($session['userid'],get("inputid")))
+        //if (isset($_GET['inputid']) && $input->belongs_to('userid',$session['userid'],get("inputid")))
+        if (isset($_GET['inputid']) && $input->belongs_to('orgid',$session['orgid'],get("inputid")))
         {
             if ($route->action == "delete") $result = $input->delete($session['userid'],get("inputid"));
 

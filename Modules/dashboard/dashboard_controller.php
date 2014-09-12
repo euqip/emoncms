@@ -25,7 +25,7 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 function dashboard_controller()
 {
-    global $mysqli, $path, $session, $route, $user;
+    global $mysqli, $path, $session, $route, $user, $author, $actions;
 
     require "Modules/dashboard/dashboard_model.php";
     $dashboard = new Dashboard($mysqli);
@@ -33,13 +33,57 @@ function dashboard_controller()
     // id, userid, content, height, name, alias, description, main, public, published, showdescription
 
     $result = false; $submenu = '';
+    $actions=array(
+        'delete'    => 'yes',
+        'clone'     => 'yes',
+        'edit'      => 'yes',
+        'draw'      => 'yes',
+        'view'      => 'yes',
+        'public'    => 'yes',
+        'published' => 'yes',
+        'mine'      => 'yes',
+        );
+
+    switch ($session['admin']){
+    case $author['sysadmin']:
+        // sysadmin reads and updates all
+        $cond = "1";
+        $condrd = "1";
+        break;
+    case $author['orgadmin']:
+        //orgadmin reads and updates all within his organisation
+        $cond = "orgid='".$session['orgid']."'";
+        $condrd = "orgid='".$session['orgid']."'";
+        break;
+    case $author['viewer']:
+        //viewer sees all withi organisation but is not allowed to update
+        $cond = "orgid=0 and userid='".$session['userid']."'";
+        $condrd = "orgid='".$session['orgid']."'";
+            $actions['delete']= 'no';
+            $actions['edit']= 'no';
+            $actions['draw']= 'no';
+            $actions['public']= 'no';
+            $actions['published']= 'no';
+            $actions['mine']= 'no';
+        break;
+    case $author['designer']:
+        //designer updates own and reads all (dashbords)
+        $cond = "orgid='".$session['orgid']."' and userid='".$session['userid']."'";
+        $condrd = "orgid='".$session['orgid']."'";
+        $actions=array(
+            );
+        break;
+    default:
+        //default is equivalent to now organisations the user is only able to read ans update his own dashboards
+        $cond = "userid='".$session['userid']."'";
+        break;
+        }
 
     if ($route->format == 'html')
     {
         if ($route->action == "list" && $session['write'])
         {
             $result = view("Modules/dashboard/Views/dashboard_list.php",array());
-
             $menu = $dashboard->build_menu($session['userid'],"view");
             $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('menu'=>$menu, 'type'=>"view"));
         }
@@ -47,7 +91,7 @@ function dashboard_controller()
         if ($route->action == "view" && $session['read'])
         {
             if ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
-            elseif (isset($_GET['id'])) $dash = $dashboard->get($session['userid'],get('id'),false,false);
+            elseif (isset($_GET['id'])) $dash = $dashboard->get($condrd ,get('id'),false,false);
             else $dash = $dashboard->get_main($session['userid']);
 
             if ($dash) {
@@ -60,7 +104,7 @@ function dashboard_controller()
             $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('id'=>$dash['id'], 'menu'=>$menu, 'type'=>"view"));
         }
 
-        if ($route->action == "edit" && $session['write'])
+        if ($route->action == "edit" && $session['write']  and ($session['admin']<>$author['viewer']))
         {
             if ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
             elseif (isset($_GET['id'])) $dash = $dashboard->get($session['userid'],get('id'),false,false);
@@ -73,28 +117,28 @@ function dashboard_controller()
         }
         if ($route->action == "clone" && $session['write']) {
             //iconlink action is changed to html presentation
-            $result = $dashboard->dashclone($session['userid'], get('id'));
+            $result = $dashboard->dashclone($cond,$session['userid'], get('id'));
             $result = view("Modules/dashboard/Views/dashboard_list.php",array());
 
-            $menu = $dashboard->build_menu($session['userid'],"view"); 
+            $menu = $dashboard->build_menu($session['userid'],"view");
             $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('menu'=>$menu, 'type'=>"view"));
           }
 
     }
 
-    if ($route->format == 'json')
+    if ($route->format == 'json' && $session['write'])
     {
-        if ($route->action=='list' && $session['write']) $result = $dashboard->get_list($session['userid'], false, false);
+        if ($route->action=='list') $result = $dashboard->get_list($session['userid'], $condrd, false, false);
 
-        if ($route->action=='set' && $session['write']) $result = $dashboard->set($session['userid'],get('id'),get('fields'));
-        if ($route->action=='setcontent' && $session['write']) $result = $dashboard->set_content($session['userid'],post('id'),post('content'),post('height'));
-        if ($route->action=='delete' && $session['write']) $result = $dashboard->delete(get('id'));
+        if ($route->action=='set') $result = $dashboard->set($session['userid'], $cond, get('id'),get('fields'));
+        if ($route->action=='setcontent') $result = $dashboard->set_content($session['userid'],post('id'),$cond, post('content'),post('height'));
+        if ($route->action=='delete') $result = $dashboard->delete(get('id'),$cond);
 
-        if ($route->action=='create' && $session['write']) $result = $dashboard->create($session['userid']);
-        if ($route->action=='clone' && $session['write']) {
-            // this action will return the record id only see html response , it will redraw the list 
-            // with new duplicated dasboard 
-            $result = $dashboard->dashclone($session['userid'], get('id'));
+        if ($route->action=='create') $result = $dashboard->create($session['userid']);
+        if ($route->action=='clone') {
+            // this action will return the record id only see html response , it will redraw the list
+            // with new duplicated dasboard
+            $result = $dashboard->dashclone($cond,$session['userid'], get('id'));
         }
     }
 

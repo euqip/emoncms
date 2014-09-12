@@ -54,7 +54,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                       $query = "";
 
                       if ($array['Type']!=$type) $query .= ";";
-                      if (isset($default) && $array['Default']!=$default) $query .= " Default '$default'";
+                      if (isset($default) && $array['Default']!=$default) $query .= " DEFAULT '$default'";
                       if ($array['Null']!=$null && $null=="NO") $query .= " not null";
                       if ($array['Extra']!=$extra && $extra=="auto_increment") $query .= " auto_increment";
                       if ($array['Key']!=$key && $key=="PRI") $query .= " primary key";
@@ -101,29 +101,28 @@ function db_schema_setup($mysqli, $schema, $apply)
                     if (isset($schema[$table][$field]['Key'])) $key = $schema[$table][$field]['Key']; else $key = null;
                     if (isset($schema[$table][$field]['default'])) $default = $schema[$table][$field]['default']; else $default = null;
                     if (isset($schema[$table][$field]['Extra'])) $extra = $schema[$table][$field]['Extra']; else $extra = null;
-                    if (isset($schema[$table][$field]['comment'])) $comment = $schema[$table][$field]['comment']; else $comment = null;
                     $query .= $comma;
+
                     $query .= '`'.$field.'`';
                     $query .= " $type";
-                    if ($default) $query .= " Default '$default'";
+                    if (isset($default)) $query .= " DEFAULT '$default'";
                     if ($null=="NO") $query .= " not null";
                     if ($extra) $query .= " auto_increment";
                     if ($key) $query .= " primary key";
                     if ($comment) $query .= " COMMENT '".$comment."'";
 
+                    next($schema[$table]);
                     $comma=', ';
                 } else {
-                    //logitem('Do nothing with index for now!');
+                    next($schema[$table]);
                 }
-                next($schema[$table]);
             }
             $query .= ")";
-            $query .= " ENGINE=MYISAM";
+            $query .= " ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
             if ($query) $operations[] = $query;
             if ($query && $apply) $mysqli->query($query);
         }
        next($schema);
     }
-
     return $operations;
 }

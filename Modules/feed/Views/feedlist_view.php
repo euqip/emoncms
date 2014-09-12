@@ -1,5 +1,5 @@
 <?php
-    global $session,$path;
+    global $session,$path,$behavior;
 ?>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/user.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
@@ -12,19 +12,34 @@
 <!-- source: https://github.com/smalot/bootstrap-datetimepicker -->
 <div id="apihelphead"><div class="apihelp"><a href="api"><?php echo _('Feed API Help'); ?></a></div></div>
 <div class="container">
-        <div id="localheading">
-          <h2><?php echo _('Feeds'); ?>
-            <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Feeds API Help'); ?>"></span></small></a>
-            <a href="#" id="refreshfeedsize" ><small><span class = "glyphicon glyphicon-refresh" title = "<?php echo _('Refresh feed size'); ?>"></span></small></a>
-          </h2>
-        </div>
+    <div id="localheading">
+        <h2><?php echo _('Feeds'); ?>
+            <small>
+                <a href="api">
+                    <span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Feeds API Help'); ?>"></span>
+                </a>
+                <a href="#" id="refreshfeedsize">
+                    <span class = "glyphicon glyphicon-refresh" title = "<?php echo _('Refresh feed size'); ?>"></span>
+                </a>
+                <a href='#'  id="expandall">
+                    <span class = "glyphicon glyphicon-plus-sign" title = '<?php echo _("Expand all")?> '></span>
+                </a>
+                <a href='#'  id="collapseall">
+                    <span class = "glyphicon glyphicon-minus-sign" title = '<?php echo _("Collapse all")?>'></span>
+                </a>
+                <a href='#'  id="nogroups">
+                    <span class = "glyphicon glyphicon glyphicon-list-alt" title = '<?php echo _("Hide groups")?>'></span>
+                </a>
+            </small>
+        </h2>
+    </div>
 
-        <div id="table"></div>
+    <div id="table"></div>
 
-        <div id="nofeeds" class="alert alert-block hide">
-                <h4 class="alert-heading"><?php echo _('No feeds created'); ?></h4>
-                <p><?php echo _('Feeds are where your monitoring data is stored. The recommended route for creating feeds is to start by creating inputs (see the inputs tab). Once you have inputs you can either log them straight to feeds or if you want you can add various levels of input processing to your inputs to create things like daily average data or to calibrate inputs before storage. You may want to follow the link as a guide for generating your request.'); ?><a href="api"><?php echo _('Feed API helper'); ?></a></p>
-        </div>
+    <div id="nofeeds" class="alert alert-block hide">
+        <h4 class="alert-heading"><?php echo _('No feeds created'); ?></h4>
+        <p><?php echo _('Feeds are where your monitoring data is stored. The recommended route for creating feeds is to start by creating inputs (see the inputs tab). Once you have inputs you can either log them straight to feeds or if you want you can add various levels of input processing to your inputs to create things like daily average data or to calibrate inputs before storage. You may want to follow the link as a guide for generating your request.'); ?><a href="api"><?php echo _('Feed API helper'); ?></a></p>
+    </div>
 </div>
 
 <div class="modal fade emoncms-dialog type-primary" id="ExportModal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -36,8 +51,8 @@
              </div>
             <div class="modal-body">
                 <div>
-                    <span><?php echo _('Selected feed:') ?> </span><b><span id="SelectedExportFeed"></span></b></p>
-                    <p><?php echo _('Select the dates range interval that you wish to export: (From - To)') ?> </p>
+                    <span><?php echo _('Selected feed:') ?> </span><b><span id="SelectedExportFeed"></span></b>
+                    <p><?php echo _('Select the dates range interval that you wish to export: (From - To)') ?></p>
                 </div>
                 <div id="modalhtml" class="container">
                     <div class="row">
@@ -95,8 +110,8 @@
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                     <select id="export-timezone-list" class="form-control" >
                                     <?php
-                                    for ($tt=-12; $tt<=12; $tt++)
-                                        {
+                                    if(!isset($selected)) $selected = 0;
+                                    for ($tt=-12; $tt<=12; $tt++){
                                             $tt1= substr("0".abs($tt),-2);
                                             $plus= ($tt<0)?'-':'+';
                                             //need to select the user timezone!!! for better ergonomy, not present in $session
@@ -168,7 +183,7 @@
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
                 <button class="btn" id="confirmdelete"><span class="emoncms-dialog-button-icon glyphicon glyphicon-trash"></span><?php echo _('Delete Feed'); ?></button>
-             </div>
+            </div>
         </div>
     </div>
 </div>
@@ -177,6 +192,14 @@
 <script>
 
     var path = "<?php echo $path; ?>";
+    var firstrun = true;
+    var updateinterval ="<?php echo $behavior['feedinterval']; ?>";
+    var groupfield= "<?php echo $behavior['feedgroup']; ?>";
+    var expanded= <?php echo $behavior['feedlistexpanded']; ?>;
+    table.element = "#table";
+    table.collapsetext= "<?php echo _("Collapse this Group"); ?>";
+    table.expandtext= "<?php echo _("Expand this Group"); ?>";
+
     table.element = "#table";
 
   table.fields = {
@@ -206,14 +229,42 @@
     }
 >>>>>>> f78a8022ecc4c3ed3878e462ed13fc052024e627
 */
-    table.groupby = 'tag';
+    table.groupprefix = groupfield+": ";
+    table.groupby = groupfield;
     table.deletedata = false;
 
     table.draw();
     update();
+    $("#expandall").click(function() {
+        table.groupby = groupfield;
+        table.expand = true;
+        table.tablegrpidshow = false;
+        table.state = 1;
+        update();
+    })
 
-    function update()
-    {
+    $("#collapseall").click(function() {
+        table.groupby = groupfield;
+        table.collapse = true
+        table.tablegrpidshow = false;
+        table.state = 0;
+        update();
+    })
+
+    $("#nogroups").click(function() {
+        table.groupby = '';
+        table.expand = true;
+        table.tablegrpidshow = true;
+        table.state = 2;
+        update();
+    })
+
+    function update() {
+        if (firstrun) {
+            table.expand=expanded;
+            table.collapse=!expanded;
+            table.state=expanded;
+        }
         table.data = feed.list();
         for (z in table.data)
         {
@@ -226,6 +277,8 @@
             }
         }
         table.draw();
+        $("#collapseall").hide();
+        $("#expandall").hide();
 
 
         if (table.data.length != 0) {
@@ -235,10 +288,15 @@
             $("#nofeeds").show();
             $("#localheading").hide();
         }
+        if(table.state){
+            $("#collapseall").show();
+        } else {
+            $("#expandall").show();
+        }
+        firstrun=false;
     }
-    var updatetime=10000;
 
-    var updater = setInterval(update, updatetime);
+    var updater = setInterval(update, updateinterval);
 
     $("#table").bind("onEdit", function(e){
         clearInterval(updater);
@@ -246,7 +304,7 @@
 
     $("#table").bind("onSave", function(e,id,fields_to_update){
         feed.set(id,fields_to_update);
-        updater = setInterval(update, updatetime);
+        updater = setInterval(update, updateinterval);
         update()
     });
 
@@ -270,23 +328,34 @@
         update();
 
         $('#myModal').modal('hide');
-        updater = setInterval(update, updatetime);
+        updater = setInterval(update, updateinterval);
     })
 
 
     // Feed Export feature
-
-
-
     $('#export-timezone-list').on('change',function(e){
         $("#export-timezone").val($("#export-timezone-list").val());
         calcdownloadsize();
+/*
+=======
+    
+    $("#table").on("click",".icon-circle-arrow-down", function(){
+        var row = $(this).attr('row');
+        $("#SelectedExportFeed").html(table.data[row].tag+": "+table.data[row].name);
+        $("#export").attr('feedid',table.data[row].id);
+        
+        if ($("#export-timezone").val()=="") {
+            var u = user.get();
+            $("#export-timezone").val(parseInt(u.timezone));
+        }
+        
+        $('#ExportModal').modal('show');
+*/
     });
 
     $('#export-interval-list').on('change',function(e){
         $("#export-interval").val($("#export-interval-list").val());
         calcdownloadsize();
-
     });
 
     $('.form_datetime').datetimepicker({
@@ -301,18 +370,16 @@
         showMeridian: 0
     });
 
-    $('#export-start-div').on('change', function(e)
-    {
+    $('#export-start-div').on('change', function(e)    {
         calcdownloadsize();
     });
 
-    $('#export-end-div').on('change', function(e)
-    {
+    $('#export-end-div').on('change', function(e)    {
         calcdownloadsize();
     });
 
     function module_event(evt, elt, row, uid, action){
-        console.log('feed module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
+        //console.log('feed module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
         switch(action)
         {
             case "export-action":
@@ -350,8 +417,7 @@
     }
 
 
-    $("#export").click(function()
-    {
+    $("#export").click(function(){
         var feedid = $(this).attr('feedid');
         var export_start = parse_timepicker_time($("#export-start").val());
         var export_end = parse_timepicker_time($("#export-end").val());
@@ -384,7 +450,7 @@
             return false;
             }
         var cmd=path+"feed/csvexport.json?id="+feedid+"&start="+(export_start+(export_timezone*3600))+"&end="+(export_end+(export_timezone*3600))+"&interval="+export_interval;
-        console.log(cmd);
+        //console.log(cmd);
         window.open (cmd);
         //window.open(path+"feed/csvexport.json?id="+feedid+"&start="+(export_start+(export_timezone*3600))+"&end="+(export_end+(export_timezone*3600))+"&interval="+export_interval);
         $('#ExportModal').modal('hide');
@@ -392,8 +458,7 @@
 
 
 
-    function parse_timepicker_time(timestr)
-    {
+    function parse_timepicker_time(timestr){
         var tmp = timestr.split(" ");
         if (tmp.length!=2) return false;
 
