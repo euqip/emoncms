@@ -22,15 +22,12 @@
   require "route.php";
   require "locale.php";
   */
-
-  require_once "bootstrap.php";
-
-  $path = get_application_path();
+    require_once "bootstrap.php";
+    $path = get_application_path();
 
   // 2) Database
   $mysqli = @new mysqli($server,$username,$password,$database);
 
-    $path = get_application_path();
 
     require "Modules/log/EmonLogger.php";
 

@@ -130,8 +130,6 @@ var orgs = <?php echo json_encode($organisations); ?>
 
 list.data = user.get();
 
-//$(".writeapikey").html(list.data.apikey_write);
-//$(".readapikey").html(list.data.apikey_read);
 $("#newapikeywrite").val(list.data.apikey_write);
 $("#newapikeyread").val(list.data.apikey_read);
 

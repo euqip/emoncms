@@ -23,7 +23,6 @@ function directoryLocaleScan($dir) {
     if (isset($dir) && is_readable($dir)) {
         $dlist = Array();
         $dir = realpath($dir);
-
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
 
         foreach($objects as $entry => $object){
@@ -37,7 +36,8 @@ function directoryLocaleScan($dir) {
 
 function get_available_languages()
 {
-   return directoryLocaleScan(dirname(__FILE__));
+   //return directoryLocaleScan(dirname(__FILE__));
+   return directoryLocaleScan(dirname(CORE));
 }
 
 

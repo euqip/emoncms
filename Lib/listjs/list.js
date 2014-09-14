@@ -62,56 +62,51 @@
         );
     },
 
-    'fieldtypes':
-    {
-        'text':
-        {
-          'draw':function(value) {
-            return "<span>"+value+"</span>";
-          },
-          'edit':function(field,value) {
-            var fld=list.fields[field];
-            var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
-            return "<input type='text' class='form-control' title='"+tooltip+"' value='"+(value||'')+"' / >"; },
-          'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
+    'fieldtypes':    {
+      'text':      {
+        'draw':function(value) {
+          return "<span>"+value+"</span>";
+        },
+        'edit':function(field,value) {
+          var fld=list.fields[field];
+          var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
+          return "<input type='text' class='form-control' title='"+tooltip+"' value='"+(value||'')+"' / >"; },
+        'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
       },
 
-      'checkbox':
-      {
+      'checkbox':      {
         'draw': function (value)  { return value; },
-        'edit': function (field,value) { 
+        'edit': function (field,value) {
           var fld=list.fields[field];
           var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
-          return "<input type='checkbox' class='form-control' title='"+tooltip+"' value='"+(value||'')+"' / >"; 
+          return "<input type='checkbox' class='form-control' title='"+tooltip+"' value='"+(value||'')+"' / >";
         },
         'save': function (field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();},
-    },
-    'select':
-    {
-      'draw':function(value) { return value },
-      'edit':function(field,value)
-      {
-        var options = '';
-          var fld=list.fields[field];
-          var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
-        for (i in list.fields[field].options)
-        {
-          var selected = ""; if (list.fields[field].options[i] == value) selected = 'selected';
-          options += "<option value="+list.fields[field].options[i]+" "+selected+">"+list.fields[field].options[i]+"</option>";
-      }
-      return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
-  },
-  'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
-},
+      },
 
-'tblselect':
-{
+      'select':      {
+        'draw':function(value) { return value },
+        'edit':function(field,value)
+        {
+          var options = '';
+            var fld=list.fields[field];
+            var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
+          for (i in list.fields[field].options)
+          {
+            var selected = ""; if (list.fields[field].options[i] == value) selected = 'selected';
+            options += "<option value="+list.fields[field].options[i]+" "+selected+">"+list.fields[field].options[i]+"</option>";
+        }
+        return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
+        },
+        'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
+      },
+
+      'tblselect':      {
         /**
         **  This type of field will get its selection in a table provided by a model
         **  The model returned data are an ID and a display text
         **/
-        'draw':function(value)
-        {
+        'draw':function(value)        {
             for (i in list.fields[field].options)
             {
               var fld= list.fields[field].options[i];
@@ -120,85 +115,82 @@
             }
         }
         return "";
-    },
-    'edit':function(field,value)
-    {
-          var fld1=list.fields[field];
-          var tooltip = '';if (fld1.tooltip) tooltip = fld1.tooltip;
-         var options = '';
-        for (i in list.fields[field].options)
-        {
-          var fld= list.fields[field].options[i];
-          var selected = ""; if (fld.id == value) selected = 'selected';
-          options += "<option value="+fld.id+" "+selected+">"+fld.toshow+"</option>";
-      }
-      return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
-  },
-  'save':function(field)
-  {
-    return $(list.element+' tr[field='+field+'] td[type=value] select').val();
-}
-},
-'idselect':
-{
-    /**
-    **  This type of field will get its selection in a json string with IDs
-    **
-    **/
-    'draw':function(value)    {
-        return list.fields[field].options[value];
-    },
-    'edit':function(field,value)    {
-        var options = '';
-        for (i in list.fields[field].options)
-        {
-          var fld1=list.fields[field];
-          var tooltip = '';if (fld1.tooltip) tooltip = fld1.tooltip;
-            var fld= list.fields[field].options[i];
-            var selected = ""; if (i == value) selected = 'selected';
-            options += "<option value="+i+" "+selected+">"+fld+"</option>";
-        }
-        return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
-    },
-    'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
-},
-
-'timezone':
-{
-  'draw':function(value)
-  {
-    var sign = value >= 0 ? '+' : '';
-    return "UTC "+sign+(value||0)+":00";
-},
-'edit':function(field,value)
-{
-    var select = $('<select class="form-control"/>'),
-    selectedIndex = null,
-    sign;
-
-    for (var i=-12; i<=14; i++) {
-      var selected = "";
-      if (value == i) {
-        selected = 'selected';
-        selectedIndex = i;
-    }
-    sign = i >= 0 ? '+' : '';
-    select.append("<option value="+i+" "+selected+">UTC "+sign+i+":00</option>");
-}
-            //If no selected index were set, then default to 0
-            if ( selectedIndex === null ) {
-                select.find("option[value='0']").attr('selected', 'selected');
-            }
-            return select.wrap('<p>').parent().html();  //return HTML-string
         },
-        'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
-    },
+        'edit':function(field,value)        {
+          var fld1=list.fields[field];
+          var tooltip = '';if (fld1.tooltip) tooltip = fld1.tooltip;
+          var options = '';
+          for (i in list.fields[field].options)
+          {
+            var fld= list.fields[field].options[i];
+            var selected = ""; if (fld.id == value) selected = 'selected';
+            options += "<option value="+fld.id+" "+selected+">"+fld.toshow+"</option>";
+            }
+          return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
+          },
+          'save':function(field)          {
+            return $(list.element+' tr[field='+field+'] td[type=value] select').val();
+          }
+        },
 
-    'gravatar':
-    {
-      'draw':function(value) { return "<img style='border: 1px solid #ccc; padding:2px;' src='http://www.gravatar.com/avatar/"+CryptoJS.MD5(value)+"'/ >" },
-      'edit':function(field,value) { return "<input class='form-control' type='text' value='"+value+"' / >" },
-      'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
-  }
-}
-}
+        'idselect':        {
+            /**
+            **  This type of field will get its selection in a json string with IDs
+            **
+            **/
+            'draw':function(value)    {
+                return list.fields[field].options[value];
+            },
+            'edit':function(field,value)    {
+                var options = '';
+                for (i in list.fields[field].options)
+                {
+                  var fld1=list.fields[field];
+                  var tooltip = '';if (fld1.tooltip) tooltip = fld1.tooltip;
+                    var fld= list.fields[field].options[i];
+                    var selected = ""; if (i == value) selected = 'selected';
+                    options += "<option value="+i+" "+selected+">"+fld+"</option>";
+                }
+                return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
+            },
+            'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
+        },
+
+        'timezone':        {
+          'draw':function(value)
+          {
+            var sign = value >= 0 ? '+' : '';
+            return "UTC "+sign+(value||0)+":00";
+        },
+        'edit':function(field,value)
+        {
+            var select = $('<select class="form-control"/>'),
+            selectedIndex = null,
+            sign;
+
+            for (var i=-12; i<=14; i++) {
+              var selected = "";
+              if (value == i) {
+                selected = 'selected';
+                selectedIndex = i;
+            }
+            sign = i >= 0 ? '+' : '';
+            select.append("<option value="+i+" "+selected+">UTC "+sign+i+":00</option>");
+        }
+                    //If no selected index were set, then default to 0
+                    if ( selectedIndex === null ) {
+                        select.find("option[value='0']").attr('selected', 'selected');
+                    }
+                    return select.wrap('<p>').parent().html();  //return HTML-string
+                },
+                'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
+            },
+
+        'gravatar':      {
+          'draw':function(value) { return "<img style='border: 1px solid #ccc; padding:2px;' src='http://www.gravatar.com/avatar/"+CryptoJS.MD5(value)+"'/ >" },
+          'edit':function(field,value) { return "<input class='form-control' type='text' value='"+value+"' / >" },
+          'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
+        }
+      }
+    }
+  

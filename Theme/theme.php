@@ -104,7 +104,7 @@
                    ---
                 </span>
                 <span class="text-right">
-                    <a href="<?php echo $path; ?>credits" target = "_blank"><?php echo _('See credits');?></a>
+                    <a href="<?php echo $path; ?>credits" ><?php echo _('See credits');?></a>
                 </span>
             </div>
         </div>
