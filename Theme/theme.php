@@ -65,15 +65,15 @@
     <div class="container">
       <?php echo $submenu; ?>
   </div>
-</div><br>
+</div>
 <?php } ?>
 
                 <?php if (isset($submenu) && ($submenu)) { ?>
                     <div id="submenu">
-                    <div class="container">
-                        <?php echo $submenu; ?>
+                        <div class="container">
+                            <?php echo $submenu; ?>
+                        </div>
                     </div>
-                    </div><br>
                 <?php } ?>
 
                 <?php
@@ -85,20 +85,28 @@
                 ?>
                 <?php echo '<!-- content comes here -->'; ?>
                 <?php echo $content; ?>
-            </div>
+    </div>
 
         <div id="footer">
-            <span class="text-left">
-                <?php echo _('Powered by '); ?>
-                <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a>
-                <span class="emon-version"> | v<?php echo Configure::read('EmonCMS.version'); ?></span>
-            </span>
-            <span>
-               ---
-            </span>
-            <span class="text-right">
-                <a href="http://glyphicons.com/" target = "_blank"><?php echo _('With Glyphicons support');?></a>
-            </span>
+            <div class="container">
+                <span class="text-left">
+                    <?php echo _('Powered by '); ?>
+                    <a href="http://openenergymonitor.org" target="_blank">openenergymonitor.org</a>
+                    <span class="emon-version"> | v<?php echo Configure::read('EmonCMS.version'); ?></span>
+                </span>
+                <span>
+                   ---
+                </span>
+                <span class="text-right">
+                    <a href="http://glyphicons.com/" target = "_blank"><?php echo _('With Glyphicons support');?></a>
+                </span>
+                <span>
+                   ---
+                </span>
+                <span class="text-right">
+                    <a href="<?php echo $path; ?>credits" target = "_blank"><?php echo _('See credits');?></a>
+                </span>
+            </div>
         </div>
         <!-- end of footer -->
 

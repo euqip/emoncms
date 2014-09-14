@@ -111,6 +111,10 @@
     if ($route->controller == 'api') $route->controller = 'input';
     if ($route->controller == 'input' && $route->action == 'post') $route->format = 'json';
     if ($route->controller == 'input' && $route->action == 'bulk') $route->format = 'json';
+    if ($route->controller == 'credits') {
+        $route->controller = 'admin';
+        $route->action = 'credits';
+    }
 
     // 6) Load the main page controller
     $output = controller($route->controller);

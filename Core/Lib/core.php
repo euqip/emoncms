@@ -156,11 +156,11 @@ function load_menu()
     $dir = scandir("Modules");
     for ($i=2; $i<count($dir); $i++)
     {
-        if (filetype("Modules/".$dir[$i])=='dir')
+        if (filetype("Modules".DS.$dir[$i])=='dir')
         {
-            if (is_file("Modules/".$dir[$i]."/".$dir[$i]."_menu.php"))
+            if (is_file("Modules".DS.$dir[$i].DS.$dir[$i]."_menu.php"))
             {
-                require "Modules/".$dir[$i]."/".$dir[$i]."_menu.php";
+                require "Modules".DS.$dir[$i].DS.$dir[$i]."_menu.php";
             }
         }
     }
@@ -168,6 +168,23 @@ function load_menu()
     usort($menu_left, "menu_sort");
     return array('left'=>$menu_left, 'right'=>$menu_right, 'dropdown'=>$menu_dropdown);
 }
+
+
+function load_credits()
+{
+    $credits = array();
+
+    $dir = scandir("Modules");
+    for ($i=2; $i<count($dir); $i++){
+        if (filetype("Modules".DS.$dir[$i])=='dir'){
+            if (is_file("Modules".DS.$dir[$i].DS.$dir[$i]."_credits.php")){
+                require "Modules".DS.$dir[$i].DS.$dir[$i]."_credits.php";
+            }
+        }
+    }
+    return array('credits'=>$credits);
+}
+
 
 // Menu sort by order
 function menu_sort($a,$b) {

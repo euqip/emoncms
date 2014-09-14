@@ -23,7 +23,8 @@ input[type="color"],
     height: auto !important;
     height: 100%;
     /* Negative indent footer by it's height */
-    margin: 0 auto -40px;
+    margin: 0 auto -30px;
+    padding: 0 0 60px;
 }
 
 #push,
@@ -191,6 +192,36 @@ login block flags size style
     height:16px;
 }
 
+.logo {
+    align: middle;
+}
+.logo img{
+    height:50px;
+    max-width: 200px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.border{
+    background: -webkit-linear-gradient(#eeeeee, #eeeeee); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#eeeeee, #eeeeee); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#eeeeee, #eeeeee); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#eeeeee, #eeeeee); /* Standard syntax */
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 8px;
+    margin-bottom:5px;
+}
+.border:hover{
+    background: -webkit-linear-gradient(#eeeeee, #dddddd); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#eeeeee, #dddddd); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#eeeeee, #dddddd); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#eeeeee, #dddddd); /* Standard syntax */
+    box-shadow:  2px 2px 5px #888888;
+}
 #login-form .well{
     width:  500px;
 }
