@@ -81,6 +81,7 @@
     }
 
     // 4) Language
+    if (isset($session['lang'])) set_lang_by_user($session['lang']);
     if (!isset($session['lang'])) $session['lang']='';
     set_emoncms_lang($session['lang']);
 

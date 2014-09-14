@@ -112,7 +112,7 @@ $("#passwordreset-submit").click(function(){
     var email = $("#passwordreset-email").val();
 
     if (email=="" || username=="") {
-        alert('<?php echo _("Please enter username and email address") ?>');
+        alert('<?php echo addslashes(_("Please enter username and email address")) ?>');
     } else {
         var result = user.passwordreset(username,email);
         if (result.success==true) {

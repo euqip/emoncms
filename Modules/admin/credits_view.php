@@ -42,6 +42,14 @@
 				<?php echo _("Redis is an open source, BSD licensed, advanced key-value cache and store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets, sorted sets, bitmaps and hyperloglogs."); ?>
 			</a></div>
 		</div>
+    	<div class="row border">
+			<div class="col-md-3 logo"><img src="<?php echo $path; ?>Theme/credits/phpmailer_logo.jpg" alt="PHP Mailer logo" align="middle"></div>
+			<div class="col-md-9"><a href="http://phpmailer.worxware.com/"  target="_blank">
+				<?php echo _("PHPMailer continues to be the world's most popular transport class, with an estimated 9 million users worldwide. Downloads continue at a significant pace daily.");
+
+				echo _('The current "official" version of PHPMailer is available through Github: https://github.com/Synchro/PHPMailer.'); ?>
+			</a></div>
+		</div>
 
 
 	    <?php
