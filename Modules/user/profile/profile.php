@@ -74,12 +74,12 @@ function languagecodetotext()
             <p>
                 <span class="text-muted"><?php echo _('Write API Key'); ?> </span>
                 <!--<a id="newapikeywrite" >new</a>-->
-                <span class="writeapikey btn btn-warning"></span>
+                <input type = "text" id="newapikeywrite" class="btn btn-warning key" value ="" >
             </p>
             <p>
                 <span class="text-muted"><?php echo _('Read API Key'); ?> </span>
                 <!--<a id="newapikeyread" >new</a>-->
-                <span class="readapikey btn btn-warning"></span>
+                <input type = "text" id="newapikeyread" class="btn btn-warning key" value ="" >
             </p>
 
 
@@ -130,8 +130,10 @@ var orgs = <?php echo json_encode($organisations); ?>
 
 list.data = user.get();
 
-$(".writeapikey").html(list.data.apikey_write);
-$(".readapikey").html(list.data.apikey_read);
+//$(".writeapikey").html(list.data.apikey_write);
+//$(".readapikey").html(list.data.apikey_read);
+$("#newapikeywrite").val(list.data.apikey_write);
+$("#newapikeyread").val(list.data.apikey_read);
 
 // Need to add an are you sure modal before enabling this.
 // $("#newapikeyread").click(function(){user.newapikeyread()});

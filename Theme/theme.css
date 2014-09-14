@@ -108,6 +108,9 @@ h2{
     margin-bottom :0px;
 }
 
+.key{
+    width: 300px;
+}
 /*
 required for the dashboard submenu
 */
