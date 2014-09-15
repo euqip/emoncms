@@ -66,9 +66,9 @@ global $path, $actions, $behavior;
 
     <script>
 
-    var path = "<?php echo $path; ?>";
-    var groupfield= "<?php echo $behavior['dashgroup']; ?>";
-    var expanded= "<?php echo $behavior['dashlist_expanded']; ?>";
+    var path       = "<?php echo $path; ?>";
+    var groupfield = "<?php echo $behavior['dashgroup']; ?>";
+    var expanded   = "<?php echo $behavior['dashlist_expanded']; ?>";
     var firstrun   = true;
     var success    = "<?php echo _('Success'); ?>";
     var error      = "<?php echo _('Error'); ?>";
@@ -111,10 +111,10 @@ table.fields = {
     'name':{'title':"<?php echo _('Name'); ?>", 'type':"text",'tooltip':"<?php echo _('Dashboard name'); ?>", 'display':"yes", 'colwidth':" style='width:200px;'"},
     'alias':{'title':"<?php echo _('Alias'); ?>", 'type':"text",'tooltip':"<?php echo _('Dashboard Alias'); ?>", 'display':"yes", 'colwidth':" style='width:200px;'"},
 // 'description':{'title':"<?php echo _('Description'); ?>", 'type':"text"},
-'main':{'title':"<?php echo _('Main'); ?>",'tooltip':"<?php echo _('set as main'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-star", 'falseicon':"glyphicon glyphicon-star-empty", 'display':"yes", 'colwidth':" style='width:30px;'"},
-'menu':{'title':"<?php echo _('Menu'); ?>",'tooltip':"<?php echo _('Show it in sub-menu for quick access'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-thumbs-up", 'falseicon':"glyphicon glyphicon-thumbs-down", 'display':"yes", 'colwidth':" style='width:30px;'"},
+'main':{'title':"<?php echo _('Main'); ?>",'tooltip':"<?php echo _('set as main'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-star", 'falseicon':"glyphicon glyphicon-star-empty", 'display':"yes", 'iconaction':"main", 'colwidth':" style='width:30px;'"},
+'menu':{'title':"<?php echo _('Menu'); ?>",'tooltip':"<?php echo _('Show it in sub-menu for quick access'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-thumbs-up", 'falseicon':"glyphicon glyphicon-thumbs-down", 'iconaction':"menu", 'display':"yes", 'colwidth':" style='width:30px;'"},
 'public':{'title':"<?php echo _('Public'); ?>", 'tooltip': "<?php echo _('make dashbord public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock", 'iconaction':"public",  'display':"<?php echo $actions['public']; ?>", 'colwidth':" style='width:30px;'"},
-'published':{'title':"<?php echo _('Publish'); ?>",'tooltip':"<?php echo _('Publish dashbord, make it usable by other users within organisation'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove",  'display':"<?php echo $actions['published']; ?>", 'colwidth':" style='width:30px;'"},
+'published':{'title':"<?php echo _('Publish'); ?>",'tooltip':"<?php echo _('Publish dashbord, make it usable by other users within organisation'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove",  'display':"<?php echo $actions['published']; ?>", 'iconaction':"published", 'colwidth':" style='width:30px;'"},
 
 'draw-action':{'title':'','tooltip':"<?php echo _('Design this dashboard'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-edit", 'link':path+"dashboard/edit?id=",  'display':"<?php echo $actions['draw']; ?>", 'colwidth':" style='width:30px;'"},
 'view-action':{'title':'','tooltip':"<?php echo _('Show the result dashboard'); ?>", 'type':"iconlink", 'link':path+"dashboard/view?id=",  'display':"<?php echo $actions['view']; ?>", 'colwidth':" style='width:30px;'"},
@@ -202,23 +202,34 @@ function module_event(evt, elt, row, uid, action){
     switch(action)
     {
         case "export-action":
-        $("#SelectedExportFeed").html(table.data[row].tag+": "+table.data[row].name);
-        $("#export").attr('feedid',table.data[row].id);
-        if ($("#export-timezone").val()=="") {
-            var u = user.get();
-            $("#export-timezone").val(parseInt(u.timezone));
-            $("#export-timezone-list").val($("#export-timezone").val());
-            $("#export-interval").val($("#export-interval-list").val());
-        }
+            $("#SelectedExportFeed").html(table.data[row].tag+": "+table.data[row].name);
+            $("#export").attr('feedid',table.data[row].id);
+            if ($("#export-timezone").val()=="") {
+                var u = user.get();
+                $("#export-timezone").val(parseInt(u.timezone));
+                $("#export-timezone-list").val($("#export-timezone").val());
+                $("#export-interval").val($("#export-interval-list").val());
+            }
 
-        $('#ExportModal').modal('show');
-        break;
-
+            $('#ExportModal').modal('show');
+            break;
+        case "public":
+        case "main":
+        case "published":
+        case "menu":
+            togglefield(row,uid,action);
+            break;
         default:
-//each unknown action is traznsfered to the module code
+//each unknown action is transfered to the module code
 //module_event(e,$(this),row,uid,action);
 }
 update();
+}
+function togglefield(row,id,field){
+    table.data[row][field] = !table.data[row][field];
+    var fields = {};
+    fields[field] = table.data[row][field];
+    dashboard.set(id,fields);
 }
 
 </script>

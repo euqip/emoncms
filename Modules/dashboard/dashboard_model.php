@@ -118,33 +118,34 @@ class Dashboard
         $fields = json_decode(stripslashes($fields));
         if ($cond<>'') $cond = $cond. " and ";
 
-        $array = array();
+        $fieldarray = array();
 
         // content, height, name, alias, description, main, public, published, showdescription
         // Repeat this line changing the field name to add fields that can be updated:
 
-        if (isset($fields->height)) $array[] = "`height` = '".intval($fields->height)."'";
-        if (isset($fields->content)) $array[] = "`content` = '".preg_replace('/[^\w\s-.#<>?",;:=&\/%~]/','',$fields->content)."'";
+        if (isset($fields->height)) $fieldarray[] = "`height` = '".intval($fields->height)."'";
+        if (isset($fields->content)) $fieldarray[] = "`content` = '".preg_replace('/[^\w\s-.#<>?",;:=&\/%~]/','',$fields->content)."'";
 
-        if (isset($fields->name)) $array[] = "`name` = '".preg_replace('/[^\w\s-]/','',$fields->name)."'";
-        if (isset($fields->alias)) $array[] = "`alias` = '".preg_replace('/[^\w\s-]/','',$fields->alias)."'";
-        if (isset($fields->description)) $array[] = "`description` = '".preg_replace('/[^\w\s-]/','',$fields->description)."'";
+        if (isset($fields->name)) $fieldarray[] = "`name` = '".preg_replace('/[^\w\s-]/','',$fields->name)."'";
+        if (isset($fields->alias)) $fieldarray[] = "`alias` = '".preg_replace('/[^\w\s-]/','',$fields->alias)."'";
+        if (isset($fields->description)) $fieldarray[] = "`description` = '".preg_replace('/[^\w\s-]/','',$fields->description)."'";
 
         if (isset($fields->main))
         {
             $main = (bool)$fields->main;
             //if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE $cond and id<>'$id'");
             if ($main) $this->mysqli->query("UPDATE dashboard SET main = FALSE WHERE $cond id<>$id");
-            $array[] = "`main` = '".$main ."'";
+            $fieldarray[] = "`main` = '".$main ."'";
         }
 
-        if (isset($fields->menu)) $array[] = "`menu` = '".((bool)$fields->menu)."'";
-        if (isset($fields->public)) $array[] = "`public` = '".((bool)$fields->public)."'";
-        if (isset($fields->published)) $array[] = "`published` = '".((bool)$fields->published)."'";
-        if (isset($fields->showdescription)) $array[] = "`showdescription` = '".((bool)$fields->showdescription)."'";
+        if (isset($fields->menu)) $fieldarray[] = "`menu` = '".((bool)$fields->menu)."'";
+        if (isset($fields->public)) $fieldarray[] = "`public` = '".((bool)$fields->public)."'";
+        if (isset($fields->published)) $fieldarray[] = "`published` = '".((bool)$fields->published)."'";
+        if (isset($fields->showdescription)) $fieldarray[] = "`showdescription` = '".((bool)$fields->showdescription)."'";
         // Convert to a comma seperated string for the mysql query
-        $fieldstr = implode(",",$array);
+        $fieldstr = implode(",",$fieldarray);
         $sql = "UPDATE dashboard SET ".$fieldstr." WHERE $cond `id`='$id'";
+        logitem($sql);
         $this->mysqli->query($sql);
 
         if ($this->mysqli->affected_rows>0){
@@ -243,4 +244,9 @@ class Dashboard
         //$sql = "update  `users`, `myelectric` SET `myelectric`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `myelectric`.`userid` =`users`.`id`".$uid;
 
     }
+}
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
 }
