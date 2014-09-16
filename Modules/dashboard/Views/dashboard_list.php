@@ -107,7 +107,7 @@ table.fields = {
     'edit-action':{'title':'','tooltip':"<?php echo _('Edit dashboard attributes'); ?>",'alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"<?php echo $actions['edit']; ?>", 'colwidth':" style='width:30px;'"},
     'clone-action':{'title':'','tooltip':"<?php echo _('Duplicate'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-random", 'link':path+"dashboard/clone?id=",  'display':"<?php echo $actions['clone']; ?>", 'colwidth':" style='width:30px;'"},
     'mine':{'title':'','tooltip':"<?php echo _('Mine'); ?>", 'type':"fixedcheckbox", 'icon':"glyphicon glyphicon-flag", 'link':path+"dashboard/clone?id=", 'display':"<?php echo $actions['mine']; ?>", 'colwidth':" style='width:30px;'"},
-    'id':{'title':"<?php echo _('Id'); ?>", 'type':"fixed",'tooltip':"<?php echo _('Dashboard id'); ?>", 'display':"yes", 'colwidth':" style='width:30px;'"},
+    'id':{'title':"<?php echo _('Id'); ?>", 'type':"fixed",'tooltip':"<?php echo _('Dashboard id'); ?>", 'display':"no", 'colwidth':" style='width:30px;'"},
     'name':{'title':"<?php echo _('Name'); ?>", 'type':"text",'tooltip':"<?php echo _('Dashboard name'); ?>", 'display':"yes", 'colwidth':" style='width:200px;'"},
     'alias':{'title':"<?php echo _('Alias'); ?>", 'type':"text",'tooltip':"<?php echo _('Dashboard Alias'); ?>", 'display':"yes", 'colwidth':" style='width:200px;'"},
 // 'description':{'title':"<?php echo _('Description'); ?>", 'type':"text"},
@@ -198,7 +198,6 @@ $(function () {
 });
 
 function module_event(evt, elt, row, uid, action){
-    //console.log('feed module row= '+row+' - field= '+field+' - uid= '+uid+' - iconaction= '+action);
     switch(action)
     {
         case "export-action":

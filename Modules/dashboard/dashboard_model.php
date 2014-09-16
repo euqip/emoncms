@@ -213,12 +213,8 @@ class Dashboard
                     $desc = '';
             }
 
-                // Set URL using alias or id
-            if ($dashboard['alias']) {
-                $aliasurl = "/".$dashboard['alias'];
-            } else {
-                $aliasurl = '&id='.$dashboard['id'];
-            }
+                // Set URL using alias and id
+            $aliasurl = '&id='.$dashboard['id'];
 
                 // Build the menu item
             $topmenu.='<li><a href="'.$path.$dashpath.$aliasurl.'"'.$desc.'>'.$dashboard['name'].'</a></li>';

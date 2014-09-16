@@ -60,13 +60,6 @@
 
 <div class="content-block">
 
-  <?php if (isset($submenu) && ($submenu)) { ?>
-  <div id="submenu">
-    <div class="container">
-      <?php echo $submenu; ?>
-  </div>
-</div>
-<?php } ?>
 
                 <?php if (isset($submenu) && ($submenu)) { ?>
                     <div id="submenu">
