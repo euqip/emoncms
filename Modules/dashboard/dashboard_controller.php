@@ -90,8 +90,8 @@ function dashboard_controller()
 
         if ($route->action == "view" && $session['read'])
         {
-            if ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
-            elseif (isset($_GET['id'])) $dash = $dashboard->get($condrd ,get('id'),false,false);
+            if (isset($_GET['id'])) $dash = $dashboard->get($condrd ,get('id'),false,false);
+            //elseif ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
             else $dash = $dashboard->get_main($session['userid']);
 
             if ($dash) {
@@ -106,8 +106,8 @@ function dashboard_controller()
 
         if ($route->action == "edit" && $session['write']  and ($session['admin']<>$author['viewer']))
         {
-            if ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
-            elseif (isset($_GET['id'])) $dash = $dashboard->get($session['userid'],get('id'),false,false);
+            //if ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
+            if (isset($_GET['id'])) $dash = $dashboard->get($session['userid'],get('id'),false,false);
 
             $result = view("Modules/dashboard/Views/dashboard_edit_view.php",array('dashboard'=>$dash));
             $result .= view("Modules/dashboard/Views/dashboard_config.php", array('dashboard'=>$dash));
