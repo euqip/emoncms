@@ -164,12 +164,17 @@ gmail example:
         // see userletter  above and apply same rules, on countries for example
         //'orgletter'=> "country as letter" will group organisations by countries
         'inputgroup'=> "nodeid",
-        'inputinterval'=> 500000,
+        'inputinterval'=> 5000,
         'inputlistexpanded'=>TRUE,
 
         'feedgroup'=> "tag",
-        'feedinterval'=> 500000,
+        'feedinterval'=> 5000,
         'feedlistexpanded'=>1,
+
+        'dashlist_expanded'=>true,
+        'dashgroup'=> "letter",
+        //orggroup may be '', than no groups are made, it is used in organisations list view
+        'dashletter'=> "ucase(LEFT(name,1)) as letter",
 
         );
     $author=array(
