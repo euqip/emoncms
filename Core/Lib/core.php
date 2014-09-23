@@ -232,3 +232,29 @@ function toSlug($str){
     $y= array('-','-','-','-','-');
     return str_Replace($x,$y,$b);
 }
+
+/**
+ * returns the user IP address
+ *
+ * @param $str
+ * @return mixed
+ * @link  http://stackoverflow.com/questions/11864059/how-to-get-ip-address-in-php/13604604#13604604
+ */
+
+function getUserIP()
+{
+    $client  = @$_SERVER['HTTP_CLIENT_IP'];
+    $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+    $remote  = $_SERVER['REMOTE_ADDR'];
+
+    if(filter_var($client, FILTER_VALIDATE_IP))    {
+        $ip = $client;
+    }
+    elseif(filter_var($forward, FILTER_VALIDATE_IP))    {
+        $ip = $forward;
+    }
+    else    {
+        $ip = $remote;
+    }
+    return $ip;
+}

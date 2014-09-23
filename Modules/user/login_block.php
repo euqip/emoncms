@@ -98,7 +98,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
 var path = "<?php echo $path; ?>";
 
 $("#login").click(login);
-$("#register").click(register);
+$("#register-link").click(register);
 
 $("#passwordreset-link").click(function(){
     $("#passwordreset-block").show();
@@ -168,6 +168,7 @@ function register(){
     var password = $("#password").val();
     var confirmpassword = $("#password-confirm").val();
     var email = $("#email").val();
+    $(".register-item").show();
 
     if (password != confirmpassword)
     {
@@ -186,36 +187,5 @@ function register(){
             $("#error").html(result.message).show();
         }
     }
-
-    function register(){
-        var username = $("input[name='username']").val();
-        var password = $("input[name='password']").val();
-        var confirmpassword = $("input[name='confirm-password']").val();
-        var email = $("input[name='email']").val();
-
-        if (password != confirmpassword)
-        {
-            $("#error").html("Passwords do not match").show();
-        }
-        else
-        {
-            var result = user.register(username,password,email);
-
-            if (result.success)
-            {
-                result = user.login(username,password);
-                if (result.success)
-                {
-                    window.location.href = path+"user/view";
-                }
-            }
-            else
-            {
-                $("#error").html(result.message).show();
-            }
-        }
-    }
-
-
 };
 </script>
