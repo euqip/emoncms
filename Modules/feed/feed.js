@@ -145,16 +145,3 @@ return result;
 }
 
 }
-
-function showfeedback(data){
-        if (data['success'] == false){
-        $('#msgfeedback').html(data.message);
-        $('.feedback').removeClass("in alert-danger alert-success")
-        $(".feedback").fadeIn().delay(200).addClass("in alert-danger").fadeOut(2000);
-    } else {
-        $('#msgfeedback').html(data.message);
-        $('.feedback').removeClass("in alert-danger alert-success")
-        $(".feedback").fadeIn().delay(200).addClass("in alert-success" ).fadeOut(2000);
-    }
-
-}
