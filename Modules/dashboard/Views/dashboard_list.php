@@ -4,10 +4,8 @@ global $path, $actions, $behavior;
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
+<script type="text/javascript" src="<?php echo $path; ?>Lib/emoncms.js"></script>
 
-<div class="feedback pull-right fade">
-    <span id ="msgfeedback"></span>
-</div>
 
 <div class="container">
     <div id="localheading">
@@ -25,7 +23,6 @@ global $path, $actions, $behavior;
                 <a href='#'  id="nogroups">
                     <span class = "glyphicon glyphicon glyphicon-list-alt" title = '<?php echo _("Hide groups")?>'></span>
                 </a>
-                <span class="alert-danger pull-right fade" id ="msgfeeback"></span>
             </small>
         </h2>
     </div>
@@ -76,30 +73,6 @@ global $path, $actions, $behavior;
 // Extemd table library field types
 //for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
 
-    $("#expandall").click(function()
-    {
-        table.groupby = groupfield;
-        table.expand = true;
-        table.tablegrpidshow = false;
-        table.state = 1;
-        update();
-    })
-    $("#collapseall").click(function()
-    {
-        table.groupby = groupfield;
-        table.collapse = true
-        table.tablegrpidshow = false;
-        table.state = 0;
-        update();
-    })
-    $("#nogroups").click(function()
-    {
-        table.groupby = '';
-        table.expand = true;
-        table.tablegrpidshow = true;
-        table.state = 2;
-        update();
-    })
 table.element = "#table";
 
 table.fields = {

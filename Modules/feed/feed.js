@@ -3,7 +3,7 @@ var feed = {
 
     apikey: "",
 
-    'create':function(name, datatype, engine, options)
+    'create':function (name, datatype, engine, options)
     {
         var result = {};
         $.ajax({ url: path+"feed/create.json", data: "name="+name+"&datatype="+datatype+"&engine="+engine+"&options="+JSON.stringify(options), dataType: 'json', async: false, success: function(data){result = data;} });
@@ -75,9 +75,15 @@ $.ajax({ url: path+"feed/set.json", data: "id="+id+"&fields="+JSON.stringify(fie
 return result;
 },
 
-'remove':function(id)
-{
-    $.ajax({ url: path+"feed/delete.json", data: "id="+id, async: false, success: function(data){} });
+'remove':function(id) {
+    $.ajax({
+        url   : path+"feed/delete.json",
+        data  : "id="+id,
+        async : false}
+        )
+        .done(function (data, textStatus, jqXHR){
+            showfeedback(data);
+        })
 },
 
 
@@ -86,12 +92,12 @@ return result;
 {
     var feedIn = [];
     var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
-    $.ajax({                                      
-        url: path+'feed/data.json',                         
+    $.ajax({
+        url: path+'feed/data.json',
         data: apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&dp="+dp,
         dataType: 'json',
-        async: false,                      
-        success: function(data_in) { feedIn = data_in; } 
+        async: false,
+        success: function(data_in) { feedIn = data_in; }
     });
     return feedIn;
 },
@@ -100,12 +106,12 @@ return result;
 {
     var feedIn = [];
     var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
-    $.ajax({                                      
-        url: path+'feed/average.json',                         
+    $.ajax({
+        url: path+'feed/average.json',
         data: apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&interval="+interval,
         dataType: 'json',
-        async: false,                      
-        success: function(data_in) { feedIn = data_in; } 
+        async: false,
+        success: function(data_in) { feedIn = data_in; }
     });
     return feedIn;
 },
@@ -114,12 +120,12 @@ return result;
 {
     var feedIn = [];
     var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
-    $.ajax({                                      
-        url: path+'feed/kwhatpowers.json',                         
+    $.ajax({
+        url: path+'feed/kwhatpowers.json',
         data: apikeystr+"&id="+feedid+"&points="+JSON.stringify(points),
         dataType: 'json',
-        async: false,                      
-        success: function(data_in) { feedIn = data_in; } 
+        async: false,
+        success: function(data_in) { feedIn = data_in; }
     });
     return feedIn;
 },
@@ -128,15 +134,27 @@ return result;
 {
     var feedIn = [];
     var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
-    $.ajax({                                      
-        url: path+'feed/histogram.json',                         
+    $.ajax({
+        url: path+'feed/histogram.json',
         data: apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&res=1",
         dataType: 'json',
-        async: false,                      
-        success: function(data_in) { feedIn = data_in; } 
+        async: false,
+        success: function(data_in) { feedIn = data_in; }
     });
     return feedIn;
 }
 
 }
 
+function showfeedback(data){
+        if (data['success'] == false){
+        $('#msgfeedback').html(data.message);
+        $('.feedback').removeClass("in alert-danger alert-success")
+        $(".feedback").fadeIn().delay(200).addClass("in alert-danger").fadeOut(2000);
+    } else {
+        $('#msgfeedback').html(data.message);
+        $('.feedback').removeClass("in alert-danger alert-success")
+        $(".feedback").fadeIn().delay(200).addClass("in alert-success" ).fadeOut(2000);
+    }
+
+}

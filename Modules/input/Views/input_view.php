@@ -4,6 +4,7 @@
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
+<script type="text/javascript" src="<?php echo $path; ?>Lib/emoncms.js"></script>
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/processlist.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/process_info.js"></script>
@@ -169,8 +170,6 @@
     'view-action':{'title':'','tooltip':'<?php echo _("Edit Processes"); ?>', 'type':'icon', 'icon':'glyphicon glyphicon-wrench', 'display':"yes", 'colwidth':" style='width:30px;'", 'iconaction':'wrench'},
 
     'nodeid':{'title':'<?php echo _("Node"); ?>','type':"fixed",'display':"dynamic", 'colwidth':" style='width:50px;'"},
-    //'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':"", 'display':"yes", 'colwidth':" style='width:50px;'"},
-    //'id':{'title':'<?php echo _(""); ?>','type':"fixed",'colwidth':"", 'display':"yes"},
     'name':{'title':'<?php echo _("name"); ?>','type':"text", 'colwidth':" style='width:100px;'"},
     'description':{'title':'<?php echo _("Description"); ?>','type':"text", 'colwidth':" style='width:200px;'"},
     'processList':{'title':'<?php echo _("Process list"); ?>','type':"processlist",'colwidth':" style='width:250px;'"},
@@ -179,34 +178,12 @@
 
     'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
   }
+    //'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':"", 'display':"yes", 'colwidth':" style='width:50px;'"},
+    //'id':{'title':'<?php echo _("id (disable empty string to translate)"); ?>','type':"fixed",'colwidth':"", 'display':"yes"},
 
     table.groupby = groupfield;
 
     update();
-    $("#expandall").click(function()
-    {
-        table.groupby = groupfield;
-        table.expand = true;
-        table.tablegrpidshow = false;
-        table.state = 1;
-        update();
-    })
-    $("#collapseall").click(function()
-    {
-        table.groupby = groupfield;
-        table.collapse = true
-        table.tablegrpidshow = false;
-        table.state = 0;
-        update();
-    })
-    $("#nogroups").click(function()
-    {
-        table.groupby = '';
-        table.expand = true;
-        table.tablegrpidshow = true;
-        table.state = 2;
-        update();
-    })
 
 
     function update()

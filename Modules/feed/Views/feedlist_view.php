@@ -4,6 +4,7 @@
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/user.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
+<script type="text/javascript" src="<?php echo $path; ?>Lib/emoncms.js"></script>
 
 
 <link href="<?php echo $path; ?>Lib/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -235,30 +236,6 @@
 
     table.draw();
     update();
-    $("#expandall").click(function() {
-        table.groupby = groupfield;
-        table.expand = true;
-        table.tablegrpidshow = false;
-        table.state = 1;
-        update();
-    })
-
-    $("#collapseall").click(function() {
-        table.groupby = groupfield;
-        table.collapse = true
-        table.tablegrpidshow = false;
-        table.state = 0;
-        update();
-    })
-
-    $("#nogroups").click(function() {
-        table.groupby = '';
-        table.expand = true;
-        table.tablegrpidshow = true;
-        table.state = 2;
-        update();
-    })
-
     function update() {
         if (firstrun) {
             table.expand=expanded;
