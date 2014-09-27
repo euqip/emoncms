@@ -36,7 +36,7 @@ class Node
         $userid = (int) $userid;
         $nodeid = (int) $nodeid;
         $time = (int) $time;
-        
+
         $data = implode(",",$data);
 
         // Load the user's nodes object
@@ -49,14 +49,14 @@ class Node
             $nodes = $this->get_mysql($userid);
         }
 
-        // Either update or insert the node that's just been recieved        
+        // Either update or insert the node that's just been recieved
         if ($nodes==false) $nodes = new stdClass();
-        
+
         if (!isset($nodes->$nodeid)) $nodes->$nodeid = new stdClass();
-        
+
         $nodes->$nodeid->data = $data;
         $nodes->$nodeid->time = $time;
-        
+
         if ($this->redis) {
             $this->redis->set("nodes:$userid",json_encode($nodes));
         } else {
@@ -70,16 +70,16 @@ class Node
 
     public function set_decoder($userid,$nodeid,$decoder)
     {
-        // Input sanitisation 
+        // Input sanitisation
         $userid = (int) $userid;
         $nodeid = (int) $nodeid;
         $decoder_in = json_decode($decoder);
         if (!$decoder_in) return false;
-        
+
         $decoder = new stdClass();
         $decoder->name = preg_replace('/[^\w\s-:()]/','',$decoder_in->name);
         $decoder->updateinterval = (int) $decoder_in->updateinterval;
-        
+
         $decoder->variables = array();
         // Ensure each variable is defined with the allowed fields and correct types
         foreach ($decoder_in->variables as $variable)
@@ -102,8 +102,8 @@ class Node
             $nodes = $this->get_mysql($userid);
         }
 
-        // Set the decoder part of the node defenition 
-        if ($nodes!=NULL && isset($nodes->$nodeid)) 
+        // Set the decoder part of the node defenition
+        if ($nodes!=NULL && isset($nodes->$nodeid))
         {
             $nodes->$nodeid->decoder = $decoder;
             if ($this->redis) $this->redis->set("nodes:$userid",json_encode($nodes));
@@ -125,7 +125,7 @@ class Node
                 $this->redis->set("nodes:$userid",json_encode($nodes));
                 return $nodes;
             }
-            
+
         } else {
             return $this->get_mysql($userid);
         }
@@ -134,16 +134,16 @@ class Node
     //----------------------------------------------------------------------------------------------
 
     public function process($userid,$nodes,$nodeid,$time,$data)
-    {    
+    {
         $bytes = explode(',',$data);
         $pos = 0;
-        
+
         if (isset($nodes->$nodeid->decoder) && sizeof($nodes->$nodeid->decoder->variables)>0)
         {
             foreach($nodes->$nodeid->decoder->variables as $variable)
             {
-                $value = null; 
-                
+                $value = null;
+
                 // Byte value
                 if ($variable->type==0)
                 {
@@ -157,7 +157,7 @@ class Node
                 {
                     if (!isset($bytes[$pos+1])) break;
                     $value = (int) $bytes[$pos] + (int) $bytes[$pos+1]*256;
-                    if ($value>32768) $value += -65536;  
+                    if ($value>32768) $value += -65536;
                     $pos += 2;
                 }
 
@@ -166,7 +166,7 @@ class Node
                 {
                     if (!isset($bytes[$pos+3])) break;
                     $value = (int) $bytes[$pos] + (int) $bytes[$pos+1]*256 + (int) $bytes[$pos+2]*65536 + (int) $bytes[$pos+3]*16777216;
-                    //if ($value>32768) $value += -65536;  
+                    //if ($value>32768) $value += -65536;
                     $pos += 4;
                 }
 
@@ -176,7 +176,7 @@ class Node
             }
         }
     }
-    
+
     public function set_mysql($userid,$data)
     {
         $json = json_encode($data);
@@ -187,16 +187,16 @@ class Node
             $this->mysqli->query("INSERT INTO node (`userid`,`data`) VALUES ('$userid','$json')");
         }
     }
-    
+
     public function get_mysql($userid)
     {
-        $result = $this->mysqli->query("SELECT `data` FROM node WHERE `userid`='$userid'");
+        $result = $this->mysqli->query("SELECT `data`, `description` FROM node WHERE `userid`='$userid'");
         if ($row = $result->fetch_array()) {
           return json_decode($row['data']);
         } else {
           return false;
         }
-        
+
     }
 
 }
