@@ -7,6 +7,7 @@
 ?>
 
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
+<script type="text/javascript" src="<?php echo $path; ?>Lib/emoncms.js"></script>
 
 <div class="container">
     <div id="localheading">
@@ -149,30 +150,6 @@
 
     }
 
-    $("#expandall").click(function()
-    {
-        table.groupby = groupfield;
-        table.expand = true;
-        table.tablegrpidshow = false;
-        table.state = 1;
-        update();
-    })
-    $("#collapseall").click(function()
-    {
-        table.groupby = groupfield;
-        table.collapse = true
-        table.tablegrpidshow = false;
-        table.state = 0;
-        update();
-    })
-    $("#nogroups").click(function()
-    {
-        table.groupby = '';
-        table.expand = true;
-        table.tablegrpidshow = true;
-        table.state = 2;
-        update();
-    })
 
     table.element = "#table";
 

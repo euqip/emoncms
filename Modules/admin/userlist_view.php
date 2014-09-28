@@ -4,6 +4,7 @@ $usergroupfield="";
 ?>
 
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
+<script type="text/javascript" src="<?php echo $path; ?>Lib/emoncms.js"></script>
 
 <div class="row">
     <div class="col-xs-1">
@@ -176,37 +177,12 @@ $usergroupfield="";
     }
 
     $("#createuser").click(admin.register);
-    $("#expandall").click(function()
-    {
-        table.groupby = groupfield;
-        table.expand = true;
-        table.tablegrpidshow = false;
-        table.state = 1;
-        update();
-    })
-    $("#collapseall").click(function()
-    {
-        table.groupby = groupfield;
-        table.collapse = true
-        table.tablegrpidshow = false;
-        table.state = 0;
-        update();
-    })
-    $("#nogroups").click(function()
-    {
-        table.groupby = '';
-        table.expand = true;
-        table.tablegrpidshow = true;
-        table.state = 2;
-        update();
-    })
-
     table.element = "#table";
 
     table.fields = {
         'id'        :{ 'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage user details'); ?>", 'link':"setuser?id=", 'colwidth':" style='width:30px;'"},
         'pwd'       :{ 'title':"<?php echo _('Pwd'); ?>", 'type':"iconbasic", 'icon':'glyphicon glyphicon-send','tooltip':"<?php echo _('Reset password and send new one'); ?>", 'icon_action':"passwordreset", 'colwidth':" style='width:30px;'"},
-        'lettre'    :{ 'title':"<?php echo _(''); ?>", 'type':"fixed"},
+        'letter'    :{ 'title':"<?php echo _('L'); ?>", 'type':"fixed"},
         'username'  :{ 'title':"<?php echo _('Name'); ?>", 'type':"text", 'tooltip':"<?php echo _('User Fullname'); ?>", 'display':'yes'},
         'email'     :{ 'title':"<?php echo _('Email address'); ?>", 'type':"fixed"},
         'language'  :{ 'title':"<?php echo _('Langage'); ?>", 'type':"fixed"},
