@@ -26,8 +26,12 @@
         <link rel="apple-touch-startup-image" href="<?php echo $path; ?>Theme/ios_load.png">
         <link rel="apple-touch-icon" href="<?php echo $path; ?>Theme/logo_normal.png">
         <link href="<?php echo $path; ?>Theme/theme.css" rel="stylesheet">
-        <!--   -->
+        <!--  
         <script src="<?php echo $path; ?>Lib/jquery-1.11.0.js"></script>
+         -->
+
+        <script src="<?php echo $path; ?>Lib/jquery-2.1.1.js"></script>
+
         <title>Emoncms</title>
     </head>
 
