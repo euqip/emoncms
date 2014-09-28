@@ -3,42 +3,65 @@ var feed = {
 
     apikey: "",
 
-    'create':function (name, datatype, engine, options)
-    {
+    'create':function (name, datatype, engine, options)    {
         var result = {};
-        $.ajax({ url: path+"feed/create.json", data: "name="+name+"&datatype="+datatype+"&engine="+engine+"&options="+JSON.stringify(options), dataType: 'json', async: false, success: function(data){result = data;} });
+        $.ajax({
+            url      : path+"feed/create.json",
+            data     : "name="+name+"&datatype="+datatype+"&engine="+engine+"&options="+JSON.stringify(options),
+            dataType : 'json',
+            async    : false,
+        })
+            .done(function (data, textStatus, jqXHR){
+            result = data;
+        })
         return result;
     },
 
-    'list':function()
-    {
+    'list':function()    {
         var result = {};
-        var apikeystr = ""; if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
+        var apikeystr = "";
+        if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
 
-        $.ajax({ url: path+"feed/list.json"+apikeystr, dataType: 'json', async: false, success: function(data) {result = data;} });
+        $.ajax({
+            url      : path+"feed/list.json"+apikeystr,
+            dataType : 'json',
+            async    : false,
+        })
+            .done(function (data, textStatus, jqXHR){
+            result = data;
+            })
         return result;
     },
 
-    'list_assoc':function()
-    {
+    'list_assoc':function()    {
         var result = {};
-        var apikeystr = ""; if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
-
-        $.ajax({ url: path+"feed/list.json"+apikeystr, dataType: 'json', async: false, success: function(data) {result = data;} });
-
-        var feeds = {};
-        for (z in result) feeds[result[z].id] = result[z];
-
-            return feeds;
+        var apikeystr = "";
+        if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
+        $.ajax({
+            url      : path+"feed/list.json"+apikeystr,
+            dataType : 'json',
+            async    : false,
+        })
+            .done(function (data, textStatus, jqXHR){
+            result = data;
+            })
+            var feeds = {};
+            for (z in result) feeds[result[z].id] = result[z];
+                return feeds;
     },
 
-    'list_by_id':function()
-    {
+    'list_by_id':function()    {
         var feeds = {};
-        var apikeystr = ""; if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
-
-        $.ajax({ url: path+"feed/list.json"+apikeystr, dataType: 'json', async: false, success: function(data) {feeds = data;} });
-
+        var apikeystr = "";
+        if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
+        $.ajax({
+            url      : path+"feed/list.json"+apikeystr,
+            dataType : 'json',
+            async    : false,
+        })
+            .done(function (data, textStatus, jqXHR){
+            feeds = data;
+            })
         var tmp = {};
         for (z in feeds)
         {
@@ -49,38 +72,52 @@ var feed = {
         return feeds;
     },
 
-    'list_by_name':function()
-    {
+    'list_by_name':function()    {
         var feeds = {};
         var apikeystr = ""; if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
 
-        $.ajax({ url: path+"feed/list.json"+apikeystr, dataType: 'json', async: false, success: function(data) {feeds = data;} });
+        //$.ajax({ url: path+"feed/list.json"+apikeystr, dataType: 'json', async: false, success: function(data) {feeds = data;} });
+        $.ajax({
+            url      : path+"feed/list.json"+apikeystr,
+            dataType : 'json',
+            async    : false,
+        })
+            .done(function (data, textStatus, jqXHR){
+            feeds = data;
+            })
 
         var tmp = {};
-        for (z in feeds)
-        {
+        for (z in feeds) {
             tmp[feeds[z]['name']] = parseFloat(feeds[z]['value']);
-        }
+            }
         var feeds = tmp;
 
         return feeds;
     },
 
-    'set':function(id, fields)
-    {
+    'set':function(id, fields)    {
         var result = {};
 //    $.ajax({ url: path+"feed/set.json", data: "id="+id+"&fields="+JSON.stringify(fields), async: false, success: function(data){} });
 //console.log('json out string: '+JSON.stringify(fields))
-$.ajax({ url: path+"feed/set.json", data: "id="+id+"&fields="+JSON.stringify(fields), async: false, success: function(data){} });
-return result;
-},
+//$.ajax({ url: path+"feed/set.json", data: "id="+id+"&fields="+JSON.stringify(fields), async: false, success: function(data){} });
+        $.ajax({
+            url      : path+"feed/set.json",
+            data     : "id="+id+"&fields="+JSON.stringify(fields),
+            dataType : 'json',
+            async    : false,
+            })
+            .done(function (data, textStatus, jqXHR){
+
+            })
+        return result;
+    },
 
 'remove':function(id) {
     $.ajax({
         url   : path+"feed/delete.json",
         data  : "id="+id,
-        async : false}
-        )
+        async : false
+        })
         .done(function (data, textStatus, jqXHR){
             showfeedback(data);
         })
@@ -88,59 +125,68 @@ return result;
 
 
 // if ($route->action == 'data') $result = $feed->get_data(get('id'),get('start'),get('end'),get('dp'));
-'get_data':function(feedid,start,end,dp)
-{
+'get_data':function(feedid,start,end,dp){
     var feedIn = [];
-    var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
+    var apikeystr = "";
+    if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
     $.ajax({
-        url: path+'feed/data.json',
-        data: apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&dp="+dp,
-        dataType: 'json',
-        async: false,
-        success: function(data_in) { feedIn = data_in; }
-    });
+        url      : path+'feed/data.json',
+        data     : apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&dp="+dp,
+        dataType : 'json',
+        async    : false,
+        //success  : function(data_in) { feedIn = data_in; }
+    })
+        .done(function (data, textStatus, jqXHR){
+        feedIn = data;
+        })
     return feedIn;
 },
 
-'get_average':function(feedid,start,end,interval)
-{
+'get_average':function(feedid,start,end,interval){
     var feedIn = [];
     var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
     $.ajax({
-        url: path+'feed/average.json',
-        data: apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&interval="+interval,
-        dataType: 'json',
-        async: false,
-        success: function(data_in) { feedIn = data_in; }
-    });
+        url       : path+'feed/average.json',
+        data      : apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&interval="+interval,
+        dataType  : 'json',
+        async     : false,
+        //success : function(data_in) { feedIn = data_in; }
+    })
+        .done(function (data, textStatus, jqXHR){
+        feedIn = data;
+        })
     return feedIn;
 },
 
-'get_kwhatpowers':function(feedid,points)
-{
+'get_kwhatpowers':function(feedid,points){
     var feedIn = [];
     var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
     $.ajax({
-        url: path+'feed/kwhatpowers.json',
-        data: apikeystr+"&id="+feedid+"&points="+JSON.stringify(points),
-        dataType: 'json',
-        async: false,
-        success: function(data_in) { feedIn = data_in; }
-    });
+        url      : path+'feed/kwhatpowers.json',
+        data     : apikeystr+"&id="+feedid+"&points="+JSON.stringify(points),
+        dataType : 'json',
+        async    : false,
+        //success: function(data_in) { feedIn = data_in; }
+    })
+        .done(function (data, textStatus, jqXHR){
+        feedIn = data;
+        })
     return feedIn;
 },
 
-'histogram':function(feedid,start,end)
-{
+'histogram':function(feedid,start,end){
     var feedIn = [];
     var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
     $.ajax({
-        url: path+'feed/histogram.json',
-        data: apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&res=1",
-        dataType: 'json',
-        async: false,
-        success: function(data_in) { feedIn = data_in; }
-    });
+        url      : path+'feed/histogram.json',
+        data     : apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&res=1",
+        dataType : 'json',
+        async    : false,
+        //success: function(data_in) { feedIn = data_in; }
+    })
+        .done(function (data, textStatus, jqXHR){
+        feedIn = data;
+        })
     return feedIn;
 }
 

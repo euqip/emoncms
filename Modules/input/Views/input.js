@@ -1,87 +1,157 @@
 
 var input = {
 
-    'list':function()
-    {
+    'list':function()    {
         var result = {};
-        $.ajax({ url: path+"input/list.json", dataType: 'json', async: false, success: function(data) {result = data;} });
+        $.ajax({
+            url       : path+"input/list.json",
+            dataType  : 'json',
+            async     : false,
+            //success : function(data) {result = data;}
+            })
+            .done(function (data, textStatus, jqXHR){
+               result= data;
+            })
         return result;
     },
 
-    'list_assoc':function()
-    {
+    'list_assoc':function()    {
         var result = {};
-        $.ajax({ url: path+"input/list.json", dataType: 'json', async: false, success: function(data) {result = data;} });
+        $.ajax({
+            url: path+"input/list.json",
+            dataType: 'json',
+            async: false,
+            //success: function(data) {result = data;}
+            })
+            .done(function (data, textStatus, jqXHR){
+               result= data;
+            })
 
         var inputs = {};
         for (z in result) inputs[result[z].id] = result[z];
-
         return inputs;
     },
 
     'set':function(id, fields)
     {
         var result = {};
-        $.ajax({ url: path+"input/set.json", data: "inputid="+id+"&fields="+JSON.stringify(fields), async: false, success: function(data){} });
+        $.ajax({ url:
+            path+"input/set.json",
+            data      : "inputid="+id+"&fields="+JSON.stringify(fields),
+            async     : false,
+            //success : function(data){}
+            })
+            .done(function (data, textStatus, jqXHR){
+               result= data;
+            })
         return result;
     },
 
-    'remove':function(id)
-    {
-        $.ajax({ url: path+"input/delete.json", data: "inputid="+id, async: false, success: function(data){} });
+    'remove':function(id)    {
+        $.ajax({
+            url       : path+"input/delete.json",
+            data      : "inputid="+id,
+            async     : false,
+            //success : function(data){}
+        });
     },
 
     // Process
 
-    'add_process':function(inputid,processid,arg)
-    {
+    'add_process':function(inputid,processid,arg)    {
         var result = {};
-        $.ajax({ url: path+"input/process/add.json", data: "inputid="+inputid+"&processid="+processid+"&arg="+arg, async: false, success: function(data){result = data;} });
+        $.ajax({
+            url   : path+"input/process/add.json",
+            data  : "inputid="+inputid+"&processid="+processid+"&arg="+arg,
+            async : false,
+            //success: function(data){result = data;}
+            })
+            .done(function (data, textStatus, jqXHR){
+               result= data;
+            })
         return result;
     },
 
-    'processlist':function(inputid)
-    {
+    'processlist':function(inputid)    {
         var result = {};
-        $.ajax({ url: path+"input/process/list.json", data: "inputid="+inputid, async: false, dataType: 'json', success: function(data){result = data;} });
+        $.ajax({
+            url      : path+"input/process/list.json",
+            data     : "inputid="+inputid,
+            async    : false,
+            dataType : 'json',
+            //success: function(data){result = data;}
+        })
+            .done(function (data, textStatus, jqXHR){
+               result= data;
+            })
+
         var processlist = [];
         if (result!="")
         {
             var tmp = result.split(",");
             for (n in tmp)
             {
-                var process = tmp[n].split(":"); 
+                var process = tmp[n].split(":");
                 processlist.push(process);
             }
         }
         return processlist;
     },
 
-    'getallprocesses':function(inputid)
-    {
+    'getallprocesses':function(inputid)    {
         var result = {};
-        $.ajax({ url: path+"input/getallprocesses.json", data: "inputid="+inputid, async: false, dataType: 'json', success: function(data){result = data;} });
+        $.ajax({
+            url       : path+"input/getallprocesses.json",
+            data      : "inputid="+inputid,
+            async     : false,
+            dataType  : 'json',
+            //success : function(data){result = data;}
+        })
+        .done(function (data, textStatus, jqXHR){
+           result= data;
+        })
         return result;
     },
 
-    'delete_process':function(inputid,processid)
-    {
+    'delete_process':function(inputid,processid)    {
         var result = {};
-        $.ajax({ url: path+"input/process/delete.json", data: "inputid="+inputid+"&processid="+processid, async: false, success: function(data){result = data;} });
+        $.ajax({
+            url   : path+"input/process/delete.json",
+            data  : "inputid="+inputid+"&processid="+processid,
+            async : false,
+            //success: function(data){result = data;}
+        })
+        .done(function (data, textStatus, jqXHR){
+           result= data;
+        })
         return result;
     },
 
-    'move_process':function(inputid,processid,moveby)
-    {
+    'move_process':function(inputid,processid,moveby)    {
         var result = {};
-        $.ajax({ url: path+"input/process/move.json", data: "inputid="+inputid+"&processid="+processid+"&moveby="+moveby, async: false, success: function(data){result = data;} });
+        $.ajax({
+            url   : path+"input/process/move.json",
+            data  : "inputid="+inputid+"&processid="+processid+"&moveby="+moveby,
+            async : false,
+            //success: function(data){result = data;}
+        })
+        .done(function (data, textStatus, jqXHR){
+           result= data;
+        })
         return result;
     },
 
-    'reset_processlist':function(inputid,processid,moveby)
-    {
+    'reset_processlist':function(inputid,processid,moveby)    {
         var result = {};
-        $.ajax({ url: path+"input/process/reset.json", data: "inputid="+inputid, async: false, success: function(data){result = data;} });
+        $.ajax({
+            url   : path+"input/process/reset.json",
+            data  : "inputid="+inputid,
+            async : false,
+            //success: function(data){result = data;}
+        })
+        .done(function (data, textStatus, jqXHR){
+           result= data;
+        })
         return result;
     }
 
