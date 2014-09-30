@@ -109,46 +109,79 @@
     var success    = "<?php echo _('Success'); ?>";
     var error      = "<?php echo _('Error'); ?>";
 
+function module_event(){
+    // do nothing, but do not remove
+}
+
+
     var admin = {
         'orglist':function()
         {
             var result = {};
-            $.ajax({ url: path+"admin/orglist.json", dataType: 'json', async: false, success: function(data) {result = data;} });
+            $.ajax({
+                url      : path+"admin/orglist.json",
+                dataType : 'json',
+                async    : false,
+                //success: function(data) {result = data;}
+                })
+            .done(function (data, textStatus, jqXHR){
+                result= data;
+            })
             return result;
         },
-        'createorg':function(fields)
+        'createorg':function (fields)
         {
             var result = {};
             //console.log(fields);
             $.ajax({
-                url: path+"admin/org/create.json",
-                type : 'POST',
+                url      : path+"admin/org/create.json",
+                type     : 'POST',
                 dataType : 'json',
-                data:'create=0&orgfields={"orgname":"'+fields.orgname+'","longname":"'+fields.longname+'"}' ,
-                async: false,
-                success: function(data){
-                    if (data['success'] == false){
-                        $('#msgfeeback').html(data.message);
-                        $("#msgfeeback").delay(200).addClass("in").fadeOut(4000);
-                    }
-                }
-                  });
-            return result;
+                data     : 'create=0&orgfields={"orgname" : "'+fields.orgname+'","longname" : "'+fields.longname+'"}' ,
+                async    : false,
+                //success: function(data){
+                })
+                .done(function (data, textStatus, jqXHR){
+                    showfeedback(data)
+                    //if (data['success'] == false){
+                        //$('#msgfeeback').html(data.message);
+                        //$("#msgfeeback").delay(200).addClass("in").fadeOut(4000);
+                    //    }
+                    })
+                return result;
         },
-        'delorg':function(id)
+        'delorg':function (id)
         {
             var result = {};
-            $.ajax({ url: path+"admin/org/delete.json", data: "id="+id, async: false, success: function(data){} });
+            $.ajax({
+                url   : path+"admin/org/delete.json",
+                data  : "id="+id,
+                async : false,
+                //success: function(data){}
+            })
+            .done(function (data, textStatus, jqXHR){
+                showfeedback(data)
+            //result= data;
+            })
             return result;
         },
         'update':function(id, fields)
         {
             var result = {};
-            $.ajax({ url: path+"admin/org/update.json", data: "orgid="+id+"&fields="+JSON.stringify(fields), async: false, success: function(data){} });
+            $.ajax({
+                url     : path+"admin/org/update.json",
+                data    : "orgid="+id+"&fields="+JSON.stringify(fields),
+                async   : false,
+                //success : function(data){}
+            })
+            .done(function (data, textStatus, jqXHR){
+                result= data;
+            })
             return result;
-        },
+        }
 
     }
+
 
 
     table.element = "#table";

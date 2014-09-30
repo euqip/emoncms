@@ -36,15 +36,10 @@ $(document).ready(function(){
 
 
 function showfeedback(data){
-	    if (data['success'] == false){
-	    $('#msgfeedback').html(data.message);
-	    $('.feedback').removeClass("in alert-danger alert-success")
-	    $(".feedback").fadeIn().delay(200).addClass("in alert-danger").fadeOut(2000);
-	} else {
-	    $('#msgfeedback').html(data.message);
-	    $('.feedback').removeClass("in alert-danger alert-success")
-	    $(".feedback").fadeIn().delay(200).addClass("in alert-success" ).fadeOut(2000);
-	}
+	var myclass = (data['success']) ? "alert-success" : "alert-danger";
+    $('#msgfeedback').html(data.message);
+    $('.feedback').removeClass("in alert-danger alert-success")
+    $(".feedback").fadeIn().delay(200).addClass("in "+myclass).fadeOut(2000);
 };
 
 
