@@ -95,84 +95,77 @@ $usergroupfield="";
 
 
     var admin = {
-        'userlist':function()
-        {
+        'userlist':function()        {
             var result = {};
-            $.ajax({ url: path+"admin/userlist.json", dataType: 'json', async: false, success: function(data) {result = data;} });
+            $.ajax({
+                url      : path+"admin/userlist.json",
+                dataType : 'json',
+                async    : false,
+                //success: function(data) {result = data;}
+                })
+                .done(function (data, textStatus, jqXHR){
+                    result= data;
+                })
             return result;
         },
-        'register':function()
-        {
+        'register':function()        {
             var result = {};
             var username = $("#newusername").val();
             var email = $("#newemail").val();
             var password = $("#newpassword").val();
             $.ajax({
-                type: "POST",
-                url: path+"user/register.json",
-                data: "&username="+username+"&password="+encodeURIComponent(password)+"&email="+email,
-                dataType: 'json',
-                async: false,
-                success: function(data)
-                {
-                    result = data;
+                type     : "POST",
+                url      : path+"user/register.json",
+                data     : "&username="+username+"&password="+encodeURIComponent(password)+"&email="+email,
+                dataType : 'json',
+                async    : false,
+                //success: function(data) {result = data;}
+            })
+            .done(function (data, textStatus, jqXHR){
+                result= data;
+                if (result.success){
+                    var result = admin.forcepwd(result.userid);
+                } else {
+                    //$("#error").html(result.message).show();
+                    showfeedback(data)
                 }
             })
-            if (result.success){
-                var result = admin.forcepwd(result.userid);
-            } else {
-                $("#error").html(result.message).show();
-            }
+
         },
-        'forcepwd':function(userid)
-        {
+        'forcepwd':function(userid)        {
             var result = {};
             $.ajax({
-                type: "POST",
-                url: path+"user/forcepwdchange.json",
-                data: "&userid="+userid,
-                dataType: 'json',
-                async: false,
-                success: function(data)
-                {
-                    result = data;
+                type     : "POST",
+                url      : path+"user/forcepwdchange.json",
+                data     : "&userid="+userid,
+                dataType : 'json',
+                async    : false,
+                //success  : function(data)                {                    result = data;                }
+            })
+            .done(function (data, textStatus, jqXHR){
+                result= data;
+                if (result.success){
+                    window.location.href = "setuser?id="+result.userid;
+                } else {
+                    showfeedback(data)
+                    //$("#error").html(result.message).show();
                 }
             })
-            if (result.success){
-                //window.location.href = path+"user/view?id="+result.userid;
-                window.location.href = "setuser?id="+result.userid;
-            } else {
-                $("#error").html(result.message).show();
-            }
         },
-        'passwordreset':function(username, usermail)
-        {
+        'passwordreset':function(username, usermail)        {
             var result = {};
             $.ajax({
-                type: "GET",
-                url: path+"user/passwordreset.json",
-                data: "&username="+username+"&email="+usermail,
-                dataType: 'json',
-                async: false,
-                success: function(data)
-                {
-                    result = data;
-                    if (result.success){
-                        $('#feedbacktitle').html(success);
-                        var boxclass="alert-success";
-                    } else {
-                        $('#feedbacktitle').html(error);
-                        var boxclass="alert-error";
-                    }
-                    $('#feedbackmessage').html(result.message);
-                    $('.alertmsg').addClass(boxclass);
-                    $(".alertmsg").fadeIn();
-                    $(".alertmsg").delay(200).addClass("in").fadeOut(3500);
-                }
-            })
-            if (!result.success){
-                $("#error").html(result.message).show();
-            }
+                type     : "GET",
+                url      : path+"user/passwordreset.json",
+                data     : "&username="+username+"&email="+usermail,
+                dataType : 'json',
+                async    : false,
+                //success: function(data)
+                })
+                .done(function (data, textStatus, jqXHR){
+                        result = data;
+                        showfeedback(data)
+                })
         }
     }
 
