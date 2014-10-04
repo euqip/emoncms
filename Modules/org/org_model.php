@@ -46,7 +46,7 @@ class Org
 
         $apikey_write = md5(uniqid(mt_rand(), true));
         $apikey_read = md5(uniqid(mt_rand(), true));
-        $sql="INSERT INTO ".$this->tbl." ( orgname, longname, salt ,apikey_read, apikey_write, createbyid, createby, createdate ) VALUES ( '$orgname' , '$longname', '$salt', '$apikey_read', '$apikey_write', $userid, '$username', now() );";
+        $sql="INSERT INTO ".$this->tbl." ( orgname, longname, salt ,apikey_read, apikey_write, createbyid, createbyname, createdate ) VALUES ( '$orgname' , '$longname', '$salt', '$apikey_read', '$apikey_write', $userid, '$username', now() );";
         if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error when creating organisation")." ".$orgname);
         }else{

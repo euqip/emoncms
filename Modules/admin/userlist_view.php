@@ -76,6 +76,44 @@ $usergroupfield="";
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div class="modal fade emoncms-dialog type-danger" id="modal-delete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><?php echo _('Confirm user deactivation') ?></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <?php echo _('Are you sure you want to deactivate this user?')."  "?><span id="deluname"></span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmdelete"><span class="button-icon glyphicon glyphicon-trash"></span><?php echo _('Confirm deactivation') ?></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _('Cancel') ?></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade emoncms-dialog type-success" id="modal-activate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><?php echo _('Confirm user reactivation') ?></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <?php echo _('Are you sure you want to reactivate this user?')."  "?><span id="actuname"></span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="confirmactivate"><span class="button-icon glyphicon glyphicon-ok"></span><?php echo _('Confirm reactivation') ?></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo _('Cancel') ?></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script>
     var path       = "<?php echo $path; ?>";
@@ -92,6 +130,23 @@ $usergroupfield="";
 
     });
 
+$("#table").bind("onDelete", function(e,id,row){
+    $('#modal-delete').modal('show');
+    $('#modal-delete').attr('userid',id);
+    $('#modal-delete').attr('userrow',row);
+})
+$("#confirmdelete").click (function(e){
+    $('#modal-delete').modal('hide');
+    admin.deluser($('#modal-delete').attr('userid'));
+    update();
+
+})
+$("#confirmactivate").click (function(e){
+    $('#modal-activate').modal('hide');
+    admin.deluser($('#modal-activate').attr('userid'));
+    update();
+
+})
 
 
     var admin = {
@@ -166,22 +221,40 @@ $usergroupfield="";
                         result = data;
                         showfeedback(data)
                 })
+        },
+        'deluser':function(id)        {
+            var result = {};
+            $.ajax({
+                type     : "GET",
+                url      : path+"admin/user/toggle.json",
+                data     : "&id="+id,
+                dataType : 'json',
+                async    : true,
+                //success: function(data)
+                })
+                .done(function (data, textStatus, jqXHR){
+                        result = data;
+                        showfeedback(data)
+                })
+            return result;
         }
+
     }
 
     $("#createuser").click(admin.register);
     table.element = "#table";
 
     table.fields = {
-        'id'        :{ 'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage user details'); ?>", 'link':"setuser?id=", 'colwidth':" style='width:30px;'"},
-        'pwd'       :{ 'title':"<?php echo _('Pwd'); ?>", 'type':"iconbasic", 'icon':'glyphicon glyphicon-send','tooltip':"<?php echo _('Reset password and send new one'); ?>", 'icon_action':"passwordreset", 'colwidth':" style='width:30px;'"},
-        'letter'    :{ 'title':"<?php echo _('L'); ?>", 'type':"fixed"},
-        'username'  :{ 'title':"<?php echo _('Name'); ?>", 'type':"text", 'tooltip':"<?php echo _('User Fullname'); ?>", 'display':'yes'},
-        'email'     :{ 'title':"<?php echo _('Email address'); ?>", 'type':"fixed"},
-        'language'  :{ 'title':"<?php echo _('Langage'); ?>", 'type':"fixed"},
-        'lastlogin' :{ 'title':"<?php echo _('Last login'); ?>", 'type':"fixed"},
+        //'delete-action' :{ 'title':'','tooltip':"<?php echo _('Suppress user'); ?>", 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
+        'id'            :{ 'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage user details'); ?>", 'link':"setuser?id=", 'colwidth':" style='width:30px;'"},
+        'pwd'           :{ 'title':"<?php echo _('Pwd'); ?>", 'type':"iconbasic", 'icon':'glyphicon glyphicon-send','tooltip':"<?php echo _('Reset password and send new one'); ?>", 'icon_action':"passwordreset", 'colwidth':" style='width:30px;'"},
+        'letter'        :{ 'title':"<?php echo _('L'); ?>", 'type':"fixed"},
+        'username'      :{ 'title':"<?php echo _('Name'); ?>", 'type':"text", 'tooltip':"<?php echo _('User Fullname'); ?>", 'display':'yes'},
+        'email'         :{ 'title':"<?php echo _('Email address'); ?>", 'type':"fixed"},
+        'language'      :{ 'title':"<?php echo _('Langage'); ?>", 'type':"fixed"},
+        'lastlogin'     :{ 'title':"<?php echo _('Last login'); ?>", 'type':"fixed"},
+        'active'        :{ 'title':"<?php echo _('Active'); ?>",'tooltip':"<?php echo _('Click to toggle'); ?>", 'type':"icon", 'iconaction':"activetoggle", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-ban-circle",  'display':"yes", 'colwidth':" style='width:30px;'"},
     }
-
     table.groupby = groupfield;
     update(expanded);
 
@@ -211,11 +284,26 @@ $usergroupfield="";
         switch(action)
         {
             case "passwordreset":
-            var uname= table.data[row].username;
-            var mail = table.data[row].email;
-            admin.passwordreset(uname, mail);
-            break;
-
+                var uname= table.data[row].username;
+                var mail = table.data[row].email;
+                admin.passwordreset(uname, mail);
+                break;
+            case "activetoggle":
+                var uname= table.data[row].username;
+                var mail = table.data[row].email;
+                var value = table.data[row].active;
+                if (value == "1"){
+                    $("#deluname").html(uname);
+                    $('#modal-delete').attr('userid',uid);
+                    $('#modal-delete').attr('userrow',row);
+                    $('#modal-delete').modal('show');
+                } else {
+                    $("#actuname").html(uname);
+                    $('#modal-activate').attr('userid',uid);
+                    $('#modal-activate').attr('userrow',row);
+                    $('#modal-activate').modal('show');
+                }
+                break;
             default:
             //each unknown action is traznsfered to the module code
             //module_event(e,$(this),row,uid,action);

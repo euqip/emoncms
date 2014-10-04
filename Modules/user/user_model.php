@@ -695,6 +695,13 @@ public function apikey_session($apikey_in)
         }
         return $roles;
     }
-
-
+    public function toggle_user($userid,$username,$wcond){
+        $sql = "SELECT delflag from users WHERE ".$wcond;
+        $result = $this->mysqli->query($sql);
+        $data = $result->fetch_object();
+        $flag = ($data->delflag<>0) ?0:1;
+        $sql = "update users set delflag = ".$flag.", delbyid = ".$userid.", delbyname = '".$username."', deldate =now() where ".$wcond;
+        $this->mysqli->query($sql);
+        return $sql;
+    }
 }

@@ -22,6 +22,19 @@ $schema['users'] = array(
     'bio' => array('type' => 'text', 'default'=>''),
     'changepswd' => array('type' => 'int(1)', 'default'=>'0'),
     'csvparam' => array('type'=>'varchar(2)', 'default'=>',.'),
+    //user management fields, deletions, updates, creation
+    'delflag' => array('type' => 'tinyint(1)', 'default'=>0),
+    'delbyid' => array('type' => 'int(11)', 'Null'=>'NO','default'=>'0'),
+    'delbyname' => array('type' => 'varchar(30)'),
+    'deldate' => array('type' => 'datetime'),
+    'updtbyid' => array('type' => 'int(11)', 'Null'=>'NO','default'=>'0'),
+    'updtbyname' => array('type' => 'varchar(30)'),
+    'updtdate' => array('type' => 'datetime'),
+    'createbyid' => array('type' => 'int(11)', 'Null'=>'YES'),
+    'createbyname' => array('type' => 'varchar(30)', 'default'=>'', 'Null'=>'NO'),
+    'createdate' => array('type' => 'datetime', 'Null'=>'YES'),
+    'crtdate' => array('type' => 'datetime'),
+    //table index
     'index' => array(
         'orgid'=> array('unique'=>false),
         'username'=> array('unique'=>true)

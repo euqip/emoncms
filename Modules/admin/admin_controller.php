@@ -68,6 +68,7 @@ function admin_controller()
     // q is the array providing the data
             if ($session['write'] && $session['admin']){
                 $username= $user->get_username([$session['userid']]);
+                //echo "action ".$route->action." - subaction ".$route->subaction;
 
                 switch ($route->action){
                     case 'users':
@@ -97,7 +98,7 @@ function admin_controller()
                                     break;
                             }
                         }
-                        $sql = "SELECT id, ".$behavior['userletter'].", username,email,language,lastlogin, orgid FROM users WHERE ".$wherecond." ORDER By letter";
+                        $sql = "SELECT id, ".$behavior['userletter'].", username,email,language,lastlogin, orgid, not delflag as active FROM users WHERE ".$wherecond." ORDER By letter";
                         $data = array();
                         //$result = $mysqli->query("SELECT id, ucase(LEFT(username,1)) as letter, username,email,language,lastlogin FROM users WHERE 1  ORDER By letter");
                         $result = $mysqli->query($sql);
@@ -112,6 +113,40 @@ function admin_controller()
                         $_SESSION['showuserid'] = intval(get('id'));
                         header("Location: ../user/view/".intval(get('id')));
                         break;
+                    case 'user':
+                        // avoid deletion if not authoriszed user
+                        $id=intval(get('id'));
+                        $wcond = "id = -1";
+                        if (isset($_SESSION['admin'])){
+                            switch (intval($_SESSION['admin'])){
+                                case 1: // sysstem administrator
+                                    //able to delete any user
+                                    $wcond = "id = ".$id;
+                                    break;
+                                case 3: // organisation administrator
+                                    //enable to delete its own organisation users
+                                    $wcond = "id = ".$id." and orgid  = ".$_SESSION['orgid'];
+                                    break;
+                                default: // simple user with design or view authorasations
+                                    // no deletions set impossible where condition
+                                    $wcond = "id = ".'-1'." and orgid  = ".$_SESSION['orgid'];
+                                   break;
+                            }
+                        }
+                        switch ($route->subaction){
+                            case 'toggle':
+                                if (isset($_GET['id'])){
+                                    $id = get('id');
+                                } else if (isset($_POST['id'])){
+                                    $id = post('id');
+                                } else {
+                                    return array('success'=>false, 'message'=>_("No id provided"));
+                                }
+                                $result = $user->toggle_user($session['userid'], $username, $wcond);
+                                break;
+                            }
+                            break;
+
                     case 'org':
                         switch ($route->subaction){
                             case 'create':
