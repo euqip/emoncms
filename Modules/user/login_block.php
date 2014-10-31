@@ -169,6 +169,7 @@ function register(){
     var confirmpassword = $("#password-confirm").val();
     var email = $("#email").val();
     $(".register-item").show();
+    $(".login-item").hide();
 
     if (password != confirmpassword)
     {

@@ -34,7 +34,7 @@
     // 2) Database
     $mysqli = @new mysqli($server,$username,$password,$database);
 
-    if (class_exists('Redis') && $redis_enabled) {
+    if (class_exists('Redis') && $redis_enabled==true) {
         $redis = new Redis();
         $connected = $redis->connect("127.0.0.1");
         if (!$connected) {

@@ -34,6 +34,8 @@ function input_controller()
     $process = new Process($mysqli,$input,$feed);
 
     $process->set_timezone_offset($user->get_timezone($session['userid']));
+    $userid = $session['userid'];
+    $orgid = $session['orgid'];
 
     $actions=array(
         'delete'    => 'yes',
@@ -125,17 +127,13 @@ function input_controller()
         {
             $valid = true;
 
-            if (!isset($_GET['data']) && isset($_POST['data']))
-            {
+            if (!isset($_GET['data']) && isset($_POST['data'])) {
                 $data = json_decode(post('data'));
             }
-            else
-            {
+            else {
                 $data = json_decode(get('data'));
             }
 
-            $userid = $session['userid'];
-            $orgid = $session['orgid'];
             $dbinputs = $input->get_inputs($userid,$orgid);
 
             $len = count($data);
@@ -166,8 +164,7 @@ function input_controller()
                         $time_ref = time() - (int) $data[$len-1][0];
                     }
 
-                    foreach ($data as $item)
-                    {
+                    foreach ($data as $item) {
                         if (count($item)>2)
                         {
                             // check for correct time format
@@ -306,8 +303,6 @@ function input_controller()
                     }
                 }
 
-                $userid = $session['userid'];
-                $orgid = $session['orgid'];
                 $dbinputs = $input->get_inputs($userid,$orgid);
 
                 $tmp = array();

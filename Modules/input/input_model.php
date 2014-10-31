@@ -79,6 +79,7 @@ class Input
         $userid = (int) $userid;
         $nodeid = (int) $nodeid;
         $orgid = (int) $orgid;
+        //print_r($orgid);
 
         $name = preg_replace('/[^\w\s-.]/','',$name);
         $this->mysqli->query("INSERT INTO input (userid,orgid,name,nodeid) VALUES ('$userid','$orgid','$name','$nodeid')");
@@ -296,12 +297,13 @@ class Input
     {
         $userid = (int) $userid;
         //if (!$this->redis->exists("user:inputs:$userid")) $this->load_to_redis($userid);
-        if (!$this->redis->exists("org:inputs:$orgid")) $this->load_org_to_redis($orgid);
-        if (!$this->redis->exists("user:inputs:$userid")) $this->load_to_redis($userid);
+        if (!$this->redis->exists("org:inputs:$orgid")) $this->load_to_redis_org($orgid);
+        if (!$this->redis->exists("user:inputs:$userid")) $this->load_to_redis_user($userid);
 
         $dbinputs = array();
-        //$inputids = $this->redis->sMembers("user:inputs:$userid");
-        $inputids = $this->redis->sMembers("user:inputs:$orgid");
+        $inputids = $this->redis->sMembers("user:inputs:$userid");
+        //the organisation db is empty
+        //$inputids = $this->redis->sMembers("user:inputs:$orgid");
 
         foreach ($inputids as $id)
         {
@@ -347,13 +349,45 @@ class Input
     {
         $userid = (int) $userid;
         $orgid = (int) $orgid;
-        //if (!$this->redis->exists("user:inputs:$userid")) $this->load_to_redis($userid);
-        if (!$this->redis->exists("user:inputs:$userid")) $this->load_to_redis($userid);
+        // transfer items from MySQL to redis, if not yet existing in redis
+        if (!$this->redis->exists("user:inputs:$userid")) $this->load_to_redis_user($userid);
         if (!$this->redis->exists("org:inputs:$orgid")) $this->load_to_redis_org($orgid);
-
         $inputs = array();
-        //$inputids = $this->redis->sMembers("user:inputs:$userid");
-        $inputids = $this->redis->sMembers("org:inputs:$orgid");
+        $inputids = $this->redis->sMembers("user:inputs:$userid");
+        //$inputids = $this->redis->sMembers("org:inputs:$orgid");
+        foreach ($inputids as $id)
+        {
+            $row = $this->redis->hGetAll("input:$id");
+            if ($row['nodeid']==null) $row['nodeid'] = 0;
+            if (!isset($dbinputs[$row['nodeid']])) $dbinputs[$row['nodeid']] = array();
+            $dbinputs[$row['nodeid']][$row['name']] = array('id'=>$row['id'], 'processList'=>$row['processList']);
+        }
+
+        return $dbinputs;
+    }
+
+/*
+    // USES: redis input & user
+    public function redis_get_inputs($userid)
+    {
+        $userid = (int) $userid;
+        if (!$this->redis->exists("user:inputs:$userid")) $this->load_to_redis($userid);
+
+        $dbinputs = array();
+        $inputids = $this->redis->sMembers("user:inputs:$userid");
+
+        foreach ($inputids as $id)
+        {
+            $row = $this->redis->hGetAll("input:$id");
+            if ($row['nodeid']==null) $row['nodeid'] = 0;
+            if (!isset($dbinputs[$row['nodeid']])) $dbinputs[$row['nodeid']] = array();
+            $dbinputs[$row['nodeid']][$row['name']] = array('id'=>$row['id'], 'processList'=>$row['processList']);
+        }
+
+        return $dbinputs;
+
+
+        //to be checked
         foreach ($inputids as $id)
         {
             $row = $this->redis->hGetAll("input:$id");
@@ -363,8 +397,10 @@ class Input
             $inputs[] = $row;
         }
         return $inputs;
+
     }
 
+*/
     public function mysql_getlist($userid,$orgid,$cond)
     {
         $userid = (int) $userid;
@@ -524,7 +560,8 @@ class Input
 
     private function load_input_to_redis($inputid)
     {
-        $result = $this->mysqli->query("SELECT id,nodeid,name,description,processList FROM input WHERE `id` = '$inputid'");
+        $sql = "SELECT id,nodeid,name,description,processList FROM input WHERE `id` = '$inputid'";
+        $result = $this->mysqli->query($sql);
         $row = $result->fetch_object();
 
         $this->redis->sAdd("user:inputs:$userid", $row->id);
@@ -537,31 +574,17 @@ class Input
         ));
     }
 //check if necessary
-    private function load_org_to_redis($orgid)
-    {
-        $result = $this->mysqli->query("SELECT id,nodeid,userid,name,description,processList FROM input WHERE `orgid` = '$orgid'");
-        while ($row = $result->fetch_object())
-        {
-            $this->redis->sAdd("org:inputs:$orgid", $row->id);
-            $this->redis->hMSet("input:$row->id",array(
-                'id'=>$row->id,
-                'nodeid'=>$row->nodeid,
-                'name'=>$row->name,
-                'description'=>$row->description,
-                'processList'=>$row->processList
-            ));
-        }
-    }
-
     private function load_to_redis_org($orgid)
     {
-        $result = $this->mysqli->query("SELECT id,nodeid,userid,name,description,processList FROM input WHERE `orgid` = '$orgid'");
+        $sql = "SELECT id,nodeid,userid,name,description,processList FROM input WHERE `orgid` = '$orgid'";
+        $result = $this->mysqli->query($sql);
         while ($row = $result->fetch_object())
         {
             $this->redis->sAdd("org:inputs:$orgid", $row->id);
             $this->redis->hMSet("input:$row->id",array(
                 'id'=>$row->id,
                 'nodeid'=>$row->nodeid,
+                'userid'=>$row->userid,
                 'name'=>$row->name,
                 'description'=>$row->description,
                 'processList'=>$row->processList
@@ -570,9 +593,10 @@ class Input
     }
 
 
-    private function load_to_redis($userid)
+    private function load_to_redis_user($userid)
     {
-        $result = $this->mysqli->query("SELECT id,nodeid,name,description,processList FROM input WHERE `userid` = '$userid'");
+        $sql="SELECT id,nodeid,name,description,processList FROM input WHERE `userid` = '$userid'";
+        $result = $this->mysqli->query($sql);
         while ($row = $result->fetch_object())
         {
             $this->redis->sAdd("user:inputs:$userid", $row->id);
