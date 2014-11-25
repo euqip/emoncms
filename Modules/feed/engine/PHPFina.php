@@ -7,7 +7,7 @@ class PHPFina
 {
     private $dir = "/var/lib/phpfina/";
     private $log;
-    
+
     /**
      * Constructor.
      *
@@ -17,7 +17,7 @@ class PHPFina
     public function __construct($settings)
     {
         if (isset($settings['datadir'])) $this->dir = $settings['datadir'];
-        
+
         $this->log = new EmonLogger(__FILE__);
     }
 
@@ -30,7 +30,7 @@ class PHPFina
     {
         $interval = (int) $options['interval'];
         if ($interval<5) $interval = 5;
-        
+
         // Check to ensure we dont overwrite an existing feed
         if (!$meta = $this->get_meta($id))
         {
@@ -38,21 +38,21 @@ class PHPFina
             $meta = new stdClass();
             $meta->interval = $interval;
             $meta->start_time = 0;
-            
+
             $meta->npoints = 0;
-            
+
             // Save meta data
             $this->create_meta($id,$meta);
-            
+
             $fh = @fopen($this->dir.$id.".dat", 'c+');
-            
+
             if (!$fh) {
                 $this->log->warn("PHPFina:create could not create data file id=$id");
                 return false;
             }
             fclose($fh);
         }
-        
+
         $feedname = "$id.meta";
         if (file_exists($this->dir.$feedname)) {
             return true;
@@ -72,29 +72,29 @@ class PHPFina
     public function post($id,$timestamp,$value)
     {
         $this->log->info("PHPFina:post post id=$id timestamp=$timestamp value=$value");
-        
+
         $id = (int) $id;
         $timestamp = (int) $timestamp;
         $value = (float) $value;
-        
+
         $now = time();
         $start = $now-(3600*24*365*5); // 5 years in past
         $end = $now+(3600*48);         // 48 hours in future
-        
+
         if ($timestamp<$start || $timestamp>$end) {
             $this->log->warn("PHPFina:post timestamp out of range");
             return false;
         }
-        
+
         // If meta data file does not exist then exit
         if (!$meta = $this->get_meta($id)) {
             $this->log->warn("PHPFina:post failed to fetch meta id=$id");
             return false;
         }
-        
+
         // Calculate interval that this datapoint belongs too
         $timestamp = floor($timestamp / $meta->interval) * $meta->interval;
-        
+
         // If this is a new feed (npoints == 0) then set the start time to the current datapoint
         if ($meta->npoints == 0 && $meta->start_time==0) {
             $meta->start_time = $timestamp;
@@ -104,7 +104,7 @@ class PHPFina
         if ($timestamp < $meta->start_time) {
             $this->log->warn("PHPFina:post timestamp older than feed start time id=$id");
             return false; // in the past
-        }	
+        }
 
         // Calculate position in base data file of datapoint
         $pos = floor(($timestamp - $meta->start_time) / $meta->interval);
@@ -120,15 +120,15 @@ class PHPFina
             $this->log->warn("PHPFina:post could not open data file id=$id");
             return false;
         }
-        
+
         // Write padding
         $padding = ($pos - $last_pos)-1;
-        
+
         if ($padding>0) {
             if ($this->write_padding($fh,$meta->npoints,$padding)===false)
             {
                 // Npadding returned false = max block size was exeeded
-                
+
                 $this->log->warn("PHPFina:post padding max block size exeeded id=$id");
                 return false;
             }
@@ -136,17 +136,17 @@ class PHPFina
             //$this->log->warn("PHPFINA padding less than 0 id=$id");
             //return false;
         }
-        
+
         // Write new datapoint
 	    fseek($fh,4*$pos);
         if (!is_nan($value)) fwrite($fh,pack("f",$value)); else fwrite($fh,pack("f",NAN));
-        
+
         // Close file
         fclose($fh);
-        
+
         return $value;
     }
-    
+
     /**
      * Updates a data point in the feed
      *
@@ -173,14 +173,14 @@ class PHPFina
         $start = intval($start/1000);
         $end = intval($end/1000);
         $outinterval= (int) $outinterval;
-        
+
         // If meta data file does not exist then exit
         if (!$meta = $this->get_meta($id)) return false;
-        
+
         if ($outinterval<$meta->interval) $outinterval = $meta->interval;
         $dp = ceil(($end - $start) / $outinterval);
         $end = $start + ($dp * $outinterval);
-        
+
         // $dpratio = $outinterval / $meta->interval;
         if ($dp<1) return false;
 
@@ -238,10 +238,10 @@ class PHPFina
     public function lastvalue($id)
     {
         $id = (int) $id;
-        
+
         // If meta data file does not exist then exit
         if (!$meta = $this->get_meta($id)) return false;
-        
+
         if ($meta->npoints>0)
         {
             $fh = fopen($this->dir.$id.".dat", 'rb');
@@ -252,7 +252,7 @@ class PHPFina
 
             $val = unpack("f",$d);
             $time = date("Y-n-j H:i:s", $meta->start_time + $meta->interval * $meta->npoints);
-            
+
             return array('time'=>$time, 'value'=>$val[1]);
         }
         else
@@ -260,20 +260,20 @@ class PHPFina
             return array('time'=>0, 'value'=>0);
         }
     }
-    
+
     public function export($id,$start)
     {
         $id = (int) $id;
         $start = (int) $start;
-        
+
         $feedname = $id.".dat";
-        
+
         // If meta data file does not exist then exit
         if (!$meta = $this->get_meta($id)) {
             $this->log->warn("PHPFina:post failed to fetch meta id=$id");
             return false;
         }
-        
+
         // There is no need for the browser to cache the output
         header("Cache-Control: no-cache, no-store, must-revalidate");
 
@@ -287,17 +287,17 @@ class PHPFina
 
         // Write to output stream
         $fh = @fopen( 'php://output', 'w' );
-        
+
         $primary = fopen($this->dir.$feedname, 'rb');
         $primarysize = filesize($this->dir.$feedname);
-        
+
         $localsize = $start;
         $localsize = intval($localsize / 4) * 4;
         if ($localsize<0) $localsize = 0;
 
         // Get the first point which will be updated rather than appended
         if ($localsize>=4) $localsize = $localsize - 4;
-        
+
         fseek($primary,$localsize);
         $left_to_read = $primarysize - $localsize;
         if ($left_to_read>0){
@@ -316,85 +316,85 @@ class PHPFina
         exit;
 
     }
-    
+
     public function delete($id)
     {
         if (!$meta = $this->get_meta($id)) return false;
         unlink($this->dir.$id.".meta");
         unlink($this->dir.$id.".dat");
     }
-    
+
     public function get_feed_size($id)
     {
         if (!$meta = $this->get_meta($id)) return false;
         return (filesize($this->dir.$id.".meta") + filesize($this->dir.$id.".dat"));
     }
-    
+
 
     public function get_meta($id)
     {
         $id = (int) $id;
         $feedname = "$id.meta";
-        
+
         if (!file_exists($this->dir.$feedname)) {
             $this->log->warn("PHPFina:get_meta meta file does not exist id=$id");
             return false;
         }
-        
+
         $meta = new stdClass();
         $metafile = fopen($this->dir.$feedname, 'rb');
 
         fseek($metafile,8);
-        
-        $tmp = unpack("I",fread($metafile,4)); 
+
+        $tmp = unpack("I",fread($metafile,4));
         $meta->interval = $tmp[1];
-        
-        $tmp = unpack("I",fread($metafile,4)); 
+
+        $tmp = unpack("I",fread($metafile,4));
         $meta->start_time = $tmp[1];
-        
+
         fclose($metafile);
-        
+
         clearstatcache($this->dir.$id.".dat");
         $filesize = filesize($this->dir.$id.".dat");
         $meta->npoints = floor($filesize / 4.0);
-        
+
         if ($meta->start_time>0 && $meta->npoints==0) {
             $this->log->warn("PHPFina:get_meta start_time already defined but npoints is 0");
             return false;
         }
-  
+
         return $meta;
     }
-    
+
     private function create_meta($id,$meta)
     {
         $id = (int) $id;
-        
+
         $feedname = "$id.meta";
         $metafile = fopen($this->dir.$feedname, 'wb');
-        
+
         if (!$metafile) {
             $this->log->warn("PHPFina:create_meta could not open meta data file id=".$id);
             return false;
         }
-        
+
         if (!flock($metafile, LOCK_EX)) {
             $this->log->warn("PHPFina:create_meta meta file id=".$id." is locked by another process");
             fclose($metafile);
             return false;
         }
-        
+
         fwrite($metafile,pack("I",0));
-        fwrite($metafile,pack("I",0)); 
+        fwrite($metafile,pack("I",0));
         fwrite($metafile,pack("I",$meta->interval));
-        fwrite($metafile,pack("I",$meta->start_time)); 
+        fwrite($metafile,pack("I",$meta->start_time));
         fclose($metafile);
     }
-    
+
     private function write_padding($fh,$npoints,$npadding)
     {
         $tsdb_max_padding_block = 1024 * 1024;
-        
+
         // Padding amount too large
         if ($npadding>$tsdb_max_padding_block*2) {
             return false;
@@ -415,22 +415,28 @@ class PHPFina
         fseek($fh,4*$npoints);
 
         do {
-            if ($npadding < $pointsperblock) 
-            { 
+            if ($npadding < $pointsperblock)
+            {
                 $pointsperblock = $npadding;
-                $buf = ''; 
+                $buf = '';
                 for ($n = 0; $n < $pointsperblock; $n++) {
                     $buf .= pack("f",NAN);
                 }
             }
-            
+
             fwrite($fh, $buf);
             $npadding -= $pointsperblock;
-        } while ($npadding); 
+        } while ($npadding);
     }
-    
+
     public function csv_export($id,$start,$end,$outinterval)
     {
+        $colsepar=",";
+        $decsepar=".";
+        $thousandsepar="";
+        $dateformat="Y-m-d";
+        $timeformat="H:i:s";
+
         $id = intval($id);
         $start = intval($start);
         $end = intval($end);
@@ -438,11 +444,11 @@ class PHPFina
 
         // If meta data file does not exist then exit
         if (!$meta = $this->get_meta($id)) return false;
-        
+
         if ($outinterval<$meta->interval) $outinterval = $meta->interval;
         $dp = ceil(($end - $start) / $outinterval);
         $end = $start + ($dp * $outinterval);
-        
+
         // $dpratio = $outinterval / $meta->interval;
         if ($dp<1) return false;
 
@@ -465,7 +471,7 @@ class PHPFina
 
         $data = array();
         $time = 0; $i = 0;
-        
+
         // There is no need for the browser to cache the output
         header("Cache-Control: no-cache, no-store, must-revalidate");
 
@@ -501,7 +507,8 @@ class PHPFina
             $time = $meta->start_time + $pos * $meta->interval;
 
             // add to the data array if its not a nan value
-            if (!is_nan($val[1])) fwrite($exportfh, $time.",".number_format($val[1],2)."\n");
+
+            if (!is_nan($val[1])) fwrite($exportfh, $time.$colsepar.number_format($val[1],2,$decsepar,$thousandsepar)."\n");
 
             $i++;
         }

@@ -263,6 +263,7 @@ class Timestore
     {
         $colsepar=",";
         $decsepar=".";
+        $thousandsepar="";
         $dateformat="Y-m-d";
         $timeformat="H:i:s";
 
@@ -393,7 +394,7 @@ class Timestore
                 //fwrite($exportfh, $timestamp.",".number_format($average,2)."\n");
                 $humanDate=gmdate($dateformat, $timestamp);
                 $humanTime=gmdate($timeformat, $timestamp);
-                $dataValue=str_replace(".",$decsepar,number_format($average,2));
+                $dataValue=number_format($average,2,$decsepar,$thousandsepar);
                 fwrite($exportfh, $time.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.$dataValue."\n");
                 //print "--".$average."<br>";
             }

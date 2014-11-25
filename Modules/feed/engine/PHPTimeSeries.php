@@ -42,20 +42,20 @@ class PHPTimeSeries
     public function post($feedid,$time,$value)
     {
         $this->log->info("PHPTimeSeries:post feedid=$feedid time=$time value=$value");
-        
+
         // Get last value
         $fh = fopen($this->dir."feed_$feedid.MYD", 'rb');
         if (!$fh) {
             $this->log->warn("PHPTimeSeries:post could not open data file feedid=$feedid");
             return false;
         }
-        
+
         clearstatcache($this->dir."feed_$feedid.MYD");
         $filesize = filesize($this->dir."feed_$feedid.MYD");
 
         $csize = round($filesize / 9.0, 0, PHP_ROUND_HALF_DOWN) *9.0;
         if ($csize!=$filesize) {
-        
+
             $this->log->warn("PHPTimeSeries:post filesize not integer multiple of 9 bytes, correcting feedid=$feedid");
             // correct corrupt data
             fclose($fh);
@@ -83,7 +83,7 @@ class PHPTimeSeries
                 // append
                 fclose($fh);
                 if (!$fh = $this->fopendata($this->dir."feed_$feedid.MYD", 'a')) return false;
-            
+
                 fwrite($fh, pack("CIf",249,$time,$value));
                 fclose($fh);
             }
@@ -114,10 +114,10 @@ class PHPTimeSeries
             fwrite($fh, pack("CIf",249,$time,$value));
             fclose($fh);
         }
-        
+
         return $value;
     }
-    
+
     private function fopendata($filename,$mode)
     {
         $fh = fopen($filename,$mode);
@@ -126,16 +126,16 @@ class PHPTimeSeries
             $this->log->warn("PHPTimeSeries:fopendata could not open $filename");
             return false;
         }
-        
+
         if (!flock($fh, LOCK_EX)) {
             $this->log->warn("PHPTimeSeries:fopendata $filename locked by another process");
             fclose($fh);
             return false;
         }
-        
+
         return $fh;
     }
-    
+
     public function update($feedid,$time,$value)
     {
       return $this->post($feedid,$time,$value);
@@ -327,16 +327,17 @@ class PHPTimeSeries
         fclose($fh);
         exit;
     }
-    
+
     public function get_meta($feedid)
     {
-    
+
     }
-    
+
     public function csv_export($feedid,$start,$end,$outinterval)
     {
         $colsepar=",";
         $decsepar=".";
+        $thousandsepar="";
         $dateformat="Y-m-d";
         $timeformat="H:i:s";
 
@@ -344,7 +345,7 @@ class PHPTimeSeries
         $start = (int) $start;
         $end = (int) $end;
         $outinterval = (int) $outinterval;
-        
+
         if ($outinterval<1) $outinterval = 1;
         $dp = ceil(($end - $start) / $outinterval);
         $end = $start + ($dp * $outinterval);
@@ -367,7 +368,7 @@ class PHPTimeSeries
         $data = array();
 
         $time = 0;
-        
+
         // There is no need for the browser to cache the output
         header("Cache-Control: no-cache, no-store, must-revalidate");
 
@@ -405,7 +406,7 @@ class PHPTimeSeries
                 $humanDate=gmdate($dateformat, $timestamp);
                 $humanTime=gmdate($timeformat, $timestamp);
                 //fwrite($exportfh, $time.",".number_format($array['value'],2)."\n");
-                $dataValue=str_replace(".",$decsepar,number_format($array['value'],2));
+                $dataValue=number_format($array['value'],2,$decsepar,$thousandsepar);
                 fwrite($exportfh, $time.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.$dataValue."\n");
             }
         }

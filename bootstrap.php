@@ -23,16 +23,16 @@ define('LIB', CORE . 'Lib' . DS);
 /**
  * Load up required libs
  */
-require_once CORE . 'Utility' . DS  . 'Configure.php';
-require_once LIB . 'Enum.php';
+require_once CORE . 'Utility' . DS          . 'Configure.php';
+require_once LIB  . 'Enum.php';
 
 require_once ROOT . 'process_settings.php';
-require_once LIB . 'core.php';
+require_once LIB  . 'core.php';
 
-require_once LIB . 'route.php';
-require_once LIB . 'locale.php';
-require_once CORE . 'Model' . DS . 'ConnectionManager.php';
-require_once CORE . 'Model' . DS . 'Model.php';
+require_once LIB  . 'route.php';
+require_once LIB  . 'locale.php';
+require_once CORE . 'Model' . DS            . 'ConnectionManager.php';
+require_once CORE . 'Model' . DS            . 'Model.php';
 
 if (defined('EMON_TEST_ENV') && EMON_TEST_ENV) {
 	require_once CORE . 'TestSuite' . DS . 'EmonTestCase.php';

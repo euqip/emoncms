@@ -30,7 +30,7 @@ class MysqlTimeSeries
 
         $result = $this->mysqli->query(
         "CREATE TABLE $feedname (
-        time INT UNSIGNED, data float,
+        `time` INT UNSIGNED, `data` float,
         INDEX ( `time` )) ENGINE=MYISAM");
 
         return true;
@@ -84,7 +84,7 @@ class MysqlTimeSeries
         if ($range > 180000 && $dp > 0) // 50 hours
         {
             $td = $range / $dp;
-            $stmt = $this->mysqli->prepare("SELECT time, data FROM $feedname WHERE time BETWEEN ? AND ? ORDER BY time ASC LIMIT 1");
+            $stmt = $this->mysqli->prepare("SELECT `time`,`data` FROM $feedname WHERE time BETWEEN ? AND ? ORDER BY time ASC LIMIT 1");
             $t = $start; $tb = 0;
             $stmt->bind_param("ii", $t, $tb);
             $stmt->bind_result($dataTime, $dataValue);
@@ -104,12 +104,12 @@ class MysqlTimeSeries
             if ($range > 5000 && $dp > 0)
             {
                 $td = intval($range / $dp);
-                $sql = "SELECT FLOOR(time/$td) AS time, AVG(data) AS data".
-                    " FROM $feedname WHERE time BETWEEN $start AND $end".
+                $sql = "SELECT FLOOR(time/$td) AS `time`, AVG(`data`) AS `data`".
+                    " FROM $feedname WHERE `time` BETWEEN $start AND $end".
                     " GROUP BY 1 ORDER BY time ASC";
             } else {
                 $td = 1;
-                $sql = "SELECT time, data FROM $feedname".
+                $sql = "SELECT `time`,`data` FROM $feedname".
                     " WHERE time BETWEEN $start AND $end ORDER BY time ASC";
             }
 
@@ -133,7 +133,7 @@ class MysqlTimeSeries
         $feedid = (int) $feedid;
         $feedname = "feed_".trim($feedid)."";
 
-        $result = $this->mysqli->query("SELECT time, data FROM $feedname ORDER BY time Desc LIMIT 1");
+        $result = $this->mysqli->query("SELECT `time`,`data` FROM $feedname ORDER BY `time` Desc LIMIT 1");
         if ($result && $row = $result->fetch_array()){
             $row['time'] = date("Y-n-j H:i:s", $row['time']);
             return array('time'=>$row['time'], 'value'=>$row['data']);
@@ -247,6 +247,7 @@ class MysqlTimeSeries
     {
         $colsepar=";";
         $decsepar=",";
+        $thousandsepar="";
         $outinterval = intval($outinterval);
         $feedid = intval($feedid);
         $start = intval($start/1000);
@@ -280,7 +281,7 @@ class MysqlTimeSeries
         $range = $end - $start;
         if ($range > 180000 && $dp > 0) // 50 hours
         {
-            $sql= "SELECT time, data FROM $feedname WHERE time BETWEEN ? AND ? LIMIT 1";
+            $sql= "SELECT `time`, `data` FROM $feedname WHERE `time` BETWEEN ? AND ? LIMIT 1";
             $td = $range / $dp;
             $stmt = $this->mysqli->prepare($sql);
             $t = $start; $tb = 0;
@@ -293,7 +294,7 @@ class MysqlTimeSeries
                 if ($stmt->fetch()) {
                     if ($dataValue!=NULL) { // Remove this to show white space gaps in graph
                         $time = $dataTime * 1000;
-                        fwrite($exportfh, $dataTime.",".number_format($dataValue,2)."\n");
+                        fwrite($exportfh, $dataTime.$colsepar.number_format($dataValue,2,$decsepar,$thousandsepar)."\n");
                     }
                 }
                 $t = $tb;
@@ -302,16 +303,16 @@ class MysqlTimeSeries
             if ($range > 5000 && $dp > 0)
             {
                 $td = intval($range / $dp);
-                $sql = "SELECT FLOOR(time/$td) AS time, AVG(data) AS data".
-                    " FROM $feedname WHERE time BETWEEN $start AND $end".
+                $sql = "SELECT FLOOR(`time`/$td) AS `time`, AVG(`data`) AS `data`".
+                    " FROM $feedname WHERE `time` BETWEEN $start AND $end".
                     " GROUP BY 1";
-                $sql = "SELECT CEIL(time/$td)*$td AS time, from_unixtime(time,'%d/%m/%Y') AS humandate,from_unixtime(time,'%H:%i:%s') AS humantime,  AVG(data) AS data".
-                    " FROM $feedname WHERE time BETWEEN $start AND $end".
-                    " GROUP BY 1  ORDER BY time DESC";
+                $sql = "SELECT CEIL(`time`/$td)*$td AS `time`, from_unixtime(`time`,'%d/%m/%Y') AS humandate,from_unixtime(time,'%H:%i:%s') AS humantime,  AVG(data) AS data".
+                    " FROM $feedname WHERE `time` BETWEEN $start AND $end".
+                    " GROUP BY 1  ORDER BY `time` DESC";
             } else {
                 $td = 1;
-                $sql = "SELECT time, from_unixtime(time,'%d/%m/%Y') AS humandate,from_unixtime(time,'%H:%i:%s') AS humantime, data FROM $feedname".
-                    " WHERE time BETWEEN $start AND $end ORDER BY time DESC";
+                $sql = "SELECT `time`, from_unixtime(time,'%d/%m/%Y') AS humandate,from_unixtime(`time`,'%H:%i:%s') AS humantime, data FROM $feedname".
+                    " WHERE `time` BETWEEN $start AND $end ORDER BY time DESC";
             }
 
             /**
@@ -343,7 +344,8 @@ class MysqlTimeSeries
                     $humanTime = $row['humantime'];
                     if ($dataValue!=NULL) { // Remove this to show white space gaps in graph
                         $time = $row['time'] * 1000 * $td;
-                        fwrite($exportfh, $dataTime.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.str_replace(".",$decsepar,number_format($dataValue,2))."\n");
+                        //fwrite($exportfh, $dataTime.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.str_replace(".",$decsepar,number_format($dataValue,2))."\n");
+                        fwrite($exportfh, $dataTime.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.number_format($dataValue,2,$decsepar,$thousandsepar)."\n");
                     }
                 }
             }
