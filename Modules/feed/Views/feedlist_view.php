@@ -179,6 +179,7 @@
             <div class="modal-body">
                 <div class="type-danger ">
                     <div> <?php echo _('WARNING deleting a feed is permanent'); ?> </div>
+                    <div> <?php echo _('Delete definitively feed : '); ?> <span id="feedname"></span> </div>
                </div>
             </div>
             <div class="modal-footer">
@@ -208,7 +209,7 @@
     'delete-action': { 'title':'','tooltip':'<?php echo _("Delete"); ?>', 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
     'edit-action':   { 'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes", 'colwidth':" style='width:30px;'"},
 
-    'id':            { 'title':"<?php echo _('Id'); ?>", 'type':"fixed",'colwidth':""},
+    'id':            { 'title':"<?php echo _('Id'); ?>", 'type':"fixed", 'display':"dynamic",'colwidth':""},
     'name':          { 'title':"<?php echo _('Name'); ?>", 'type':"text",'colwidth':"", 'display':"yes", 'colwidth':" style='width:150px;'"},
     'tag':           { 'title':"<?php echo _('Tag'); ?>", 'type':"text",'colwidth':"", 'display':"yes", 'colwidth':" style='width:150px;'"},
     'datatype':      { 'title':"<?php echo _('Datatype'); ?>", 'type':"select", 'options':['','REALTIME','DAILY','HISTOGRAM'], 'display':"yes", 'colwidth':" style='width:200px;'"},
@@ -260,9 +261,11 @@
 
         if (table.data.length != 0) {
             $("#nofeeds").hide();
+            $("#apihelphead").hide();
             $("#localheading").show();
         } else {
             $("#nofeeds").show();
+            $("#apihelphead").show();
             $("#localheading").hide();
         }
         if(table.state){
@@ -293,7 +296,9 @@
         clearInterval(updater);
         $('#myModal').attr('feedid',id);
         $('#myModal').attr('feedrow',row);
-        $('#myModal').modal('show')
+        $('#myModal').modal('show');
+        // show feed name in modal box
+        $('#feedname').html (table.data[row].name);
     })
 
 
@@ -315,17 +320,17 @@
         calcdownloadsize();
 /*
 =======
-    
+
     $("#table").on("click",".icon-circle-arrow-down", function(){
         var row = $(this).attr('row');
         $("#SelectedExportFeed").html(table.data[row].tag+": "+table.data[row].name);
         $("#export").attr('feedid',table.data[row].id);
-        
+
         if ($("#export-timezone").val()=="") {
             var u = user.get();
             $("#export-timezone").val(parseInt(u.timezone));
         }
-        
+
         $('#ExportModal').modal('show');
 */
     });

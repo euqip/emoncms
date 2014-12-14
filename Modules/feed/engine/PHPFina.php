@@ -431,11 +431,20 @@ class PHPFina
 
     public function csv_export($id,$start,$end,$outinterval)
     {
-        $colsepar=",";
-        $decsepar=".";
-        $thousandsepar="";
-        $dateformat="Y-m-d";
-        $timeformat="H:i:s";
+        global $behavior;
+        $csv_param     = $behavior['csv_parameters'];
+
+        $colsepar      = $csv_param['csv_field_separator'];
+        $decsepar      = $csv_param['csv_decimal_place_separator'];
+        $thousandsepar = $csv_param['csv_thousandsepar_separator'];
+        $dateformat    = $csv_param['csv_dateformat'];
+        $timeformat    = $csv_param['csv_timeformat'];
+
+        if (isset($_SESSION['csv_field_separator'])) $colsepar = $_SESSION['csv_field_separator'];
+        if (isset($_SESSION['csv_decimal_place_separator'])) $decsepar = $_SESSION['csv_decimal_place_separator'];
+        if (isset($_SESSION['csv_thousandsepar_separator'])) $thousandsepar = $_SESSION['csv_thousandsepar_separator'];
+        if (isset($_SESSION['csvdate'])) $dateformat = $_SESSION['csvdate'];
+        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $timeformat;
 
         $id = intval($id);
         $start = intval($start);
@@ -507,8 +516,12 @@ class PHPFina
             $time = $meta->start_time + $pos * $meta->interval;
 
             // add to the data array if its not a nan value
+            $humandate = date(str_replace('%','',$dateformat),$time);
+            $humantime = date($timeformat,$time);
+            $humandate = "abcd";
+            $humantime = "time_efgh";
 
-            if (!is_nan($val[1])) fwrite($exportfh, $time.$colsepar.number_format($val[1],2,$decsepar,$thousandsepar)."\n");
+            if (!is_nan($val[1])) fwrite($exportfh, $time.$colsepar.$humandate.$colsepar.$humantime.$colsepar.number_format($val[1],2,$decsepar,$thousandsepar)."\n");
 
             $i++;
         }

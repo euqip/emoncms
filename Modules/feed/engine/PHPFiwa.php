@@ -785,11 +785,20 @@ class PHPFiwa
 
     public function csv_export($feedid,$start,$end,$outinterval)
     {
-        $colsepar=",";
-        $decsepar=".";
-        $thousandsepar="";
-        $dateformat="Y-m-d";
-        $timeformat="H:i:s";
+        global $behavior;
+        $csv_param     = $behavior['csv_parameters'];
+
+        $colsepar      = $csv_param['csv_field_separator'];
+        $decsepar      = $csv_param['csv_decimal_place_separator'];
+        $thousandsepar = $csv_param['csv_thousandsepar_separator'];
+        $dateformat    = $csv_param['csv_dateformat'];
+        $timeformat    = $csv_param['csv_timeformat'];
+
+        if (isset($_SESSION['csv_field_separator'])) $colsepar = $_SESSION['csv_field_separator'];
+        if (isset($_SESSION['csv_decimal_place_separator'])) $decsepar = $_SESSION['csv_decimal_place_separator'];
+        if (isset($_SESSION['csv_thousandsepar_separator'])) $thousandsepar = $_SESSION['csv_thousandsepar_separator'];
+        if (isset($_SESSION['csvdate'])) $dateformat = $_SESSION['csvdate'];
+        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $timeformat;
 
         $feedid = (int) $feedid;
         $start = (int) $start;
@@ -886,8 +895,11 @@ class PHPFiwa
                 $timestamp = $start_time_avl + ($meta->interval[$layer] * ($startpos+$i-1));
                 $average = $point_sum / $points_in_sum;
                 //$data[] = array($timestamp*1000,$average);
+                $humandate = date(str_replace('%','',$dateformat),$timestamp);
+                $humantime = date($timeformat,$timestamp);
 
-                fwrite($exportfh, $timestamp.$colsepar.number_format($average,2,$decsepar,$thousandsepar)."\n");
+                fwrite($exportfh, $timestamp.$colsepar.$humandate.$colsepar.$humantime.$colsepar.number_format($average,2,$decsepar,$thousandsepar)."\n");
+                //fwrite($exportfh, $timestamp.$colsepar.$humandate.$colsepar.$humantime.$colsepar.$average."\n");
             }
         }
 

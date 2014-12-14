@@ -21,8 +21,8 @@ class TemplateEngine
     */
     public function create($feedid,$options)
     {
-    
-        return true; // if successful 
+
+        return true; // if successful
     }
 
 
@@ -35,9 +35,9 @@ class TemplateEngine
     */
     public function post($feedid,$time,$value)
     {
-    
+
     }
-    
+
     /**
      * Updates a data point in the feed
      *
@@ -47,7 +47,7 @@ class TemplateEngine
     */
     public function update($feedid,$time,$value)
     {
-    
+
     }
 
     /**
@@ -64,7 +64,7 @@ class TemplateEngine
 
         // example of datapoint format
         $time = time() * 1000; // time in milliseconds
-        $value = 123.4; 
+        $value = 123.4;
         $data[] = array($time,$value);
 
         return $data;
@@ -80,30 +80,44 @@ class TemplateEngine
         // time returned as date (to be changed to unixtimestamp in future)
         return array('time'=>date("Y-n-j H:i:s",0), 'value'=>0);
     }
-    
+
     public function export($feedid,$start)
     {
-    
+
     }
-    
+
     public function delete($feedid)
     {
-    
+
     }
-    
+
     public function get_feed_size($feedid)
     {
-    
+
     }
-    
+
     public function get_meta($feedid)
     {
-    
+
     }
-    
+
     public function csv_export($feedid,$start,$end,$outinterval)
     {
-    
+        global $behavior;
+        $csv_param     = $behavior['csv_parameters'];
+
+        $colsepar      = $csv_param['csv_field_separator'];
+        $decsepar      = $csv_param['csv_decimal_place_separator'];
+        $thousandsepar = $csv_param['csv_thousandsepar_separator'];
+        $dateformat    = $csv_param['csv_dateformat'];
+        $timeformat    = $csv_param['csv_timeformat'];
+
+        if (isset($_SESSION['csv_field_separator'])) $colsepar = $_SESSION['csv_field_separator'];
+        if (isset($_SESSION['csv_decimal_place_separator'])) $decsepar = $_SESSION['csv_decimal_place_separator'];
+        if (isset($_SESSION['csv_thousandsepar_separator'])) $thousandsepar = $_SESSION['csv_thousandsepar_separator'];
+        if (isset($_SESSION['csvdate'])) $dateformat = $_SESSION['csvdate'];
+        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $timeformat;
+
     }
 
 }

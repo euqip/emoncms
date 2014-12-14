@@ -180,7 +180,6 @@ class GraphiteTimeSeries
         }
         fflush($this->write_socket);
     }
-    
     public function update($feedid,$time,$value)
     {
         $this->post($feedid,$time,$value);
@@ -368,10 +367,10 @@ class GraphiteTimeSeries
         // Entirely dependent on the storage-schemas.conf file
         return 0;
     }
-    
+
     public function get_meta($feedid)
     {
-    
+
     }
 
 }

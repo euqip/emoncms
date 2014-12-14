@@ -15,9 +15,14 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 global $path, $user, $org;
 
-$languages = get_available_languages();
-$roles = $user->get_available_roles();
-$organisations= $org->list_orgnames();
+$languages     = get_available_languages();
+$roles         = $user -> get_available_roles();
+$organisations = $org  -> list_orgnames();
+$dates         = $user -> get_available_dateformats();
+$times         = $user -> get_available_timeformats();
+$separ         = $user -> get_available_separators();
+
+
 
 function languagecodetotext()
 {
@@ -123,10 +128,13 @@ function languagecodetotext()
 
 <script>
 
-var path = "<?php echo $path; ?>";
-var lang = <?php echo json_encode($languages); ?>;
-var role = <?php echo json_encode($roles); ?>;
-var orgs = <?php echo json_encode($organisations); ?>
+var path  = "<?php echo $path; ?>";
+var lang  = <?php echo json_encode($languages); ?>;
+var role  = <?php echo json_encode($roles); ?>;
+var orgs  = <?php echo json_encode($organisations); ?>;
+var dates = <?php echo json_encode($dates); ?>;
+var times = <?php echo json_encode($times); ?>;
+var separ = <?php echo json_encode($separ); ?>;
 
 list.data = user.get();
 
@@ -148,6 +156,9 @@ list.fields = {
     'bio'      :{ 'title':"<?php echo _('Bio'); ?>", 'type':'text'},
     'orgid'    :{ 'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect','tooltip':"<?php echo _('Associate user to an Organisation')?>", 'options':orgs},
     'admin'    :{ 'title':"<?php echo _('User role'); ?>", 'type':'idselect','tooltip':"<?php echo _('Specify the user role')?>", 'options':role},
+    'csvparam' :{ 'title':"<?php echo _('CSV separators'); ?>", 'type':'idselect','tooltip':"<?php echo _('Give here your CSV separators preferences, column, decimal, thousands.')?>",'options':separ},
+    'csvdate'  :{ 'title':"<?php echo _('CSV date format'); ?>", 'type':'idselect','tooltip':"<?php echo _('Define your prefered CSV date format.')?>",'options':dates},
+    'csvtime'  :{ 'title':"<?php echo _('CSV time format'); ?>", 'type':'idselect','tooltip':"<?php echo _('Define your prefered CSV time format.')?>",'options':times},
 };
 $(startprofile);
 list.init();
@@ -156,6 +167,7 @@ $("#table").bind("onSave", function(e){
     user.set(list.data);
     // refresh the page if the language has been changed.
     if (list.data.language!=currentlanguage) window.location.href = path+"user/view";
+    //window.location.href = path+"user/view";
 });
 
 //------------------------------------------------------

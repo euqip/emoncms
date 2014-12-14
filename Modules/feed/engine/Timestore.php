@@ -261,11 +261,20 @@ class Timestore
 
     public function csv_export($feedid,$start,$end,$outinterval)
     {
-        $colsepar=",";
-        $decsepar=".";
-        $thousandsepar="";
-        $dateformat="Y-m-d";
-        $timeformat="H:i:s";
+        global $behavior;
+        $csv_param     = $behavior['csv_parameters'];
+
+        $colsepar      = $csv_param['csv_field_separator'];
+        $decsepar      = $csv_param['csv_decimal_place_separator'];
+        $thousandsepar = $csv_param['csv_thousandsepar_separator'];
+        $dateformat    = $csv_param['csv_dateformat'];
+        $timeformat    = $csv_param['csv_timeformat'];
+
+        if (isset($_SESSION['csv_field_separator'])) $colsepar = $_SESSION['csv_field_separator'];
+        if (isset($_SESSION['csv_decimal_place_separator'])) $decsepar = $_SESSION['csv_decimal_place_separator'];
+        if (isset($_SESSION['csv_thousandsepar_separator'])) $thousandsepar = $_SESSION['csv_thousandsepar_separator'];
+        if (isset($_SESSION['csvdate'])) $dateformat = $_SESSION['csvdate'];
+        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $timeformat;
 
         $feedid = (int) $feedid;
         $start = (int) $start;

@@ -46,6 +46,7 @@ function input_controller()
         'mine'      => 'yes',
         );
 
+
     switch ($session['admin']){
     case $author['sysadmin']:
         // sysadmin reads and updates all
@@ -80,7 +81,6 @@ function input_controller()
         }
 
 
-
     if ($route->format == 'html')
     {
         if ($route->action == 'api') $result = view("Modules/input/Views/input_api.php", array());
@@ -89,6 +89,10 @@ function input_controller()
 
     if ($route->format == 'json')
     {
+    
+
+
+
         /*
 
         input/bulk.json?data=[[0,16,1137],[2,17,1437,3164],[4,19,1412,3077]]
@@ -123,14 +127,14 @@ function input_controller()
         https://github.com/emoncms/emoncms/pull/118
         */
 
+                //
         if ($route->action == 'bulk')
         {
             $valid = true;
 
             if (!isset($_GET['data']) && isset($_POST['data'])) {
                 $data = json_decode(post('data'));
-            }
-            else {
+            } else {
                 $data = json_decode(get('data'));
             }
 
@@ -340,7 +344,7 @@ function input_controller()
                 $result = $input->clean($userid,$cond);
                 break;
             case 'list':
-                $result = $input->getlist($userid,$orgid,$condrd);
+                $result = $input->getlist($userid,$orgid,$cond);
                 break;
             case 'getinputs':
                 $result = $input->get_inputs($userid,$cond);
@@ -348,26 +352,43 @@ function input_controller()
             case 'getallprocesses':
                 $result = $process->get_process_list();
                 break;
-
        }
-
+        // old method testing user as owner
         //if (isset($_GET['inputid']) && $input->belongs_to('userid',$session['userid'],get("inputid")))
-        if (isset($_GET['inputid']) && $input->belongs_to('orgid',$session['orgid'],get("inputid")))
+        //create when user is system admin or org admin aor owner
+        // intermediate proceed only if in same organisation
+        //if (isset($_GET['inputid']) && $input->belongs_to('orgid',$session['orgid'],get("inputid")))
+        // proceed always
+        if (isset($_GET['inputid']))
         {
-            if ($route->action == "delete") $result = $input->delete($session['userid'],get("inputid"));
-
-            if ($route->action == 'set') $result = $input->set_fields(get('inputid'),get('fields'));
-
-            if ($route->action == "process")
-            {
-                if ($route->subaction == "add") $result = $input->add_process($process,$session['userid'], get('inputid'), get('processid'), get('arg'), get('newfeedname'), get('newfeedinterval'),get('engine'));
-                if ($route->subaction == "list") $result = $input->get_processlist(get("inputid"));
-                if ($route->subaction == "delete") $result = $input->delete_process(get("inputid"),get('processid'));
-                if ($route->subaction == "move") $result = $input->move_process(get("inputid"),get('processid'),get('moveby'));
-                if ($route->subaction == "reset") $result = $input->reset_process(get("inputid"));
+            switch ($route->action){
+                case 'delete':
+                    $result = $input->delete($session['userid'],get("inputid"));
+                    break;
+                case 'set':
+                    $result = $input->set_fields(get('inputid'),get('fields'));
+                    break;
+                case 'process':
+                    switch ($route->subaction){
+                        case 'add':
+                            $result = $input->add_process($process,$session['userid'], get('inputid'), get('processid'), get('arg'), get('newfeedname'), get('newfeedinterval'),get('engine'));
+                            break;
+                        case 'list':
+                            $result = $input->get_processlist(get("inputid"));
+                            break;
+                        case 'delete':
+                            $result = $input->delete_process(get("inputid"),get('processid'));
+                            break;
+                        case 'move':
+                            $result = $input->move_process(get("inputid"),get('processid'),get('moveby'));
+                            break;
+                        case 'reset':
+                            $result = $input->reset_process(get("inputid"));
+                            break;
+                        }
+                    break;
+                }
             }
         }
-    }
-
     return array('content'=>$result);
 }

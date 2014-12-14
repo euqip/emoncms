@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="col-xs-1 shortpading">
                                         <select id="feed-interval" class="form-control">
-                                            <option value=""><?php echo _("Select interval"); ?></option>
+                                            <option value=""> <?php echo _("Select interval"); ?></option>
                                             <option value=5>5 <?php echo _("s"); ?></option>
                                             <option value=10>10 <?php echo _("s"); ?></option>
                                             <option value=15>15 <?php echo _("s"); ?></option>
@@ -110,10 +110,10 @@
                                             <option value=3600>1 <?php echo _("hour"); ?></option>
                                             <option value=21600>6 <?php echo _('hours'); ?></option>
                                             <option value=43200>12 <?php echo _('hours'); ?></option>
-                                            <option selected value=86400><?php echo _('Daily'); ?></option>
-                                            <option value=604800><?php echo _('Weekly'); ?></option>
-                                            <option value=2678400><?php echo _('Monthly'); ?></option>
-                                            <option value=31536000><?php echo _('Annual'); ?></option>
+                                            <option selected value=86400> <?php echo _('Daily'); ?></option>
+                                            <option value=604800> <?php echo _('Weekly'); ?></option>
+                                            <option value=2678400> <?php echo _('Monthly'); ?></option>
+                                            <option value=31536000> <?php echo _('Annual'); ?></option>
                                         </select>
                                     </div>
                                 </div>
@@ -142,6 +142,7 @@
     var firstrun = true;
     var assoc_inputs = {};
     var updateinterval ="<?php echo $behavior['inputinterval']; ?>";
+    var updateinterval =10000;
     var groupfield= "<?php echo $behavior['inputgroup']; ?>";
     var expanded= <?php echo $behavior['inputlistexpanded']; ?>;
 
@@ -170,6 +171,7 @@
     'view-action':{'title':'','tooltip':'<?php echo _("Edit Processes"); ?>', 'type':'icon', 'icon':'glyphicon glyphicon-wrench', 'display':"yes", 'colwidth':" style='width:30px;'", 'iconaction':'wrench'},
 
     'nodeid':{'title':'<?php echo _("Node"); ?>','type':"fixed",'display':"dynamic", 'colwidth':" style='width:50px;'"},
+    'orgid':{'title':'<?php echo _("Org"); ?>','type':"fixed",'display':"dynamic", 'colwidth':" style='width:50px;'"},
     'name':{'title':'<?php echo _("name"); ?>','type':"text", 'colwidth':" style='width:100px;'"},
     'description':{'title':'<?php echo _("Description"); ?>','type':"text", 'colwidth':" style='width:200px;'"},
     'processList':{'title':'<?php echo _("Process list"); ?>','type':"processlist",'colwidth':" style='width:250px;'"},
@@ -177,6 +179,8 @@
     'value':{'title':'<?php echo _("Value"); ?>','type':"value",'colwidth':" style='width:70px;'"},
 
     'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
+'myinp':{'title':"<?php echo _('Mine'); ?>", 'tooltip': "<?php echo _('I am the owner'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'iconaction':"", 'colwidth':" style='width:30px;'"},
+'myorg':{'title':"<?php echo _('MyOrg'); ?>", 'tooltip': "<?php echo _('In my organisation'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'iconaction':"", 'colwidth':" style='width:30px;'"},
   }
     //'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':"", 'display':"yes", 'colwidth':" style='width:50px;'"},
     //'id':{'title':'<?php echo _("id (disable empty string to translate)"); ?>','type':"fixed",'colwidth':"", 'display':"yes"},
@@ -259,7 +263,7 @@
         //console.log("The row to edit:"+row);
         processlist_ui.inputid = row.id;
         var processlist = [];
-        if (i.processList!=null && i.processList!="")
+        if (row.processList!=null && row.processList!="")
         {
             var tmp = row.processList.split(",");
             for (n in tmp)
@@ -319,20 +323,24 @@ function load_all()
         $("#feed-select").html(out);
     }});
 
-    $.ajax({ url: path+"input/getallprocesses.json", async: true, dataType: 'json', success: function(result){
-        processlist_ui.processlist = result;
-        var processgroups = [];
-        var i = 0;
-        for (z in processlist_ui.processlist)
-        {
-            i++;
-            var group = processlist_ui.processlist[z][5];
-            if (group!="Deleted") {
-                if (!processgroups[group]) processgroups[group] = []
-                processlist_ui.processlist[z]['id'] = z;
-                processgroups[group].push(processlist_ui.processlist[z]);
+    $.ajax({ 
+        url: path+"input/getallprocesses.json",
+        async: true,
+        dataType: 'json',
+        success: function(result){
+            processlist_ui.processlist = result;
+            var processgroups = [];
+            var i = 0;
+            for (z in processlist_ui.processlist)
+            {
+                i++;
+                var group = processlist_ui.processlist[z][5];
+                if (group!="Deleted") {
+                    if (!processgroups[group]) processgroups[group] = []
+                    processlist_ui.processlist[z]['id'] = z;
+                    processgroups[group].push(processlist_ui.processlist[z]);
+                }
             }
-        }
 
         var out = "";
         for (z in processgroups)

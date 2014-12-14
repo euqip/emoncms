@@ -23,7 +23,7 @@
             var tooltip = 'Edit'; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
             tr = $("<tr />").attr("field", field);
             tr.append('  <td type="name" class="text-muted" style="width:150px;">'+fld.title+'</td>');
-            tr.append('  <td type="edit" title = "'+tooltip+'" action="edit" style="width:32px;"> <span class="glyphicon glyphicon-pencil" style="display:none"> </span></td>');
+            tr.append('  <td type="edit" title = "'+tooltip+'" action="edit" style="width:40px;"> <span class="glyphicon glyphicon-pencil" style="display:none"> </span></td>');
             tr.append('  <td type="value" class="">'+(list.fieldtypes[fld.type].draw(list.data[field])||'N/A')+'</td>');
             table.append(tr);
         }
@@ -45,9 +45,16 @@
           {
               list.data[field] = list.fieldtypes[fld.type].save(field);
               var tooltip = ''; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
+              //list.data[field] is a number in case of idselect, should be replaced by its representation
               $(list.element+" tr[field="+field+"] td[type=value]").html(list.fieldtypes[list.fields[field].type].draw(list.data[field]));
               $(this).html("<span class='glyphicon glyphicon-pencil'  title = '"+tooltip+"' style='display:none'></span>").attr('action','edit');
               $(list.element).trigger("onSave",[]);
+              // in case of idselect the selected value is to be stored, but the corresponding text is to be shown
+              //if (fld.type == 'idselect'){
+              if (fld.toshow != undefined){
+                //$(list.element+" tr[field="+field+"] td[type=value]").html(fld.options[list.data[field]]);
+                $(list.element+" tr[field="+field+"] td[type=value]").html(fld.toshow);
+              }
           }
       });
 
@@ -153,7 +160,10 @@
                 }
                 return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
             },
-            'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
+            'save':function(field) {
+              list.fields[field].toshow =  list.fields[field].options[$(list.element+' tr[field='+field+'] td[type=value] select').val()];
+              return $(list.element+' tr[field='+field+'] td[type=value] select').val();
+            }
         },
 
         'timezone':        {

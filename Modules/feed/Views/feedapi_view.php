@@ -27,11 +27,11 @@ global $user, $path, $session;
                 <p type="text" class="form-control" id="readonlyapi"><?php echo $user->get_apikey_read($session['userid']); ?></p>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="writeyapi" class="col-sm-4 control-label"><b><?php echo _('Read & Write:'); ?></b></label>
-        <div class="col-sm-4">
-            <p type="text" class="form-control" id="writeyapi"><?php echo $user->get_apikey_write($session['userid']); ?><p/>
+        <div class="form-group">
+            <label for="writeyapi" class="col-sm-4 control-label"><b><?php echo _('Read & Write:'); ?></b></label>
+            <div class="col-sm-4">
+                <p type="text" class="form-control" id="writeyapi"><?php echo $user->get_apikey_write($session['userid']); ?><p/>
+            </div>
         </div>
     </form>
     <h3><?php echo _("Html");?></h3>
@@ -55,6 +55,7 @@ global $user, $path, $session;
     <p><a href="<?php echo $path; ?>feed/set.json?id=0&fields={'name':'anewname'}"><?php echo $path; ?>feed/set.json?id=0&fields={'name':'anewname'}</a></p>
     <p><a href="<?php echo $path; ?>feed/insert.json?id=0&time=UNIXTIME&value=100.0"><?php echo $path; ?>feed/insert.json?id=0&time=UNIXTIME&value=100.0</a></p>
     <p><a href="<?php echo $path; ?>feed/update.json?id=0&time=UNIXTIME&value=100.0"><?php echo $path; ?>feed/update.json?id=0&time=UNIXTIME&value=100.0</a></p>
+    <p><a href="<?php echo $path; ?>feed/bulk.json?id=0&data=[[UNIXTIME,16],[UNIXTIME,3164],[UNIXTIME,3077]]"><?php echo $path; ?>feed/bulk.json?id=0&data=[[UNIXTIME,16],[UNIXTIME,3164],[UNIXTIME,3077]]</a></p>
     <p><a href="<?php echo $path; ?>feed/deletedatapoint.json?id=0&feedtime=UNIXTIME"><?php echo $path; ?>feed/deletedatapoint.json?id=0&feedtime=UNIXTIME</a></p>
 <p><a href="<?php echo $path; ?>feed/delete.json?id=0"><?php echo $path; ?>feed/delete.json?id=0</a></p>
 </div>

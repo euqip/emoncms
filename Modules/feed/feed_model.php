@@ -88,8 +88,9 @@ class Feed
         // If feed of given name by the user already exists
         $feedid = $this->get_id($userid,$name);
         if ($feedid!=0) return array('success'=>false, 'message'=>_('feed already exists'));
+        $sql = "INSERT INTO feeds (userid,name,datatype,public,engine) VALUES ('$userid','$name','$datatype',false,'$engine')";
 
-        $result = $this->mysqli->query("INSERT INTO feeds (userid,name,datatype,public,engine) VALUES ('$userid','$name','$datatype',false,'$engine')");
+        $result = $this->mysqli->query($sql);
         $feedid = $this->mysqli->insert_id;
 
         if ($feedid>0)
@@ -109,7 +110,6 @@ class Feed
                     'orgid'=>$orgid
                 ));
                 $this->redis->sAdd("org:feeds:$orgid", $feedid);
-
                 $this->redis->hMSet("feed:$feedid",array(
                     'id'=>$feedid,
                     'userid'=>$userid,
@@ -263,8 +263,11 @@ class Feed
     public function mysql_get_user_feeds($userid)
     {
         $userid = (int) $userid;
+        $uid= "if(userid = ".$userid.", true, false) as myinp ";
+        //$org= "if(orgid = ".$orgid.", true, false) as myorg ";
+        $sql = "SELECT *, ".$uid.", ".$org." FROM feeds WHERE ";
         $feeds = array();
-        $result = $this->mysqli->query("SELECT * FROM feeds WHERE `userid` = '$userid'");
+        $result = $this->mysqli->query($sql."`userid` = '$userid'");
         while ($row = (array)$result->fetch_object())
         {
             $row['time'] = strtotime($row['time']);
@@ -276,11 +279,14 @@ class Feed
     public function get_user_feed_ids($userid)
     {
         $userid = (int) $userid;
+        $uid= "if(userid = ".$userid.", true, false) as myinp ";
+        //$org= "if(orgid = ".$orgid.", true, false) as myorg ";
+        $sql = "SELECT *, ".$uid.", ".$org." FROM feeds WHERE ";
         if ($this->redis) {
             if (!$this->redis->exists("user:feeds:$userid")) $this->load_to_redis($userid);
             $feedids = $this->redis->sMembers("user:feeds:$userid");
         } else {
-            $result = $this->mysqli->query("SELECT id FROM feeds WHERE `userid` = '$userid'");
+            $result = $this->mysqli->query($sql."`userid` = '$userid'");
             $feedids = array();
             while ($row = $result->fetch_array()) $feedids[] = $row['id'];
         }

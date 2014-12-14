@@ -335,11 +335,20 @@ class PHPTimeSeries
 
     public function csv_export($feedid,$start,$end,$outinterval)
     {
-        $colsepar=",";
-        $decsepar=".";
-        $thousandsepar="";
-        $dateformat="Y-m-d";
-        $timeformat="H:i:s";
+        global $behavior;
+        $csv_param     = $behavior['csv_parameters'];
+
+        $colsepar      = $csv_param['csv_field_separator'];
+        $decsepar      = $csv_param['csv_decimal_place_separator'];
+        $thousandsepar = $csv_param['csv_thousandsepar_separator'];
+        $dateformat    = $csv_param['csv_dateformat'];
+        $timeformat    = $csv_param['csv_timeformat'];
+
+        if (isset($_SESSION['csv_field_separator'])) $colsepar = $_SESSION['csv_field_separator'];
+        if (isset($_SESSION['csv_decimal_place_separator'])) $decsepar = $_SESSION['csv_decimal_place_separator'];
+        if (isset($_SESSION['csv_thousandsepar_separator'])) $thousandsepar = $_SESSION['csv_thousandsepar_separator'];
+        if (isset($_SESSION['csvdate'])) $dateformat = $_SESSION['csvdate'];
+        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $timeformat;
 
         $feedid = (int) $feedid;
         $start = (int) $start;
@@ -366,7 +375,6 @@ class PHPTimeSeries
         }
 
         $data = array();
-
         $time = 0;
 
         // There is no need for the browser to cache the output
@@ -375,7 +383,8 @@ class PHPTimeSeries
         // Tell the browser to handle output as a csv file to be downloaded
         header('Content-Description: File Transfer');
         header("Content-type: application/octet-stream");
-        $filename = $feedid.".csv";
+        //date ( string $format [, int $timestamp = time() ] )
+        $filename = _("Feed")."-".$feedid."_".date ("YmdHis" , time()).".csv";
         header("Content-Disposition: attachment; filename={$filename}");
 
         header("Expires: 0");
@@ -400,18 +409,27 @@ class PHPTimeSeries
 
             $last_time = $time;
             $time = $array['time'];
+            logitem ($i);
 
             // $last_time = 0 only occur in the first run
             if (($time!=$last_time && $time>$last_time) || $last_time==0) {
-                $humanDate=gmdate($dateformat, $timestamp);
-                $humanTime=gmdate($timeformat, $timestamp);
+                $humanDate = date(str_replace('%','',$dateformat),$time);
+                $humanTime=gmdate($timeformat, $time);
                 //fwrite($exportfh, $time.",".number_format($array['value'],2)."\n");
                 $dataValue=number_format($array['value'],2,$decsepar,$thousandsepar);
                 fwrite($exportfh, $time.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.$dataValue."\n");
+                logitem ($time.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.$dataValue);
             }
         }
         fclose($exportfh);
         exit;
     }
 
+
 }
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
+}
+

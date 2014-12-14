@@ -16,13 +16,16 @@
     $type = 1;
 ?>
 <style>
+/*----------------------------------------------------------*/
+/* used in editrealtime.php */
+
     .updatebox{
         width:100% ;
         background-color:#ddd;
         padding:10px;
         margin-left:5px;
         margin-right:15px;
-        border-radius:5px; 
+        border-radius:5px;
         margin-top: 0px;
         margin-bottom: 0px;
    }
@@ -80,6 +83,8 @@
 div {
     padding-top:0px;
 }
+
+/*----------------------------------------------------------*/
 </style>
 
 
@@ -100,7 +105,7 @@ div {
 <?php } ?>
 <div class="container">
     <div id="graph_bound" class="grapharea">
-        <div id="graph" title ="<?php echo _('Use the above buttons to change scale or view window.') ?>">  
+        <div id="graph" title ="<?php echo _('Use the above buttons to change scale or view window.') ?>">
         </div>
         <div class="graphbuttonsblock">
             <input class="time" type="button" value="<?php echo _('D')?>" time="1"/>
@@ -119,60 +124,61 @@ div {
 
 <div class="container">
     <div class="updatebox">
-
         <div class="row">
-            <div class="col-md-2">
-                <label for="time" class="col-sm-4 control-label"><?php echo _('Edit feed') ?>_<?php echo $feedid; ?> @ <span id="humantime"></span>
-                </label>               
-            </div>
             <div class="col-md-4">
-                <input type="text" class="form-control" id="time" placeholder="<?php echo _('Enter Unix time')?>">              
+                <form role="form">
+                    <div class="form-group">
+                        <label for="time" class="control-label">
+                        <?php echo _('Edit feed') ?>_<?php echo $feedid; ?> @ <span id="humantime"></span>
+                        </label>
+                        <input type="text" class="form-control" id="time" placeholder="<?php echo _('Enter Unix time')?>">
+                    </div>
+                </form>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-2">
-                    <label for="newvalue" class="col-sm-4 control-label"><?php echo _('new value') ?>:</label>
-            </div>
-            <div class="col-md-4">
-                    <input type="text" class="form-control" id="newvalue" placeholder="<?php echo _('Enter new value')?>">                    
-            </div>
-        </div>
-        <div class="row">
-           <div class="col-md-1">
-                <button id="okb" class="btn btn-info"  title ="<?php echo _('Save the changes made to one data sample"><span class="glyphicon glyphicon-save') ?>"></span><?php echo _('Save'); ?></button>
-                <button id="delete-button" class="btn btn-danger"  title ="<?php echo _('Delete the selected sample"><span class="glyphicon glyphicon-trash') ?>"></span><?php echo _('Delete point'); ?></button>
+            <div class="col-md-3">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="newvalue" class="control-label"><?php echo _('new value') ?>:</label>
+                        <input type="text" class="form-control" id="newvalue" placeholder="<?php echo _('Enter new value')?>">
+                    </div>
+                </form>
             </div>
             <div class="col-md-1">
-                <button id="export-button" class="btn btn-warning"  title ="<?php echo _('Export the graph data"><span class="glyphicon glyphicon-download') ?>"></span><?php echo _('export graph data'); ?></button>                
+                <label for="okb" class="control-label"> </label>
+                <button id="okb" class="btn btn-info" title ="<?php echo _('Save the changes made to one data sample') ?>"<span class='glyphicon glyphicon-save'></span><?php echo _('Save'); ?></button>
+            </div>
+            <div class="col-md-1">
+                <label for="delete-button" class="control-label"> </label>
+                <button id="delete-button" class="btn btn-danger" title ="<?php echo _('Delete the selected sample') ?>"<span class="glyphicon glyphicon-trash"></span><?php echo _('Delete point'); ?></button>
+            </div>
+            <div class="col-md-1">
+                <label for="export-button" class="control-label"> </label>
+                <button id="export-button" class="btn btn-warning"  title ="<?php echo _('Export the graph data"><span class="glyphicon glyphicon-download') ?>"></span><?php echo _('export graph data'); ?></button>
             </div>
         </div>
 
-        
+
+        <div class="row">
+        </div>
     </div>
 </div>
 <div class="container">
     <div class="updatebox">
-    <div class="row">
-            <div class="col-md-2">
-                <label for="multiplyvalue" class="control-label"><?php echo _('Multiply data in window by') ?><span id="humantime1"></span>
-                </label>    
-             </div>
-            <div class="col-md-4">
-                <input type="text" id="multiplyvalue"  class="form-control" value="" >
-           </div>
-        </div>
-
         <div class="row">
-           <div class="col-md-1">
-                <button id="multiply-submit" class="btn btn-info"><span class="glyphicon glyphicon-save"></span><?php echo _('Save'); ?></button>            
+            <div class="col-md-6">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="multiplyvalue" class="control-label"><?php echo _('Multiply data in window by') ?><span id="humantime1"></span>
+                        </label>
+                        <input type="text" id="multiplyvalue"  class="form-control" value="" >
+                    </div>
+                </form>
             </div>
             <div class="col-md-1">
-            </div>
-            <div class="col-md-1">
+                <label for="multiply-submit" class="control-label">      </label>
+                <button id="multiply-submit" class="btn btn-info"><span class="glyphicon glyphicon-save"></span><?php echo _('Save'); ?></button>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -189,7 +195,7 @@ div {
                 <div class="type-danger ">
                     <div> <?php echo _('Are you sure you want to delete this data sample?'); ?> </div>
                </div>
-            </div>           
+            </div>
             <div class="modal-footer">
                 <button class="btn" id="canceldelete" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
                 <button class="btn btn-danger" id="confirmdelete"><span class="emoncms-dialog-button-icon glyphicon glyphicon-trash"></span><?php echo _('Delete it permanently'); ?></button>
@@ -303,7 +309,7 @@ div {
     */
 
     $("#canceldelete").click(function(){
-        $('#myModal').hide();        
+        $('#myModal').hide();
     });
 
     $("#confirmdelete").click(function()

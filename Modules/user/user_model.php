@@ -21,11 +21,12 @@ class User
     private $redis;
     private $log;
     private $org;
+    private $behavior;
 
     public function __construct($mysqli,$redis,$rememberme,$org)
     {
         //copy the settings value, otherwise the enable_rememberme will always be false.
-        global $enable_rememberme, $path;
+        global $enable_rememberme, $path, $behavior;
         $this->enable_rememberme = $enable_rememberme;
 
         $this->mysqli = $mysqli;
@@ -35,6 +36,7 @@ class User
         $this->log = new EmonLogger(__FILE__);
 
         $this->org = $org;
+        $this->behavior = $behavior;
     }
 
     //---------------------------------------------------------------------------------------
@@ -57,6 +59,7 @@ public function apikey_session($apikey_in)
         //----------------------------------------------------
         // Check for apikey login
         //----------------------------------------------------
+        $sqlbase= "SELECT id, language, orgid FROM users WHERE ";
         if($this->redis && $this->redis->exists("writeapikey:$apikey_in"))
         {
             $session['userid'] = $this->redis->get("writeapikey:$apikey_in");
@@ -65,7 +68,8 @@ public function apikey_session($apikey_in)
             $session['lang'] = $this->redis->get("userlangkey:$apikey_in");
             $session['orgid']= $this->redis->get("userorgid:$apikey_in");
             if ($session['lang']=='' || $session['orgid']==''){
-            $result = $this->mysqli->query("SELECT id, language, orgid FROM users WHERE apikey_write='$apikey_in'");
+            $sql = $sqlbase." apikey_write ='$apikey_in'";
+            $result = $this->mysqli->query($sql);
                 if ($result->num_rows == 1)
                 {
                     $row = $result->fetch_array();
@@ -85,7 +89,8 @@ public function apikey_session($apikey_in)
         }
         else
         {
-            $result = $this->mysqli->query("SELECT id, language, orgid FROM users WHERE apikey_write='$apikey_in'");
+            $sql = $sqlbase." apikey_write ='$apikey_in'";
+            $result = $this->mysqli->query($sql);
             if ($result->num_rows == 1)
             {
                 $row = $result->fetch_array();
@@ -100,12 +105,13 @@ public function apikey_session($apikey_in)
 
                     if ($this->redis) $this->redis->set("writeapikey:$apikey_in",$row['id']);
                     if ($this->redis) $this->redis->set("userlangkey:$apikey_in",$row['language']);
-                    if ($this->redis) $this->redis->set("userorgid:$orgid",$row['orgid']);
+                    if ($this->redis) $this->redis->set("userorgid:$apikey_in",$row['orgid']);
                 }
             }
             else
             {
-            $result = $this->mysqli->query("SELECT id, language, orgid FROM users WHERE apikey_read='$apikey_in'");
+            $sql = $sqlbase." apikey_read ='$apikey_in'";
+            $result = $this->mysqli->query($sql);
             if ($result->num_rows == 1)
             {
                 $row = $result->fetch_array();
@@ -162,7 +168,12 @@ public function apikey_session($apikey_in)
         if (isset($_SESSION['userid'])) $session['userid'] = $_SESSION['userid']; else $session['userid'] = 0;
         if (isset($_SESSION['lang'])) $session['lang'] = $_SESSION['lang']; else $session['lang'] = '';
         if (isset($_SESSION['username'])) $session['username'] = $_SESSION['username']; else $session['username'] = '';
-        if (isset($_SESSION['cookielogin'])) $session['cookielogin'] = $_SESSION['cookielogin']; else $session['cookielogin'] = 0;
+        if (isset($_SESSION['editmode'])) $session['editmode'] = $_SESSION['editmode']; else $session['editmode'] = 0;
+        if (isset($_SESSION['csv_field_separator'])) $session['csv_field_separator'] = $_SESSION['csv_field_separator']; else $session['csv_field_separator'] = $this->behavior['csv_parameters']['csv_field_separator'];
+        if (isset($_SESSION['csv_decimal_place_separator'])) $session['csv_decimal_place_separator'] = $_SESSION['csv_decimal_place_separator']; else $session['csv_decimal_place_separator'] = $this->behavior['csv_parameters']['csv_decimal_place_separator'];
+        if (isset($_SESSION['csv_thousandsepar_separator'])) $session['csv_thousandsepar_separator'] = $_SESSION['csv_thousandsepar_separator']; else $session['csv_thousandsepar_separator'] = $this->behavior['csv_parameters']['csv_thousandsepar_separator'];
+        if (isset($_SESSION['csvdate'])) $session['csvdate'] = $_SESSION['csvdate']; else $session['csvdate'] = $this->behavior['csv_parameters']['csv_dateformat'];
+        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $_SESSION['csvtime']; else $session['csvtime'] = $this->behavior['csv_parameters']['csv_timeformat'];
 
         return $session;
     }
@@ -249,7 +260,7 @@ public function apikey_session($apikey_in)
         if (!$username || !$password) return array('success'=>false, 'message'=>_("Username or password empty"));
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
-        $sql = "SELECT id,password,admin,salt,language, changepswd, orgid FROM users WHERE username = '$username'";
+        $sql = "SELECT id,username, password,admin,salt,language, changepswd, orgid, csvparam, csvdate, csvtime FROM users WHERE username = '$username'";
         $result = $this->mysqli->query($sql);
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect username - password, if you are sure its correct try clearing your browser cache"));
@@ -268,6 +279,12 @@ public function apikey_session($apikey_in)
             $this->org->lastlogin($userData->orgid);
             //if ($userdata->forcenewpwd =1)
 
+/*
+            $dateformats = $this->get_available_dateformats();
+            $timeformats = $this->get_available_timeformats();
+            $scvseparators = $this->get_available_separators();
+            preg_match_all('/\(.\)/',  $scvseparators[$userData->csvparam], $matches, PREG_OFFSET_CAPTURE, 8);
+
             session_regenerate_id();
             $_SESSION['userid'] = $id;
             $_SESSION['username'] = $username;
@@ -277,7 +294,13 @@ public function apikey_session($apikey_in)
             $_SESSION['orgid'] = $userData->orgid;
             $_SESSION['lang'] = $userData->language;
             $_SESSION['editmode'] = TRUE;
-
+            $_SESSION['csv_field_separator'] = substr($matches[0][0][0],1,1);
+            $_SESSION['csv_decimal_place_separator'] =  substr($matches[0][1][0],1,1);
+            $_SESSION['csv_thousandsepar_separator'] =  substr($matches[0][2][0],1,1);
+            $_SESSION['csvdate'] = $dateformats[$userData->csvdate];
+            $_SESSION['csvtime'] = $timeformats[$userData->csvtime];
+*/
+            $this->generate_session($userData);
             if ($this->enable_rememberme) {
                 if ($remembermecheck==true) {
                     $this->rememberme->createCookie($userData->id);
@@ -288,6 +311,29 @@ public function apikey_session($apikey_in)
 
             return array('success'=>true, 'message'=>_("Login successful"));
         }
+    }
+
+    private function generate_session($userData){
+            $dateformats = $this->get_available_dateformats();
+            $timeformats = $this->get_available_timeformats();
+            $scvseparators = $this->get_available_separators();
+            preg_match_all('/\(.\)/',  $scvseparators[$userData->csvparam], $matches, PREG_OFFSET_CAPTURE, 8);
+
+            session_regenerate_id();
+            $_SESSION['userid'] = $userData->id;
+            $_SESSION['username'] = $userData->username;
+            $_SESSION['read'] = 1;
+            $_SESSION['write'] = 1;
+            $_SESSION['admin'] = $userData->admin;
+            $_SESSION['orgid'] = $userData->orgid;
+            $_SESSION['lang'] = $userData->language;
+            $_SESSION['editmode'] = TRUE;
+            $_SESSION['csv_field_separator'] = substr($matches[0][0][0],1,1);
+            $_SESSION['csv_decimal_place_separator'] =  substr($matches[0][1][0],1,1);
+            $_SESSION['csv_thousandsepar_separator'] =  substr($matches[0][2][0],1,1);
+            $_SESSION['csvdate'] = $dateformats[$userData->csvdate];
+            $_SESSION['csvtime'] = $timeformats[$userData->csvtime];
+            return $userData;
     }
 
     // Authorization API. returns user write and read apikey on correct username + password
@@ -605,7 +651,8 @@ public function apikey_session($apikey_in)
     public function get($userid)
     {
         $userid = intval($userid);
-        $result = $this->mysqli->query("SELECT id,username,email,gravatar,name,location,timezone,language,bio,apikey_write,apikey_read, orgid, changepswd, admin FROM users WHERE id=$userid");
+        $sql = "SELECT id,username,email,gravatar,name,location,timezone,language,bio,apikey_write,apikey_read, orgid, changepswd, admin,csvparam, csvdate, csvtime FROM users WHERE id=$userid";
+        $result = $this->mysqli->query($sql);
         $data = $result->fetch_object();
         return $data;
     }
@@ -613,20 +660,23 @@ public function apikey_session($apikey_in)
     public function set($userid,$data)
     {
         // Validation
+        var_dump($data);
         $userid   = intval($userid);
-        $gravatar = '  gravatar = "'.preg_replace('/[^\w\s-.@]/','',$data->gravatar).'"';
-        $name     = ', name     = "'.preg_replace('/[^\s\p{L}]/u','',$data->name).'"';
-        $location = ', location = "'.preg_replace('/[^\s\p{L}]/u','',$data->location).'"';
-        $timezone = ', timezone = "'.intval($data->timezone).'"';
-        $language = ', language = "'.preg_replace('/[^\w\s-.]/','',$data->language).'"';
-        $bio      = ', bio      = "'.preg_replace('/[^\w\s-.]/','',$data->bio).'"';
+        $gravatar = '  gravatar      = "'.preg_replace('/[^\w\s-.@]/','',$data->gravatar).'"';
+        $name     = ', name          = "'.preg_replace('/[^\s\p{L}]/u','',$data->name).'"';
+        $location = ', location      = "'.preg_replace('/[^\s\p{L}]/u','',$data->location).'"';
+        $timezone = ', timezone      = "'.intval($data->timezone).'"';
+        $language = ', language      = "'.preg_replace('/[^\w\s-.]/','',$data->language).'"';
+        $bio      = ', bio           = "'.preg_replace('/[^\w\s-.]/','',$data->bio).'"';
         $orgid    = '';
         $admin    = '';
         //reserved action to system admin
-        $orgid    = ', orgid    = '.intval($data->orgid);
+        $orgid    = ', orgid         = "'.intval($data->orgid).'"';
         //reserved action to the orgadmin and system admin
-        $admin    = ', admin    = '.intval($data->admin);
-
+        $admin    = ', admin         = "'.intval($data->admin).'"';
+        $csvparam = ', csvparam      = "'.intval($data->csvparam).'"';
+        $csvdate  = ', csvdate       = "'.intval($data->csvdate).'"';
+        $csvtime  = ', csvtime       = "'.intval($data->csvtime).'"';
         $sql = "UPDATE users SET $gravatar
                                  $name
                                  $location
@@ -635,13 +685,26 @@ public function apikey_session($apikey_in)
                                  $bio
                                  $orgid
                                  $admin
+                                 $csvparam
+                                 $csvdate
+                                 $csvtime
                                  WHERE id = '$userid'";
         //change session language only if done by user!
         //check if $userid == currentuser
-        if($userid==intval($session['userid'])){
-            $_SESSION['lang'] = preg_replace('/[^\w\s-.]/','',$data->language);
+        $lang = preg_replace('/[^\w\s-.]/','',$data->language);
+        if($userid==intval($_SESSION['userid']) && ($_SESSION['lang']<>$lang)){
+            $_SESSION['lang'] = $lang;
         }
         $result   = $this->mysqli->query($sql);
+        //refresh session
+        $sql = "SELECT * from users where id = '$userid'";
+        $result1 = $this->mysqli->query($sql);
+        if ($result1->num_rows == 1) {
+            $userData = $result1->fetch_object();
+            //regenerate the session to inclue all modified params
+            $this->generate_session($userData);
+        }
+
     }
 
     // Generates a new random read apikey
@@ -694,6 +757,46 @@ public function apikey_session($apikey_in)
             }
         }
         return $roles;
+    }
+/**
+ * [get_available_date formats]
+ * @return [array] [possible date formats]
+ */
+    public function get_available_dateformats()
+    {
+        $dateformats=array(
+            '0'=>'%d/%m/%Y',
+            '1'=>'%m/%d/%Y',
+            '3'=>'%Y%m%d',
+            '4'=>'%D, %d %M %Y',
+            );
+        return $dateformats;
+    }
+/**
+ * [get_available_time formats]
+ * @return [array] [possible date formats]
+ */
+    public function get_available_timeformats()
+    {
+        $timeformats=array(
+            '0'=>'%H:%i:%s',
+            '1'=>'%H%i%s',
+            '2'=>'%H:%i',
+           );
+        return $timeformats;
+    }
+/**
+ * [get_available_separators]
+ * @return [array] [possible separators kit]
+ */
+    public function get_available_separators()
+    {
+        $separators=array(
+            '0'=>_('European').' -> '._('semicolumn').' (;) - '._('comma').' (,) - '._('dot').' (.)',
+            '1'=>_('American').' -> '._('comma').' (,) - '._('dot').' (.) - '._('space').' ( )',
+            '2'=>_('Hybrid').' -> '._('vertical bar').' (|) - '._('dot').' (.) - '._('comma').' (,)',
+           );
+        return $separators;
     }
     public function toggle_user($userid,$username,$wcond){
         $sql = "SELECT delflag from users WHERE ".$wcond;

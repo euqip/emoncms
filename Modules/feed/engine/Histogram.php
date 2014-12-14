@@ -130,11 +130,11 @@ class Histogram
 
     public function get_meta($feedid)
     {
-    
+
     }
-    
+
     public function csv_export($feedid,$start,$end,$outinterval)
     {
-    
+
     }
 }
