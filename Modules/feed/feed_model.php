@@ -88,7 +88,7 @@ class Feed
         // If feed of given name by the user already exists
         $feedid = $this->get_id($userid,$name);
         if ($feedid!=0) return array('success'=>false, 'message'=>_('feed already exists'));
-        $sql = "INSERT INTO feeds (userid,name,datatype,public,engine) VALUES ('$userid','$name','$datatype',false,'$engine')";
+        $sql = "INSERT INTO feeds (userid,name,datatype,public,engine,orgid) VALUES ('$userid','$name','$datatype',false,'$engine','$orgid')";
 
         $result = $this->mysqli->query($sql);
         $feedid = $this->mysqli->insert_id;
@@ -199,14 +199,15 @@ class Feed
 
     */
 
-    public function get_user_feeds($userid)
+    public function get_user_feeds($userid,$orgid,$wcond)
     {
         $userid = (int) $userid;
+        $orgid = (int) $orgid;
 
         if ($this->redis) {
-            $feeds = $this->redis_get_user_feeds($userid);
+            $feeds = $this->redis_get_user_feeds($userid,$orgid,$wcond);
         } else {
-            $feeds = $this->mysql_get_user_feeds($userid);
+            $feeds = $this->mysql_get_user_feeds($userid,$orgid,$wcond);
         }
 
         return $feeds;
@@ -220,10 +221,11 @@ class Feed
         return $publicfeeds;
     }
 
-    public function redis_get_user_feeds($userid)
+    public function redis_get_user_feeds($userid,$orgid,$wcond)
     {
         $userid = (int) $userid;
-        if (!$this->redis->exists("user:feeds:$userid")) $this->load_to_redis($userid);
+        if (!$this->redis->exists("user:feeds:$userid")) $this->load_to_redis_user($userid);
+        if (!$this->redis->exists("org:feeds:$orgid")) $this->load_to_redis_org($orgid);
 
         $feeds = array();
         $feedids = $this->redis->sMembers("user:feeds:$userid");
@@ -234,13 +236,17 @@ class Feed
             $lastvalue = $this->get_timevalue($id);
             $row['time'] = strtotime($lastvalue['time']);
             $row['value'] = $lastvalue['value'];
+            if (isset($row['userid'])){
+                $row['myown'] = ($row['userid']==$userid) ? true : false;
+                $row['myorg'] = ($row['orgid']==$orgid) ? true : false;
+            }
             $feeds[] = $row;
         }
 
         return $feeds;
     }
 
-    public function redis_get_org_feeds($orgid)
+    public function redis_get_org_feeds($userid,$orgid,$wcond)
     {
         $orgid = (int) $orgid;
         if (!$this->redis->exists("org:feeds:$orgid")) $this->load_to_redis_org($orgid);
@@ -254,20 +260,24 @@ class Feed
             $lastvalue = $this->get_timevalue($id);
             $row['time'] = strtotime($lastvalue['time']);
             $row['value'] = $lastvalue['value'];
+            if (isset($row['userid'])){
+                $row['myown'] = ($row['userid']==$userid) ? true : false;
+                $row['myorg'] = ($row['orgid']==$orgid) ? true : false;
+            }
             $feeds[] = $row;
         }
 
         return $feeds;
     }
 
-    public function mysql_get_user_feeds($userid)
+    public function mysql_get_user_feeds($userid,$orgid,$wcond)
     {
         $userid = (int) $userid;
-        $uid= "if(userid = ".$userid.", true, false) as myinp ";
-        //$org= "if(orgid = ".$orgid.", true, false) as myorg ";
+        $uid= "if(userid = ".$userid.", true, false) as myown ";
+        $org= "if(orgid = ".$orgid.", true, false) as myorg ";
         $sql = "SELECT *, ".$uid.", ".$org." FROM feeds WHERE ";
         $feeds = array();
-        $result = $this->mysqli->query($sql."`userid` = '$userid'");
+        $result = $this->mysqli->query($sql."`userid` = '$userid' ".$wcond);
         while ($row = (array)$result->fetch_object())
         {
             $row['time'] = strtotime($row['time']);
@@ -276,11 +286,11 @@ class Feed
         return $feeds;
     }
 
-    public function get_user_feed_ids($userid)
+    public function get_user_feed_ids($userid,$orgid,$wcond)
     {
         $userid = (int) $userid;
-        $uid= "if(userid = ".$userid.", true, false) as myinp ";
-        //$org= "if(orgid = ".$orgid.", true, false) as myorg ";
+        $uid= "if(userid = ".$userid.", true, false) as myown ";
+        $org= "if(orgid = ".$orgid.", true, false) as myorg ";
         $sql = "SELECT *, ".$uid.", ".$org." FROM feeds WHERE ";
         if ($this->redis) {
             if (!$this->redis->exists("user:feeds:$userid")) $this->load_to_redis($userid);
@@ -410,10 +420,12 @@ class Feed
         $array = array();
 
         // Repeat this line changing the field name to add fields that can be updated:
-        if (isset($fields->name)) $array[] = "`name` = '".preg_replace('/[^\w\s-:]/','',$fields->name)."'";
-        if (isset($fields->tag)) $array[] = "`tag` = '".preg_replace('/[^\w\s-:]/','',$fields->tag)."'";
+        if (isset($fields->name)) $array[]   = "`name`   = '".preg_replace('/[^\w\s-:]/','',$fields->name)."'";
+        if (isset($fields->tag)) $array[]    = "`tag`    = '".preg_replace('/[^\w\s-:]/','',$fields->tag)."'";
         if (isset($fields->public)) $array[] = "`public` = '".intval($fields->public)."'";
         if (isset($fields->engine)) $array[] = "`engine` = '".intval($fields->engine)."'";
+        if (isset($fields->userid)) $array[] = "`userid` = '".intval($fields->userid)."'";
+        if (isset($fields->orgid)) $array[]  = "`orgid`  = '".intval($fields->orgid)."'";
 
         // Convert to a comma seperated string for the mysql query
         $fieldstr = implode(",",$array);
@@ -424,6 +436,8 @@ class Feed
         if ($this->redis && isset($fields->tag)) $this->redis->hset("feed:$id",'tag',$fields->tag);
         if ($this->redis && isset($fields->public)) $this->redis->hset("feed:$id",'public',$fields->public);
         if ($this->redis && isset($fields->engine)) $this->redis->hset("feed:$id",'engine',$fields->engine);
+        if ($this->redis && isset($fields->userid)) $this->redis->hset("feed:$id",'userid',$fields->userid);
+        if ($this->redis && isset($fields->orgid)) $this->redis->hset("feed:$id",'orgid',$fields->orgid);
 
         if ($this->mysqli->affected_rows>0){
             return array('success'=>true, 'message'=>_('Field updated'));
@@ -539,8 +553,6 @@ class Feed
         if (!$this->exist($feedid)) return array('success'=>false, 'message'=>_('Feed does not exist'));
 
         $engine = $this->get_engine($feedid);
-        //print_r($engine);
-       // Download limit
         $downloadsize = (($end - $start) / $outinterval) * 17; // 17 bytes per dp
         if ($downloadsize>($this->csvdownloadlimit_mb*1048576)) {
             $this->log->warn("Feed model: csv download limit exeeded downloadsize=$downloadsize feedid=$feedid");
@@ -566,8 +578,10 @@ class Feed
 
         if ($this->redis) {
             $userid = $this->redis->hget("feed:$feedid",'userid');
+            $orgid = $this->redis->hget("feed:$feedid",'orgid');
             $this->redis->del("feed:$feedid");
             $this->redis->srem("user:feeds:$userid",$feedid);
+            $this->redis->srem("org:feeds:$orgid",$feedid);
         }
     }
 
@@ -677,9 +691,10 @@ class Feed
         }
     }
 
-    public function load_to_redis($userid)
+    public function load_to_redis_user($userid)
     {
-        $result = $this->mysqli->query("SELECT id,userid,name,datatype,tag,public,size,engine FROM feeds WHERE `userid` = '$userid'");
+        $sql = "SELECT * FROM feeds WHERE `userid` = '$userid'";
+        $result = $this->mysqli->query($sql);
         while ($row = $result->fetch_object())
         {
             $this->redis->sAdd("user:feeds:$userid", $row->id);
@@ -697,7 +712,9 @@ class Feed
     }
     public function load_to_redis_org($orgid)
     {
-        $result = $this->mysqli->query("SELECT id,userid,orgid,name,datatype,tag,public,size,engine FROM feeds WHERE `orgid` = '$orgid'");
+        $sql = "SELECT * FROM feeds WHERE `orgid` = '$orgid'";
+
+        $result = $this->mysqli->query($sql);
         while ($row = $result->fetch_object())
         {
             $this->redis->sAdd("org:feeds:$orgid", $row->id);
@@ -717,7 +734,8 @@ class Feed
 
     public function load_feed_to_redis($id)
     {
-        $result = $this->mysqli->query("SELECT id,userid,name,datatype,tag,public,size,engine FROM feeds WHERE `id` = '$id'");
+        $sql = "SELECT * FROM feeds WHERE `id` = '$id'";
+        $result = $this->mysqli->query($sql);
         $row = $result->fetch_object();
 
         if (!$row) {
@@ -728,6 +746,7 @@ class Feed
         $this->redis->hMSet("feed:$row->id",array(
             'id'=>$row->id,
             'userid'=>$row->userid,
+            'orgid'=>$row->orgid,
             'name'=>$row->name,
             'datatype'=>$row->datatype,
             'tag'=>$row->tag,

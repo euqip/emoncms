@@ -24,7 +24,7 @@ function feed_controller()
     include "Modules/feed/feed_model.php";
     $feed = new Feed($mysqli,$redis,$feed_settings);
     $modulepath= 'Modules/'.$module.'/Views/'.$module;
-
+    $wcond="";
     if ($route->format == 'html')
     {
         if ($route->action == "list" && $session['write']) $result = view($modulepath.'list_view.php',array());
@@ -38,9 +38,9 @@ function feed_controller()
         // Public actions available on public feeds.
         if ($route->action == "list")
         {
-            if (!isset($_GET['userid']) && $session['read']) $result = $feed->get_user_feeds($session['userid']);
-            if (isset($_GET['userid']) && $session['read'] && $_GET['userid'] == $session['userid']) $result = $feed->get_user_feeds($session['userid']);
-            if (isset($_GET['userid']) && $session['read'] && $_GET['userid'] != $session['userid']) $result = $feed->get_user_public_feeds(get('userid'));
+            if (!isset($_GET['userid']) && $session['read']) $result = $feed->get_user_feeds($session['userid'],$session['orgid'],$wcond);
+            if (isset($_GET['userid']) && $session['read'] && $_GET['userid'] == $session['userid']) $result = $feed->get_user_feeds($session['userid'],$session['orgid'],$wcod);
+            if (isset($_GET['userid']) && $session['read'] && $_GET['userid'] != $session['userid']) $result = $feed->get_user_public_feeds(get('userid',$session['orgid'],$wcod));
             if (isset($_GET['userid']) && !$session['read']) $result = $feed->get_user_public_feeds(get('userid'));
 
         } elseif ($route->action == "getid" && $session['read']) {

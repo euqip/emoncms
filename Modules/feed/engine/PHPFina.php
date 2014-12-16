@@ -518,8 +518,6 @@ class PHPFina
             // add to the data array if its not a nan value
             $humandate = date(str_replace('%','',$dateformat),$time);
             $humantime = date($timeformat,$time);
-            $humandate = "abcd";
-            $humantime = "time_efgh";
 
             if (!is_nan($val[1])) fwrite($exportfh, $time.$colsepar.$humandate.$colsepar.$humantime.$colsepar.number_format($val[1],2,$decsepar,$thousandsepar)."\n");
 

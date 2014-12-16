@@ -23,12 +23,13 @@ class Dashboard
     public function __construct($mysqli)
     {
         $this->mysqli = $mysqli;
+        $this->reftbl ='dashboard';
     }
 
     public function create($userid)
     {
         $userid = (int) $userid;
-        $this->mysqli->query("INSERT INTO dashboard (`userid`,`alias`) VALUES ('$userid','')");
+        $this->mysqli->query("INSERT INTO $this->reftbl (`userid`,`alias`) VALUES ('$userid','')");
         return $this->mysqli->insert_id;
     }
 
@@ -36,7 +37,7 @@ class Dashboard
     {
         //* dashboard deletion only available to owner, system admin, org admin
         $id = (int) $id;
-        $sql = "DELETE FROM dashboard WHERE id = $id and $cond";
+        $sql = "DELETE FROM $this->reftbl WHERE id = $id and $cond";
         $result = $this->mysqli->query($sql);
         if ($this->mysqli->affected_rows>0){
             return array('success'=>true, 'message'=>_('Dashboard successfully deleted'));
@@ -52,7 +53,7 @@ class Dashboard
         $id = (int) $id;
 
         // Get content, name and description from origin dashboard
-        $sql = "SELECT content,name,description,orgid FROM dashboard WHERE id='$id' AND ".$cond;
+        $sql = "SELECT content,name,description,orgid FROM $this->reftbl WHERE id='$id' AND ".$cond;
         $result = $this->mysqli->query($sql);
         $row = $result->fetch_array();
          // Name for cloned dashboard
@@ -63,7 +64,7 @@ class Dashboard
         return $this->mysqli->insert_id;
     }
 
-    public function get_list($userid, $cond, $public, $published)
+    public function get_list($userid, $orgid, $cond, $public, $published)
     {
         $userid = (int) $userid;
         // need to change conditions to be able to filter public and published
@@ -72,9 +73,12 @@ class Dashboard
         if ($public==true) $qB = " and public=1";
         if ($published==true) $qC = " and published=1";
         if ($cond<>'') $cond = "".$cond."";
-        $owner = "IF(userid=".$userid.",true,false) as mine";
-        $sql="SELECT id, name,  ucase(LEFT(name,1)) as letter, alias, description, main, published, public, menu, showdescription,".$owner." FROM dashboard WHERE ".$cond.$qB.$qC;
-        $result = $this->mysqli->query($sql);
+        $uid= "if(userid = ".$userid.", true, false) as myinp ";
+        $org= "if(orgid = ".$orgid.", true, false) as myorg ";
+        $sql = "SELECT *, ".$uid.", ".$org.", ucase(LEFT(name,1)) as letter FROM $this->reftbl WHERE ";
+        //$sql="SELECT id, name,  ucase(LEFT(name,1)) as letter, alias, description, main, published, public, menu, showdescription,".$owner." FROM dashboard WHERE ".$cond.$qB.$qC;
+        logitem ($sql.$cond);
+        $result = $this->mysqli->query($sql.$cond);
         $list = array();
         while ($row = $result->fetch_object())
         {
@@ -89,7 +93,8 @@ class Dashboard
             'published'=> (bool) $row->published,
             'public'=> (bool) $row->public,
             'menu'=> (bool) $row->menu,
-            'mine'=> (bool) $row->mine
+            'myinp'=> (bool) $row->myinp,
+            'myorg'=> (bool) $row->myorg
         );
         }
         return $list;
@@ -104,9 +109,9 @@ class Dashboard
 
         //echo $content;
 
-        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE $cond AND id='$id'");
+        $result = $this->mysqli->query("SELECT * FROM $this->reftbl WHERE $cond AND id='$id'");
         $row = $result->fetch_array();
-        if ($row) $this->mysqli->query("UPDATE dashboard SET content = '$content', height = '$height' WHERE $cond AND id='$id'");
+        if ($row) $this->mysqli->query("UPDATE $this->reftbl SET content = '$content', height = '$height' WHERE $cond AND id='$id'");
 
         return array('success'=>true);
     }
@@ -158,7 +163,7 @@ class Dashboard
     public function get_main($userid)
     {
         $userid = (int) $userid;
-        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE userid='$userid' and main=TRUE");
+        $result = $this->mysqli->query("SELECT * FROM $this->reftbl WHERE userid='$userid' and main=TRUE");
         return $result->fetch_array();
     }
 
@@ -169,7 +174,7 @@ class Dashboard
         $qB = ""; if ($public==true) $qB = " and public=1";
         $qC = ""; if ($published==true) $qC = " and published=1";
 
-        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE id='$id' and ".$cond.$qB.$qC);
+        $result = $this->mysqli->query("SELECT * FROM $this->reftbl WHERE id='$id' and ".$cond.$qB.$qC);
         return $result->fetch_array();
     }
 
@@ -181,7 +186,7 @@ class Dashboard
         $qB = ""; if ($public==true) $qB = " and public=1";
         $qC = ""; if ($published==true) $qC = " and published=1";
 
-        $result = $this->mysqli->query("SELECT * FROM dashboard WHERE userid='$userid' and alias='$alias'".$qB.$qC);
+        $result = $this->mysqli->query("SELECT * FROM $this->reftbl WHERE userid='$userid' and alias='$alias'".$qB.$qC);
         return $result->fetch_array();
     }
 
@@ -189,6 +194,7 @@ class Dashboard
     {
         global $path, $session;
         $userid = (int) $userid;
+        $orgid = $session['orgid'];
 
         $public = 0; $published = 0;
 
@@ -201,7 +207,7 @@ class Dashboard
         }
         $cond = " menu = '1' and userid = $userid";
 
-        $dashboards = $this->get_list($userid, $cond, $public, $published);
+        $dashboards = $this->get_list($userid, $orgid, $cond, $public, $published);
         $topmenu="";
         foreach ($dashboards as $dashboard)
         {
@@ -230,7 +236,7 @@ class Dashboard
         $userid = (int) $userid;
         $uid = "";
         if ($userid==true) $uid = " and users.userid=".$useerid;
-        $sql = "update  `users`, `dashboard` SET `dashboard`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `dashboard`.`userid` =`users`.`id`".$uid;
+        $sql = "update  `users`, `$this->reftbl` SET `$this->reftbl`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `$this->reftbl`.`userid` =`users`.`id`".$uid;
         $this->mysqli->query($sql);
         if ($this->mysqli->affected_rows>0){
             return array('success'=>true, 'message'=>$this->mysqli->affected_rows.' '._('Dashboards are assigned to organisations'));
@@ -244,5 +250,12 @@ class Dashboard
         //$sql = "update  `users`, `myelectric` SET `myelectric`.`orgid` = `users`.`orgid` WHERE `users`.`orgid`<>0 and `myelectric`.`userid` =`users`.`id`".$uid;
 
     }
+}
+
+
+function logitem($str){
+    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
+    fwrite ($handle, $str."\n");
+    fclose ($handle);
 }
 

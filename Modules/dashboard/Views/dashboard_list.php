@@ -93,7 +93,8 @@ table.fields = {
 'view-action':{'title':'','tooltip':"<?php echo _('Show the result dashboard'); ?>", 'type':"iconlink", 'link':path+"dashboard/view?id=",  'display':"<?php echo $actions['view']; ?>", 'colwidth':" style='width:30px;'"},
 // Actions
 //'clone-action':{'title':'','tooltip':"<?php echo _('Duplicate'); ?>", 'type':"iconlink", 'icon':"glyphicon glyphicon-random", 'link':path+"dashboard/clone.json?id="},
-
+'myinp':{'title':"<?php echo _('Mine'); ?>", 'tooltip': "<?php echo _('I am the owner'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'iconaction':"", 'colwidth':" style='width:30px;'"},
+'myorg':{'title':"<?php echo _('MyOrg'); ?>", 'tooltip': "<?php echo _('In my organisation'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'iconaction':"", 'colwidth':" style='width:30px;'"},
 }
 
 table.deletedata = false;

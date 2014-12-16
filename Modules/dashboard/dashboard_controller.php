@@ -125,10 +125,9 @@ function dashboard_controller()
           }
 
     }
-
     if ($route->format == 'json' && $session['write'])
     {
-        if ($route->action=='list') $result = $dashboard->get_list($session['userid'], $condrd, false, false);
+        if ($route->action=='list') $result = $dashboard->get_list($session['userid'], $session['orgid'], $condrd, false, false);
 
         if ($route->action=='set') $result = $dashboard->set($session['userid'], $cond, get('id'),get('fields'));
         if ($route->action=='setcontent') $result = $dashboard->set_content($session['userid'],post('id'),$cond, post('content'),post('height'));

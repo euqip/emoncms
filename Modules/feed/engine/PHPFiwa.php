@@ -56,7 +56,7 @@ class PHPFiwa
                 $meta->interval = array($interval,600,3600);
             }
 
-            if ($interval==600 || $interval==1200 || $interval==1800) {
+            if ($interval==600 || $interval==900 || $interval==1200 || $interval==1800) {
                 $meta->nlayers = 2;
                 $meta->npoints = array(0,0);
                 $meta->interval = array($interval,3600);

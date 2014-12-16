@@ -220,6 +220,8 @@
     'value':         { 'title':"<?php echo _('Value'); ?>",'type':"value"},
     'view-action':   { 'title':'','tooltip':'<?php echo _("Preview"); ?>', 'type':"iconlink", 'link':path+"vis/auto?feedid=", 'icon':'glyphicon glyphicon-eye-open', 'display':"yes", 'colwidth':" style='width:30px;'"},
     'export-action': { 'title':'', 'tooltip':'<?php echo _("Download data"); ?>', 'type':"iconbasic", 'icon_action':"export-action", 'icon':'glyphicon glyphicon-download', 'display':"yes", 'colwidth':" style='width:30px;'"},
+'myown':{'title':"<?php echo _('Mine'); ?>", 'tooltip': "<?php echo _('I am the owner'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'iconaction':"", 'colwidth':" style='width:30px;'"},
+'myorg':{'title':"<?php echo _('MyOrg'); ?>", 'tooltip': "<?php echo _('In my organisation'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'iconaction':"", 'colwidth':" style='width:30px;'"},
   }
 /*
 =======

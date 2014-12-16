@@ -409,7 +409,6 @@ class PHPTimeSeries
 
             $last_time = $time;
             $time = $array['time'];
-            logitem ($i);
 
             // $last_time = 0 only occur in the first run
             if (($time!=$last_time && $time>$last_time) || $last_time==0) {
@@ -418,7 +417,6 @@ class PHPTimeSeries
                 //fwrite($exportfh, $time.",".number_format($array['value'],2)."\n");
                 $dataValue=number_format($array['value'],2,$decsepar,$thousandsepar);
                 fwrite($exportfh, $time.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.$dataValue."\n");
-                logitem ($time.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.$dataValue);
             }
         }
         fclose($exportfh);
@@ -427,9 +425,3 @@ class PHPTimeSeries
 
 
 }
-function logitem($str){
-    $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
-    fwrite ($handle, $str."\n");
-    fclose ($handle);
-}
-

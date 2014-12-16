@@ -89,7 +89,7 @@ class Input
         if ($this->redis) {
             $this->redis->sAdd("user:inputs:$userid", $id);
             $this->redis->sAdd("org:inputs:$orgid", $id);
-            $this->redis->hMSet("input:$id",array('id'=>$id,'nodeid'=>$nodeid,'name'=>$name,'description'=>"", 'processList'=>""));
+            $this->redis->hMSet("input:$id",array('id'=>$id,'nodeid'=>$nodeid,'userid'=>$userid,'orgid'=>$orgid,'name'=>$name,'description'=>"", 'processList'=>""));
         }
         return $id;
 
@@ -317,10 +317,10 @@ class Input
     {
         $userid = (int) $userid;
         $orgid = (int) $orgid;
-        $uid= "if(userid = ".$userid.", true, false) as myinp ";
+        $uid= "if(userid = ".$userid.", true, false) as myown ";
         $org= "if(orgid = ".$orgid.", true, false) as myorg ";
-        $dbinputs = array();
         $sql = "SELECT *, ".$uid.", ".$org." FROM input WHERE `orgid` = '$orgid'";
+        $dbinputs = array();
         $result = $this->mysqli->query($sql);
         while ($row = (array)$result->fetch_object())
         {
@@ -368,8 +368,12 @@ class Input
                 $lastvalue = $this->redis->hmget("input:lastvalue:$id",array('time','value'));
                 $row['time'] = $lastvalue['time'];
                 $row['value'] = $lastvalue['value'];
-                $row['myinp'] = ($row['userid']==$userid) ? true : false;
-                $row['myorg'] = ($row['orgid']==$orgid) ? true : false;
+                $row['myown']=false;
+                $row['myorg']=false;
+                if (isset($row['userid'])){
+                    $row['myown'] = ($row['userid']==$userid) ? true : false;
+                    $row['myorg'] = ($row['orgid']==$orgid) ? true : false;
+                }
                 $inputs[] = $row;
             }
         }
@@ -380,7 +384,7 @@ class Input
     {
         $userid = (int) $userid;
         $orgid = (int) $orgid;
-        $uid= "if(userid = ".$userid.", true, false) as myinp ";
+        $uid= "if(userid = ".$userid.", true, false) as myown ";
         $org= "if(orgid = ".$orgid.", true, false) as myorg ";
         $dbinputs = array();
         $sql = "SELECT *, ".$uid.", ".$org." FROM input WHERE '$cond'";
