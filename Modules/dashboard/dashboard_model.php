@@ -93,7 +93,7 @@ class Dashboard
             'published'=> (bool) $row->published,
             'public'=> (bool) $row->public,
             'menu'=> (bool) $row->menu,
-            'myinp'=> (bool) $row->myinp,
+            'myown'=> (bool) $row->myinp,
             'myorg'=> (bool) $row->myorg
         );
         }

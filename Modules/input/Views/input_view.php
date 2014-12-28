@@ -179,7 +179,7 @@
     'value':{'title':'<?php echo _("Value"); ?>','type':"value",'colwidth':" style='width:70px;'"},
 
     'delete-action':{'title':'','tooltip':'<?php echo _("Delete row"); ?>', 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
-'myinp':{'title':"<?php echo _('Mine'); ?>", 'tooltip': "<?php echo _('I am the owner'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'iconaction':"", 'colwidth':" style='width:30px;'"},
+'myown':{'title':"<?php echo _('Mine'); ?>", 'tooltip': "<?php echo _('I am the owner'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'iconaction':"", 'colwidth':" style='width:30px;'"},
 'myorg':{'title':"<?php echo _('MyOrg'); ?>", 'tooltip': "<?php echo _('In my organisation'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-ok", 'falseicon':"glyphicon glyphicon-remove", 'iconaction':"", 'colwidth':" style='width:30px;'"},
   }
     //'nodeid':{'title':'<?php echo _("Node:"); ?>','type':"fixed",'colwidth':"", 'display':"yes", 'colwidth':" style='width:50px;'"},

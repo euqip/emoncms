@@ -28,9 +28,6 @@ input[type="color"],
 }
 
 #push,
-#footer {
-    height: 30px;
-}
 .navbar-brand{
     padding: 11px;
 }
@@ -54,7 +51,15 @@ h2{
     text-align: center;
     font-size: 13px;
     font-weight: bold;
-    padding-top:10px;
+    padding-top:0px;
+    /*position:absolute;*/
+    position: fixed;
+    bottom:0px;
+    right:0;
+    left:0;
+    height:30px;
+    line-height:30px;
+    background:rgba(0, 0, 0, 0.8);
 }
 
 #footer a {
