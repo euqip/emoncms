@@ -9,5 +9,8 @@ $schema['input'] = array(
     'nodeid' => array('type' => 'int(11)'),
     'processList' => array('type' => 'text'),
     'time' => array('type' => 'datetime'),
-    'value' => array('type' => 'float')
+    'value' => array('type' => 'float'),
+    'location' => array('type' => 'varchar(20)')
 );
+
+/* location example: 50.641319, 3.062243
