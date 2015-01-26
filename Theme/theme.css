@@ -75,6 +75,13 @@ h2{
     padding:10px;
 }
 
+.start-error{
+    width:600px;
+    background-color:#eee;
+    padding:20px;
+    font-family:arial;
+}
+
 .feedback{
     margin-top: 0px;
     display: block;

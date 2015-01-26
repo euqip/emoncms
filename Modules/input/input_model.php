@@ -49,7 +49,8 @@ class Input
         // checking against isNumeric will probably catch *most*
         // of the potential issues for now but it may be good look at catching
         // non-integer numbers at some point
-
+        
+        /*
         if (!is_numeric ($nodeid))
         {
             return false;
@@ -70,6 +71,8 @@ class Input
         {
             return false;
         }
+        */
+        return true;
 
     }
     // USES: redis input & user  +++++ add orgid in tables *****
@@ -211,6 +214,10 @@ class Input
             case ProcessArg::NONE:                                        // If arg type none
                 $arg = 0;
                 break;
+            case ProcessArg::TEXT:                                       // If arg type TEXT
+                $arg = $arg;
+                break;
+
         }
 
         $list = $this->get_processlist($inputid);

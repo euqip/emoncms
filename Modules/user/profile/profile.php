@@ -113,8 +113,6 @@ function languagecodetotext()
             <input id="change-password-submit" type="submit" class="btn btn-primary active" value="<?php echo _('Save'); ?>" />
             <input id="change-password-cancel" type="submit" class="btn" value="<?php echo _('Cancel'); ?>" />
         </div>
-
-
     </div>
 
 

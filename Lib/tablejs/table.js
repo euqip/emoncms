@@ -13,6 +13,7 @@ var table =
     'sortfield':null,
     'sortorder':null,
     'sortable':true,
+
     'groupprefix':"",
     'expanded':true,
     'collapse':false,

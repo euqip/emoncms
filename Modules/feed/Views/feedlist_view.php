@@ -330,6 +330,7 @@
 
         if ($("#export-timezone").val()=="") {
             var u = user.get();
+            if (u.timezone==null) u.timezone = 0;
             $("#export-timezone").val(parseInt(u.timezone));
         }
 

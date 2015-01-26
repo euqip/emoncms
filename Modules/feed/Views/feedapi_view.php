@@ -57,6 +57,6 @@ global $user, $path, $session;
     <p><a href="<?php echo $path; ?>feed/update.json?id=0&time=UNIXTIME&value=100.0"><?php echo $path; ?>feed/update.json?id=0&time=UNIXTIME&value=100.0</a></p>
     <p><a href="<?php echo $path; ?>feed/bulk.json?id=0&data=[[UNIXTIME,16],[UNIXTIME,3164],[UNIXTIME,3077]]"><?php echo $path; ?>feed/bulk.json?id=0&data=[[UNIXTIME,16],[UNIXTIME,3164],[UNIXTIME,3077]]</a></p>
     <p><a href="<?php echo $path; ?>feed/deletedatapoint.json?id=0&feedtime=UNIXTIME"><?php echo $path; ?>feed/deletedatapoint.json?id=0&feedtime=UNIXTIME</a></p>
-<p><a href="<?php echo $path; ?>feed/delete.json?id=0"><?php echo $path; ?>feed/delete.json?id=0</a></p>
+    <p><a href="<?php echo $path; ?>feed/delete.json?id=0"><?php echo $path; ?>feed/delete.json?id=0</a></p>
 </div>
 

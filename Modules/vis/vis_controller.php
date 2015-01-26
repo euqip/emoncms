@@ -32,13 +32,14 @@
     $write_apikey = ""; $read_apikey = "";
     if ($session['read']) $read_apikey = $user->get_apikey_read($session['userid']);
     if ($session['write']) $write_apikey = $user->get_apikey_write($session['userid']);
+    $wcond = '';
 
     if ($route->format =='html')
     {
         if ($route->action == 'list' && $session['write'])
         {
-            $multigraphs = $multigraph->getlist($session['userid']);
-            $feedlist = $feed->get_user_feeds($session['userid']);
+            $multigraphs = $multigraph->getlist($session['userid'],$session['orgid'],$wcond);
+            $feedlist = $feed->get_user_feeds($session['userid'],$session['orgid'],$wcond);
             $result = view("Modules/vis/vis_main_view.php", array('user' => $user->get($session['userid']), 'feedlist'=>$feedlist, 'apikey'=>$read_apikey, 'visualisations'=>$visualisations, 'multigraphs'=>$multigraphs));
         }
 

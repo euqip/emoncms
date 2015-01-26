@@ -8,6 +8,11 @@ $modulename = _('Nodes');
 <script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/process_info.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
 
+<br>
+<div id="apihelphead"><div style="float:right;"><a href="api"><?php echo _('Node API Help'); ?></a></div></div>
+<h2><?php echo _('Nodes'); ?></h2>
+<p><?php echo _('This is an alternative entry point to inputs designed around providing flexible decoding of RF12b struct based data packets'); ?></p>
+<br>
 
 <div class="container">
     <div id="localheading">
@@ -176,7 +181,7 @@ $modulename = _('Nodes');
         {name: 'Power 2', type: 1, units: 'W'},
         {name: 'Power 3', type: 1, units: 'W'},
         {name: 'Power 4', type: 1, units: 'W'},
-        {name: 'Vrms', type: 1, scale: 0.01, units: 'V'}, 
+        {name: 'Vrms', type: 1, scale: 0.01, units: 'V'},
         {name: 'temp', type: 1, scale: 0.1, units: '°C'}
       ]
     },
@@ -191,9 +196,9 @@ $modulename = _('Nodes');
         {name: 'Power CT2', type: 1, units: 'W'},
         {name: 'Power CT3', type: 1, units: 'W'},
         {name: 'Power CT4', type: 1, units: 'W'},
-        {name: 'Wh CT1', type: 2, units: 'Wh'}, 
-        {name: 'Wh CT2', type: 2, units: 'Wh'}, 
-        {name: 'Wh CT3', type: 2, units: 'Wh'}, 
+        {name: 'Wh CT1', type: 2, units: 'Wh'},
+        {name: 'Wh CT2', type: 2, units: 'Wh'},
+        {name: 'Wh CT3', type: 2, units: 'Wh'},
         {name: 'Wh CT4', type: 2, units: 'Wh'}
       ]
     },
@@ -285,13 +290,17 @@ function redraw()
           out += " "+variable.units;
       }
 
-      var labelcolor = ""; if (variable.feedid) labelcolor = 'label-info';
+      if (nodes[z].decoder==undefined || nodes[z].decoder.variables.length==0)
+      {
+        out += "<tr><td></td><td><i style='color:#aaa'>Raw byte data: "+nodes[z].data+"</i>";
+        out += "</td><td></td></tr>";
+      }
 
-      var updateinterval = nodes[z].decoder.updateinterval;
+    }
 
-      var processliststr = ""; if (variable.processlist!=undefined) processliststr = processlist_ui.drawinline(variable.processlist);
-      out += "</td><td style='text-align:right'>"+processliststr+"<span class='label "+labelcolor+" record' style='cursor:pointer' >Config <span class='glyphicon glyphicon-wrench glyphicon glyphicon-white'></span></span></td></tr>";
+    if (out=="") out = "<div class='alert alert-info' style='padding:40px; text-align:center'><h3><?php echo _('No nodes detected yet'); ?></h3><p><?php echo _('To use this module send a byte value csv string and the node id to: '); ?><a href='./set.json?nodeid=10&data=20,20,20,20'>"+path+"node/set.json?nodeid=10&data=20,20,20,20</a></p></div>";
 
+    $("#nodes").html(out);
   }
 }
 

@@ -22,5 +22,4 @@
     <table class="table">
         <tr><td></td><td><a href="<?php echo $path; ?>node/set.json?nodeid=10&data=20,20,20,20"><?php echo $path; ?>node/set.json?nodeid=10&data=20,20,20,20</a></td></tr>
         <tr><td>With write apikey: </td><td><a href="<?php echo $path; ?>node/set.json?nodeid=10&data=20,20,20,20&apikey=<?php echo $user->get_apikey_write($session['userid']); ?>"><?php echo $path; ?>node/set.json?nodeid=10&data=20,20,20,20&<b>apikey=<?php echo $user->get_apikey_write($session['userid']); ?></b></a></td></tr>
-
     </table>

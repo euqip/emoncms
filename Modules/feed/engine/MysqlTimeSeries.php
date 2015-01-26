@@ -247,6 +247,7 @@ class MysqlTimeSeries
     {
 
         global $behavior;
+        // csv parameters are copied in shorter variables to facilitate code reading
 
         $decsepar      = $csv_param['csv_decimal_place_separator'];
         $thousandsepar = $csv_param['csv_thousandsepar_separator'];

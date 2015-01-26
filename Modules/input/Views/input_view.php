@@ -32,6 +32,7 @@
             </small>
         </h2>
     </div>
+
     <div id="table"></div>
 
     <div id="noinputs" class="alert alert-block">
@@ -131,8 +132,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
-
 </div>
 
 <script>
@@ -192,15 +191,14 @@
 
     function update()
     {
-        //$.ajax({ url: path+"input/list.json", dataType: 'json', async: true, success: function(data) {
-
-        //table.data = data;
         if (firstrun) {
             table.expand=expanded;
             table.collapse=!expanded;
             table.state=expanded;
         }
+        //read table data
         table.data = input.list();
+
         table.draw();
         $("#collapseall").hide();
         $("#expandall").hide();

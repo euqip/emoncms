@@ -9,19 +9,15 @@
   Part of the OpenEnergyMonitor project:
   http://openenergymonitor.org
 
-  */
- /*
-  $ltime = microtime(true);
-  date_default_timezone_set('UTC');
-  define('EMONCMS_EXEC', 1);
-    $emoncms_version = "8.3.5";
+    ---------------------------------------------------------------------
+    Emoncms - open source energy visualisation
+    Part of the OpenEnergyMonitor project:
+    http://openenergymonitor.org
 
-  // 1) Load settings and core scripts
-  require "process_settings.php";
-  require "core.php";
-  require "route.php";
-  require "locale.php";
-  */
+    */
+
+    $emoncms_version = "8.4.0";
+
     require_once "bootstrap.php";
     $path = get_application_path();
 
@@ -43,6 +39,8 @@
     } else {
         $redis = false;
     }
+
+    $mqtt = false;
 
     if ( $mysqli->connect_error ) {
         echo _("Can't connect to database, please verify credentials/configuration in settings.php")."<br />";

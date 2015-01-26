@@ -18,10 +18,10 @@ var input = {
     'list_assoc':function()    {
         var result = {};
         $.ajax({
-            url: path+"input/list.json",
-            dataType: 'json',
-            async: false,
-            //success: function(data) {result = data;}
+            url       : path+"input/list.json",
+            dataType  : 'json',
+            async     : false,
+            //success : function(data) {result = data;}
             })
             .done(function (data, textStatus, jqXHR){
                result= data;
