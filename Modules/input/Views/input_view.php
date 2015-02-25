@@ -134,6 +134,25 @@
     </div><!-- /.modal -->
 </div>
 
+
+<div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel"><?php echo _('Delete Input'); ?></h3>
+    </div>
+    <div class="modal-body">
+        <p><?php echo _('Deleting an input will loose its name and configured process list.<br>An new blank input is automatic created by API data post if it does not already exists.'); ?>
+        </p>
+        <p>
+           <?php echo _('Are you sure you want to delete?'); ?>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
+        <button id="confirmdelete" class="btn btn-primary"><?php echo _('Delete'); ?></button>
+    </div>
+</div>
+</div>
 <script>
 
     var path = "<?php echo $path; ?>";
@@ -225,21 +244,43 @@
 
     var updater = setInterval(update, updateinterval);
 
+/*
     $("#table").bind("onEdit", function(e){
         clearInterval(updater);
+        updater = null;
+        if (interval > 0) updater = setInterval(func, interval);
+    }
+*/
+    //updaterStart(update, 10000);
+
+    $("#table").bind("onEdit", function(e){
+        updaterStart(update, 0);
     });
 
     $("#table").bind("onSave", function(e,id,fields_to_update){
         input.set(id,fields_to_update);
-        updater = setInterval(update, updateinterval);
     });
 
-    $("#table").bind("onDelete", function(e,id){
+    $("#table").bind("onResume", function(e){
+        updaterStart(update, updateinterval);
+    });
+
+    $("#table").bind("onDelete", function(e,id,row){
+        $('#myModal').modal('show');
+        $('#myModal').attr('scheduleid',id);
+        $('#myModal').attr('feedrow',row);
+    });
+
+    $("#confirmdelete").click(function()
+    {
+        var id = $('#myModal').attr('scheduleid');
+        var row = $('#myModal').attr('schedulerow');
         input.remove(id);
+        table.remove(row);
         update();
+
+        $('#myModal').modal('hide');
     });
-
-
 //------------------------------------------------------------------------------------------------------------------------------------
 // Process list UI js
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -288,10 +329,16 @@
 
         $("#feed-tag").val("Node:"+processlist_ui.inputlist[processlist_ui.inputid].nodeid);
 
-        $("#processlist-ui").modal('show');
-        //window.scrollTo(0,0);
-    }
+        $("#processlist-ui #process-select").change();  // Force a refresh
 
+        $("#processlist-ui").show();
+        window.scrollTo(0,0);
+
+    };
+
+    $("#processlist-ui").on('click', '.close', function() {
+        $("#processlist-ui").hide();
+    });
 
 function load_all()
 {
@@ -303,25 +350,48 @@ function load_all()
     var out = "";
     for (i in processlist_ui.inputlist) {
       var input = processlist_ui.inputlist[i];
-      out += "<option value="+input.id+">Node "+input.nodeid+":"+input.name+" "+input.description+"</option>";
+      out += "<option value="+input.id+">"+input.nodeid+":"+input.name+" "+input.description+"</option>";
     }
     $("#input-select").html(out);
 
-    $.ajax({ url: path+"feed/list.json", dataType: 'json', async: true, success: function(result) {
+    $.ajax({ url: path+"schedule/list.json", dataType: 'json', async: true, success: function(result) {
+        var schedules = {};
+        for (z in result) schedules[result[z].id] = result[z];
 
-        var feeds = {};
-        for (z in result) feeds[result[z].id] = result[z];
+        processlist_ui.schedulelist = schedules;
+        var groupname = {0:'Public',1:'Mine'};
+        var groups = [];
+        //for (z in result) schedules[result[z].id] = result[z];
 
-        processlist_ui.feedlist = feeds;
-        // Feedlist
-        var out = "<option value=-1>CREATE NEW:</option>";
-        for (i in processlist_ui.feedlist) {
-          out += "<option value="+processlist_ui.feedlist[i].id+">"+processlist_ui.feedlist[i].name+"</option>";
+        for (z in processlist_ui.schedulelist)
+        {
+            var group = processlist_ui.schedulelist[z].own;
+            group = groupname[group];
+            if (!groups[group]) groups[group] = []
+            processlist_ui.schedulelist[z]['_index'] = z;
+            groups[group].push(processlist_ui.schedulelist[z]);
         }
-        $("#feed-select").html(out);
+
+        var out = "";
+        for (z in groups)
+        {
+            out += "<optgroup label='"+z+"'>";
+            for (p in groups[z])
+            {
+                out += "<option value="+groups[z][p]['id']+">"+groups[z][p]['name']+(z!=groupname[1]?" ["+groups[z][p]['id']+"]":"")+"</option>";
+            }
+            out += "</optgroup>";
+        }
+        $("#schedule-select").html(out);
     }});
 
-    $.ajax({ 
+    $.ajax({ url: path+"feed/list.json", dataType: 'json', async: true, success: function(result) {
+        var feeds = {};
+        for (z in result) { feeds[result[z].id] = result[z]; }
+        processlist_ui.feedlist = feeds;
+    }});
+
+    $.ajax({
         url: path+"input/getallprocesses.json",
         async: true,
         dataType: 'json',

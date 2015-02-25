@@ -196,21 +196,32 @@ var table =
             var mode = $(this).attr('mode');
             var row = $(this).attr('row');
             var uid = $(this).attr('uid');
-        // Trigger events
-        if (mode=='edit') $(table.element).trigger("onEdit");
-        var fields_to_update = {};
-        for (field in table.fields)
-        {
-            var type = table.fields[field].type;
-            if (mode == 'edit' && typeof table.fieldtypes[type].edit === 'function') {
-                $("[row="+row+"][field="+field+"]").html(table.fieldtypes[type].edit(row,field));
+
+            // Trigger events
+            if (mode=='edit') $(table.element).trigger("onEdit");
+
+            var fields_to_update = {};
+
+            for (field in table.fields)
+            {
+                var type = table.fields[field].type;
+
+                if (mode == 'edit' && typeof table.fieldtypes[type].edit === 'function') {
+                    $("[row="+row+"][field="+field+"]").html(table.fieldtypes[type].edit(row,field));
+                }
+
+                if (mode == 'save' && typeof table.fieldtypes[type].save === 'function') {
+                  var value = table.fieldtypes[type].save(row,field);
+                  if (table.data[row][field] != value) fields_to_update[field] = value; // only update db if value has changed
+                  table.update(row,field,value);    // but update html table because this reverts back from <input>
+                }
             }
             if (mode == 'save' && typeof table.fieldtypes[type].save === 'function') {
                 var value = table.fieldtypes[type].save(row,field);
                 if (table.data[row][field] != value) fields_to_update[field] = value;   // only update db if value has changed
                 table.update(row,field,value);  // but update html table because this reverts back from <input>
             }
-        }
+
         // Call onSave event only if there are fields to be saved
         if (mode == 'save' && !$.isEmptyObject(fields_to_update)) {
             $(table.element).trigger("onSave",[uid,fields_to_update]);
@@ -493,6 +504,45 @@ var table =
                     key = '/ feed'; type = 4; break;
                     case 33:
                     key = '= 0'; type = 3; break;
+                        // from chaveiro/emoncms merge 20150126
+                      case 34:
+                        key = 'whacc'; type = 2; break;
+                      case 35:
+                        key = 'MQTT'; type = 5; break;
+                      case 36:
+                        key = 'null'; type = 3; break;
+                      case 37:
+                        key = 'ori'; type = 3; break;
+                      case 38:
+                        key = '!sched 0'; type = 6; break;
+                      case 39:
+                        key = '!sched N'; type = 6; break;
+                      case 40:
+                        key = 'sched 0'; type = 6; break;
+                      case 41:
+                        key = 'sched N'; type = 6; break;
+                      case 42:
+                        key = '0? skip'; type = 3; break;
+                      case 43:
+                        key = '!0? skip'; type = 3; break;
+                      case 44:
+                        key = 'N? skip'; type = 3; break;
+                      case 45:
+                        key = '!N? skip'; type = 3; break;
+                      case 46:
+                        key = '>? skip'; type = 0; break;
+                      case 47:
+                        key = '>=? skip'; type = 0; break;
+                      case 48:
+                        key = '<? skip'; type = 0; break;
+                      case 49:
+                        key = '<=? skip'; type = 0; break;
+                      case 50:
+                        key = '=? skip'; type = 0; break;
+                      case 51:
+                        key = '!=? skip'; type = 0; break;
+                      case 52:
+                        key = 'GOTO'; type = 0; break;
                 }
                 value = keyvalue[1];
                 switch(type)
@@ -515,7 +565,8 @@ var table =
                     break;
                 }
                 if (type == 'feed: ') {
-                    out += "<a href='"+path+"vis/auto?feedid="+value+"'<span class='label label-"+color+"' title='"+type+value+"' style='cursor:pointer'>"+key+"</span></a> ";
+                    out += "<a target='_blank' href='"+path+"vis/auto?feedid="+value+"'<span class='label label-"+color+"' title='"+type+value+"' style='cursor:pointer'>"+key+"</span></a> ";
+                    //out += "<a href='"+path+"vis/auto?feedid="+value+"'<span class='label label-"+color+"' title='"+type+value+"' style='cursor:pointer'>"+key+"</span></a> ";
                 } else {
                     out += "<span class='label label-"+color+"' title='"+type+value+"' style='cursor:default'>"+key+"</span> ";
                 }

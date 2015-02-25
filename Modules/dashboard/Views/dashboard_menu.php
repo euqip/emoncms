@@ -54,5 +54,12 @@ global $path, $session, $useckeditor, $author;
     </span>
 </div>
 </div>
+<!--
+======= from chaveiro/emoncms merge 2015-01-26
+    <a href="#" onclick="$.ajax({type : 'POST',url :  path + 'dashboard/create.json  ',data : '',dataType : 'json',success : location.reload()});" title="<?php echo _("New"); ?>"><i class="icon-plus-sign"></i></a>
 
+    <a href="<?php echo $path; ?>dashboard/list"><i class="icon-th-list" title="<?php echo _('List view'); ?>"></i></a>
+    </div>
+>>>>>>> d8014796e0a7950407ae4e84de86e759e0d86b14
+-->
 <?php }

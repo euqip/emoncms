@@ -49,7 +49,7 @@ class Input
         // checking against isNumeric will probably catch *most*
         // of the potential issues for now but it may be good look at catching
         // non-integer numbers at some point
-        
+
         /*
         if (!is_numeric ($nodeid))
         {

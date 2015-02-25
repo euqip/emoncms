@@ -282,12 +282,15 @@
 
     $("#table").bind("onEdit", function(e){
         clearInterval(updater);
+        updater = null;
+        if (interval > 0) updater = setInterval(func, interval);
     });
+
 
     $("#table").bind("onSave", function(e,id,fields_to_update){
         feed.set(id,fields_to_update);
         updater = setInterval(update, updateinterval);
-        update()
+        update();
     });
 
     $("#refreshfeedsize").click(function(){

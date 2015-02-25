@@ -44,6 +44,7 @@ input[type="color"],
 }
 .glyphicon {
     text-shadow: grey 2px 2px 3px;
+    cursor:pointer;
 }
 h2{
     margin-top: 1px;
