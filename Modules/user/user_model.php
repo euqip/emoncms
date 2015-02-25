@@ -120,8 +120,10 @@ public function apikey_session($apikey_in)
                     //session_regenerate_id();
                     $session['userid'] = $row['id'];
                     $session['read'] = 1;
+                    $session['write'] = 0;
+                    $session['admin'] = 0;
+                    $session['editmode'] = TRUE;
                     $session['lang'] = $row['language'];
-                    $session['orgid'] = $row['orgid'];
                 }
             }
             }

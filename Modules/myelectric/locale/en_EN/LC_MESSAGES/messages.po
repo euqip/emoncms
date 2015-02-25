@@ -1,78 +1,64 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: emoncms3\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-04 18:07+0100\n"
-"PO-Revision-Date: 2014-04-04 18:09+0100\n"
-"Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
+"Project-Id-Version: Emoncms 8.4.0 - My Elettric\n"
+"POT-Creation-Date: 2015-02-04 03:10+0100\n"
+"PO-Revision-Date: 2015-02-04 03:11+0100\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _;__;_e;_n:1,2;_n_noop:1,2;_nx:1,2;_nx_noop:1,2\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../myelectric_view.php:46
+#: ../../../myelectric_view.php:44
 msgid "My Electric config"
-msgstr "Configuration"
+msgstr ""
 
-#: ../../../myelectric_view.php:49
-msgid "Power feed (Watts)"
-msgstr "Power feed (Watts)"
+#: ../../../myelectric_view.php:47
+msgid "Power feed (Watts):"
+msgstr ""
 
-#: ../../../myelectric_view.php:53
-msgid "Bar graph feed"
-msgstr "Bar graph feed"
+#: ../../../myelectric_view.php:51
+msgid "Bar graph feed:"
+msgstr ""
+
+#: ../../../myelectric_view.php:54
+msgid "Bar graph feed type:"
+msgstr ""
 
 #: ../../../myelectric_view.php:56
-msgid "Bar graph feed type"
-msgstr "Bar graph feed type"
+msgid "Watt hours elapsed"
+msgstr ""
+
+#: ../../../myelectric_view.php:57
+msgid "kWh elapsed"
+msgstr ""
 
 #: ../../../myelectric_view.php:58
-msgid "Watt hours elapsed"
-msgstr "Watt hours elapsed"
+msgid "kWh per day"
+msgstr ""
 
 #: ../../../myelectric_view.php:59
-msgid "kWh elapsed"
-msgstr "kWh elapsed"
-
-#: ../../../myelectric_view.php:60
-msgid "kWh per day"
-msgstr "kWh per day"
-
-#: ../../../myelectric_view.php:61
 msgid "Power (Watts)"
-msgstr "Power (Watts)"
+msgstr ""
 
-#: ../../../myelectric_view.php:81
-msgid "POWER NOW"
-msgstr "POWER NOW"
+#: ../../../myelectric_view.php:64
+msgid "Save"
+msgstr ""
 
-#: ../../../myelectric_view.php:85
-msgid "USE TODAY"
-msgstr "USE TODAY"
+#: ../../../myelectric_view.php:79
+msgid "POWER NOW:"
+msgstr ""
 
-#: ../../../myelectric_menu.php:13
-msgid "My Electric"
-msgstr "My Electric"
+#: ../../../myelectric_view.php:83
+msgid "USE TODAY:"
+msgstr ""
 
-#~ msgid "en_EN"
-#~ msgstr "English"
-
-#~ msgid "es_ES"
-#~ msgstr "Spanish"
-
-#~ msgid "nl_BE"
-#~ msgstr "Dutch (Belgium)"
-
-#~ msgid "nl_NL"
-#~ msgstr "Dutch (Netherlands)"
-
-#~ msgid "fr_FR"
-#~ msgstr "French"
-
-#~ msgid "AUTODETECTLANGUAGE"
-#~ msgstr "Use language browser"
+#: ../../../myelectric_view.php:83
+msgid "kWh"
+msgstr ""

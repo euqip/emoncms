@@ -218,7 +218,7 @@ var designer = {
                     var selected = "";
                     if (val == multigraphs[i]['id'])
                         selected = "selected";
-                    options_html += "<option value='"+multigraphs[i]['id']+"' "+selected+" >"+multigraphs[i]['id']+"</option>";
+                    options_html += "<option value='"+multigraphs[i]['id']+"' "+selected+" >"+multigraphs[i]['id']+": "+multigraphs[i]['name']+"</option>";
                 }
             }
 

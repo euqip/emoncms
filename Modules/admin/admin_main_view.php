@@ -1,11 +1,20 @@
 <?php global $path, $emoncms_version; ?>
 <h2><?php echo _('Administration panel'); ?></h2>
 
-Emoncms version: <?php echo $emoncms_version; ?>
+<!--
+ * Emoncms version: <?php echo $emoncms_version; ?>
 
 
 <div class="table-responsive">
   <table class="table">
+
+-->
+
+
+<table class="table table-striped ">
+    <tr>
+        <td colspan="2">Emoncms <?php echo _('version'); ?>: <?php echo $emoncms_version; ?></td>
+    </tr>
     <tr>
         <td>
             <br>
@@ -57,8 +66,9 @@ Emoncms version: <?php echo $emoncms_version; ?>
             </code>
         </td>
     </tr>
-        <?php
-    }
-    ?>
-  </table>
-</div>
+    <tr>
+        <td>LOG4PHP <?php echo _('INSTALLED'); ?>: <?php if(LOG4PHP_INSTALLED) echo _('yes'); else echo _('no'); ?></td>
+        <td></td>
+        </tr>
+    <tr>
+</table>

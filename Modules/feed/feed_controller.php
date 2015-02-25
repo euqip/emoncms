@@ -65,7 +65,7 @@ function feed_controller()
             for ($i=0; $i<count($feedids); $i++) {
                 $feedid = (int) $feedids[$i];
                 if ($feed->exist($feedid)) // if the feed exists
-                { $result[$i] = $feed->get_value($feedid);
+                { $result[$i] = (float) $feed->get_value($feedid);
                 } else { $result[$i] = ""; }
             }
         } else {
@@ -89,6 +89,7 @@ function feed_controller()
                     if ($route->action == 'kwhatpowers') $result = $feed->histogram_get_kwhd_atpowers($feedid,get('points'));
                     if ($route->action == 'data') $result = $feed->get_data($feedid,get('start'),get('end'),get('dp'));
                     if ($route->action == 'average') $result = $feed->get_average($feedid,get('start'),get('end'),get('interval'));
+                    if ($route->action == 'history') $result = $feed->get_history($feedid,get('start'),get('end'),get('interval'));
                 }
 
                 // write session required

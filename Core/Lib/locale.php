@@ -79,10 +79,20 @@ function set_lang($language)
 
     if (isset($language[0]))
     {
-        if ($language[0] == 'es') $language[0]='es_ES';
-        elseif ($language[0] == 'fr') $language[0]='fr_FR';
+        $lang=$language[0];
 
-        set_lang_by_user($language[0]);
+        switch($lang) {
+            case 'cy': $lang='cy_GB'; break;
+            case 'da': $lang='da_DK'; break;
+            case 'en': $lang='en_EN'; break;
+            case 'es': $lang='es_ES'; break;
+            case 'fr': $lang='fr_FR'; break;
+            case 'it': $lang='it_IT'; break;
+            case 'nl': $lang='nl_NL'; break;
+            //case 'nl': $lang='nl_BE'; break; //to do??
+        }
+
+        set_lang_by_user($lang);
     }
 }
 

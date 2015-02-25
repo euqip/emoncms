@@ -23,17 +23,34 @@ $times         = $user -> get_available_timeformats();
 $separ         = $user -> get_available_separators();
 
 
+    $languages = get_available_languages();
+    $languages_name = languagecode_to_name($languages);
+    //languages order by language name
+    $languages_new = array();
+    foreach ($languages_name as $key=>$lang){
+       $languages_new[$key]=$languages[$key];        
+    }
+    $languages= array_values($languages_new); 
+    $languages_name= array_values($languages_name);
 
-function languagecodetotext()
-{
-    _('es_ES');
-    _('fr_FR');
-    _('en_EN');
-    _('nl_NL');
-    _('nl_BE');
-    _('da_DK');
-    _('it_IT');
-    _('cy_GB');
+
+function languagecode_to_name($lang){
+    
+    foreach ($lang as $key=>$val){
+      //echo $key.'-'.$val; 
+      switch($val) {
+              case 'cy_GB': $lang[$key]=_('Welsh (United Kingdom)'); break;
+              case 'da_DK': $lang[$key]=_('Danish (Denmark)'); break;
+              case 'en_EN': $lang[$key]=_('English'); break;
+              case 'es_ES': $lang[$key]=_('Spanish (Spain)'); break;
+              case 'fr_FR': $lang[$key]=_('French (France)'); break;
+              case 'it_IT': $lang[$key]=_('Italian (Italy)'); break;
+              case 'nl_BE': $lang[$key]=_('Dutch (Belgium)'); break;
+              case 'nl_NL': $lang[$key]=_('Dutch (Netherlands)'); break;
+      }
+    }
+   asort($lang);
+   return $lang;
 }
 ?>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/profile.js"></script>

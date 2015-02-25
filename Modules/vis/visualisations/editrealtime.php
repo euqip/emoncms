@@ -100,8 +100,8 @@ div {
 
 
 <?php if (!$embed) { ?>
-<h2>Datapoint editor: <?php echo $feedidname; ?></h2>
-<p>Click on a datapoint to select, then in the edit box below the graph enter in the new value. You can also add another datapoint by changing the time to a point in time that does not yet have a datapoint.</p>
+<h2><?php echo _("Datapoint editor:"); ?> <?php echo $feedidname; ?></h2>
+<p><?php echo _("Click on a datapoint to select, then in the edit box below the graph enter in the new value. You can also add another datapoint by changing the time to a point in time that does not yet have a datapoint."); ?></p>
 <?php } ?>
 <div class="container">
     <div id="graph_bound" class="grapharea">

@@ -550,6 +550,26 @@ class Feed
         return $this->engine[$engine]->get_data($feedid,$start,$end,$outinterval);
     }
 
+    public function get_history($feedid,$start,$end,$outinterval)
+    {
+        $feedid = (int) $feedid;
+        if ($end == 0) $end = time()*1000;
+
+        if (!$this->exist($feedid)) return array('success'=>false, 'message'=>'Feed does not exist');
+
+        $engine = $this->get_engine($feedid);
+
+        if ($engine==Engine::PHPFINA || $engine==Engine::PHPFIWA) {
+            // Call to engine get_average method
+            if ($outinterval<1) $outinterval = 1;
+            $range = ($end - $start) * 0.001;
+            $npoints = ($range / $outinterval);
+            if ($npoints>$this->max_npoints_returned) $outinterval = round($range / $this->max_npoints_returned);
+            return $this->engine[$engine]->get_data_exact($feedid,$start,$end,$outinterval);
+        }
+        return false;
+    }
+
     public function csv_export($feedid,$start,$end,$outinterval)
     {
         $feedid = (int) $feedid;
@@ -679,7 +699,9 @@ class Feed
         if ($this->redis) {
             $this->redis->hMset("feed:lastvalue:$feedid", array('value' => $value, 'time' => $updatetime));
         } else {
-            $this->mysqli->query("UPDATE feeds SET `time` = '$updatetime', `value` = '$value' WHERE `id`= '$feedid'");
+			// Explicitly set decimal separator, in case current locale doesn't use a dot (MySQL expects always a dot, regardless of locale)
+            $value2=number_format($value,10,'.','');
+            $this->mysqli->query("UPDATE feeds SET `time` = '$updatetime', `value` = '$value2' WHERE `id`= '$feedid'");
         }
     }
 

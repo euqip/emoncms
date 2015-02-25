@@ -389,6 +389,12 @@ function load_all()
         var feeds = {};
         for (z in result) { feeds[result[z].id] = result[z]; }
         processlist_ui.feedlist = feeds;
+        // Feedlist
+        var out = "<option value=-1><?php echo _("CREATE NEW"); ?>:</option>";
+        for (i in processlist_ui.feedlist) {
+          out += "<option value="+processlist_ui.feedlist[i].id+">"+processlist_ui.feedlist[i].name+"</option>";
+        }
+        $("#feed-select").html(out);
     }});
 
     $.ajax({
