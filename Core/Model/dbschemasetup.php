@@ -101,6 +101,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                     if (isset($schema[$table][$field]['Key'])) $key = $schema[$table][$field]['Key']; else $key = null;
                     if (isset($schema[$table][$field]['default'])) $default = $schema[$table][$field]['default']; else $default = null;
                     if (isset($schema[$table][$field]['Extra'])) $extra = $schema[$table][$field]['Extra']; else $extra = null;
+                    if (isset($schema[$table][$field]['comment'])) $extra = $schema[$table][$field]['comment']; else $comment = null;
                     $query .= $comma;
 
                     $query .= '`'.$field.'`';

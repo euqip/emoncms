@@ -62,13 +62,13 @@
             </code>
             ensure that log file has write permissions for www-data, pi and root.<br />
             <code>
-                sudo chmod 660 emoncms.log<br /> 
+                sudo chmod 660 emoncms.log<br />
             </code>
         </td>
     </tr>
     <tr>
         <td>LOG4PHP <?php echo _('INSTALLED'); ?>: <?php if(LOG4PHP_INSTALLED) echo _('yes'); else echo _('no'); ?></td>
         <td></td>
-        </tr>
-    <tr>
+    </tr>
+    <?php }; ?>
 </table>

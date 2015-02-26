@@ -1,5 +1,5 @@
 var schedule = {
-    
+
     'list':function()
     {
         var result = {};
@@ -25,7 +25,7 @@ var schedule = {
     {
         $.ajax({ url: path+"schedule/delete.json", data: "id="+id, async: false, success: function(data){} });
     },
-	
+
     'test':function(expression)
     {
         var result = {};

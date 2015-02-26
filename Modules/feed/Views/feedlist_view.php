@@ -210,7 +210,7 @@
     'edit-action':   { 'title':'','tooltip':'<?php echo _("Edit"); ?>','alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes", 'colwidth':" style='width:30px;'"},
 
     'id':            { 'title':"<?php echo _('Id'); ?>", 'type':"fixed", 'display':"dynamic",'colwidth':""},
-    'name':          { 'title':"<?php echo _('Name'); ?>", 'type':"text",'colwidth':"", 'display':"yes", 'colwidth':" style='width:150px;'"},
+    'name':          { 'title':"<?php echo _('Name'); ?>", 'type':"text", 'display':"yes", 'colwidth':" style='width:150px;'"},
     'tag':           { 'title':"<?php echo _('Tag'); ?>", 'type':"text",'colwidth':"", 'display':"yes", 'colwidth':" style='width:150px;'"},
     'datatype':      { 'title':"<?php echo _('Datatype'); ?>", 'type':"select", 'options':['','REALTIME','DAILY','HISTOGRAM'], 'display':"yes", 'colwidth':" style='width:200px;'"},
     'engine':        { 'title':"<?php echo _('Engine'); ?>", 'type':"select", 'options':['MYSQL','TIMESTORE','PHPTIMESERIES','GRAPHITE','PHPTIMESTORE','PHPFINA'], 'display':"yes", 'colwidth':" style='width:150px;'"},

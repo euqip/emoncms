@@ -31,7 +31,7 @@
 <h3><?php echo _('Expression documentation'); ?></h3>
 <p><?php echo _('Expression is used to specify active range.'); ?></p>
 <p><?php echo _('Granularity is day, month, week day, hour and minute. Expression is built mixing basic blocks with operation characters. All basic blocks are optional and can be mixed on the same expression to build complex schedule rules. White spaces are ignored and can be ommited.'); ?></p>
-<p><?php echo _('Time must be in GMT timezone only.'); ?></p>
+<p><?php echo _('Time must be in UTC timezone only.'); ?></p>
 <p><b><?php echo _('Basic blocks:'); ?></b></p>
 <pre>
                       <b>dd/mm</b> =>  Day and month in numeric format with leading zero
