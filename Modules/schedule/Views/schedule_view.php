@@ -33,26 +33,34 @@
     </div>
 </div>
 
-<div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel"><?php echo _('Delete schedule'); ?></h3>
-    </div>
-    <div class="modal-body">
-        <p><?php echo _('Deleting a schedule is permanent.'); ?>
-           <br><br>
-           <?php echo _('Are you sure you want to delete?'); ?>
-        </p>
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
-        <button id="confirmdelete" class="btn btn-primary"><?php echo _('Delete permanently'); ?></button>
+
+<div class="modal fade emoncms-dialog type-danger" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">"<?php echo _('Are you sure you want to delete this schediule?'); ?>"</h4>
+            </div>
+            <div class="modal-body">
+                <div class="type-danger ">
+                    <div> <?php echo _('WARNING deleting a schedule is permanent'); ?> </div>
+                    <div> <?php echo _('Delete definitively schedule : '); ?> <span id="feedname"></span> </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
+                <button class="btn" id="confirmdelete"><span class="emoncms-dialog-button-icon glyphicon glyphicon-trash"></span><?php echo _('Delete'); ?></button>
+            </div>
+        </div>
     </div>
 </div>
+
 
 <script>
 
     var path = "<?php echo $path; ?>";
+    var firstrun = true;
+    var updateinterval =10000;
 
     // Extend table library field types
     //for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];
@@ -60,14 +68,14 @@
     table.element = "#table";
 
     table.fields = {
-        'edit-action':{'title':'', 'type':"edit",'display':"yes", 'colwidth':" style='width:30px;'"},
-        'id':{'type':"fixed"},
-        'name':{'title':'<?php echo _("Name"); ?>','type':"text"},
-        'expression':{'title':'<?php echo _('Expression'); ?>','type':"text"},
-        'public':{'title':"<?php echo _('Public'); ?>", 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock",'display':"yes", 'colwidth':" style='width:30px;'"},
+        'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>', 'type':"edit",'display':"yes", 'colwidth':" style='width:30px;'"},
+        'id':{'type':"fixed",'tooltip':'<?php echo _("Id"); ?>'},
+        'name':{'title':'<?php echo _("Name"); ?>','tooltip':'<?php echo _("Your prefered human readable name"); ?>','type':"text"},
+        'expression':{'title':'<?php echo _('Expression'); ?>','tooltip':'<?php echo _("Scheduling rule"); ?>','type':"text"},
+        'public':{'title':"<?php echo _('Public'); ?>",'tooltip':'<?php echo _("Toggle Public - Private"); ?>', 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock",'display':"yes", 'colwidth':" style='width:30px;'"},
 
         // Actions
-        'delete-action':{'title':'', 'type':"delete",'display':"yes", 'colwidth':" style='width:30px;'"},
+        'delete-action':{'title':'','tooltip':'<?php echo _("Delete line"); ?>', 'type':"delete",'display':"yes", 'colwidth':" style='width:30px;'"},
         'view-action':{'title':'', 'type':"iconbasic", 'icon':'glyphicon glyphicon-wrench','display':"no", 'colwidth':" style='width:30px;'"},
         'test-action':{'title':'', 'type':"iconbasic", 'icon':'glyphicon glyphicon-eye-open','display':"no", 'colwidth':" style='width:30px;'"}
     }
@@ -127,14 +135,15 @@
         }});
     }
 
-    var updater;
+    var updater = setInterval(update, updateinterval);
+
     function updaterStart(func, interval)
     {
         clearInterval(updater);
         updater = null;
         if (interval > 0) updater = setInterval(func, interval);
     }
-    updaterStart(update, 10000);
+    updaterStart(update, updateinterval);
 
     $("#table").bind("onEdit", function(e){
         updaterStart(update, 0);
@@ -145,7 +154,7 @@
     });
 
     $("#table").bind("onResume", function(e){
-        updaterStart(update, 10000);
+        updaterStart(update, updateinterval);
     });
 
     $("#table").bind("onDelete", function(e,id,row){
@@ -174,7 +183,7 @@
 // Expression helper UI js
 //------------------------------------------------------------------------------------------------------------------------------------
 
-    $("#table").on('click', '.icon-wrench', function() {
+    $("#table").on('click', '.glyphicon-wrench', function() {
 
         var i = table.data[$(this).attr('row')];
         console.log(i);
@@ -182,7 +191,7 @@
 
     });
 
-    $("#table").on('click', '.icon-eye-open', function() {
+    $("#table").on('click', '.glyphicon-eye-open', function() {
 
         var i = table.data[$(this).attr('row')];
         console.log(i);
