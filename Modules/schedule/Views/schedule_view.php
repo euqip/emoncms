@@ -70,8 +70,9 @@
     table.fields = {
         'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>', 'type':"edit",'display':"yes", 'colwidth':" style='width:30px;'"},
         'id':{'type':"fixed",'tooltip':'<?php echo _("Id"); ?>', 'colwidth':" style='width:40px;'"},
-        'name':{'title':'<?php echo _("Name"); ?>','tooltip':'<?php echo _("Your prefered human readable name"); ?>','type':"text", 'colwidth':" style='width:200px;'"},
-        'expression':{'title':'<?php echo _('Expression'); ?>','tooltip':'<?php echo _("Scheduling rule"); ?>','type':"text", 'colwidth':" style='width:200px;'"},
+        'name':{'title':'<?php echo _("Name"); ?>','tooltip':'<?php echo _("Your prefered human readable name"); ?>','type':"text", 'colwidth':" style='width:100px;'"},
+        'expression':{'title':'<?php echo _('Expression'); ?>','tooltip':'<?php echo _("Scheduling rule"); ?>','type':"text", 'colwidth':" style='width:150px;'"},
+        'description':{'title':'<?php echo _('Description'); ?>','tooltip':'<?php echo _("Free schedule description text"); ?>','type':"text", 'colwidth':" style='width:200px;'"},
         'public':{'title':"<?php echo _('Public'); ?>",'tooltip':'<?php echo _("Toggle Public - Private"); ?>', 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock",'display':"yes", 'colwidth':" style='width:30px;'"},
 
         // Actions
@@ -129,7 +130,7 @@
                 $("#localheading").show();
             } else {
                 $("#noschedules").show();
-                $("#localheading").hide();
+                $("#localheading").show();
                 $("#apihelphead").hide();
             }
         }});

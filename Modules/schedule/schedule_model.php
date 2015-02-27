@@ -19,20 +19,21 @@ class Schedule
 {
     private $mysqli;
     private $log;
-    
+    private $tblname = "schedule";
+
     public function __construct($mysqli)
     {
         $this->mysqli = $mysqli;
         $this->log = new EmonLogger(__FILE__);
     }
-    
+
     public function exist($id)
     {
         $id = intval($id);
         $result = $this->mysqli->query("SELECT id FROM schedule WHERE id = '$id'");
         if ($result->num_rows>0) return true; else return false;
     }
-    
+
     public function get($id)
     {
         $id = (int) $id;
@@ -41,22 +42,22 @@ class Schedule
         $result = $this->mysqli->query("SELECT * FROM schedule WHERE id = '$id'");
         $row = (array) $result->fetch_object();
 
-        return $row;        
+        return $row;
     }
-    
+
     public function get_list($userid)
     {
         $userid = (int) $userid;
         $schedules = array();
-        
-        $result = $this->mysqli->query("SELECT `id`, `userid`, `name`, `expression`, `public`, CASE `userid` WHEN '$userid' THEN '1' ELSE '0' END AS `own` FROM schedule WHERE (userid = '$userid' OR public = '1')");
+
+        $result = $this->mysqli->query("SELECT *, CASE `userid` WHEN '$userid' THEN '1' ELSE '0' END AS `own` FROM schedule WHERE (userid = '$userid' OR public = '1')");
         while ($row = (array)$result->fetch_object())
         {
             $schedules[] = $row;
         }
         return $schedules;
     }
-    
+
     public function get_expression($id)
     {
         $id = (int) $id;
@@ -64,24 +65,24 @@ class Schedule
         $result = $this->mysqli->query("SELECT `expression` FROM schedule WHERE id = '$id'");
         $row = $result->fetch_array();
         $get_expression = array('expression'=>$row['expression']);
-        return $get_expression;        
+        return $get_expression;
     }
-    
+
     public function create($userid)
     {
         $userid = intval($userid);
         $this->mysqli->query("INSERT INTO schedule (`userid`,`name`,`expression`,`public`) VALUES ('$userid','New Schedule','',0)");
-        return $this->mysqli->insert_id;  
+        return $this->mysqli->insert_id;
     }
 
     public function delete($id)
     {
         $id = (int) $id;
         if (!$this->exist($id)) return array('success'=>false, 'message'=>'Schedule does not exist');
-        
+
         $result = $this->mysqli->query("DELETE FROM schedule WHERE `id` = '$id'");
     }
-    
+
     public function set_fields($id,$fields)
     {
         $id = (int) $id;
@@ -94,8 +95,9 @@ class Schedule
         // Repeat this line changing the field name to add fields that can be updated:
         if (isset($fields->name)) $array[] = "`name` = '".preg_replace('/[^\w\s-:]/','',$fields->name)."'";
         if (isset($fields->expression)) $array[] = "`expression` = '".preg_replace('/[^\/\|\,\w\s-:]/','',$fields->expression)."'";
+        if (isset($fields->description)) $array[] = "`description` = '".preg_replace('/[^\/\|\,\w\s-:]/','',$fields->description)."'";
         if (isset($fields->public)) $array[] = "`public` = '".intval($fields->public)."'";
-        
+
         // Convert to a comma seperated string for the mysql query
         $fieldstr = implode(",",$array);
         $this->mysqli->query("UPDATE schedule SET ".$fieldstr." WHERE `id` = '$id'");
@@ -107,19 +109,19 @@ class Schedule
             return array('success'=>false, 'message'=>'Field could not be updated');
         }
     }
-	
+
     public function test_expression($expression) {
         $time = time();
 		$result = $this->match_engine($expression,$time,true);
         return $result;
     }
-	
+
 	public function match($expression, $time) {
 		return $this->match_engine($expression,$time,false);
 	}
 
 	// Private
-	
+
 	// used by expression builder for help debuging an expression
 	// support were: http://openenergymonitor.org/emon/node/10019
     private function match_engine($expression, $time, $debug) {
@@ -133,19 +135,19 @@ class Schedule
         //           '25/12 | 00:00-24:00'
         //           '01/12 - 31/12 | Sat,Sun | 09:00-12:00, 13:00-20:00'
         //           '15/01, 29/02, 01/01-18/02, 01/08-25/12, 19/09 | Mon-Fri | 12:00-14:00, 18:00-22:30, Thu | 18:00-22:00'
-        //           '00:00-08:00,22:00-24:00'                              <- Diary Winter Empty 
+        //           '00:00-08:00,22:00-24:00'                              <- Diary Winter Empty
         //           '08:00-09:00,10:30-18:00,20:30-22:00'                  <- Diary Winter Full
-        //           '09:00-10:30,18:00-20:30'                              <- Diary Winter Top 
-        
+        //           '09:00-10:30,18:00-20:30'                              <- Diary Winter Top
+
         //           '00:00-08:00,22:00-24:00'                              <- Diary Summer Empty
         //           '08:00-10:30,13:00-19:30,21:00-22:00'                  <- Diary Summer Full
         //           '10:30-13:00,19:30-21:00'                              <- Diary Summer Top
-        
-        //           'Mon-Fri|00:00-07:00, Sat|00:00-09:30,13:00-18:30,22:00-24:00, Sun|00:00-24:00'    <- Weekly Winter Empty 
+
+        //           'Mon-Fri|00:00-07:00, Sat|00:00-09:30,13:00-18:30,22:00-24:00, Sun|00:00-24:00'    <- Weekly Winter Empty
         //           'Mon-Fri|07:00-09:30,12:00-18:30,21:00-24:00, Sat|09:30-13:00,18:30-22:00'         <- Weekly Winter Full
         //           'Mon-Fri|09:30-12:00,18:30-21:00'                                                  <- Weekly Winter Top
-        
-        //           'Mon-Fri|00:00-07:00, Sat|00:00-09:00,14:00-20:00,22:00-24:00, Sun|00:00-24:00'    <- Weekly Summer Empty 
+
+        //           'Mon-Fri|00:00-07:00, Sat|00:00-09:00,14:00-20:00,22:00-24:00, Sun|00:00-24:00'    <- Weekly Summer Empty
         //           'Mon-Fri|07:00-09:15,12:15-24:00, Sat|09:00-14:00,20:00-22:00'                     <- Weekly Summer Full
         //           'Mon-Fri|09:15-12:15'                                                              <- Weekly Summer Top
 
@@ -159,13 +161,13 @@ class Schedule
         $inrange_dayweek = false;
         $inrange_hour = false;
         $debugval = "";
-        
+
         if ($debug) $debugval.=  $timeFull->format("H:i:s D d-m-Y T") . "<BR>";
         if ($debug) $debugval.= $timeDay->format("H:i:s D d-m-Y T") . "<BR>";
         if ($debug) $debugval.= $timeWeekDay . "<BR>";
         if ($debug) $debugval.= $timeHrMin->format("H:i:s D d-m-Y T") . "<BR>";
         if ($debug) $debugval.= $expression . "<br>";
-        
+
         preg_match_all('/((?<days>(([\d\s\/]*)\s*[-,]?)+)\|?\s*)((?<daysweek>((Mon|Tue|Wed|Thu|Fri|Sat|Sun)?\s*[-,]?\s*)+)\|?\s*)(?<times>((\d\d:\d\d\s*-\s*\d\d:\d\d),?\s*)+)/x', $expression, $matches, PREG_SET_ORDER);
 
         if ($debug) $debug_schedule = array();
@@ -176,7 +178,7 @@ class Schedule
             $daysweek = explode(',', $daysweek);
             $times = str_replace(" ", "", $match['times']);
             $times = array_filter(explode(',', $times));
-            
+
             foreach($days as $day) {
                 if ($debug) $debugval.= "<br>";
                 if ($debug) $debugval.= print_r($day,true);
@@ -249,11 +251,11 @@ class Schedule
                 }
             }
         }
-        if ($debug) { 
+        if ($debug) {
 			$debugval.=print_r($debug_schedule,true);
 			return array ("result" => $inrange_hour, "debug" => $debugval);
 		}
 		return $inrange_hour;
     }
-	
+
 }
