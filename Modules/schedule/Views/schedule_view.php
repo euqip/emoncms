@@ -39,12 +39,12 @@
         <div class="modal-content">
             <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title">"<?php echo _('Are you sure you want to delete this schediule?'); ?>"</h4>
+                  <h4 class="modal-title">"<?php echo _('Are you sure you want to delete this schedule?'); ?>"</h4>
             </div>
             <div class="modal-body">
                 <div class="type-danger ">
                     <div> <?php echo _('WARNING deleting a schedule is permanent'); ?> </div>
-                    <div> <?php echo _('Delete definitively schedule : '); ?> <span id="feedname"></span> </div>
+                    <div> <?php echo _('Delete definitively schedule : '); ?> <span id="schedulename"></span> </div>
                </div>
             </div>
             <div class="modal-footer">
@@ -69,9 +69,9 @@
 
     table.fields = {
         'edit-action':{'title':'','tooltip':'<?php echo _("Edit"); ?>', 'type':"edit",'display':"yes", 'colwidth':" style='width:30px;'"},
-        'id':{'type':"fixed",'tooltip':'<?php echo _("Id"); ?>'},
-        'name':{'title':'<?php echo _("Name"); ?>','tooltip':'<?php echo _("Your prefered human readable name"); ?>','type':"text"},
-        'expression':{'title':'<?php echo _('Expression'); ?>','tooltip':'<?php echo _("Scheduling rule"); ?>','type':"text"},
+        'id':{'type':"fixed",'tooltip':'<?php echo _("Id"); ?>', 'colwidth':" style='width:40px;'"},
+        'name':{'title':'<?php echo _("Name"); ?>','tooltip':'<?php echo _("Your prefered human readable name"); ?>','type':"text", 'colwidth':" style='width:200px;'"},
+        'expression':{'title':'<?php echo _('Expression'); ?>','tooltip':'<?php echo _("Scheduling rule"); ?>','type':"text", 'colwidth':" style='width:200px;'"},
         'public':{'title':"<?php echo _('Public'); ?>",'tooltip':'<?php echo _("Toggle Public - Private"); ?>', 'type':"icon", 'trueicon':"glyphicon glyphicon-globe", 'falseicon':"glyphicon glyphicon-lock",'display':"yes", 'colwidth':" style='width:30px;'"},
 
         // Actions
@@ -160,7 +160,9 @@
     $("#table").bind("onDelete", function(e,id,row){
         $('#myModal').modal('show');
         $('#myModal').attr('scheduleid',id);
-        $('#myModal').attr('feedrow',row);
+        $('#myModal').attr('schedulerow',row);
+        // show schedule name in modal box
+        $('#schedulename').html (table.data[row].name);
     });
 
     $("#confirmdelete").click(function()
