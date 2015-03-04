@@ -35,7 +35,6 @@ $schema['users'] = array(
     'createbyid'   => array ('type' => 'int(11)', 'Null'=>'YES'),
     'createbyname' => array ('type' => 'varchar(30)', 'default'=>'', 'Null'=>'NO'),
     'createdate'   => array ('type' => 'datetime', 'Null'=>'YES'),
-    'crtdate'      => array ('type' => 'datetime'),
     //table index
     'index' => array(
         'orgid'=> array('unique'=>false),

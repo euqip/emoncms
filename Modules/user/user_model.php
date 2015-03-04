@@ -226,7 +226,7 @@ public function apikey_session($apikey_in)
             $admin = 5;
         }
 
-        if (!$this->mysqli->query("INSERT INTO users ( username, password, email, salt ,apikey_read, apikey_write, admin, orgid ) VALUES ( '$username' , '$hash', '$email', '$salt', '$apikey_read', '$apikey_write', '$admin', '$orgid' );")) {
+        if (!$this->mysqli->query("INSERT INTO users ( username, password, email, salt ,apikey_read, apikey_write, admin, orgid, createdate ) VALUES ( '$username' , '$hash', '$email', '$salt', '$apikey_read', '$apikey_write', '$admin', '$orgid', now() );")) {
             return array('success'=>false, 'message'=>_("Error creating user"));
         }
 
