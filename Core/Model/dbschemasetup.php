@@ -36,7 +36,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                     if (isset($schema[$table][$field]['Key'])) $key = $schema[$table][$field]['Key']; else $key = null;
                     if (isset($schema[$table][$field]['default'])) $default = $schema[$table][$field]['default']; else unset($default);
                     if (isset($schema[$table][$field]['Extra'])) $extra = $schema[$table][$field]['Extra']; else $extra = null;
-                    //if (isset($schema[$table][$field]['comments'])) $extra = $schema[$table][$field]['comments']; else $comments = null;
+                    if (isset($schema[$table][$field]['comments'])) $comment = $schema[$table][$field]['comments']; else $comments = null;
 
                     // if field exists:
                     $result = $mysqli->query("SHOW COLUMNS FROM `$table` LIKE '$field'");
@@ -45,6 +45,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                         $query = "ALTER TABLE `$table` ADD `$field` $type";
                         if ($null) $query .= " NOT NULL";
                         if (isset($default)) $query .= " DEFAULT '$default'";
+                        if (isset($comment)) $query .= " COMMENT '$comment'";
                         $operations[] = $query;
                         if ($apply) $mysqli->query($query);
                     }
@@ -111,6 +112,7 @@ function db_schema_setup($mysqli, $schema, $apply)
                     if ($null=="NO") $query .= " not null";
                     if ($extra) $query .= " auto_increment";
                     if ($key) $query .= " primary key";
+                    if (isset($comment)) $query .= " COMMENT '$comment'";
 
                     next($schema[$table]);
                     $comma=', ';
@@ -120,7 +122,6 @@ function db_schema_setup($mysqli, $schema, $apply)
             }
             $query .= ")";
             $query .= " ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1";
-            if ($comment) $query .= " COMMENT '".$comment."'";
 
             if ($query) $operations[] = $query;
             if ($query && $apply) $mysqli->query($query);
