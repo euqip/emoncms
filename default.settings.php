@@ -180,6 +180,15 @@ gmail example:
         //orggroup may be '', than no groups are made, it is used in organisations list view
         'dashletter'=> "ucase(LEFT(name,1)) as letter",
 
+        'csv_parameters'=> array(
+          'csvdownloadlimit_mb' => 10,
+          'csv_field_separator'=>";",
+          'csv_decimal_place_separator'=>",",
+          'csv_thousandsepar_separator'=>"",
+          'csv_dateformat'=>"Y-m-d",
+          'csv_timeformat'=>"H:i:s"
+          ),
+
         );
     $author=array(
       'lamba'    => 0,

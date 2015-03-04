@@ -30,20 +30,20 @@ class ConnectionManager {
  */
 	protected static function _init()
 	{
-		if (Configure::check('DB_CONFIG')) 
+		if (Configure::check('DB_CONFIG'))
 		{
 			self::$config = Configure::read('DB_CONFIG');
 		}
 		self::$_init = true;
 	}
 
-	public static function getDataSource($db) 
+	public static function getDataSource($db)
 	{
-		if (!self::$_init) 
+		if (!self::$_init)
 		{
 			self::_init();
 		}
-		if (!empty(self::$_dataSources[$db])) 
+		if (!empty(self::$_dataSources[$db]))
 		{
 			return self::$_dataSources[$db];
 		}
@@ -60,9 +60,9 @@ class ConnectionManager {
 	}
 
 /**
- * Get a list of tables for the give 
+ * Get a list of tables for the give
  */
-	public static function tables($db) 
+	public static function tables($db)
 	{
 		$Statement = self::getDataSource($db)->prepare('SHOW TABLES;');
 		$Statement->execute();

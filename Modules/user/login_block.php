@@ -99,6 +99,7 @@ var path = "<?php echo $path; ?>";
 
 $("#login").click(login);
 $("#register-link").click(register);
+$("#register").click(register);
 
 $("#passwordreset-link").click(function(){
     $("#passwordreset-block").show();
@@ -173,7 +174,7 @@ function register(){
 
     if (password != confirmpassword)
     {
-        $("#error").show();
+        //$("#error").show();
     }
     else
     {
