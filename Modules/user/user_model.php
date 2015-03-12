@@ -506,38 +506,32 @@ public function apikey_session($apikey_in)
 */
     public function get_username($id)
     {
-        $this->get($id,'username');
-        return $this->usrdata->username;
-    }
+        return $this->get($id,'username');
+     }
 
     public function get_apikey_read($id)
     {
-        $this->get($id,'apikey_read');
-        return $this->usrdata->apikey_read;
+        return $this->get($id,'apikey_read');
     }
 
     public function get_apikey_write($id)
     {
-        $this->get($id,'apikey_write');
-        return $this->usrdata->apikey_write;
+        return $this->get($id,'apikey_write');
     }
 
     public function get_lang($id)
     {
-        $this->get($id,'language');
-        return $this->usrdata->language;
+        return $this->get($id,'language');
     }
 
     public function get_timezone($id)
     {
-        $this->get($id,'timezone');
-        return $this->usrdata->timezone;
+        return $this->get($id,'timezone');
     }
 
     public function get_salt($id)
     {
-        $this->get($id,'salt');
-        return $this->usrdata->salt;
+        return $this->get($id,'salt');
     }
 
     public function get_partial($id)
@@ -552,10 +546,11 @@ public function apikey_session($apikey_in)
     public function get_id($username)
     {
         if (!ctype_alnum($username)) return false;
+        return $this->get_wcond('id',"username = '$username'");
 
-        $result = $this->mysqli->query("SELECT id FROM $this->useTable WHERE username = '$username';");
-        $row = $result->fetch_array();
-        return $row['id'];
+        //$result = $this->mysqli->query("SELECT id FROM $this->useTable WHERE username = '$username';");
+        //$row = $result->fetch_array();
+        //return $row['id'];
     }
 
     public function get_wcond($flds,$wcond)
@@ -654,6 +649,10 @@ public function apikey_session($apikey_in)
     //---------------------------------------------------------------------------------------
     // Special methods
     //---------------------------------------------------------------------------------------
+    /**
+     * returns the requested fields in an array , or a string if only one is requested
+     * return only one record data select with ID
+     */
 
     public function get($id, $flds= "*")
     {
@@ -675,6 +674,8 @@ public function apikey_session($apikey_in)
                 foreach ($fld as $v){
                     $tmpdata[$v]=$this->usrdata->$v;
                 }
+                // when reading only one field dont not return an array but the field
+                if (count($tmpdata)==1) return $tmpdata[$flds];
                 break;
         }
         return $tmpdata;
@@ -700,7 +701,8 @@ public function apikey_session($apikey_in)
         $csvparam = ', csvparam      = "'.intval($data->csvparam).'"';
         $csvdate  = ', csvdate       = "'.intval($data->csvdate).'"';
         $csvtime  = ', csvtime       = "'.intval($data->csvtime).'"';
-        $sql = "UPDATE $this->useTable SET $gravatar
+        $sql = "UPDATE $this->useTable SET 
+                                 $gravatar
                                  $name
                                  $location
                                  $timezone
