@@ -59,7 +59,7 @@ $usergroupfield="";
                         <td><input class="form-control options" id="newemail" type="text" value=""></td>
                         <td><small><p class="muted"><?php echo _('User Email, should be unique!') ?></p></small></td>
                     </tr>
-                    so<tr>
+                    <tr>
                     <td class="option_name"><?php echo _('Password') ?></td>
                     <td><input class="form-control options" id="newpassword" type="text" value="<?php echo substr(hash('sha256', 'password'),1,8); ?>"></td>
                     <td><small><p class="muted"><?php echo _('The password should be changed at first next login') ?></p></small></td>

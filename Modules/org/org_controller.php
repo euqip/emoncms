@@ -38,7 +38,7 @@ function org_controller()
         if ($route->action == 'changeusername' && $session['write']) $result = $user->change_username($session['userid'],get('username'));
         if ($route->action == 'changeemail' && $session['write']) $result = $user->change_email($session['userid'],get('email'));
         if ($route->action == 'changepassword' && $session['write']) $result = $user->change_password($session['userid'],get('old'),get('new'));
-        
+
         if ($route->action == 'passwordreset') $result = $user->passwordreset(get('username'),get('email'));
         // Apikey
         if ($route->action == 'newapikeyread' && $session['write']) $result = $user->new_apikey_read($session['userid']);
@@ -50,10 +50,10 @@ function org_controller()
         if ($route->action == 'get' && $session['write']) $result = $user->get($session['userid']);
 
         if ($route->action == 'set' && $session['write']) $result = $user->set($session['userid'],json_decode(get('data')));
-
+/*
         if ($route->action == 'getconvert' && $session['write']) $result = $user->get_convert_status($session['userid']);
         if ($route->action == 'setconvert' && $session['write']) $result = $user->set_convert_status($session['userid']);
-
+*/
 
         if ($route->action == 'timezone' && $session['read']) $result = $user->get_timezone($session['userid']);
     }

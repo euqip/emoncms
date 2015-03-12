@@ -59,14 +59,14 @@ function user_controller()
         if ($route->action == 'auth' && !$session['read']) $result = $user->get_apikeys_from_login(post('username'),post('password'));
 
         // Get and set - user by profile client
-        if ($route->action == 'get' && $session['write']) $result = $user->get($myuser);
+        if ($route->action == 'get' && $session['write']) $result = $user->get_partial($myuser);
         if ($route->action == 'set' && $session['write']) $result = $user->set($myuser,json_decode(post('data')));
 
         //if ($route->action == 'get' && $session['write']) $result = $user->get($session['userid']);
         //if ($route->action == 'set' && $session['write']) $result = $user->set($session['userid'],json_decode(get('data')));
 
-        if ($route->action == 'getconvert' && $session['write']) $result = $user->get_convert_status($session['userid']);
-        if ($route->action == 'setconvert' && $session['write']) $result = $user->set_convert_status($session['userid']);
+        //if ($route->action == 'getconvert' && $session['write']) $result = $user->get_convert_status($session['userid']);
+        //if ($route->action == 'setconvert' && $session['write']) $result = $user->set_convert_status($session['userid']);
 
 
         if ($route->action == 'timezone' && $session['read']) $result = $user->get_timezone($session['userid']);

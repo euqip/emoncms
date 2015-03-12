@@ -28,16 +28,16 @@ $separ         = $user -> get_available_separators();
     //languages order by language name
     $languages_new = array();
     foreach ($languages_name as $key=>$lang){
-       $languages_new[$key]=$languages[$key];        
+       $languages_new[$key]=$languages[$key];
     }
-    $languages= array_values($languages_new); 
+    $languages= array_values($languages_new);
     $languages_name= array_values($languages_name);
 
 
 function languagecode_to_name($lang){
-    
+
     foreach ($lang as $key=>$val){
-      //echo $key.'-'.$val; 
+      //echo $key.'-'.$val;
       switch($val) {
               case 'cy_GB': $lang[$key]=_('Welsh (United Kingdom)'); break;
               case 'da_DK': $lang[$key]=_('Danish (Denmark)'); break;
@@ -47,6 +47,7 @@ function languagecode_to_name($lang){
               case 'it_IT': $lang[$key]=_('Italian (Italy)'); break;
               case 'nl_BE': $lang[$key]=_('Dutch (Belgium)'); break;
               case 'nl_NL': $lang[$key]=_('Dutch (Netherlands)'); break;
+              case 'de_DE': $lang[$key]=_('German (Germany)'); break;
       }
     }
    asort($lang);
@@ -77,7 +78,7 @@ function languagecode_to_name($lang){
                     <input class="username form-control" type="text" size ="40">
                 </div>
             </p>
-            <div id="change-username-error" class="alert-danger" style="display:none; width:100%"></div> 
+            <div id="change-username-error" class="alert-danger" style="display:none; width:100%"></div>
 
 
             <span class="text-muted"><?php echo _('Email'); ?></span>
@@ -91,7 +92,7 @@ function languagecode_to_name($lang){
                     <input class="email form-control" type="email" size="40">
                 </div>
             </p>
-            <div id="change-email-error" class="alert-danger" style="display:none; width:100%"></div> 
+            <div id="change-email-error" class="alert-danger" style="display:none; width:100%"></div>
 
             <p>
                 <span class="text-muted"><?php echo _('Write API Key'); ?> </span>

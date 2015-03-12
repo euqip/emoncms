@@ -12,7 +12,7 @@
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
 
-class User
+class User extends Model
 {
 
     private $mysqli;
@@ -22,9 +22,11 @@ class User
     private $log;
     private $org;
     private $behavior;
+    private $usrdata=array();
 
     public function __construct($mysqli,$redis,$rememberme,$org)
     {
+        parent::__construct();
         //copy the settings value, otherwise the enable_rememberme will always be false.
         global $enable_rememberme, $path, $behavior;
         $this->enable_rememberme = $enable_rememberme;
@@ -37,6 +39,8 @@ class User
 
         $this->org = $org;
         $this->behavior = $behavior;
+        $this->userdate =array();
+        $this->useTable = "users";
     }
 
     //---------------------------------------------------------------------------------------
@@ -59,7 +63,6 @@ public function apikey_session($apikey_in)
         //----------------------------------------------------
         // Check for apikey login
         //----------------------------------------------------
-        $sqlbase= "SELECT id, language, orgid FROM users WHERE ";
         if($this->redis && $this->redis->exists("writeapikey:$apikey_in"))
         {
             $session['userid'] = $this->redis->get("writeapikey:$apikey_in");
@@ -89,8 +92,11 @@ public function apikey_session($apikey_in)
         }
         else
         {
-            $sql = $sqlbase." apikey_write ='$apikey_in'";
-            $result = $this->mysqli->query($sql);
+            //$sqlbase= "SELECT id, language, orgid FROM $this->useTable WHERE ";
+            //$sql = $sqlbase." apikey_write ='$apikey_in'";
+            //$result = $this->mysqli->query($sql);
+            $wcond =" apikey_write ='$apikey_in'";
+            $result = $this->get_wcond("id, language, orgid", $wcond);
             if ($result->num_rows == 1)
             {
                 $row = $result->fetch_array();
@@ -220,28 +226,29 @@ public function apikey_session($apikey_in)
         $apikey_read = md5(uniqid(mt_rand(), true));
         $orgid = 0;
         $admin = 0;
+        $crby = $username.' auto register';
         if ((isset($_SESSION['admin']))  && $_SESSION['admin']==3) {
             $orgid=intval($_SESSION['orgid']);
             // define user by default as viewer, the orgadmin is able to update this
             $admin = 5;
         }
-
-        if (!$this->mysqli->query("INSERT INTO users ( username, password, email, salt ,apikey_read, apikey_write, admin, orgid, createdate ) VALUES ( '$username' , '$hash', '$email', '$salt', '$apikey_read', '$apikey_write', '$admin', '$orgid', now() );")) {
+        $sql = "INSERT INTO $this->useTable ( username, password, email, salt ,apikey_read, apikey_write, admin, orgid, createdate, createbyname ) VALUES ( '$username' , '$hash', '$email', '$salt', '$apikey_read', '$apikey_write', '$admin', '$orgid', now(), '$crby' );";
+        if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error creating user"));
         }
 
         // Make the first user an admin
-        $userid = $this->mysqli->insert_id;
-        if ($userid == 1) $this->mysqli->query("UPDATE users SET admin = 1 WHERE id = '1'");
+        $id = $this->mysqli->insert_id;
+        //if ($userid == 1) $this->mysqli->query("UPDATE users SET admin = 1 WHERE id = '1'");
+        if ($id == 1) $this->set_field($id,'1');
 
-        return array('success'=>true, 'userid'=>$userid, 'apikey_read'=>$apikey_read, 'apikey_write'=>$apikey_write);
+        return array('success'=>true, 'userid'=>$id, 'apikey_read'=>$apikey_read, 'apikey_write'=>$apikey_write);
     }
-    public function forcenewpwd($userid)
+    public function forcenewpwd($id)
     {
-        $userid = $this->mysqli->real_escape_string($userid);
-        $sql="UPDATE users SET changepswd = 1 WHERE id = '$userid'";
-        $result = $this->mysqli->query ($sql);
-        $sql="SELECT * FROM users  WHERE id = '$userid' AND changepswd=1";
+        $id = $this->mysqli->real_escape_string($id);
+        $this->set_field($id, " changepswd = 1 ");
+        $sql="SELECT * FROM $this->useTable  WHERE id = '$id' AND changepswd=1";
         $result = $this->mysqli->query($sql);
         $userData = $result->fetch_object();
         return array('success'=>true, 'userid'=>$userData->id, 'apikey_read'=>$userData->apikey_read, 'apikey_write'=>$userData->apikey_write, 'message'=>_("User will be forced to change password right after next login"));
@@ -262,7 +269,7 @@ public function apikey_session($apikey_in)
         if (!$username || !$password) return array('success'=>false, 'message'=>_("Username or password empty"));
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
-        $sql = "SELECT id,username, password,admin,salt,language, changepswd, orgid, csvparam, csvdate, csvtime FROM users WHERE username = '$username'";
+        $sql = "SELECT id,username, password,admin,salt,language, changepswd, orgid, csvparam, csvdate, csvtime FROM $this->useTable WHERE username = '$username'";
         $result = $this->mysqli->query($sql);
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect username - password, if you are sure its correct try clearing your browser cache"));
@@ -277,31 +284,9 @@ public function apikey_session($apikey_in)
         else
         {
             $id=$userData->id;
-            $this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
+            $this->set_lastlogin($id);
             $this->org->lastlogin($userData->orgid);
             //if ($userdata->forcenewpwd =1)
-
-/*
-            $dateformats = $this->get_available_dateformats();
-            $timeformats = $this->get_available_timeformats();
-            $scvseparators = $this->get_available_separators();
-            preg_match_all('/\(.\)/',  $scvseparators[$userData->csvparam], $matches, PREG_OFFSET_CAPTURE, 8);
-
-            session_regenerate_id();
-            $_SESSION['userid'] = $id;
-            $_SESSION['username'] = $username;
-            $_SESSION['read'] = 1;
-            $_SESSION['write'] = 1;
-            $_SESSION['admin'] = $userData->admin;
-            $_SESSION['orgid'] = $userData->orgid;
-            $_SESSION['lang'] = $userData->language;
-            $_SESSION['editmode'] = TRUE;
-            $_SESSION['csv_field_separator'] = substr($matches[0][0][0],1,1);
-            $_SESSION['csv_decimal_place_separator'] =  substr($matches[0][1][0],1,1);
-            $_SESSION['csv_thousandsepar_separator'] =  substr($matches[0][2][0],1,1);
-            $_SESSION['csvdate'] = $dateformats[$userData->csvdate];
-            $_SESSION['csvtime'] = $timeformats[$userData->csvtime];
-*/
             $this->generate_session($userData);
             if ($this->enable_rememberme) {
                 if ($remembermecheck==true) {
@@ -351,7 +336,7 @@ public function apikey_session($apikey_in)
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
 
-        $result = $this->mysqli->query("SELECT id,password,admin,salt,language, apikey_write,apikey_read FROM users WHERE username = '$username'");
+        $result = $this->mysqli->query("SELECT id,password,admin,salt,language, apikey_write,apikey_read FROM $this->useTable WHERE username = '$username'");
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect authentication"));
 
@@ -380,11 +365,6 @@ public function apikey_session($apikey_in)
         session_destroy();
     }
 
-    public function lastlogin($id)
-    {
-            $result=$this->mysqli->query("UPDATE users SET lastlogin =now() WHERE id = '$id'");
-            return $result;
-    }
 
 
     public function change_password($userid, $old, $new)
@@ -397,7 +377,7 @@ public function apikey_session($apikey_in)
         if (strlen($new) < 4 || strlen($new) > 30) return array('success'=>false, 'message'=>_("Password length error"));
 
         // 1) check that old password is correct
-        $result = $this->mysqli->query("SELECT password, salt FROM users WHERE id = '$userid'");
+        $result = $this->mysqli->query("SELECT password, salt FROM $this->useTable WHERE id = '$userid'");
         $row = $result->fetch_object();
         $hash = hash('sha256', $row->salt . hash('sha256', $old));
 
@@ -408,7 +388,7 @@ public function apikey_session($apikey_in)
             $string = md5(uniqid(rand(), true));
             $salt = substr($string, 0, 3);
             $hash = hash('sha256', $salt . $hash);
-            $this->mysqli->query("UPDATE users SET password = '$hash', salt = '$salt' WHERE id = '$userid'");
+            $this->mysqli->query("UPDATE $this->useTable SET password = '$hash', salt = '$salt' WHERE id = '$userid'");
             return array('success'=>true);
         }
         else
@@ -422,7 +402,7 @@ public function apikey_session($apikey_in)
         $username_out = preg_replace('/[^\w\s-]/','',$username);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return array('success'=>false, 'message'=>_("Email address format error"));
 
-        $result = $this->mysqli->query("SELECT * FROM users WHERE `username`='$username_out' AND `email`='$email'");
+        $result = $this->mysqli->query("SELECT * FROM $this->useTable WHERE `username`='$username_out' AND `email`='$email'");
 
         if ($result->num_rows==1)
         {
@@ -444,7 +424,7 @@ public function apikey_session($apikey_in)
                 $hash    = hash('sha256', $salt . $hash);
 
                 // Save hash and salt
-                $this->mysqli->query("UPDATE users SET password = '$hash', salt = '$salt' WHERE id = '$userid'");
+                $this->mysqli->query("UPDATE $this->useTable SET password = '$hash', salt = '$salt' WHERE id = '$userid'");
 
                 //------------------------------------------------------------------------------
                 global $enable_password_reset;
@@ -511,99 +491,60 @@ public function apikey_session($apikey_in)
     }
 
 
-    public function change_username($userid, $username)
-    {
-        if (isset($_SESSION['cookielogin']) && $_SESSION['cookielogin']==true) return array('success'=>false, 'message'=>_("As your using a cookie based remember me login, please logout and log back in to change username"));
-
-        $userid = intval($userid);
-        if (strlen($username) < 4 || strlen($username) > 30) return array('success'=>false, 'message'=>_("Username length error"));
-
-        if (!ctype_alnum($username)) return array('success'=>false, 'message'=>_("Username must only contain a-z and 0-9 characters"));
-
-        $result = $this->mysqli->query("SELECT id FROM users WHERE username = '$username'");
-        $row = $result->fetch_array();
-        if (!$row[0])
-        {
-            $this->mysqli->query("UPDATE users SET username = '$username' WHERE id = '$userid'");
-            return array('success'=>true, 'message'=>_("Username updated"));
-        }
-        else
-        {
-            return array('success'=>false, 'message'=>_("Username already exists"));
-        }
-    }
-
-    public function change_email($userid, $email)
-    {
-        if (isset($_SESSION['cookielogin']) && $_SESSION['cookielogin']==true) return array('success'=>false, 'message'=>_("As your using a cookie based remember me login, please logout and log back in to change email"));
-
-        $userid = intval($userid);
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return array('success'=>false, 'message'=>_("Email address format error"));
-
-        $this->mysqli->query("UPDATE users SET email = '$email' WHERE id = '$userid'");
-        return array('success'=>true, 'message'=>_("Email updated"));
-    }
 
     //---------------------------------------------------------------------------------------
     // Get by userid methods
     //---------------------------------------------------------------------------------------
-
-    public function get_convert_status($userid)
+    /*
+    public function get_convert_status($id)
     {
-        $userid = intval($userid);
-        $result = $this->mysqli->query("SELECT `convert` FROM users WHERE id = '$userid';");
+        $id = intval($id);
+        $result = $this->mysqli->query("SELECT `convert` FROM users WHERE id = '$id';");
         $row = $result->fetch_array();
         return array('convert'=>(int)$row['convert']);
     }
-
-    public function get_username($userid)
+*/
+    public function get_username($id)
     {
-        $userid = intval($userid);
-        $result = $this->mysqli->query("SELECT username FROM users WHERE id = '$userid';");
-        $row = $result->fetch_array();
-        return $row['username'];
+        $this->get($id,'username');
+        return $this->usrdata->username;
     }
 
-    public function get_apikey_read($userid)
+    public function get_apikey_read($id)
     {
-        $userid = intval($userid);
-        $result = $this->mysqli->query("SELECT `apikey_read` FROM users WHERE `id`='$userid'");
-        $row = $result->fetch_object();
-        return $row->apikey_read;
+        $this->get($id,'apikey_read');
+        return $this->usrdata->apikey_read;
     }
 
-    public function get_apikey_write($userid)
+    public function get_apikey_write($id)
     {
-        $userid = intval($userid);
-        $result = $this->mysqli->query("SELECT `apikey_write` FROM users WHERE `id`='$userid'");
-        $row = $result->fetch_object();
-        return $row->apikey_write;
+        $this->get($id,'apikey_write');
+        return $this->usrdata->apikey_write;
     }
 
-    public function get_lang($userid)
+    public function get_lang($id)
     {
-        $userid = intval($userid);
-        $result = $this->mysqli->query("SELECT lang FROM users WHERE id = '$userid';");
-        $row = $result->fetch_array();
-        return $row['lang'];
+        $this->get($id,'language');
+        return $this->usrdata->language;
     }
 
-    public function get_timezone($userid)
+    public function get_timezone($id)
     {
-        $userid = intval($userid);
-        $result = $this->mysqli->query("SELECT timezone FROM users WHERE id = '$userid';");
-        $row = $result->fetch_object();
-        return intval($row->timezone);
+        $this->get($id,'timezone');
+        return $this->usrdata->timezone;
     }
 
-    public function get_salt($userid)
+    public function get_salt($id)
     {
-        $userid = intval($userid);
-        $result = $this->mysqli->query("SELECT salt FROM users WHERE id = '$userid'");
-        $row = $result->fetch_object();
-        return $row->salt;
+        $this->get($id,'salt');
+        return $this->usrdata->salt;
     }
 
+    public function get_partial($id)
+    {
+        $flds= " id, orgid, username, email, apikey_write, apikey_read, admin, gravatar, name, location, timezone, language, bio, changepswd, csvparam, csvdate, csvtime";
+        return $this->get ($id, $flds);
+    }
     //---------------------------------------------------------------------------------------
     // Get by other paramater methods
     //---------------------------------------------------------------------------------------
@@ -612,58 +553,138 @@ public function apikey_session($apikey_in)
     {
         if (!ctype_alnum($username)) return false;
 
-        $result = $this->mysqli->query("SELECT id FROM users WHERE username = '$username';");
+        $result = $this->mysqli->query("SELECT id FROM $this->useTable WHERE username = '$username';");
         $row = $result->fetch_array();
         return $row['id'];
+    }
+
+    public function get_wcond($flds,$wcond)
+    {
+        $result = $this->mysqli->query("SELECT $flds FROM $this->useTable WHERE $wcond;");
+        return $this->mysqli->query($sql);
     }
 
     //---------------------------------------------------------------------------------------
     // Set by id methods
     //---------------------------------------------------------------------------------------
 
-    public function set_convert_status($userid)
+    /*
+    public function set_convert_status($id)
     {
-        $userid = intval($userid);
-        $this->mysqli->query("UPDATE users SET `convert` = '1' WHERE id='$userid'");
+        $id = intval($id);
+        $this->mysqli->query("UPDATE users SET `convert` = '1' WHERE id='$id'");
         return array('convert'=>1);
     }
+    */
 
-    public function set_user_lang($userid, $lang)
+    public function set_user_lang($id, $lang)
     {
-        $this->mysqli->query("UPDATE users SET lang = '$lang' WHERE id='$userid'");
+        $this->set_field ($id," language = '".$lang."'");
     }
 
-    public function set_timezone($userid,$timezone)
+    public function set_timezone($id,$timezone)
     {
-        $userid = intval($userid);
-        $timezone = intval($timezone);
-        $this->mysqli->query("UPDATE users SET timezone = '$timezone' WHERE id='$userid'");
+        $this->set_field ($id," timezone = '".intval($timezone)."'");
     }
-    public function set_orgid($userid,$irgid)
+    public function set_orgid($id,$orgid)
     {
-        $userid = intval($userid);
-        $orgid = intval($orgid);
-        $this->mysqli->query("UPDATE users SET orgid = '$orgid' WHERE id='$userid'");
+        $this->set_field ($id," orgid = '".intval($orgid)."'");
+    }
+    public function set_lastlogin($id)
+    {
+        $this->set_field ($id," lastlogin =now()");
+    }
+
+    public function change_email($id, $email)
+    {
+        if (isset($_SESSION['cookielogin']) && $_SESSION['cookielogin']==true) return array('success'=>false, 'message'=>_("As your using a cookie based remember me login, please logout and log back in to change email"));
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return array('success'=>false, 'message'=>_("Email address format error"));
+        $this->set_field ($id," email = '".$email."'");
+
+        return array('success'=>true, 'message'=>_("Email updated"));
+    }
+
+    public function change_username($id, $username)
+    {
+        if (isset($_SESSION['cookielogin']) && $_SESSION['cookielogin']==true) return array('success'=>false, 'message'=>_("As your using a cookie based remember me login, please logout and log back in to change username"));
+
+        if (strlen($username) < 4 || strlen($username) > 30) return array('success'=>false, 'message'=>_("Username length error"));
+
+        if (!ctype_alnum($username)) return array('success'=>false, 'message'=>_("Username must only contain a-z and 0-9 characters"));
+
+        // check first that this new username does not exist
+
+        //$result = $this->mysqli->query("SELECT id FROM users WHERE username = '$username'");
+        //$row = $result->fetch_array();
+
+        if (!$this->get_id($username))
+        {
+            $this->set_field ($id," username = '".$username."'");
+            return array('success'=>true, 'message'=>_("Username updated"));
+        }
+        else
+        {
+            return array('success'=>false, 'message'=>_("Username already exists"));
+        }
+    }
+
+    // Generates a new random read apikey
+    public function new_apikey_read($id)
+    {
+        $apikey = md5(uniqid(mt_rand(), true));
+        $this->set_field ($id," apikey_read = '".$apikey."'");
+        return $apikey;
+    }
+
+    // Generates a new random write apikey
+    public function new_apikey_write($id)
+    {
+        $apikey = md5(uniqid(mt_rand(), true));
+        $this->set_field ($id," apikey_write = '".$apikey."'");
+        return $apikey;
+    }
+
+    private function set_field($id,$fld)
+    {
+        $id = intval($id);
+        $this->mysqli->query("UPDATE $this->useTable SET $fld WHERE id='$id'");
     }
 
     //---------------------------------------------------------------------------------------
     // Special methods
     //---------------------------------------------------------------------------------------
 
-    public function get($userid)
+    public function get($id, $flds= "*")
     {
-        $userid = intval($userid);
-        $sql = "SELECT id,username,email,gravatar,name,location,timezone,language,bio,apikey_write,apikey_read, orgid, changepswd, admin,csvparam, csvdate, csvtime FROM users WHERE id=$userid";
-        $result = $this->mysqli->query($sql);
-        $data = $result->fetch_object();
-        return $data;
+        $id = intval($id);
+        $tmpdata =array();
+        if (!isset($this->usrdata->id) || ($this->usrdata->id<>$id)){
+            $sql = "SELECT  * FROM $this->useTable WHERE id=$id";
+            $result = $this->mysqli->query($sql);
+            $this->usrdata = $result->fetch_object();
+        }
+        switch ($flds){
+            case "*":
+                $tmpdata= $this->usrdata;
+                break;
+            default:
+                //explode flds to find out witch field to return
+                $flds= str_replace (' ','',$flds);
+                $fld = explode (',',$flds);
+                foreach ($fld as $v){
+                    $tmpdata[$v]=$this->usrdata->$v;
+                }
+                break;
+        }
+        return $tmpdata;
     }
 
-    public function set($userid,$data)
+    public function set($id,$data)
     {
         // Validation
-        var_dump($data);
-        $userid   = intval($userid);
+        //var_dump($data);
+        $id   = intval($id);
         $gravatar = '  gravatar      = "'.preg_replace('/[^\w\s-.@]/','',$data->gravatar).'"';
         $name     = ', name          = "'.preg_replace('/[^\s\p{L}]/u','',$data->name).'"';
         $location = ', location      = "'.preg_replace('/[^\s\p{L}]/u','',$data->location).'"';
@@ -679,7 +700,7 @@ public function apikey_session($apikey_in)
         $csvparam = ', csvparam      = "'.intval($data->csvparam).'"';
         $csvdate  = ', csvdate       = "'.intval($data->csvdate).'"';
         $csvtime  = ', csvtime       = "'.intval($data->csvtime).'"';
-        $sql = "UPDATE users SET $gravatar
+        $sql = "UPDATE $this->useTable SET $gravatar
                                  $name
                                  $location
                                  $timezone
@@ -690,17 +711,18 @@ public function apikey_session($apikey_in)
                                  $csvparam
                                  $csvdate
                                  $csvtime
-                                 WHERE id = '$userid'";
+                                 WHERE id = '$id'";
         //change session language only if done by user!
-        //check if $userid == currentuser
+        //check if $id == currentuser
         $lang = preg_replace('/[^\w\s-.]/','',$data->language);
-        if($userid==intval($_SESSION['userid']) && ($_SESSION['lang']<>$lang)){
+        if($id==intval($_SESSION['userid']) && ($_SESSION['lang']<>$lang)){
             $_SESSION['lang'] = $lang;
         }
         $result   = $this->mysqli->query($sql);
         //refresh session
-        $sql = "SELECT * from users where id = '$userid'";
-        $result1 = $this->mysqli->query($sql);
+        $result1 = $this->get($udserid);
+        //$sql = "SELECT * from users where id = '$userid'";
+        //$result1 = $this->mysqli->query($sql);
         if ($result1->num_rows == 1) {
             $userData = $result1->fetch_object();
             //regenerate the session to inclue all modified params
@@ -709,23 +731,6 @@ public function apikey_session($apikey_in)
 
     }
 
-    // Generates a new random read apikey
-    public function new_apikey_read($userid)
-    {
-        $userid = intval($userid);
-        $apikey = md5(uniqid(mt_rand(), true));
-        $this->mysqli->query("UPDATE users SET apikey_read = '$apikey' WHERE id='$userid'");
-        return $apikey;
-    }
-
-    // Generates a new random write apikey
-    public function new_apikey_write($userid)
-    {
-        $userid = intval($userid);
-        $apikey = md5(uniqid(mt_rand(), true));
-        $this->mysqli->query("UPDATE users SET apikey_write = '$apikey' WHERE id='$userid'");
-        return $apikey;
-    }
 /**
  * [get_available_roles description]
  * @return [array] [possible roles for the logged in user]
@@ -801,11 +806,11 @@ public function apikey_session($apikey_in)
         return $separators;
     }
     public function toggle_user($userid,$username,$wcond){
-        $sql = "SELECT delflag from users WHERE ".$wcond;
+        $sql = "SELECT delflag from $this->useTable WHERE ".$wcond;
         $result = $this->mysqli->query($sql);
         $data = $result->fetch_object();
         $flag = ($data->delflag<>0) ?0:1;
-        $sql = "update users set delflag = ".$flag.", delbyid = ".$userid.", delbyname = '".$username."', deldate =now() where ".$wcond;
+        $sql = "update $this->useTable set delflag = ".$flag.", delbyid = ".$userid.", delbyname = '".$username."', deldate =now() where ".$wcond;
         $this->mysqli->query($sql);
         return $sql;
     }

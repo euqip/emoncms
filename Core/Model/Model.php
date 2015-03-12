@@ -3,13 +3,9 @@ class Model
 {
 
 	public $id = null;
-
 	public $primaryKey = 'id';
-
-	public $useTable = null;
-
+	protected $useTable = null;
 	public $useDbConfig = 'default';
-
 	protected $_queryLog = array();
 
 /**
