@@ -92,11 +92,9 @@ public function apikey_session($apikey_in)
         }
         else
         {
-            //$sqlbase= "SELECT id, language, orgid FROM $this->useTable WHERE ";
-            //$sql = $sqlbase." apikey_write ='$apikey_in'";
-            //$result = $this->mysqli->query($sql);
+            $flds = "id, language, orgid";
             $wcond =" apikey_write ='$apikey_in'";
-            $result = $this->get_wcond("id, language, orgid", $wcond);
+            $result = $this->get_wcond($flds, $wcond);
             if ($result->num_rows == 1)
             {
                 $row = $result->fetch_array();
@@ -116,8 +114,8 @@ public function apikey_session($apikey_in)
             }
             else
             {
-            $sql = $sqlbase." apikey_read ='$apikey_in'";
-            $result = $this->mysqli->query($sql);
+            $wcond =" apikey_read ='$apikey_in'";
+            $result = $this->get_wcond($flds, $wcond);
             if ($result->num_rows == 1)
             {
                 $row = $result->fetch_array();
@@ -240,16 +238,17 @@ public function apikey_session($apikey_in)
         // Make the first user an admin
         $id = $this->mysqli->insert_id;
         //if ($userid == 1) $this->mysqli->query("UPDATE users SET admin = 1 WHERE id = '1'");
-        if ($id == 1) $this->set_field($id,'1');
+        if ($id == 1) $this->set_field($id,'admin = 1');
 
         return array('success'=>true, 'userid'=>$id, 'apikey_read'=>$apikey_read, 'apikey_write'=>$apikey_write);
+        return array('success'=>true, get($id,'userid, apikey_read, apikey_write'));
     }
     public function forcenewpwd($id)
     {
         $id = $this->mysqli->real_escape_string($id);
         $this->set_field($id, " changepswd = 1 ");
-        $sql="SELECT * FROM $this->useTable  WHERE id = '$id' AND changepswd=1";
-        $result = $this->mysqli->query($sql);
+        //$sql="SELECT * FROM $this->useTable  WHERE id = '$id' AND changepswd=1";
+        //$result = $this->mysqli->query($sql);
         $userData = $result->fetch_object();
         return array('success'=>true, 'userid'=>$userData->id, 'apikey_read'=>$userData->apikey_read, 'apikey_write'=>$userData->apikey_write, 'message'=>_("User will be forced to change password right after next login"));
 
@@ -269,8 +268,9 @@ public function apikey_session($apikey_in)
         if (!$username || !$password) return array('success'=>false, 'message'=>_("Username or password empty"));
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
-        $sql = "SELECT id,username, password,admin,salt,language, changepswd, orgid, csvparam, csvdate, csvtime FROM $this->useTable WHERE username = '$username'";
-        $result = $this->mysqli->query($sql);
+        //$sql = "SELECT id,username, password,admin,salt,language, changepswd, orgid, csvparam, csvdate, csvtime FROM $this->useTable WHERE username = '$username'";
+        //$result = $this->mysqli->query($sql);
+        $result = $this->get_wcond("id,password,admin,salt,language, , changepswd, orgid, csvparam, csvdate, csvtime","username = '$username'");
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect username - password, if you are sure its correct try clearing your browser cache"));
 
@@ -336,7 +336,8 @@ public function apikey_session($apikey_in)
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
 
-        $result = $this->mysqli->query("SELECT id,password,admin,salt,language, apikey_write,apikey_read FROM $this->useTable WHERE username = '$username'");
+        //$result = $this->mysqli->query("SELECT id,password,admin,salt,language, apikey_write,apikey_read FROM $this->useTable WHERE username = '$username'");
+        $result = $this->get_wcond("id,password,admin,salt,language, apikey_write,apikey_read","username = '$username'");
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect authentication"));
 
@@ -377,8 +378,9 @@ public function apikey_session($apikey_in)
         if (strlen($new) < 4 || strlen($new) > 30) return array('success'=>false, 'message'=>_("Password length error"));
 
         // 1) check that old password is correct
-        $result = $this->mysqli->query("SELECT password, salt FROM $this->useTable WHERE id = '$userid'");
-        $row = $result->fetch_object();
+        //$result = $this->mysqli->query("SELECT password, salt FROM $this->useTable WHERE id = '$userid'");
+        //$row = $result->fetch_object();
+        $row =$this->get ($id, "password, salt");
         $hash = hash('sha256', $row->salt . hash('sha256', $old));
 
         if ($hash == $row->password)
@@ -424,7 +426,10 @@ public function apikey_session($apikey_in)
                 $hash    = hash('sha256', $salt . $hash);
 
                 // Save hash and salt
-                $this->mysqli->query("UPDATE $this->useTable SET password = '$hash', salt = '$salt' WHERE id = '$userid'");
+                $this->set_field ($id," salt = '".$salt."'");
+                $this->set_field ($id," password = '".$hash."'");
+
+                //$this->mysqli->query("UPDATE $this->useTable SET password = '$hash', salt = '$salt' WHERE id = '$userid'");
 
                 //------------------------------------------------------------------------------
                 global $enable_password_reset;
@@ -547,10 +552,6 @@ public function apikey_session($apikey_in)
     {
         if (!ctype_alnum($username)) return false;
         return $this->get_wcond('id',"username = '$username'");
-
-        //$result = $this->mysqli->query("SELECT id FROM $this->useTable WHERE username = '$username';");
-        //$row = $result->fetch_array();
-        //return $row['id'];
     }
 
     public function get_wcond($flds,$wcond)
@@ -581,10 +582,12 @@ public function apikey_session($apikey_in)
     {
         $this->set_field ($id," timezone = '".intval($timezone)."'");
     }
+
     public function set_orgid($id,$orgid)
     {
         $this->set_field ($id," orgid = '".intval($orgid)."'");
     }
+
     public function set_lastlogin($id)
     {
         $this->set_field ($id," lastlogin =now()");
@@ -659,7 +662,7 @@ public function apikey_session($apikey_in)
         $id = intval($id);
         $tmpdata =array();
         if (!isset($this->usrdata->id) || ($this->usrdata->id<>$id)){
-            $sql = "SELECT  * FROM $this->useTable WHERE id=$id";
+            $sql = "SELECT  *, id as userid  FROM ".$this->useTable." WHERE id=$id";
             $result = $this->mysqli->query($sql);
             $this->usrdata = $result->fetch_object();
         }
