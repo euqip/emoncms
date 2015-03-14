@@ -1,15 +1,17 @@
 <?php
     global $session,$path,$behavior;
+    $modpath = $path."".MODULE."/";
+    $libpath = $path."Lib/";
 ?>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/user/user.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Lib/emoncms.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>user/user.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>feed/feed.js"></script>
+<script type="text/javascript" src="<?php echo $libpath; ?>tablejs/table.js"></script>
+<script type="text/javascript" src="<?php echo $libpath; ?>emoncms.js"></script>
 
 
 <link href="<?php echo $path; ?>Lib/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo $path; ?>Lib/datetimepicker/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Lib/datetimepicker/js/locales/bootstrap-datetimepicker.<?php echo substr($session['lang'],0,2); ?>.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<?php echo $libpath; ?>datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="<?php echo $libpath; ?>datetimepicker/js/locales/bootstrap-datetimepicker.<?php echo substr($session['lang'],0,2); ?>.js" charset="UTF-8"></script>
 <!-- source: https://github.com/smalot/bootstrap-datetimepicker -->
 <div id="apihelphead"><div class="apihelp"><a href="api"><?php echo _('Feed API Help'); ?></a></div></div>
 <div class="container">

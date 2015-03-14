@@ -19,12 +19,12 @@ $variableid = $_GET['variable'];
 
 ?>
 
-<script type="text/javascript" src="<?php echo $path; ?>Modules/node/node.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/node/processlist.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/node/node.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/node/processlist.js"></script>
 
-<script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/process_info.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/input/Views/input.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/input/Views/process_info.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/feed/feed.js"></script>
 <br>
 
 <div style="font-size:30px; padding-bottom:20px; padding-top:18px"><b>Node <span id="nodeid"></span>:<span id="variableid"></span></b> config</div>
@@ -61,9 +61,9 @@ $variableid = $_GET['variable'];
                     <select id="input-select" style="width:140px;"></select>
                 </span>
 
-                <span id="type-feed">        
+                <span id="type-feed">
                     <select id="feed-select" style="width:140px;"></select>
-                    
+
                     <input type="text" id="feed-name" style="width:150px;" placeholder="Feed name..." />
 
                     <span class="add-on feed-engine-label">Feed engine: </span>
@@ -76,7 +76,7 @@ $variableid = $_GET['variable'];
                     </optgroup>
 
                     <optgroup label="Other">
-                    <option value=4 >PHPTIMESTORE (Port of timestore to PHP)</option>  
+                    <option value=4 >PHPTIMESTORE (Port of timestore to PHP)</option>
                     <option value=1 >TIMESTORE (Requires installation of timestore)</option>
                     <option value=3 >GRAPHITE (Requires installation of graphite)</option>
                     <option value=0 >MYSQL (Slow when there is a lot of data)</option>
@@ -102,7 +102,7 @@ $variableid = $_GET['variable'];
                         <option value=2678400><?php echo _('Monthly'); ?></option>
                         <option value=31536000><?php echo _('Annual'); ?></option>
                        </select>
-                    
+
                 </span>
                 <button id="process-add" class="btn btn-info"><?php echo _('Add'); ?></button>
             </div>

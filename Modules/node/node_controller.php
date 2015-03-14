@@ -7,25 +7,27 @@ function node_controller()
 {
     global $mysqli, $redis, $session, $route, $feed_settings, $user;
     $result = false;
+    $modulename = "node";
+    $basedir = MODULE.DS.$modulename.DS;
 
     if (!isset($session['read'])) return array('content'=>$result);
 
-    include "Modules/feed/feed_model.php";
+    include MODULE.DS."feed".DS."feed_model.php";
     $feed = new Feed($mysqli,$redis,$feed_settings);
 
-    require "Modules/input/input_model.php"; // 295
+    require MODULE.DS."input".DS."input_model.php"; // 295
     $input = new Input($mysqli,$redis, $feed);
 
-    require "Modules/input/process_model.php"; // 886
+    require MODULE.DS."input".DS."process_model.php"; // 886
     $process = new Process($mysqli,$input,$feed);
     $process->set_timezone_offset($user->get_timezone($session['userid']));
 
-    include "Modules/node/node_model.php";
+    include $basedir."node_model.php";
     $node = new Node($mysqli,$redis,$process);
 
     if ($route->format == 'html') {
-        if ($route->action == "list" && $session['write']) $result = view("Modules/node/node_view.php",array());
-        if ($route->action == "api" && $session['write']) $result = view("Modules/node/node_api.php",array());
+        if ($route->action == "list" && $session['write']) $result = view($basedir.$modulename."_view.php",array());
+        if ($route->action == "api" && $session['write']) $result = view($basedir.$modulename."_api.php",array());
     }
 
     if ($route->format == 'json') {

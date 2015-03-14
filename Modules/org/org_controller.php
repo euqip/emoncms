@@ -19,12 +19,14 @@ function org_controller()
     global $user, $path, $session, $route ,$allowusersregister;
 
     $result = false;
+    $modulename = "org";
 
     // Load html,css,js pages to the client
     if ($route->format == 'html')
     {
-        if ($route->action == 'new' && !$session['read']) $result = view("Modules/org/org_create.php", array());
-        if ($route->action == 'view' && $session['write']) $result = view("Modules/org/org_view.php", array());
+        $basedir = MODULE.DS.$modulename.DS.$modulename;
+        if ($route->action == 'new' && !$session['read']) $result = view($basedir."_create.php", array());
+        if ($route->action == 'view' && $session['write']) $result = view($basedir."_view.php", array());
     }
 
     // JSON API
@@ -50,10 +52,6 @@ function org_controller()
         if ($route->action == 'get' && $session['write']) $result = $user->get($session['userid']);
 
         if ($route->action == 'set' && $session['write']) $result = $user->set($session['userid'],json_decode(get('data')));
-/*
-        if ($route->action == 'getconvert' && $session['write']) $result = $user->get_convert_status($session['userid']);
-        if ($route->action == 'setconvert' && $session['write']) $result = $user->set_convert_status($session['userid']);
-*/
 
         if ($route->action == 'timezone' && $session['read']) $result = $user->get_timezone($session['userid']);
     }

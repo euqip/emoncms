@@ -52,19 +52,19 @@ function db_check($mysqli,$database)
     if ($row['0']>0) return true; else return false;
 }
 
-function controller($controller_name,$moduledir = "Modules")
+function controller($controller_name)
 {
     $output = array('content'=>'');
 
     if ($controller_name)
     {
         $controller = $controller_name."_controller";
-        $controllerScript = $moduledir.DS.$controller_name.DS.$controller.".php";
+        $controllerScript = MODULE.DS.$controller_name.DS.$controller.".php";
         if (is_file($controllerScript))
         {
             // Load language files for module
             $domain = "messages";
-            bindtextdomain($domain, $moduledir.DS.$controller_name.DS."locale");
+            bindtextdomain($domain, MODULE.DS.$controller_name.DS."locale");
             //bind_textdomain_codeset($domain, 'UTF-8');
             textdomain($domain);
 
@@ -130,37 +130,37 @@ function server($index)
     return $val;
 }
 
-function load_db_schema($moduledir = "Modules")
+function load_db_schema()
 {
     $schema = array();
-    $dir = scandir($moduledir);
+    $dir = scandir(MODULE);
     for ($i=2; $i<count($dir); $i++)
     {
-        if (filetype($moduledir.DS.$dir[$i])=='dir')
+        if (filetype(MODULE.DS.$dir[$i])=='dir')
         {
-            if (is_file($moduledir.DS.$dir[$i].DS.$dir[$i]."_schema.php"))
+            if (is_file(MODULE.DS.$dir[$i].DS.$dir[$i]."_schema.php"))
             {
-               require $moduledir.DS.$dir[$i].DS.$dir[$i]."_schema.php";
+               require MODULE.DS.$dir[$i].DS.$dir[$i]."_schema.php";
             }
         }
     }
     return $schema;
 }
 
-function load_menu($moduledir = "Modules")
+function load_menu()
 {
     $menu_left = array();
     $menu_right = array();
     $menu_dropdown = array();
 
-    $dir = scandir($moduledir);
+    $dir = scandir(MODULE);
     for ($i=2; $i<count($dir); $i++)
     {
-        if (filetype($moduledir.DS.$dir[$i])=='dir')
+        if (filetype(MODULE.DS.$dir[$i])=='dir')
         {
-            if (is_file($moduledir.DS.$dir[$i].DS.$dir[$i]."_menu.php"))
+            if (is_file(MODULE.DS.$dir[$i].DS.$dir[$i]."_menu.php"))
             {
-                require $moduledir.DS.$dir[$i].DS.$dir[$i]."_menu.php";
+                require MODULE.DS.$dir[$i].DS.$dir[$i]."_menu.php";
             }
         }
     }
@@ -170,15 +170,15 @@ function load_menu($moduledir = "Modules")
 }
 
 
-function load_credits($moduledir = "Modules")
+function load_credits()
 {
     $credits = array();
 
-    $dir = scandir($moduledir);
+    $dir = scandir(MODULE);
     for ($i=2; $i<count($dir); $i++){
-        if (filetype($moduledir.DS.$dir[$i])=='dir'){
-            if (is_file($moduledir.DS.$dir[$i].DS.$dir[$i]."_credits.php")){
-                require $moduledir.DS.$dir[$i].DS.$dir[$i]."_credits.php";
+        if (filetype(MODULE.DS.$dir[$i])=='dir'){
+            if (is_file(MODULE.DS.$dir[$i].DS.$dir[$i]."_credits.php")){
+                require MODULE.DS.$dir[$i].DS.$dir[$i]."_credits.php";
             }
         }
     }

@@ -26,13 +26,13 @@
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.selection.min.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/date.format.min.js"></script>
 
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/daysmonthsyears.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/dailyhistogram/view.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/dailyhistogram/graphs.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/common/daysmonthsyears.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/dailyhistogram/view.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/dailyhistogram/graphs.js"></script>
 
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/api.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/inst.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/proc.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/common/api.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/common/inst.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/common/proc.js"></script>
 
 <?php if (!$embed) { ?>
 <h2>Daily Histogram</h2>

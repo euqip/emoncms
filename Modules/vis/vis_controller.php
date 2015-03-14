@@ -19,15 +19,15 @@
 
     $result = false;
 
-    require "Modules/feed/feed_model.php";
+    require MODULE.DS."feed".DS."feed_model.php";
     $feed = new Feed($mysqli,$redis, $feed_settings);
 
-    require "Modules/vis/multigraph_model.php";
+    require MODULE.DS."vis".DS."multigraph_model.php";
     $multigraph = new Multigraph($mysqli);
 
-    $visdir = "vis/visualisations/";
+    $visdir = "vis".DS."visualisations/";
 
-    require "Modules/vis/vis_object.php";
+    require MODULE.DS."vis".DS."vis_object.php";
 
     $write_apikey = ""; $read_apikey = "";
     if ($session['read']) $read_apikey = $user->get_apikey_read($session['userid']);
@@ -40,7 +40,7 @@
         {
             $multigraphs = $multigraph->getlist($session['userid'],$session['orgid'],$wcond);
             $feedlist = $feed->get_user_feeds($session['userid'],$session['orgid'],$wcond);
-            $result = view("Modules/vis/vis_main_view.php", array('user' => $user->get($session['userid']), 'feedlist'=>$feedlist, 'apikey'=>$read_apikey, 'visualisations'=>$visualisations, 'multigraphs'=>$multigraphs));
+            $result = view(MODULE.DS."vis".DS."vis_main_view.php", array('user' => $user->get($session['userid']), 'feedlist'=>$feedlist, 'apikey'=>$read_apikey, 'visualisations'=>$visualisations, 'multigraphs'=>$multigraphs));
         }
 
         // Auto - automatically selects visualisation based on datatype
@@ -112,7 +112,7 @@
                 $array['apikey'] = $read_apikey;
                 $array['write_apikey'] = $write_apikey;
 
-                $result = view("Modules/".$visdir.$viskey.".php", $array);
+                $result = view(MODULE.DS."".$visdir.$viskey.".php", $array);
 
                 if ($array['valid'] == false) $result .= "<div style='position:absolute; top:0px; left:0px; background-color:rgba(240,240,240,0.5); width:100%; height:100%; text-align:center; padding-top:100px;'><h3>"._('Authentication not valid')."</h3></div>";
 
@@ -135,7 +135,6 @@
         if ($route->subaction == 'get') $result = $multigraph->get(get('id'),$session['userid']);
         if ($route->subaction == 'getlist') $result = $multigraph->getlist($session['userid']);
         if ($route->subaction == 'getname') $result = $multigraph->getname(get('id'),$session['userid']);
-        
     }
 
     return array('content'=>$result);

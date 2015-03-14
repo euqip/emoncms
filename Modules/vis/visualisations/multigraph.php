@@ -18,8 +18,8 @@
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.min.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.selection.min.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.time.min.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/multigraph.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/vis.helper.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/multigraph.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/vis.helper.js"></script>
 
 <?php if (!$embed) { ?>
 <h2><?php echo _("Multigraph:"); ?> <div id="multigraph_name"></div></h2>
@@ -35,7 +35,7 @@
     var embed = <?php echo $embed; ?>;
     var apikey = "<?php echo $apikey; ?>";
     var multigraph_feedlist = {};
-    
+
     if (mid==0) $("body").css('background-color','#eee');
 
     $.ajax({ url: path+"vis/multigraph/get.json", data: "&id="+mid, dataType: 'json', async: true,
@@ -51,12 +51,12 @@
                 vis_feed_data();
         }
     });
-    
-    $.ajax({ url: path+"vis/multigraph/getname.json", data: "id="+mid, dataType: 'json', async: true, 
+
+    $.ajax({ url: path+"vis/multigraph/getname.json", data: "id="+mid, dataType: 'json', async: true,
       success: function(data)
       {
         $("#multigraph_name").replaceWith(data);
-      } 
+      }
     });
 
 

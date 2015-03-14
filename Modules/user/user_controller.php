@@ -23,12 +23,13 @@ function user_controller()
     // Load html,css,js pages to the client
     if ($route->format == 'html')
     {
-        if ($route->action == 'login' && !$session['read']) $result = view("Modules/user/login_block.php", array());
-        //if ($route->action == 'view' && $session['write']) $result = view("Modules/user/profile/profile.php", array());
-        if ($route->action == 'view' && $session['write']) $result = view("Modules/user/profile/profile.php", array());
+        $view = MODULE.DS.$modulename.DS;
+        if ($route->action == 'login' && !$session['read']) $result = view($view."login_block.php", array());
+        //if ($route->action == 'view' && $session['write']) $result = view($view."profile/profile.php", array());
+        if ($route->action == 'view' && $session['write']) $result = view($view."profile/profile.php", array());
         if ($route->action == 'currentuser' && $session['write']){
             $_SESSION['showuserid']=intval($_SESSION['userid']);
-            $result = view("Modules/user/profile/profile.php", array());
+            $result = view($view."profile/profile.php", array());
         }
         if ($route->action == 'logout' && $session['read']) {$user->logout(); header('Location: '.$path);}
     }

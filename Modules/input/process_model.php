@@ -34,7 +34,7 @@ class Process
         $this->feed = $feed;
         $this->log = new EmonLogger(__FILE__);
 
-        include "Modules/schedule/schedule_model.php";
+        include MODULE.DS."schedule".DS."schedule_model.php";
         $this->schedule = new Schedule($mysqli);
 
         // Load MQTT if enabled

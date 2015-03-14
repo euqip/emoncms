@@ -1,8 +1,9 @@
 <?php
 global $path, $actions, $behavior;
+$modpath = $path.MODULE
 ?>
 
-<script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>/dashboard/dashboard.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/emoncms.js"></script>
 

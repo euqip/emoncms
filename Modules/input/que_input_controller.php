@@ -24,22 +24,23 @@ function input_controller()
     global $feed;
     $result = false;
 
-    include "Modules/feed/feed_model.php";
+    include MODULE.DS."feed/feed_model.php";
     $feed = new Feed($mysqli,$redis, $feed_settings);
 
-    require "Modules/input/input_model.php"; // 295
+    require MODULE.DS."input/input_model.php"; // 295
     $input = new Input($mysqli,$redis, $feed);
 
-    require "Modules/input/process_model.php"; // 886
+    require MODULE.DS."input/process_model.php"; // 886
     $process = new Process($mysqli,$input,$feed);
 
 
 
     if ($route->format == 'html')
     {
-        if ($route->action == 'api') $result = view("Modules/input/Views/input_api.php", array());
-        if ($route->action == 'node') $result =  view("Modules/input/Views/input_node.php", array());
-        if ($route->action == 'process') $result = view("Modules/input/Views/process_list.php",array('inputid'=> intval(get('inputid'))));
+        $viewpath = MODULE.DS."input".DS."Views".DS;
+        if ($route->action == 'api') $result = view($viewpath."nput_api.php", array());
+        if ($route->action == 'node') $result =  view($viewpath."input_node.php", array());
+        if ($route->action == 'process') $result = view($viewpath."process_list.php",array('inputid'=> intval(get('inputid'))));
     }
 
     if ($route->format == 'json')

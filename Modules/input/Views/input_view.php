@@ -1,14 +1,16 @@
 <?php
     global $path, $behavior;
+    $modpath = $path."".MODULE."/";
+    $libpath = $path."Lib/";
 ?>
 
-<script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Lib/emoncms.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>input/Views/input.js"></script>
+<script type="text/javascript" src="<?php echo $libpath; ?>tablejs/table.js"></script>
+<script type="text/javascript" src="<?php echo $libpath; ?>emoncms.js"></script>
 
-<script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/processlist.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/process_info.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>input/Views/processlist.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>input/Views/process_info.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>feed/feed.js"></script>
 
 
 <div class="container">

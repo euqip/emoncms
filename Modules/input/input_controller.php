@@ -17,6 +17,8 @@ function input_controller()
     //return array('content'=>"ok");
 
     global $mysqli, $redis, $user, $org, $session, $route, $max_node_id_limit, $feed_settings, $author;
+    $modulename = "input";
+    $basedir = MODULE.DS.$modulename.DS;
 
     // There are no actions in the input module that can be performed with less than write privileges
     if (!$session['write']) return array('content'=>false);
@@ -24,13 +26,13 @@ function input_controller()
     global $feed, $timestore_adminkey;
     $result = false;
 
-    include "Modules/feed/feed_model.php";
+    include MODULE.DS."feed/feed_model.php";
     $feed = new Feed($mysqli,$redis, $feed_settings);
 
-    require "Modules/input/input_model.php"; // 295
+    require MODULE.DS."input/input_model.php"; // 295
     $input = new Input($mysqli,$redis, $feed);
 
-    require "Modules/input/process_model.php"; // 886
+    require MODULE.DS."input/process_model.php"; // 886
     $process = new Process($mysqli,$input,$feed);
 
     $process->set_timezone_offset($user->get_timezone($session['userid']));
@@ -83,8 +85,9 @@ function input_controller()
 
     if ($route->format == 'html')
     {
-        if ($route->action == 'api') $result = view("Modules/input/Views/input_api.php", array());
-        if ($route->action == 'view') $result =  view("Modules/input/Views/input_view.php", array());
+        $viewpath = $basedir."Views".DS;
+        if ($route->action == 'api') $result = view($viewpath."input_api.php", array());
+        if ($route->action == 'view') $result =  view($viewpath."input_view.php", array());
     }
 
     if ($route->format == 'json')

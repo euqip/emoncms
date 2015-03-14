@@ -24,16 +24,16 @@
     $redis = new Redis();
     $redis->connect("127.0.0.1");
 
-    require("Modules/user/user_model.php");
+    require(MODULE.DS."user".DS."user_model.php");
     $user = new User($mysqli,$redis,null);
 
-    include "Modules/feed/feed_model.php";
+    include MODULE.DS."feed".DS."feed_model.php";
     $feed = new Feed($mysqli,$redis, $feed_settings);
 
-    require "Modules/input/input_model.php"; // 295
+    require MODULE.DS."input".DS."input_model.php"; // 295
     $input = new Input($mysqli,$redis, $feed);
 
-    require "Modules/input/process_model.php"; // 886
+    require MODULE.DS."input".DS."process_model.php"; // 886
     $process = new Process($mysqli,$input,$feed);
 
     $rn = 0;

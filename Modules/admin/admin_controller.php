@@ -14,6 +14,8 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 function admin_controller()
 {
+    $modulename = "admin";
+    $basedir = MODULE.DS.$modulename.DS;
     global $mysqli,$session, $user, $org, $route, $updatelogin, $behavior, $path;
 
     // Allow for special admin session if updatelogin property is set to true in settings.php
@@ -25,7 +27,7 @@ function admin_controller()
 
     if ($route->action == 'credits') {
         $credits = load_credits();
-        $result = view("Modules/admin/credits_view.php", array());
+        $result = view($basedir."credits_view.php", array());
         return array('content'=>$result);
     } else {
         $result= _('not authorized');
@@ -33,7 +35,7 @@ function admin_controller()
         //when not authorized, redirect to login form (to be done)
         if ($sessionadmin)
         {
-            if ($route->action == 'view') $result = view("Modules/admin/admin_main_view.php", array());
+            if ($route->action == 'view') $result = view($basedir."admin_main_view.php", array());
 
             if ($route->action == 'db')
             {
@@ -41,8 +43,8 @@ function admin_controller()
                 if (!$applychanges) $applychanges = false;
                 else $applychanges = true;
 
-                require "Modules/admin/update_class.php";
-                require_once "Core/Model/dbschemasetup.php";
+                require $basedir."update_class.php";
+                require_once CORE."Model".DS."dbschemasetup.php";
 
                 $update = new Update($mysqli);
 
@@ -63,7 +65,7 @@ function admin_controller()
 
                 }
 
-                $result = view("Modules/admin/update_view.php", array('applychanges'=>$applychanges, 'updates'=>$updates));
+                $result = view($basedir."update_view.php", array('applychanges'=>$applychanges, 'updates'=>$updates));
             }
     // q is the array providing the data
             if ($session['write'] && $session['admin']){
@@ -72,10 +74,10 @@ function admin_controller()
 
                 switch ($route->action){
                     case 'users':
-                        $result = view("Modules/admin/userlist_view.php", array());
+                        $result = view($basedir."userlist_view.php", array());
                         break;
                     case 'orgs':
-                        $result = view("Modules/admin/orglist_view.php", array());
+                        $result = view($basedir."orglist_view.php", array());
                         break;
                     case 'orglist':
                         $data = array();

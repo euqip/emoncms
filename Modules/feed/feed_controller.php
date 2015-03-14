@@ -18,17 +18,18 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 function feed_controller()
 {
     global $mysqli, $redis, $session, $route, $feed_settings, $module;
-    $module = "feed";
     $result = false;
+    $modulename = "feed";
+    $basedir = MODULE.DS.$modulename.DS;
 
-    include "Modules/feed/feed_model.php";
+    include $basedir."feed_model.php";
     $feed = new Feed($mysqli,$redis,$feed_settings);
-    $modulepath= 'Modules/'.$module.'/Views/'.$module;
+    $viewpath= $basedir.'Views/'.$modulename;
     $wcond="";
     if ($route->format == 'html')
     {
-        if ($route->action == "list" && $session['write']) $result = view($modulepath.'list_view.php',array());
-        if ($route->action == "api" && $session['write']) $result = view ($modulepath.'api_view.php',array());
+        if ($route->action == "list" && $session['write']) $result = view($viewpath.'list_view.php',array());
+        if ($route->action == "api" && $session['write']) $result = view ($viewpath.'api_view.php',array());
         //if ($route->action == "list" && $session['write']) $result = view("Modules/feed/Views/feedlist_view.php",array());
         //if ($route->action == "api" && $session['write']) $result = view("Modules/feed/Views/feedapi_view.php",array());
     }

@@ -8,20 +8,22 @@ function schedule_controller()
     global $session,$route,$mysqli;
 
     $result = false;
-
-    include "Modules/schedule/schedule_model.php";
+    $modulename = "schedule";
+    $basedir= MODULE.DS.$modulename.DS;
+    include $basedir."schedule_model.php";
     $schedule = new Schedule($mysqli);
 
     if ($route->format == 'html')
     {
-        if ($route->action == "view" && $session['write']) $result = view("Modules/schedule/Views/schedule_view.php",array());
-        if ($route->action == 'api') $result = view("Modules/schedule/Views/schedule_api.php", array());
+    	$view = $basedir."Views".DS.$modulename;
+        if ($route->action == "view" && $session['write']) $result = view($view."_view.php",array());
+        if ($route->action == 'api') $result = view($view."_api.php", array());
     }
 
     if ($route->format == 'json')
     {
 		if ($route->action == 'list') {
-			if ($session['userid']>0 && $session['userid'] && $session['read']) $result = $schedule->get_list($session['userid']);	
+			if ($session['userid']>0 && $session['userid'] && $session['read']) $result = $schedule->get_list($session['userid']);
 		}
 		elseif ($route->action == "create") {
 			if ($session['userid']>0 && $session['write']) $result = $schedule->create($session['userid']);
@@ -50,7 +52,7 @@ function schedule_controller()
             {
                 $result = array('success'=>false, 'message'=>'Schedule does not exist');
             }
-		}			
+		}
     }
 
     return array('content'=>$result);

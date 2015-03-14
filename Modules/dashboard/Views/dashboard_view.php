@@ -12,18 +12,19 @@ http://openenergymonitor.org
 Ask for user (session) Language when loading dashboard_langjs.php
 */
 
-  global $session, $path; ?>
-
-  <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard_langjs.php?lang=<?php echo $session['lang']; ?>"></script>
-    <link href="<?php echo $path; ?>Modules/dashboard/Views/js/widget.css" rel="stylesheet">
+  global $session, $path;
+  $modpath = $path.MODULE."/dashboard/";
+ ?>
+  <script type="text/javascript" src="<?php echo $modpath; ?>dashboard_langjs.php?lang=<?php echo $session['lang']; ?>"></script>
+    <link href="<?php echo $modpath; ?>Views/js/widget.css" rel="stylesheet">
 
     <script type="text/javascript" src="<?php echo $path; ?>Lib/flot/jquery.flot.min.js"></script>
-    <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/Views/js/widgetlist.js"></script>
-    <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/Views/js/render.js"></script>
+    <script type="text/javascript" src="<?php echo $modpath; ?>Views/js/widgetlist.js"></script>
+    <script type="text/javascript" src="<?php echo $modpath; ?>Views/js/render.js"></script>
 
-    <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
+    <script type="text/javascript" src="<?php echo $path.MODULE; ?>/feed/feed.js"></script>
 
-    <?php require_once "Modules/dashboard/Views/loadwidgets.php"; ?>
+    <?php require_once MODULE."/dashboard/Views/loadwidgets.php"; ?>
 
     <div id="page-container" style="height:<?php echo $dashboard['height']; ?>px; position:relative;">
         <div id="page"><?php echo $dashboard['content']; ?></div>

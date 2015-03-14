@@ -26,8 +26,9 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 function dashboard_controller()
 {
     global $mysqli, $path, $session, $route, $user, $author, $actions;
-
-    require "Modules/dashboard/dashboard_model.php";
+    $modulename = "dashboard";
+    $basedir = MODULE.DS.$modulename.DS;
+    require $basedir.$modulename."_model.php";
     $dashboard = new Dashboard($mysqli);
 
     // id, userid, content, height, name, alias, description, main, public, published, showdescription
@@ -81,11 +82,12 @@ function dashboard_controller()
 
     if ($route->format == 'html')
     {
+        $viewpath = $basedir."Views".DS.$modulename."_";
         if ($route->action == "list" && $session['write'])
         {
-            $result = view("Modules/dashboard/Views/dashboard_list.php",array());
+            $result = view($viewpath."list.php",array());
             $menu = $dashboard->build_menu($session['userid'],"view");
-            $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('menu'=>$menu, 'type'=>"view"));
+            $submenu = view($viewpath."menu.php", array('menu'=>$menu, 'type'=>"view"));
         }
 
         if ($route->action == "view" && $session['read'])
@@ -95,13 +97,13 @@ function dashboard_controller()
             else $dash = $dashboard->get_main($session['userid']);
 
             if ($dash) {
-              $result = view("Modules/dashboard/Views/dashboard_view.php",array('dashboard'=>$dash));
+              $result = view($viewpath."view.php",array('dashboard'=>$dash));
             } else {
-              $result = view("Modules/dashboard/Views/dashboard_list.php",array());
+              $result = view($viewpath."list.php",array());
             }
 
             $menu = $dashboard->build_menu($session['userid'],"view");
-            $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('id'=>$dash['id'], 'menu'=>$menu, 'type'=>"view"));
+            $submenu = view($viewpath."menu.php", array('id'=>$dash['id'], 'menu'=>$menu, 'type'=>"view"));
         }
 
         if ($route->action == "edit" && $session['write']  and ($session['admin']<>$author['viewer']))
@@ -109,19 +111,19 @@ function dashboard_controller()
             //if ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
             if (isset($_GET['id'])) $dash = $dashboard->get($session['userid'],get('id'),false,false);
 
-            $result = view("Modules/dashboard/Views/dashboard_edit_view.php",array('dashboard'=>$dash));
-            $result .= view("Modules/dashboard/Views/dashboard_config.php", array('dashboard'=>$dash));
+            $result = view($viewpath."edit_view.php",array('dashboard'=>$dash));
+            $result .= view($viewpath."config.php", array('dashboard'=>$dash));
 
             $menu = $dashboard->build_menu($session['userid'],"edit");
-            $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('id'=>$dash['id'], 'menu'=>$menu, 'type'=>"edit"));
+            $submenu = view($viewpath."menu.php", array('id'=>$dash['id'], 'menu'=>$menu, 'type'=>"edit"));
         }
         if ($route->action == "clone" && $session['write']) {
             //iconlink action is changed to html presentation
             $result = $dashboard->dashclone($cond,$session['userid'], get('id'));
-            $result = view("Modules/dashboard/Views/dashboard_list.php",array());
+            $result = view($viewpath."list.php",array());
 
             $menu = $dashboard->build_menu($session['userid'],"view");
-            $submenu = view("Modules/dashboard/Views/dashboard_menu.php", array('menu'=>$menu, 'type'=>"view"));
+            $submenu = view($viewpath."menu.php", array('menu'=>$menu, 'type'=>"view"));
           }
 
     }

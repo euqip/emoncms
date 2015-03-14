@@ -8,13 +8,15 @@ function myelectric_controller()
     global $session,$route,$mysqli;
 
     $result = false;
+    $modulename = "myelectric";
+    $basedir = MODULE.DS.$modulename.DS;
 
-    include "Modules/myelectric/myelectric_model.php";
+    include $basedir.$modulename."_model.php";
     $myelectric = new MyElectric($mysqli);
 
     if ($route->format == 'html')
     {
-        if ($route->action == "" && $session['write']) $result = view("Modules/myelectric/myelectric_view.php",array());
+        if ($route->action == "" && $session['write']) $result = view($basedir.$modulename."_view.php",array());
     }
 
     if ($route->format == 'json')

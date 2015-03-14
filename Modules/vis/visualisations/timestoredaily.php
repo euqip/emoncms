@@ -12,14 +12,14 @@
 
 ?>
 
-<script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/feed/feed.js"></script>
 
 <!--[if IE]><script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/excanvas.min.js"></script><![endif]-->
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.min.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.time.min.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path; ?>Lib/flot/jquery.flot.selection.min.js"></script>
 
-<script language="javascript" type="text/javascript" src="<?php echo $path;?>Modules/vis/visualisations/vis.helper.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE;?>/vis/visualisations/vis.helper.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path; ?>Lib/flot/date.format.js"></script>
 
 <style>

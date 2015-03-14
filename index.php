@@ -25,7 +25,7 @@
   $mysqli = @new mysqli($server,$username,$password,$database);
 
 
-    require "Modules/log/EmonLogger.php";
+    require MODULE.DS."log".DS."EmonLogger.php";
 
     // 2) Database
     $mysqli = @new mysqli($server,$username,$password,$database);
@@ -57,11 +57,11 @@
     }
 
     // 3) User sessions
-    require "Modules/user/rememberme_model.php";
+    require MODULE.DS."user".DS."rememberme_model.php";
     $rememberme = new Rememberme($mysqli);
-    require("Modules/org/org_model.php");
+    require(MODULE.DS."org".DS."org_model.php");
     $org = new Org($mysqli,$redis,$rememberme);
-    require("Modules/user/user_model.php");
+    require(MODULE.DS."user".DS."user_model.php");
     $user = new User($mysqli,$redis,$rememberme,$org);
 
     if (isset($_GET['apikey']))
@@ -154,9 +154,9 @@
     if ($route->format == 'html')
     {
         $menu = load_menu();
-        $output['mainmenu'] = view("Theme/menu_view.php", array());
-        if ($embed == 0) print view("Theme/theme.php", $output);
-        if ($embed == 1) print view("Theme/embed.php", $output);
+        $output['mainmenu'] = view("Theme".DS."menu_view.php", array());
+        if ($embed == 0) print view("Theme".DS."theme.php", $output);
+        if ($embed == 1) print view("Theme".DS."embed.php", $output);
     }
 
     $ltime = microtime(true) - $ltime;

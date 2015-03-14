@@ -15,13 +15,13 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 global $path;
 ?>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/multigraph_edit.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/multigraph_edit.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.min.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.selection.min.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.time.min.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/multigraph.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/multigraph_api.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/vis.helper.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/multigraph.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/multigraph_api.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/vis.helper.js"></script>
 
 <h2><?php echo _("Visualisations"); ?></h2>
 

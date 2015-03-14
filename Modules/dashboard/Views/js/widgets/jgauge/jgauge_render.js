@@ -36,7 +36,8 @@ function jgauge_widgetlist()
 function jgauge_init()
 {
   setup_widget_canvas('jgauge');
-
+  //try to link images with a relative path
+  //
   // Load the needle image
   needle = new Image();
   needle.src = path+'Modules/dashboard/Views/js/widgets/jgauge/needle2.png';

@@ -17,7 +17,7 @@ define('EMONCMS_EXEC', 1);
 $fp = fopen("importlock", "w");
 if (! flock($fp, LOCK_EX | LOCK_NB)) { echo "Already running\n"; die; }
 
-$basedir = str_replace("/Modules/raspberrypi","",dirname(__FILE__));
+$basedir = str_replace(DS.MODULE.DS."raspberrypi","",dirname(__FILE__));
 chdir($basedir);
 
 // 1) Load settings and core scripts
@@ -29,13 +29,13 @@ $redis = new Redis();
 $redis->connect("127.0.0.1");
 
 // 3) User sessions
-require("Modules/user/user_model.php");
+require(MODULE.DS."user/user_model.php");
 $user = new User($mysqli,$redis,null);
 
-include "Modules/raspberrypi/raspberrypi_model.php";
+include MODULE.DS."raspberrypi/raspberrypi_model.php";
 $raspberrypi = new RaspberryPI($mysqli);
 
-include "Modules/packetgen/packetgen_model.php";
+include MODULE.DS."packetgen/packetgen_model.php";
 $packetgen = new PacketGen($mysqli,$redis);
 
 $raspberrypi->set_running();
@@ -107,20 +107,20 @@ if ($f)
             $controlinterval = $packetgen->get_interval($session['userid']);
 
             if ($settings->sgroup !=$group) {
-                $group = $settings->sgroup; 
-                fprintf($f,$group."g"); 
+                $group = $settings->sgroup;
+                fprintf($f,$group."g");
                 echo "Group set: ".$group."\n";
             }
 
             if ($settings->frequency !=$frequency) {
-                $frequency = $settings->frequency; 
-                fprintf($f,$frequency."b"); 
+                $frequency = $settings->frequency;
+                fprintf($f,$frequency."b");
                 echo "Frequency set: ".$frequency."\n";
             }
 
             if ($settings->baseid !=$baseid) {
-                $baseid = $settings->baseid; 
-                fprintf($f,$baseid."i"); 
+                $baseid = $settings->baseid;
+                fprintf($f,$baseid."i");
                 echo "Base station set: ".$baseid."\n";
             }
 
@@ -132,7 +132,7 @@ if ($f)
         {
 
 
-            if ($data[0]==">")  
+            if ($data[0]==">")
             {
                 echo "MESSAGE RX:".$data;
                 $data = trim($data);
@@ -141,7 +141,7 @@ if ($f)
 /*
 
 For some as yet unknown reason periodically when sending data out from the rfm12pi
-and maybe as part of the script the rfm12pi settings get set unintentionally. 
+and maybe as part of the script the rfm12pi settings get set unintentionally.
 It has been suggested that this could be due to the data string to be sent being
 corrupted and turning into a settings string.
 
@@ -156,10 +156,10 @@ user specified baseid, frequency and group settings.
 if ($data[$len-1]=='b') {
     $val = intval(substr($data,2,-1));
     if ($val == $frequency) {
-        echo "FREQUENCY SET CORRECTLY\n"; 
+        echo "FREQUENCY SET CORRECTLY\n";
     } else {
         echo "FREQUENCY ERROR, RE SENDING FREQUENCY\n";
-        fprintf($f,$frequency."b"); 
+        fprintf($f,$frequency."b");
         usleep(100);
     }
 }
@@ -167,10 +167,10 @@ if ($data[$len-1]=='b') {
 if ($data[$len-1]=='g') {
     $val = intval(substr($data,2,-1));
     if ($val == $group) {
-        echo "GROUP SET CORRECTLY\n"; 
+        echo "GROUP SET CORRECTLY\n";
     } else {
         echo "GROUP ERROR, RE SENDING GROUP\n";
-        fprintf($f,$group."g"); 
+        fprintf($f,$group."g");
         usleep(100);
     }
 }
@@ -185,8 +185,8 @@ if ($data[$len-1]=='i') {
         usleep(100);
     }
 }
-} 
-elseif ($data[1]=="-") 
+}
+elseif ($data[1]=="-")
 {
 // Messages that start with a dash indicate a successful tx of data
     echo "LENGTH:".$data;
@@ -195,8 +195,8 @@ elseif (preg_match("/config save failed/i",$data))
 {
 /*
 
-Sometimes the RFM12PI returns config save failed the following resets the connection in the event of 
-recieving this message. 
+Sometimes the RFM12PI returns config save failed the following resets the connection in the event of
+recieving this message.
 
 */
 

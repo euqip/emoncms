@@ -1,8 +1,9 @@
 <?php
     global $path;
+    $Moduletitle=_("Schedules");
 ?>
 
-<script type="text/javascript" src="<?php echo $path; ?>Modules/schedule/Views/schedule.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/schedule/Views/schedule.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/tablejs/table.js"></script>
 
 
@@ -14,7 +15,7 @@
 
 <div class="container">
     <div id="localheading">
-        <h2><?php echo _('Schedules'); ?>
+        <h2><?php $moduletitle; ?>
            <small>
                 <a href="api">
                     <span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Schedule API Help'); ?>"></span>
@@ -105,7 +106,7 @@
                 break;
 
             default:
-            //each unknown action is traznsfered to the module code
+            //each unknown action is transfered to the module code
             //module_event(e,$(this),row,uid,action);
           }
     }

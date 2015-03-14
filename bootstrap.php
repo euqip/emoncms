@@ -19,6 +19,7 @@ if (!defined('DS')) {
 define('ROOT', dirname(__FILE__) . DS);
 define('CORE', ROOT . 'Core' . DS);
 define('LIB', CORE . 'Lib' . DS);
+define('MODULE','Modules');
 
 /**
  * Load up required libs

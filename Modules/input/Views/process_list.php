@@ -13,16 +13,18 @@ global $path, $session, $feed_settings;
 //if ($module ==undefined){$module = "input";}
 $module = "input";
 $itemname=_('Node'); 
+$modpath = $path."/".MODULUE."/";
+$libpath = $path."/";
 
 $enable_mysql_all = 0;
 if (isset($feed_settings['enable_mysql_all']) && $feed_settings['enable_mysql_all']==true) $enable_mysql_all = 1;
 
 ?>
 
-<script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/processlist.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/process_info.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>input/Views/processlist.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>input/Views/input.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>input/Views/process_info.js"></script>
+<script type="text/javascript" src="<?php echo $modpath; ?>feed/feed.js"></script>
 
 <div><h2><span id="inputname"></span> <?php echo _('Config'); ?></h2></div>
 <p><?php echo _('Input processes are executed sequentially with the result being passed back for further processing by the next processor in the input processing list.'); ?></p>

@@ -2,7 +2,7 @@
 <html>
     <head>
 <!----------------------------------------------------------------------------------------------------
-  
+
    All Emoncms code is released under the GNU Affero General Public License.
    See COPYRIGHT.txt and LICENSE.txt.
 
@@ -19,10 +19,10 @@
         <!--[if IE]><script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/excanvas.min.js"></script><![endif]-->
         <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.min.js"></script>
         <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.time.min.js"></script>
-        <script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/api.js"></script>
+        <script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/common/api.js"></script>
     </head>
     <body>
-    
+
     <!---------------------------------------------------------------------------------------------------
     // Time window buttons
     ---------------------------------------------------------------------------------------------------->
@@ -45,10 +45,10 @@
     //--------------------------------------------------------------------------------------
     var feedid = <?php echo $feedid; ?>;				//Fetch table name
     var path = "<?php echo $path; ?>";
-    var apikey = "<?php echo $apikey; ?>";	
+    var apikey = "<?php echo $apikey; ?>";
     var embed = <?php echo $embed; ?>;
     //----------------------------------------------------------------------------------------
-    // These start time and end time set the initial graph view window 
+    // These start time and end time set the initial graph view window
     //----------------------------------------------------------------------------------------
     var timeWindow = (3600000*0.1);				//Initial time window
     var start = ((new Date()).getTime())-timeWindow;		//Get start time
@@ -62,16 +62,16 @@
 
     var data = [];
 
-    $.ajax({                                      
-      url: path+'feed/data.json',                         
+    $.ajax({
+      url: path+'feed/data.json',
       data: "&apikey="+apikey+"&id="+feedid+"&start="+(start-20)+"&end="+(end+20)+"&dp="+1000,
       dataType: 'json',
-      async: false,                      
-      success: function(data_in) { data = data_in; } 
-    });   
-   
+      async: false,
+      success: function(data_in) { data = data_in; }
+    });
+
     setInterval(fast,250);
-    
+
     setInterval(getdp,5000);
 
     function fast()
@@ -86,22 +86,22 @@
       if (embed) graph.height($(window).height());
       plot();
     });
-    
+
     function getdp()
     {
      var result = {};
       $.ajax({ url: path+"feed/timevalue.json", data: "id="+feedid, dataType: 'json', async: false, success: function(datain) {result = datain;} });
-      console.log(result);  
+      console.log(result);
       var timestamp = new Date;
-      
+
       if (data[data.length-1][0]!=result.time*1000) {
         data.push([result.time*1000,parseFloat(result.value)]);
       }
-            
+
       if (data[1][0]<(start-20)) data.splice(0, 1);
 	  data.sort();
     }
-  
+
     function plot()
     {
       $.plot(graph,[{data: data, lines: { fill: true }}],
@@ -114,22 +114,22 @@
     //----------------------------------------------------------------------------------------------
     // Operate buttons
     //----------------------------------------------------------------------------------------------
-    $('.viewWindow').click(function () { 
-      timeWindow = (1000 * $(this).attr("time") ); 
-      
+    $('.viewWindow').click(function () {
+      timeWindow = (1000 * $(this).attr("time") );
+
       start = end-timeWindow;		//Get start time
-      
-      $.ajax({                                      
-        url: path+'feed/data.json',                         
+
+      $.ajax({
+        url: path+'feed/data.json',
         data: "&apikey="+apikey+"&id="+feedid+"&start="+(start-20)+"&end="+(end+20)+"&dp="+1000,
         dataType: 'json',
-        async: false,                      
-        success: function(data_in) { data = data_in; } 
-      }); 
+        async: false,
+        success: function(data_in) { data = data_in; }
+      });
     });
     //-----------------------------------------------------------------------------------------------
 
     </script>
 
   </body>
-</html>  
+</html>

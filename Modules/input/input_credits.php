@@ -1,8 +1,6 @@
 <?php
   $domain = "messages";
-  //bindtextdomain($domain, "Modules/admin/locale");
   bindtextdomain($domain, dirname(__FILE__)."/locale");
-  //bind_textdomain_codeset($domain, 'UTF-8');
   $txt =  _("No specific code used here. ");
   $logopath = "";
   $logoalt = _("Inputs module tools");

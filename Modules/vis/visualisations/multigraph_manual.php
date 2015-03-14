@@ -40,10 +40,9 @@
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.min.js"></script>
 <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.selection.min.js"></script>
 
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/api.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/inst.js"></script>
-
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/multigraph.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/common/api.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/common/inst.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/multigraph.js"></script>
 
 <?php if (!$embed) { ?>
 <h2>Multigraph</h2>

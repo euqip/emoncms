@@ -13,14 +13,14 @@
 ?>
 
  <!--[if IE]><script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/excanvas.min.js"></script><![endif]-->
- <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
- 
+ <script type="text/javascript" src="<?php echo $path.MODULE; ?>/feed/feed.js"></script>
+
  <script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/jquery.flot.min.js"></script>
  <script language="javascript" type="text/javascript" src="<?php echo $path; ?>Lib/flot/jquery.flot.selection.min.js"></script>
 
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/api.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/inst.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/vis/visualisations/common/proc.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/common/api.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/common/inst.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $path.MODULE; ?>/vis/visualisations/common/proc.js"></script>
 
 <?php if (!$embed) { ?>
 <h2><?php echo _("Bar graph (ordered by height):"); ?> <?php echo $feedidname; ?></h2>
@@ -42,10 +42,10 @@
     var feedname = "<?php echo $feedidname; ?>";
     var path = "<?php echo $path; ?>";
     var apikey = "<?php echo $apikey; ?>";
-    
+
     var timeWindow = (3600000*24.0*365*5);   //Initial time window
     var start = +new Date - timeWindow;  //Get start time
-    var end = +new Date; 
+    var end = +new Date;
 
     var graph_data = [];
     vis_feed_data();

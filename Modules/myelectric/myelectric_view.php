@@ -2,14 +2,16 @@
 <?php global $path;
 
 $apikey = get('apikey');
+$modpath = $path."/".MODULUE."/";
+$libpath = $path."/";
 
 ?>
 
 <!-- feed.js is the feed api helper library, it gives us nice functions to use within our program that
 calls the feed API on the server via AJAX. -->
-<link href="<?php echo $path; ?>Modules/myelectric/myelectric.css" rel="stylesheet">
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $path; ?>Modules/myelectric/graph.js"></script>
+<link href="<?php echo $modpath; ?>myelectric/myelectric.css" rel="stylesheet">
+<script language="javascript" type="text/javascript" src="<?php echo $modpath; ?>feed/feed.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $modpath; ?>myelectric/graph.js"></script>
 
 
 <!-- The three elements: title, power value and kwhd value that makes up our page -->

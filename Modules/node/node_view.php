@@ -14,21 +14,21 @@ body .modal {
 }
 </style>
 
-<script type="text/javascript" src="<?php echo $path; ?>Modules/node/node.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/node/processlist.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/input.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/input/Views/process_info.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/node/node.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/node/processlist.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/input/Views/input.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/input/Views/process_info.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/feed/feed.js"></script>
 
 <br>
 <div id="apihelphead"><div style="float:right;"><a href="api"><?php echo _('Node API Help'); ?></a></div></div>
-<h2><?php echo _('Nodes'); ?></h2>
+<h2><?php echo $modulename; ?></h2>
 <p><?php echo _('This is an alternative entry point to inputs designed around providing flexible decoding of RF12b struct based data packets'); ?></p>
 <br>
 
 <div class="container">
     <div id="localheading">
-      <h2><?php echo _($modulename); ?>
+      <h2><?php echo $modulename; ?>
         <a href="api"><small><span class = "glyphicon glyphicon-info-sign" title = "<?php echo _($modulename.' API Help'); ?>"></span></small></a>
     </h2>
     <p><?php echo _('This is an alternative entry point to "INPUTS" designed around providing flexible decoding of RF12b struct based data packets.') ?></p>

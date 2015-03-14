@@ -22,6 +22,7 @@ class Feed
     private $histogram;
     private $csvdownloadlimit_mb = 10;
     private $log;
+    private $enginespath="";
 
     // 5 years of daily data
     private $max_npoints_returned = 1825;
@@ -31,18 +32,19 @@ class Feed
         $this->mysqli = $mysqli;
         $this->redis = $redis;
         $this->log = new EmonLogger(__FILE__);
+        $this->enginespath= MODULE.DS."feed".DS."engine".DS;
 
         // Load different storage engines
-        require "Modules/feed/engine/MysqlTimeSeries.php";
-        require "Modules/feed/engine/Timestore.php";
-        require "Modules/feed/engine/PHPTimestore.php";
-        require "Modules/feed/engine/Histogram.php";
-        require "Modules/feed/engine/PHPTimeSeries.php";
-        require "Modules/feed/engine/GraphiteTimeSeries.php";
+        require $this->enginespath."MysqlTimeSeries.php";
+        require $this->enginespath."Timestore.php";
+        require $this->enginespath."PHPTimestore.php";
+        require $this->enginespath."Histogram.php";
+        require $this->enginespath."PHPTimeSeries.php";
+        require $this->enginespath."GraphiteTimeSeries.php";
 
         // Development engines
-        require "Modules/feed/engine/PHPFina.php";
-        require "Modules/feed/engine/PHPFiwa.php";
+        require $this->enginespath."PHPFina.php";
+        require $this->enginespath."PHPFiwa.php";
 
         // Backwards compatibility
         if (!isset($settings)) $settings= array();

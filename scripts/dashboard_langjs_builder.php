@@ -1,6 +1,6 @@
 <?php
 echo  "//START";
-$dir='../Modules/dashboard';
+$dir='..'.DS.MODULE.DS.'dashboard';
 
 $filejs=array();
 
@@ -19,7 +19,7 @@ function extract_translation($filejs){
   foreach ($filejs as $file){
    $lines = explode("\n", file_get_contents($file));
    $tr=array();
-   foreach ($lines as $line){ 
+   foreach ($lines as $line){
      $pos = strpos($line, '_Tr(');
       if ($pos !== false) {
           $r = explode('_Tr("', $line);
@@ -41,7 +41,7 @@ function extract_translation($filejs){
   return $translation;
 }
 
-get_js_file($dir); 
+get_js_file($dir);
 //echo "<pre>".print_r($filejs,true)."</pre>";
 
  $translation= extract_translation($filejs);
@@ -54,4 +54,4 @@ get_js_file($dir);
    }
  }
 ?>
-//END 
+//END

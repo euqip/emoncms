@@ -54,9 +54,9 @@ function languagecode_to_name($lang){
    return $lang;
 }
 ?>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/profile.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/user/profile/md5.js"></script>
-<script type="text/javascript" src="<?php echo $path; ?>Modules/user/user.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/user/profile/profile.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/user/profile/md5.js"></script>
+<script type="text/javascript" src="<?php echo $path.MODULE; ?>/user/user.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Lib/listjs/list.js"></script>
 
 <div class="row">
