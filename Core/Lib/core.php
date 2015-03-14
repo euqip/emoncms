@@ -52,19 +52,19 @@ function db_check($mysqli,$database)
     if ($row['0']>0) return true; else return false;
 }
 
-function controller($controller_name)
+function controller($controller_name,$moduledir = "Modules")
 {
     $output = array('content'=>'');
 
     if ($controller_name)
     {
         $controller = $controller_name."_controller";
-        $controllerScript = "Modules/".$controller_name."/".$controller.".php";
+        $controllerScript = $moduledir.DS.$controller_name.DS.$controller.".php";
         if (is_file($controllerScript))
         {
             // Load language files for module
             $domain = "messages";
-            bindtextdomain($domain, "Modules/".$controller_name."/locale");
+            bindtextdomain($domain, $moduledir.DS.$controller_name.DS."locale");
             //bind_textdomain_codeset($domain, 'UTF-8');
             textdomain($domain);
 
@@ -130,37 +130,37 @@ function server($index)
     return $val;
 }
 
-function load_db_schema()
+function load_db_schema($moduledir = "Modules")
 {
     $schema = array();
-    $dir = scandir("Modules");
+    $dir = scandir($moduledir);
     for ($i=2; $i<count($dir); $i++)
     {
-        if (filetype("Modules/".$dir[$i])=='dir')
+        if (filetype($moduledir.DS.$dir[$i])=='dir')
         {
-            if (is_file("Modules/".$dir[$i]."/".$dir[$i]."_schema.php"))
+            if (is_file($moduledir.DS.$dir[$i].DS.$dir[$i]."_schema.php"))
             {
-               require "Modules/".$dir[$i]."/".$dir[$i]."_schema.php";
+               require $moduledir.DS.$dir[$i].DS.$dir[$i]."_schema.php";
             }
         }
     }
     return $schema;
 }
 
-function load_menu()
+function load_menu($moduledir = "Modules")
 {
     $menu_left = array();
     $menu_right = array();
     $menu_dropdown = array();
 
-    $dir = scandir("Modules");
+    $dir = scandir($moduledir);
     for ($i=2; $i<count($dir); $i++)
     {
-        if (filetype("Modules".DS.$dir[$i])=='dir')
+        if (filetype($moduledir.DS.$dir[$i])=='dir')
         {
-            if (is_file("Modules".DS.$dir[$i].DS.$dir[$i]."_menu.php"))
+            if (is_file($moduledir.DS.$dir[$i].DS.$dir[$i]."_menu.php"))
             {
-                require "Modules".DS.$dir[$i].DS.$dir[$i]."_menu.php";
+                require $moduledir.DS.$dir[$i].DS.$dir[$i]."_menu.php";
             }
         }
     }
@@ -170,15 +170,15 @@ function load_menu()
 }
 
 
-function load_credits()
+function load_credits($moduledir = "Modules")
 {
     $credits = array();
 
-    $dir = scandir("Modules");
+    $dir = scandir($moduledir);
     for ($i=2; $i<count($dir); $i++){
-        if (filetype("Modules".DS.$dir[$i])=='dir'){
-            if (is_file("Modules".DS.$dir[$i].DS.$dir[$i]."_credits.php")){
-                require "Modules".DS.$dir[$i].DS.$dir[$i]."_credits.php";
+        if (filetype($moduledir.DS.$dir[$i])=='dir'){
+            if (is_file($moduledir.DS.$dir[$i].DS.$dir[$i]."_credits.php")){
+                require $moduledir.DS.$dir[$i].DS.$dir[$i]."_credits.php";
             }
         }
     }
@@ -201,11 +201,11 @@ function flagselector($path,$dir){
     // use iso country codes (flags images are 96px)
 
     $country= strtolower(substr($v,-2));
-    $pth = 'Theme/flags_96/';
+    $pth = 'Theme'.DS.'flags_96'.DS;
     //zz is a black flag, used to show undefined country
     if (!file_exists($pth.$country.'.png')){$country="zz";}
     $html .= '<a href="';
-    $html .= $path.'user/login/lang='.$v.'">';
+    $html .= $path.'user'.DS.'login/lang='.$v.'">';
     $html .= '<img title= "'._($v).'" src="'.$path.$pth.$country.'.png"></a>';
   }
   $html .= '</div>';
