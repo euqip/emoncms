@@ -71,8 +71,9 @@ public function apikey_session($apikey_in)
             $session['lang'] = $this->redis->get("userlangkey:$apikey_in");
             $session['orgid']= $this->redis->get("userorgid:$apikey_in");
             if ($session['lang']=='' || $session['orgid']==''){
-            $sql = $sqlbase." apikey_write ='$apikey_in'";
-            $result = $this->mysqli->query($sql);
+                $flds = "id, language, orgid";
+                $wcond =" apikey_write ='$apikey_in'";
+                $result = $this->get_wcond($flds, $wcond);
                 if ($result->num_rows == 1)
                 {
                     $row = $result->fetch_array();
@@ -167,20 +168,19 @@ public function apikey_session($apikey_in)
             }
         }
 
-        if (isset($_SESSION['admin'])) $session['admin'] = $_SESSION['admin']; else $session['admin'] = 0;
-        if (isset($_SESSION['orgid'])) $session['orgid'] = $_SESSION['orgid']; else $session['orgid'] = 0;
-        if (isset($_SESSION['read'])) $session['read'] = $_SESSION['read']; else $session['read'] = 0;
-        if (isset($_SESSION['write'])) $session['write'] = $_SESSION['write']; else $session['write'] = 0;
-        if (isset($_SESSION['userid'])) $session['userid'] = $_SESSION['userid']; else $session['userid'] = 0;
-        if (isset($_SESSION['lang'])) $session['lang'] = $_SESSION['lang']; else $session['lang'] = '';
-        if (isset($_SESSION['username'])) $session['username'] = $_SESSION['username']; else $session['username'] = '';
-        if (isset($_SESSION['editmode'])) $session['editmode'] = $_SESSION['editmode']; else $session['editmode'] = 0;
-        if (isset($_SESSION['csv_field_separator'])) $session['csv_field_separator'] = $_SESSION['csv_field_separator']; else $session['csv_field_separator'] = $this->behavior['csv_parameters']['csv_field_separator'];
-        if (isset($_SESSION['csv_decimal_place_separator'])) $session['csv_decimal_place_separator'] = $_SESSION['csv_decimal_place_separator']; else $session['csv_decimal_place_separator'] = $this->behavior['csv_parameters']['csv_decimal_place_separator'];
-        if (isset($_SESSION['csv_thousandsepar_separator'])) $session['csv_thousandsepar_separator'] = $_SESSION['csv_thousandsepar_separator']; else $session['csv_thousandsepar_separator'] = $this->behavior['csv_parameters']['csv_thousandsepar_separator'];
-        if (isset($_SESSION['csvdate'])) $session['csvdate'] = $_SESSION['csvdate']; else $session['csvdate'] = $this->behavior['csv_parameters']['csv_dateformat'];
-        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $_SESSION['csvtime']; else $session['csvtime'] = $this->behavior['csv_parameters']['csv_timeformat'];
-
+        $session['admin']                       = (isset($_SESSION['admin'])) ? $_SESSION['admin'] : 0;
+        $session['orgid']                       = (isset($_SESSION['orgid'])) ? $_SESSION['orgid'] : 0;
+        $session['read']                        = (isset($_SESSION['read'])) ? $_SESSION['read'] : 0;
+        $session['write']                       = (isset($_SESSION['write'])) ? $_SESSION['write'] : 0;
+        $session['userid']                      = (isset($_SESSION['userid'])) ? $_SESSION['userid'] : 0;
+        $session['lang']                        = (isset($_SESSION['lang'])) ? $_SESSION['lang'] : '';
+        $session['username']                    = (isset($_SESSION['username'])) ? $_SESSION['username'] : '';
+        $session['editmode']                    = (isset($_SESSION['editmode'])) ? $_SESSION['editmode'] : 0;
+        $session['csv_field_separator']         = (isset($_SESSION['csv_field_separator'])) ? $_SESSION['csv_field_separator'] : $this->behavior['csv_parameters']['csv_field_separator'];
+        $session['csv_decimal_place_separator'] = (isset($_SESSION['csv_decimal_place_separator'])) ? $_SESSION['csv_decimal_place_separator'] : $this->behavior['csv_parameters']['csv_decimal_place_separator'];
+        $session['csv_thousandsepar_separator'] = (isset($_SESSION['csv_thousandsepar_separator'])) ? $_SESSION['csv_thousandsepar_separator'] : $this->behavior['csv_parameters']['csv_thousandsepar_separator'];
+        $session['csvdate']                     = (isset($_SESSION['csvdate'])) ? $_SESSION['csvdate'] : $this->behavior['csv_parameters']['csvdate'];
+        $session['csvtime']                     = (isset($_SESSION['csvtime'])) ? $_SESSION['csvtime'] : $this->behavior['csv_parameters']['csvtime'];
         return $session;
     }
 
@@ -247,8 +247,6 @@ public function apikey_session($apikey_in)
     {
         $id = $this->mysqli->real_escape_string($id);
         $this->set_field($id, " changepswd = 1 ");
-        //$sql="SELECT * FROM $this->useTable  WHERE id = '$id' AND changepswd=1";
-        //$result = $this->mysqli->query($sql);
         $userData = $result->fetch_object();
         return array('success'=>true, 'userid'=>$userData->id, 'apikey_read'=>$userData->apikey_read, 'apikey_write'=>$userData->apikey_write, 'message'=>_("User will be forced to change password right after next login"));
 
@@ -268,9 +266,7 @@ public function apikey_session($apikey_in)
         if (!$username || !$password) return array('success'=>false, 'message'=>_("Username or password empty"));
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
-        //$sql = "SELECT id,username, password,admin,salt,language, changepswd, orgid, csvparam, csvdate, csvtime FROM $this->useTable WHERE username = '$username'";
-        //$result = $this->mysqli->query($sql);
-        $result = $this->get_wcond("id,password,admin,salt,language, , changepswd, orgid, csvparam, csvdate, csvtime","username = '$username'");
+        $result = $this->get_wcond("id,password,admin,salt,language,changepswd,orgid,csvparam,csvdate,csvtime","username = '$username'");
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect username - password, if you are sure its correct try clearing your browser cache"));
 
@@ -307,19 +303,19 @@ public function apikey_session($apikey_in)
             preg_match_all('/\(.\)/',  $scvseparators[$userData->csvparam], $matches, PREG_OFFSET_CAPTURE, 8);
 
             session_regenerate_id();
-            $_SESSION['userid'] = $userData->id;
-            $_SESSION['username'] = $userData->username;
-            $_SESSION['read'] = 1;
-            $_SESSION['write'] = 1;
-            $_SESSION['admin'] = $userData->admin;
-            $_SESSION['orgid'] = $userData->orgid;
-            $_SESSION['lang'] = $userData->language;
-            $_SESSION['editmode'] = TRUE;
-            $_SESSION['csv_field_separator'] = substr($matches[0][0][0],1,1);
-            $_SESSION['csv_decimal_place_separator'] =  substr($matches[0][1][0],1,1);
-            $_SESSION['csv_thousandsepar_separator'] =  substr($matches[0][2][0],1,1);
-            $_SESSION['csvdate'] = $dateformats[$userData->csvdate];
-            $_SESSION['csvtime'] = $timeformats[$userData->csvtime];
+            $_SESSION['userid']                      = $userData->id;
+            $_SESSION['username']                    = $userData->username;
+            $_SESSION['read']                        = 1;
+            $_SESSION['write']                       = 1;
+            $_SESSION['admin']                       = $userData->admin;
+            $_SESSION['orgid']                       = $userData->orgid;
+            $_SESSION['lang']                        = $userData->language;
+            $_SESSION['editmode']                    = TRUE;
+            $_SESSION['csv_field_separator']         = substr($matches[0][0][0],1,1);
+            $_SESSION['csv_decimal_place_separator'] = substr($matches[0][1][0],1,1);
+            $_SESSION['csv_thousandsepar_separator'] = substr($matches[0][2][0],1,1);
+            $_SESSION['csvdate']                     = $dateformats[$userData->csvdate];
+            $_SESSION['csvtime']                     = $timeformats[$userData->csvtime];
             return $userData;
     }
 
@@ -335,8 +331,6 @@ public function apikey_session($apikey_in)
 
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
-
-        //$result = $this->mysqli->query("SELECT id,password,admin,salt,language, apikey_write,apikey_read FROM $this->useTable WHERE username = '$username'");
         $result = $this->get_wcond("id,password,admin,salt,language, apikey_write,apikey_read","username = '$username'");
 
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect authentication"));
@@ -378,8 +372,6 @@ public function apikey_session($apikey_in)
         if (strlen($new) < 4 || strlen($new) > 30) return array('success'=>false, 'message'=>_("Password length error"));
 
         // 1) check that old password is correct
-        //$result = $this->mysqli->query("SELECT password, salt FROM $this->useTable WHERE id = '$userid'");
-        //$row = $result->fetch_object();
         $row =$this->get ($id, "password, salt");
         $hash = hash('sha256', $row->salt . hash('sha256', $old));
 
@@ -390,7 +382,7 @@ public function apikey_session($apikey_in)
             $string = md5(uniqid(rand(), true));
             $salt = substr($string, 0, 3);
             $hash = hash('sha256', $salt . $hash);
-            $this->mysqli->query("UPDATE $this->useTable SET password = '$hash', salt = '$salt' WHERE id = '$userid'");
+            $this->set_field($userid,"password = '$hash', salt = '$salt'");
             return array('success'=>true);
         }
         else
@@ -403,9 +395,7 @@ public function apikey_session($apikey_in)
     {
         $username_out = preg_replace('/[^\w\s-]/','',$username);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return array('success'=>false, 'message'=>_("Email address format error"));
-
-        $result = $this->mysqli->query("SELECT * FROM $this->useTable WHERE `username`='$username_out' AND `email`='$email'");
-
+        $this->get_wcond(" * ", "`username`='$username_out' AND `email`='$email'");
         if ($result->num_rows==1)
         {
             $row = $result->fetch_array();
@@ -426,10 +416,7 @@ public function apikey_session($apikey_in)
                 $hash    = hash('sha256', $salt . $hash);
 
                 // Save hash and salt
-                $this->set_field ($id," salt = '".$salt."'");
-                $this->set_field ($id," password = '".$hash."'");
-
-                //$this->mysqli->query("UPDATE $this->useTable SET password = '$hash', salt = '$salt' WHERE id = '$userid'");
+                $this->set_field ($id," salt = '".$salt."' password = '".$hash."'");
 
                 //------------------------------------------------------------------------------
                 global $enable_password_reset;
@@ -500,15 +487,7 @@ public function apikey_session($apikey_in)
     //---------------------------------------------------------------------------------------
     // Get by userid methods
     //---------------------------------------------------------------------------------------
-    /*
-    public function get_convert_status($id)
-    {
-        $id = intval($id);
-        $result = $this->mysqli->query("SELECT `convert` FROM users WHERE id = '$id';");
-        $row = $result->fetch_array();
-        return array('convert'=>(int)$row['convert']);
-    }
-*/
+
     public function get_username($id)
     {
         return $this->get($id,'username');
@@ -554,24 +533,10 @@ public function apikey_session($apikey_in)
         return $this->get_wcond('id',"username = '$username'");
     }
 
-    public function get_wcond($flds,$wcond)
-    {
-        $result = $this->mysqli->query("SELECT $flds FROM $this->useTable WHERE $wcond;");
-        return $this->mysqli->query($sql);
-    }
 
     //---------------------------------------------------------------------------------------
     // Set by id methods
     //---------------------------------------------------------------------------------------
-
-    /*
-    public function set_convert_status($id)
-    {
-        $id = intval($id);
-        $this->mysqli->query("UPDATE users SET `convert` = '1' WHERE id='$id'");
-        return array('convert'=>1);
-    }
-    */
 
     public function set_user_lang($id, $lang)
     {
@@ -612,10 +577,6 @@ public function apikey_session($apikey_in)
         if (!ctype_alnum($username)) return array('success'=>false, 'message'=>_("Username must only contain a-z and 0-9 characters"));
 
         // check first that this new username does not exist
-
-        //$result = $this->mysqli->query("SELECT id FROM users WHERE username = '$username'");
-        //$row = $result->fetch_array();
-
         if (!$this->get_id($username))
         {
             $this->set_field ($id," username = '".$username."'");
@@ -647,6 +608,12 @@ public function apikey_session($apikey_in)
     {
         $id = intval($id);
         $this->mysqli->query("UPDATE $this->useTable SET $fld WHERE id='$id'");
+        $this->stamp_record($id);
+    }
+
+    public function stamp_record($id)
+    {
+        $this->mysqli->query("UPDATE $this->useTable SET updtbyid = '".$_SESSION['userid']."', updtbyname = '".$_SESSION['username']."', updtdate= now() WHERE id='$id'");
     }
 
     //---------------------------------------------------------------------------------------
@@ -684,50 +651,43 @@ public function apikey_session($apikey_in)
         return $tmpdata;
     }
 
+    public function get_wcond($flds,$wcond)
+    {
+        $data =array();
+        $sql="SELECT $flds FROM $this->useTable WHERE $wcond;";
+        $result = $this->mysqli->query($sql);
+        $data = $result->fetch_object();
+        return $data;
+    }
+
     public function set($id,$data)
     {
         // Validation
         //var_dump($data);
         $id   = intval($id);
-        $gravatar = '  gravatar      = "'.preg_replace('/[^\w\s-.@]/','',$data->gravatar).'"';
-        $name     = ', name          = "'.preg_replace('/[^\s\p{L}]/u','',$data->name).'"';
-        $location = ', location      = "'.preg_replace('/[^\s\p{L}]/u','',$data->location).'"';
-        $timezone = ', timezone      = "'.intval($data->timezone).'"';
-        $language = ', language      = "'.preg_replace('/[^\w\s-.]/','',$data->language).'"';
-        $bio      = ', bio           = "'.preg_replace('/[^\w\s-.]/','',$data->bio).'"';
-        $orgid    = '';
-        $admin    = '';
+        $lang = preg_replace('/[^\w\s-.]/','',$data->language);
+        $flds  = '';
+        $flds .= '  gravatar = "'.preg_replace('/[^\w\s-.@]/','',$data->gravatar).'"';
+        $flds .= ', name     = "'.preg_replace('/[^\s\p{L}]/u','',$data->name).'"';
+        $flds .= ', location = "'.preg_replace('/[^\s\p{L}]/u','',$data->location).'"';
+        $flds .= ', timezone = "'.intval($data->timezone).'"';
+        $flds .= ', language = "'.$lang.'"';
+        $flds .= ', bio      = "'.preg_replace('/[^\w\s-.]/','',$data->bio).'"';
         //reserved action to system admin
-        $orgid    = ', orgid         = "'.intval($data->orgid).'"';
+        $flds .= ', orgid    = "'.intval($data->orgid).'"';
         //reserved action to the orgadmin and system admin
-        $admin    = ', admin         = "'.intval($data->admin).'"';
-        $csvparam = ', csvparam      = "'.intval($data->csvparam).'"';
-        $csvdate  = ', csvdate       = "'.intval($data->csvdate).'"';
-        $csvtime  = ', csvtime       = "'.intval($data->csvtime).'"';
-        $sql = "UPDATE $this->useTable SET 
-                                 $gravatar
-                                 $name
-                                 $location
-                                 $timezone
-                                 $language
-                                 $bio
-                                 $orgid
-                                 $admin
-                                 $csvparam
-                                 $csvdate
-                                 $csvtime
-                                 WHERE id = '$id'";
+        $flds .= ', admin    = "'.intval($data->admin).'"';
+        $flds .= ', csvparam = "'.intval($data->csvparam).'"';
+        $flds .= ', csvdate  = "'.intval($data->csvdate).'"';
+        $flds .= ', csvtime  = "'.intval($data->csvtime).'"';
         //change session language only if done by user!
         //check if $id == currentuser
-        $lang = preg_replace('/[^\w\s-.]/','',$data->language);
         if($id==intval($_SESSION['userid']) && ($_SESSION['lang']<>$lang)){
             $_SESSION['lang'] = $lang;
         }
-        $result   = $this->mysqli->query($sql);
+        $this->set_field($id,$flds);
         //refresh session
-        $result1 = $this->get($udserid);
-        //$sql = "SELECT * from users where id = '$userid'";
-        //$result1 = $this->mysqli->query($sql);
+        $result1 = $this->get($userid);
         if ($result1->num_rows == 1) {
             $userData = $result1->fetch_object();
             //regenerate the session to inclue all modified params
@@ -811,12 +771,10 @@ public function apikey_session($apikey_in)
         return $separators;
     }
     public function toggle_user($userid,$username,$wcond){
-        $sql = "SELECT delflag from $this->useTable WHERE ".$wcond;
-        $result = $this->mysqli->query($sql);
-        $data = $result->fetch_object();
+        $data =  $this->get_wcond ("id, delflag",$wcond);
         $flag = ($data->delflag<>0) ?0:1;
-        $sql = "update $this->useTable set delflag = ".$flag.", delbyid = ".$userid.", delbyname = '".$username."', deldate =now() where ".$wcond;
-        $this->mysqli->query($sql);
-        return $sql;
+        $flds = "delflag = ".$flag.", delbyid = ".$userid.", delbyname = '".$username."', deldate =now()";
+        $this->set_field ($data->id,$flds);
+        return $flds;
     }
 }
