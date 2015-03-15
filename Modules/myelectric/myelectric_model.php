@@ -33,7 +33,7 @@ class MyElectric
         $outdata = array();
         foreach ($data as $key=>$val)
         {
-            $key = preg_replace('/[^\w\s-]/','',$key);
+            $key = preg_replace(REGEX_STRING,'',$key);
             $outdata[$key] = (int) $val;
         }
         

@@ -85,20 +85,20 @@ class Org
 
         $fields = json_decode(stripslashes($fields));
         $array = array();
-        $regexval= '/[^\w\s-.]/';
+        $reg= REGEX_STRING;
 
         // Repeat this line changing the field name to add fields that can be updated:
-        if (isset($fields->longname)) $array[] = "`longname` = '".preg_replace($regexval,'',$fields->longname)."'";
-        if (isset($fields->orgname)) $array[] = "`orgname` = '".preg_replace($regexval,'',$fields->orgname)."'";
-        if (isset($fields->country)) $array[] = "`country` = '".preg_replace($regexval,'',$fields->country)."'";
-        if (isset($fields->language)) $array[] = "`language` = '".preg_replace($regexval,'',$fields->language)."'";
-        if (isset($fields->logo)) $array[] = "`logo` = '".preg_replace($regexval,'',$fields->logo)."'";
-        if (isset($fields->address)) $array[] = "`address` = '".preg_replace($regexval,'',$fields->address)."'";
-        if (isset($fields->zip)) $array[] = "`zip` = '".preg_replace($regexval,'',$fields->zip)."'";
-        if (isset($fields->city)) $array[] = "`city` = '".preg_replace($regexval,'',$fields->city)."'";
-        if (isset($fields->state)) $array[] = "`state` = '".preg_replace($regexval,'',$fields->state)."'";
-        if (isset($fields->location)) $array[] = "`location` = '".preg_replace($regexval,'',$fields->location)."'";
-        if (isset($fields->timezone)) $array[] = "`timezone` = '".preg_replace($regexval,'',$fields->timezone)."'";
+        if (isset($fields->longname)) $array[] = "`longname` = '".preg_replace($reg,'',$fields->longname)."'";
+        if (isset($fields->orgname)) $array[] = "`orgname` = '".preg_replace($reg,'',$fields->orgname)."'";
+        if (isset($fields->country)) $array[] = "`country` = '".preg_replace($reg,'',$fields->country)."'";
+        if (isset($fields->language)) $array[] = "`language` = '".preg_replace($reg,'',$fields->language)."'";
+        if (isset($fields->logo)) $array[] = "`logo` = '".preg_replace($reg,'',$fields->logo)."'";
+        if (isset($fields->address)) $array[] = "`address` = '".preg_replace($reg,'',$fields->address)."'";
+        if (isset($fields->zip)) $array[] = "`zip` = '".preg_replace($reg,'',$fields->zip)."'";
+        if (isset($fields->city)) $array[] = "`city` = '".preg_replace($reg,'',$fields->city)."'";
+        if (isset($fields->state)) $array[] = "`state` = '".preg_replace($reg,'',$fields->state)."'";
+        if (isset($fields->location)) $array[] = "`location` = '".preg_replace($reg,'',$fields->location)."'";
+        if (isset($fields->timezone)) $array[] = "`timezone` = '".preg_replace($reg,'',$fields->timezone)."'";
         // Convert to a comma seperated string for the mysql query
         $fieldstr = implode(",",$array);
         $sql = "UPDATE ".$this->tbl." SET ".$fieldstr." WHERE `id` = '$id'";

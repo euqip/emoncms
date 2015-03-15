@@ -72,7 +72,7 @@ class Update
             $id = $row->id;
             $username = $row->username;
             // filter out all except for alphanumeric white space and dash
-            $usernameout = preg_replace('/[^\w\s-]/','',$username);
+            $usernameout = preg_replace(REGEX_STRING,'',$username);
             if ($usernameout!=$username) {
                 $userexists = $this->mysqli->query("SELECT id FROM users WHERE `username` = '$usernameout'");
                 if (!$userexists->num_rows) {

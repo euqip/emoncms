@@ -93,9 +93,9 @@ class Schedule
         $array = array();
 
         // Repeat this line changing the field name to add fields that can be updated:
-        if (isset($fields->name)) $array[] = "`name` = '".preg_replace('/[^\w\s-:]/','',$fields->name)."'";
-        if (isset($fields->expression)) $array[] = "`expression` = '".preg_replace('/[^\/\|\,\w\s-:]/','',$fields->expression)."'";
-        if (isset($fields->description)) $array[] = "`description` = '".preg_replace('/[^\/\|\,\w\s-:]/','',$fields->description)."'";
+        if (isset($fields->name)) $array[] = "`name` = '".preg_replace(REGEX_STRING,$fields->name)."'";
+        if (isset($fields->expression)) $array[] = "`expression` = '".preg_replace(REGEX_EXPRESSION,'',$fields->expression)."'";
+        if (isset($fields->description)) $array[] = "`description` = '".preg_replace(REGEX_EXPRESSION,'',$fields->description)."'";
         if (isset($fields->public)) $array[] = "`public` = '".intval($fields->public)."'";
 
         // Convert to a comma seperated string for the mysql query

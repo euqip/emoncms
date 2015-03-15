@@ -19,6 +19,7 @@ function user_controller()
     global $user, $path, $session, $route ,$allowusersregister;
 
     $result = false;
+    $modulename = "user";
 
     // Load html,css,js pages to the client
     if ($route->format == 'html')

@@ -15,7 +15,7 @@
  */
 
 if (!defined('EMONCMS_EXEC')){
-  $redir =  $_SERVER['SERVER_NAME'].preg_replace('/[a-z][A-Z][0-9]*\.php/', 'index.php', $_SERVER['REQUEST_URI']);
+  $redir =  $_SERVER['SERVER_NAME'].preg_replace(REGEX_SERVER_NAME, 'index.php', $_SERVER['REQUEST_URI']);
   header ('Location:'.$redir);
 }
 

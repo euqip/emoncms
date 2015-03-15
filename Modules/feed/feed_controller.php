@@ -82,7 +82,7 @@ function feed_controller()
                 {
                     if ($route->action == "value") $result = $feed->get_value($feedid);
                     if ($route->action == "timevalue") $result = $feed->get_timevalue_seconds($feedid);
-                    if ($route->action == "get") $result = $feed->get_field($feedid,get('field')); // '/[^\w\s-]/'
+                    if ($route->action == "get") $result = $feed->get_field($feedid,get('field')); // REGEX_STRING
                     if ($route->action == "aget") $result = $feed->get($feedid);
 
                     if ($route->action == 'histogram') $result = $feed->histogram_get_power_vs_kwh($feedid,get('start'),get('end'));

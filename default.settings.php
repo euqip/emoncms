@@ -5,7 +5,7 @@
  */
 if (!defined('EMONCMS_EXEC')){
     // works with APACHE
-  $redir =  $_SERVER['SERVER_NAME'].preg_replace('/\/[a-zA-Z0-9-+.]*\.php/', '/index.php', $_SERVER['REQUEST_URI']);
+  $redir =  $_SERVER['SERVER_NAME'].preg_replace(REGEX_SERVER_NAME, '/index.php', $_SERVER['REQUEST_URI']);
   header ('Location:'.$redir);
 }
    // no direct access

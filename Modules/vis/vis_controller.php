@@ -96,7 +96,7 @@
                                 if (get($key)==true || get($key)==false)
                                     $array[$key] = get($key); else $array[$key] = $default;
                             if ($type==5)
-                                $array[$key] = preg_replace('/[^\w\s£$€¥]/','',get($key))?get($key):$default;
+                                $array[$key] = preg_replace(REGEX_CURRENCY,'',get($key))?get($key):$default;
                             if ($type==6)
                                 $array[$key] = str_replace(',', '.', floatval((get($key)?get($key):$default)));
                             if ($type==7)

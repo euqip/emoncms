@@ -83,7 +83,7 @@ class Feed
     {
         $userid = (int) $userid;
         $orgid = (int) $orgid;
-        $name = preg_replace('/[^\w\s-]/','',$name);
+        $name = preg_replace(REGEX_STRING,'',$name);
         $datatype = (int) $datatype;
         $engine = (int) $engine;
 
@@ -342,7 +342,7 @@ class Feed
 
         if ($field!=NULL) // if the feed exists
         {
-            $field = preg_replace('/[^\w\s-]/','',$field);
+            $field = preg_replace(REGEX_STRING,'',$field);
 
             if ($this->redis) {
                 $val = $this->redis->hget("feed:$id",$field);
@@ -425,8 +425,8 @@ class Feed
         $array = array();
 
         // Repeat this line changing the field name to add fields that can be updated:
-        if (isset($fields->name)) $array[]   = "`name`   = '".preg_replace('/[^\w\s-:]/','',$fields->name)."'";
-        if (isset($fields->tag)) $array[]    = "`tag`    = '".preg_replace('/[^\w\s-:]/','',$fields->tag)."'";
+        if (isset($fields->name)) $array[]   = "`name`   = '".preg_replace(REGEX_STRING,'',$fields->name)."'";
+        if (isset($fields->tag)) $array[]    = "`tag`    = '".preg_replace(REGEX_STRING,'',$fields->tag)."'";
         if (isset($fields->public)) $array[] = "`public` = '".intval($fields->public)."'";
         if (isset($fields->engine)) $array[] = "`engine` = '".intval($fields->engine)."'";
         if (isset($fields->userid)) $array[] = "`userid` = '".intval($fields->userid)."'";

@@ -77,7 +77,7 @@ class Node
         if (!$decoder_in) return false;
 
         $decoder = new stdClass();
-        $decoder->name = preg_replace('/[^\w\s-:()]/','',$decoder_in->name);
+        $decoder->name = preg_replace(REGEX_STRING,'',$decoder_in->name);
         $decoder->updateinterval = (int) $decoder_in->updateinterval;
 
         $decoder->variables = array();
@@ -85,10 +85,10 @@ class Node
         foreach ($decoder_in->variables as $variable)
         {
           $var = new stdClass();
-          $var->name = preg_replace('/[^\w\s-:]/','',$variable->name);
+          $var->name = preg_replace(REGEX_STRING,'',$variable->name);
           if (isset($variable->type)) $var->type = (int) $variable->type;
           if (isset($variable->scale)) $var->scale = (float) $variable->scale;
-          if (isset($variable->units)) $var->units = preg_replace('/[^\w\s-°]/','',$variable->units);
+          if (isset($variable->units)) $var->units = preg_replace(REGEX_UNITS,'',$variable->units);
           if (isset($variable->processlist)) {
               $var->processlist = preg_replace('/[^\d-:,.]/','',$variable->processlist);
           }

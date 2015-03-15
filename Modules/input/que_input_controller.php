@@ -215,7 +215,7 @@ function input_controller()
 
             if ($datain!="")
             {
-                $json = preg_replace('/[^\w\s-.:,]/','',$datain);
+                $json = preg_replace(REGEX_STRING,'',$datain);
                 $datapairs = explode(',', $json);
 
                 $csvi = 0;

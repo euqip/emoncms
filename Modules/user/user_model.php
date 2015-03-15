@@ -179,8 +179,8 @@ public function apikey_session($apikey_in)
         $session['csv_field_separator']         = (isset($_SESSION['csv_field_separator'])) ? $_SESSION['csv_field_separator'] : $this->behavior['csv_parameters']['csv_field_separator'];
         $session['csv_decimal_place_separator'] = (isset($_SESSION['csv_decimal_place_separator'])) ? $_SESSION['csv_decimal_place_separator'] : $this->behavior['csv_parameters']['csv_decimal_place_separator'];
         $session['csv_thousandsepar_separator'] = (isset($_SESSION['csv_thousandsepar_separator'])) ? $_SESSION['csv_thousandsepar_separator'] : $this->behavior['csv_parameters']['csv_thousandsepar_separator'];
-        $session['csvdate']                     = (isset($_SESSION['csvdate'])) ? $_SESSION['csvdate'] : $this->behavior['csv_parameters']['csvdate'];
-        $session['csvtime']                     = (isset($_SESSION['csvtime'])) ? $_SESSION['csvtime'] : $this->behavior['csv_parameters']['csvtime'];
+        $session['csvdate']                     = (isset($_SESSION['csvdate'])) ? $_SESSION['csvdate'] : $this->behavior['csv_parameters']['csv_dateformat'];
+        $session['csvtime']                     = (isset($_SESSION['csvtime'])) ? $_SESSION['csvtime'] : $this->behavior['csv_parameters']['csv_timeformat'];
         return $session;
     }
 
@@ -255,19 +255,16 @@ public function apikey_session($apikey_in)
     public function login($username, $password, $remembermecheck)
     {
         $remembermecheck = (int) $remembermecheck;
-
-
         // filter out all except for alphanumeric white space and dash
         //if (!ctype_alnum($username))
-        $username_out = preg_replace('/[^\w\s-]/','',$username);
+        $username_out = preg_replace(REGEX_STRING,'',$username);
 
         if ($username_out!=$username) return array('success'=>false, 'message'=>_("Username must only contain a-z 0-9 dash and underscore, if you created an account before this rule was in place enter your username without the non a-z 0-9 dash underscore characters to login and feel free to change your username on the profile page."));
 
         if (!$username || !$password) return array('success'=>false, 'message'=>_("Username or password empty"));
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
-        $result = $this->get_wcond("id,password,admin,salt,language,changepswd,orgid,csvparam,csvdate,csvtime","username = '$username'");
-
+        $result = $this->get_wcond("id,password,username,salt,orgid","username = '$username'");
         if ($result->num_rows < 1) return array('success'=>false, 'message'=>_("Incorrect username - password, if you are sure its correct try clearing your browser cache"));
 
         $userData = $result->fetch_object();
@@ -279,11 +276,13 @@ public function apikey_session($apikey_in)
         }
         else
         {
+            // username ans password are ok then begin a session
             $id=$userData->id;
             $this->set_lastlogin($id);
             $this->org->lastlogin($userData->orgid);
+            $this->get_partial($id);
             //if ($userdata->forcenewpwd =1)
-            $this->generate_session($userData);
+            $this->generate_session($this->usrdata);
             if ($this->enable_rememberme) {
                 if ($remembermecheck==true) {
                     $this->rememberme->createCookie($userData->id);
@@ -325,7 +324,7 @@ public function apikey_session($apikey_in)
     public function get_apikeys_from_login($username, $password)
     {
         if (!$username || !$password) return array('success'=>false, 'message'=>_("Username or password empty"));
-        $username_out = preg_replace('/[^\w\s-]/','',$username);
+        $username_out = preg_replace(REGEX_STRING,'',$username);
 
         if ($username_out!=$username) return array('success'=>false, 'message'=>_("Username must only contain a-z 0-9 dash and underscore"));
 
@@ -393,7 +392,7 @@ public function apikey_session($apikey_in)
 
     public function passwordreset($username,$email)
     {
-        $username_out = preg_replace('/[^\w\s-]/','',$username);
+        $username_out = preg_replace(REGEX_STRING,'',$username);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return array('success'=>false, 'message'=>_("Email address format error"));
         $this->get_wcond(" * ", "`username`='$username_out' AND `email`='$email'");
         if ($result->num_rows==1)
@@ -613,7 +612,10 @@ public function apikey_session($apikey_in)
 
     public function stamp_record($id)
     {
-        $this->mysqli->query("UPDATE $this->useTable SET updtbyid = '".$_SESSION['userid']."', updtbyname = '".$_SESSION['username']."', updtdate= now() WHERE id='$id'");
+        if(isset($_SESSION['userid'])){
+            var_dump($_SESSION);
+            $this->mysqli->query("UPDATE $this->useTable SET updtbyid = '".$_SESSION['userid']."', updtbyname = '".$_SESSION['username']."', updtdate= now() WHERE id='$id'");
+        }
     }
 
     //---------------------------------------------------------------------------------------
@@ -653,11 +655,10 @@ public function apikey_session($apikey_in)
 
     public function get_wcond($flds,$wcond)
     {
-        $data =array();
         $sql="SELECT $flds FROM $this->useTable WHERE $wcond;";
+        //var_dump($sql);
         $result = $this->mysqli->query($sql);
-        $data = $result->fetch_object();
-        return $data;
+        return $result;
     }
 
     public function set($id,$data)

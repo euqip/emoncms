@@ -21,6 +21,14 @@ define('CORE', ROOT . 'Core' . DS);
 define('LIB', CORE . 'Lib' . DS);
 define('MODULE','Modules');
 
+
+define('REGEX_SERVER_NAME' , '/\/[a-zA-Z0-9-+.]*\.php/');
+define('REGEX_STRING','/[^\w\s-]/');
+//                    '/[^\w\s-:()]/'  '/[^\w\s-:]/'
+define('REGEX_STRING_ACCENT','/[^\s\p{L}]/u');
+define('REGEX_EXPRESSION','/[^\/\|\,\w\s-:]/');
+define('REGEX_UNITS','/[^\w\s-°]/');
+define('REGEX_ALPHA_NUM','/[^.\/A-Za-z0-9-=_]/');
 /**
  * Load up required libs
  */

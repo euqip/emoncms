@@ -18,7 +18,7 @@
 
 if (!defined('EMONCMS_EXEC')){
     // works with APACHE and NGINX
-  $redir =  $_SERVER['SERVER_NAME'].preg_replace('/\/[a-zA-Z0-9-+.]*\.php/', '/index.php', $_SERVER['REQUEST_URI']);
+  $redir =  $_SERVER['SERVER_NAME'].preg_replace(REGEX_SERVER_NAME, '/index.php', $_SERVER['REQUEST_URI']);
   header ('Location:'.$redir);
 }
 
@@ -67,7 +67,7 @@ class Route
         $q = trim($q, '/');
 
         // filter out all except a-z and / .
-        $q = preg_replace('/[^.\/A-Za-z0-9-=_]/', '', $q);
+        $q = preg_replace(REGEX_ALPHA_NUM, '', $q);
 
         // Split by /
         $args = preg_split('/[\/]/', $q);
