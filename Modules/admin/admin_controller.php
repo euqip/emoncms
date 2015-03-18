@@ -71,6 +71,7 @@ function admin_controller()
             if ($session['write'] && $session['admin']){
                 $username= $user->get_username([$session['userid']]);
                 //echo "action ".$route->action." - subaction ".$route->subaction;
+                $data = array();
 
                 switch ($route->action){
                     case 'users':
@@ -80,10 +81,18 @@ function admin_controller()
                         $result = view($basedir."orglist_view.php", array());
                         break;
                     case 'orglist':
-                        $data = array();
-                        $result = $mysqli->query("SELECT id, ucase(LEFT(orgname,1)) as letter, orgname, longname, country, language, timezone, lastuse FROM orgs WHERE delflag=0  ORDER By letter");
+                        $flds = "id,".$behavior['orgletter'].", orgname, longname, country, language, timezone, lastuse";
+                        $result = $org->get_wcond($flds,"delflag=0  ORDER By letter");
                         while ($row = $result->fetch_object()) $data[] = $row;
                         $result = $data;
+                        break;
+                    case 'setorg':
+                        // by setting the $_session['userid'], the MyAccount function becomes unavailable
+                        /*
+                        $_SESSION['userid'] = intval(get('id'));
+                         */
+                        $_SESSION['showorgid'] = intval(get('id'));
+                        header("Location: ../org/view/".intval(get('id')));
                         break;
                     case 'userlist':
                         $wherecond = "0";
@@ -100,10 +109,8 @@ function admin_controller()
                                     break;
                             }
                         }
-                        $sql = "SELECT id, ".$behavior['userletter'].", username,email,language,lastlogin, orgid, not delflag as active FROM users WHERE ".$wherecond." ORDER By letter";
-                        $data = array();
-                        //$result = $mysqli->query("SELECT id, ucase(LEFT(username,1)) as letter, username,email,language,lastlogin FROM users WHERE 1  ORDER By letter");
-                        $result = $mysqli->query($sql);
+                        $flds = "id, ".$behavior['userletter'].", username,email,language,lastlogin, orgid, not delflag as active";
+                        $result = $user->get_wcond($flds,$wherecond." ORDER By letter");
                         while ($row = $result->fetch_object()) $data[] = $row;
                         $result = $data;
                         break;

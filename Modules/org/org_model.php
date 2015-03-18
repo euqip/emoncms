@@ -12,14 +12,16 @@
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
 
-class Org
+class Org extends Model
 {
     private $mysqli;
     private $tbl = "orgs";
+    private $modeldata=array();
 
     public function __construct($mysqli,$redis,$rememberme)
     {
         $this->mysqli = $mysqli;
+        $this->tbl = "orgs";
     }
 
     //---------------------------------------------------------------------------------------
@@ -62,12 +64,13 @@ class Org
     */
     public function delete_org($userid, $username, $id)
     {
-        $id = $this->mysqli->real_escape_string($id);
-        $sql="UPDATE  ".$this->tbl." SET  delflag = true, deldate= now(), delby= '$username', delbyid='$userid', apikey_write='' WHERE ID='$id' ;";
-        if (!$this->mysqli->query($sql)) {
-            return array('success'=>false, 'message'=>_("Error when deleting organisation"));
-        }else{
+        //$id = $this->mysqli->real_escape_string($id);
+        //$sql="UPDATE  ".$this->tbl." SET  delflag = true, deldate= now(), delby= '$username', delbyid='$userid', apikey_write='' WHERE ID='$id' ;";
+        $flds= "delflag = true, deldate= now(), delby= '$username', delbyid='$userid', apikey_write='xxx'";
+        if ($this->set($flds,$id)){
             return array('success'=>true, 'message'=>_("Organisation "." deleted successfuly!"));
+        } else {
+            return array('success'=>false, 'message'=>_("Error when deleting organisation"));
         }
     }
 
@@ -79,34 +82,43 @@ class Org
      * @param  array   $id       organisation fields to update
      * @return array             update result
     */
-    public function update_org($userid, $username, $id, $fields)
+    public function update_org($userid, $username, $id, $data)
     {
         $id = $this->mysqli->real_escape_string($id);
 
-        $fields = json_decode(stripslashes($fields));
+        $data = json_decode(stripslashes($data));
         $array = array();
         $reg= REGEX_STRING;
 
-        // Repeat this line changing the field name to add fields that can be updated:
-        if (isset($fields->longname)) $array[] = "`longname` = '".preg_replace($reg,'',$fields->longname)."'";
-        if (isset($fields->orgname)) $array[] = "`orgname` = '".preg_replace($reg,'',$fields->orgname)."'";
-        if (isset($fields->country)) $array[] = "`country` = '".preg_replace($reg,'',$fields->country)."'";
-        if (isset($fields->language)) $array[] = "`language` = '".preg_replace($reg,'',$fields->language)."'";
-        if (isset($fields->logo)) $array[] = "`logo` = '".preg_replace($reg,'',$fields->logo)."'";
-        if (isset($fields->address)) $array[] = "`address` = '".preg_replace($reg,'',$fields->address)."'";
-        if (isset($fields->zip)) $array[] = "`zip` = '".preg_replace($reg,'',$fields->zip)."'";
-        if (isset($fields->city)) $array[] = "`city` = '".preg_replace($reg,'',$fields->city)."'";
-        if (isset($fields->state)) $array[] = "`state` = '".preg_replace($reg,'',$fields->state)."'";
-        if (isset($fields->location)) $array[] = "`location` = '".preg_replace($reg,'',$fields->location)."'";
-        if (isset($fields->timezone)) $array[] = "`timezone` = '".preg_replace($reg,'',$fields->timezone)."'";
+        // Repeat this line changing the field name to add data that can be updated:
+        if (isset($data->longname)) $array[] = "`longname` = '".preg_replace($reg,'',$data->longname)."'";
+        if (isset($data->orgname)) $array[]  = "`orgname`  = '".preg_replace($reg,'',$data->orgname)."'";
+        if (isset($data->country)) $array[]  = "`country`  = '".preg_replace($reg,'',$data->country)."'";
+        if (isset($data->language)) $array[] = "`language` = '".preg_replace($reg,'',$data->language)."'";
+        if (isset($data->logo)) $array[]     = "`logo`     = '".preg_replace($reg,'',$data->logo)."'";
+        if (isset($data->address)) $array[]  = "`address`  = '".preg_replace($reg,'',$data->address)."'";
+        if (isset($data->zip)) $array[]      = "`zip`      = '".preg_replace($reg,'',$data->zip)."'";
+        if (isset($data->city)) $array[]     = "`city`     = '".preg_replace($reg,'',$data->city)."'";
+        if (isset($data->state)) $array[]    = "`state`    = '".preg_replace($reg,'',$data->state)."'";
+        if (isset($data->location)) $array[] = "`location` = '".preg_replace($reg,'',$data->location)."'";
+        if (isset($data->timezone)) $array[] = "`timezone` = '".preg_replace($reg,'',$data->timezone)."'";
         // Convert to a comma seperated string for the mysql query
         $fieldstr = implode(",",$array);
+        if ($this->set($fieldstr,$id)){
+            return array('success'=>true, 'message'=>_("Organisation "." updated successfuly!"));
+        }else{
+            return array('success'=>false, 'message'=>_("Error when updating organisation"));
+        }
+
+
+        /*
         $sql = "UPDATE ".$this->tbl." SET ".$fieldstr." WHERE `id` = '$id'";
         if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error when updating organisation"));
         }else{
             return array('success'=>true, 'message'=>_("Organisation "." updated successfuly!"));
         }
+        */
     }
 
 /**
@@ -118,51 +130,137 @@ class Org
     public function list_orgnames()
     {
         $data=array();
-        $sql = "SELECT id, orgname as toshow FROM orgs WHERE delflag=0";
         if((isset($_SESSION['admin'])) && ($_SESSION['admin']==1)){
-            $result = $this->mysqli->query($sql);
-            while ($row = $result->fetch_object()) $data[] = $row;
+            $result = $this->get_wcond('id, orgname as toshow','delflag=0');
         } else {
-            $sql = $sql." and id =".intval($_SESSION['orgid']);
-            $result = $this->mysqli->query($sql);
-            while ($row = $result->fetch_object()) $data[] = $row;
+            $result = $this->get_wcond('id, orgname as toshow','delflag=0 and id ='.$this->modeldata->id);
         }
+        while ($row = $result->fetch_object()) $data[] = $row;
         return $data;
     }
     public function list_orgs()
     {
-        $result = $this->mysqli->query("SELECT * FROM orgs WHERE delflag=0");
+        $result = $this->get_wcond('id, orgname','delflag=0');
         $row = $result->fetch_object();
     }
 
 
     public function get_org_apikey_read($orgid)
     {
-        $orgid = intval($orgid);
-        $result = $this->mysqli->query("SELECT `apikey_read` FROM orgs WHERE `id`='$orgid'");
-        $row = $result->fetch_object();
-        return $row->apikey_read;
+        return $this->get($id,'apikey_read');
     }
 
     public function get_org_apikey_write($orgid)
     {
-        $orgid = intval($orgid);
-        $result = $this->mysqli->query("SELECT `apikey_write` FROM orgs WHERE `id`='$orgid'");
-        $row = $result->fetch_object();
-        return $row->apikey_write;
+        return $this->get($id,'apikey_write');
     }
 
-    public function get_id($orgname)
+    public function lastlogin($id)
     {
-        if (!ctype_alnum($orgname)) return false;
-        $result = $this->mysqli->query("SELECT `id` FROM orgs WHERE `orgname`='$orgname'");
-        $row = $result->fetch_array();
-        return $row['id'];
+        return $this->set('lastuse = now()',$id);
     }
-    public function lastlogin($orgid)
+
+    public function updaterecord($userid,$data)
     {
-            $result = $this->mysqli->query("UPDATE orgs SET lastuse =now() WHERE id = '$orgid'");
-            return $result;
+        // Validation
+        //var_dump($data);
+        $userid   = intval($userid);  // id is user id
+        $id    = intval($data->id);
+        $lang  = preg_replace('/[^\w\s-.]/','',$data->language);
+        $flds  = '';
+        $flds .= '  logo      = "' .preg_replace('/[^\w\s-.@]/','',$data->logo).'"';
+        $flds .= ', orgname   = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->orgname).'"';
+        $flds .= ', longname  = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->longname).'"';
+        $flds .= ', address   = "' .preg_replace(REGEX_ALPHA_NUM,'',$data->address).'"';
+        $flds .= ', zip       = "' .preg_replace(REGEX_ALPHA_NUM,'',$data->zip).'"';
+        $flds .= ', city      = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->city).'"';
+        $flds .= ', country   = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->country).'"';
+        $flds .= ', state     = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->state).'"';
+        $flds .= ', location  = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->location).'"';
+        $flds .= ', timezone  = "' .intval($data->timezone).'"';
+        $flds .= ', language  = "' .$lang.'"';
+        //reserved action to the orgadmin and system admin
+        $flds .= ', csvparam  = "' .intval($data->csvparam).'"';
+        //$flds .= ', csvdate = "' .intval($data->csvdate).'"';
+        //$flds .= ', csvtime = "' .intval($data->csvtime).'"';
+        //change session language only if done by user!
+        //check if $id == currentuser
+        if($id==intval($_SESSION['userid']) && ($_SESSION['lang']<>$lang)){
+            $_SESSION['lang'] = $lang;
+        }
+        $this->set($flds,$id);
+        //refresh session
+        $result1 = $this->get($userid);
+        if ($result1->num_rows == 1) {
+            $userData = $result1->fetch_object();
+            //regenerate the session to inclue all modified params
+            //$this->generate_session($userData);
+        }
+
+    }
+
+    private function set ($flds, $id){
+        $id = intval($id);
+        $sql = "UPDATE $this->tbl SET $flds WHERE id = '$id'";
+        //var_dump($sql);
+        $result =  $this->mysqli->query($sql);
+        $this->stamp_record($id);
+        return $result;
+    }
+
+    private function stamp_record($id){
+        if(isset($_SESSION['userid'])){
+        $sql = "UPDATE $this->tbl SET updtbyid = '".$_SESSION['userid']."', updtbyname = '".$_SESSION['username']."', updtdate= now() WHERE id='$id'";
+        $this->mysqli->query($sql);
+        }
+    }
+    public function get_partial($id)
+    {
+        $flds= " id, orgname, apikey_write, apikey_read, lastuse, logo, longname, address, zip, city, state, country, location, timezone, language,csvparam";
+        return $this->get ($id, $flds);
+    }
+
+
+
+    private function get($id, $flds= "*")
+    {
+        $id = intval($id);
+        $tmpdata =array();
+        if (!isset($this->modeldata->id) || ($this->modeldata->id<>$id)){
+            $sql = "SELECT  *, id as modelid  FROM ".$this->tbl." WHERE id=$id";
+            $result = $this->mysqli->query($sql);
+            $this->modeldata = $result->fetch_object();
+        }
+        switch ($flds){
+            case "*":
+                $tmpdata= $this->modeldata;
+                break;
+            default:
+                //explode flds to find out witch field to return
+                $flds= str_replace (' ','',$flds);
+                $fld = explode (',',$flds);
+                foreach ($fld as $v){
+                    $tmpdata[$v]=$this->modeldata->$v;
+                }
+                // when reading only one field dont not return an array but the field
+                if (count($tmpdata)==1) return $tmpdata[$flds];
+                break;
+        }
+        return $tmpdata;
+    }
+
+    private function get_id($name)
+    {
+        if (!ctype_alnum($name)) return false;
+        return $this->get_wcond('id',"orgname = '$name'");
+    }
+
+    public function get_wcond($flds,$wcond)
+    {
+        $sql="SELECT $flds FROM $this->tbl WHERE $wcond;";
+        //echo $sql;
+        $result =  $this->mysqli->query($sql);
+        return $result;
     }
 
 }

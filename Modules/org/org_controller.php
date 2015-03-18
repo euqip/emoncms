@@ -16,7 +16,7 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 function org_controller()
 {
-    global $user, $path, $session, $route ,$allowusersregister;
+    global $user,$org, $path, $session, $route ,$allowusersregister;
 
     $result = false;
     $modulename = "org";
@@ -24,7 +24,7 @@ function org_controller()
     // Load html,css,js pages to the client
     if ($route->format == 'html')
     {
-        $basedir = MODULE.DS.$modulename.DS.$modulename;
+        $basedir = MODULE.DS.$modulename.DS."Views".DS.$modulename;
         if ($route->action == 'new' && !$session['read']) $result = view($basedir."_create.php", array());
         if ($route->action == 'view' && $session['write']) $result = view($basedir."_view.php", array());
     }
@@ -32,28 +32,28 @@ function org_controller()
     // JSON API
     if ($route->format == 'json')
     {
+        $myuser = $session['userid'];
         // Core session
-        if ($route->action == 'login' && !$session['read']) $result = $user->login(post('username'),post('password'),post('rememberme'));
-        if ($route->action == 'register' && $allowusersregister) $result = $user->register(post('username'),post('password'),post('email'));
-        if ($route->action == 'logout' && $session['read']) $user->logout();
+        if ($route->action == 'login' && !$session['read']) $result = $org->login(post('username'),post('password'),post('rememberme'));
+        if ($route->action == 'register' && $allowusersregister) $result = $org->register(post('username'),post('password'),post('email'));
+        if ($route->action == 'logout' && $session['read']) $org->logout();
 
-        if ($route->action == 'changeusername' && $session['write']) $result = $user->change_username($session['userid'],get('username'));
-        if ($route->action == 'changeemail' && $session['write']) $result = $user->change_email($session['userid'],get('email'));
-        if ($route->action == 'changepassword' && $session['write']) $result = $user->change_password($session['userid'],get('old'),get('new'));
+        if ($route->action == 'changeusername' && $session['write']) $result = $org->change_username($myuser,get('username'));
+        if ($route->action == 'changeemail' && $session['write']) $result = $org->change_email($myuser,get('email'));
+        //if ($route->action == 'changepassword' && $session['write']) $result = $org->change_password($myuser,get('old'),get('new'));
 
-        if ($route->action == 'passwordreset') $result = $user->passwordreset(get('username'),get('email'));
+        //if ($route->action == 'passwordreset') $result = $org->passwordreset(get('username'),get('email'));
         // Apikey
-        if ($route->action == 'newapikeyread' && $session['write']) $result = $user->new_apikey_read($session['userid']);
-        if ($route->action == 'newapikeywrite' && $session['write']) $result = $user->new_apikey_write($session['userid']);
+        if ($route->action == 'newapikeyread' && $session['write']) $result = $org->new_apikey_read($myuser);
+        if ($route->action == 'newapikeywrite' && $session['write']) $result = $org->new_apikey_write($myuser);
 
-        if ($route->action == 'auth' && !$session['read']) $result = $user->get_apikeys_from_login(post('username'),post('password'));
+        //if ($route->action == 'auth' && !$session['read']) $result = $org->get_apikeys_from_login(post('username'),post('password'));
 
         // Get and set - user by profile client
-        if ($route->action == 'get' && $session['write']) $result = $user->get($session['userid']);
+        if ($route->action == 'get' && $session['write']) $result = $org->get_partial($myuser);
+        if ($route->action == 'set' && $session['write']) $result = $org->updaterecord($myuser,json_decode(post('data')));
 
-        if ($route->action == 'set' && $session['write']) $result = $user->set($session['userid'],json_decode(get('data')));
-
-        if ($route->action == 'timezone' && $session['read']) $result = $user->get_timezone($session['userid']);
+        if ($route->action == 'timezone' && $session['read']) $result = $org->get_timezone($myuser);
     }
 
     return array('content'=>$result);

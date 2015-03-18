@@ -13,4 +13,4 @@ $schema['input'] = array(
     'location' => array('type' => 'varchar(20)')
 );
 
-/* location example: 50.641319, 3.062243
+// location example: 50.641319, 3.062243

@@ -526,10 +526,10 @@ public function apikey_session($apikey_in)
     // Get by other paramater methods
     //---------------------------------------------------------------------------------------
 
-    public function get_id($username)
+    public function get_id($name)
     {
-        if (!ctype_alnum($username)) return false;
-        return $this->get_wcond('id',"username = '$username'");
+        if (!ctype_alnum($name)) return false;
+        return $this->get_wcond('id',"username = '$name'");
     }
 
 
@@ -613,7 +613,6 @@ public function apikey_session($apikey_in)
     public function stamp_record($id)
     {
         if(isset($_SESSION['userid'])){
-            var_dump($_SESSION);
             $this->mysqli->query("UPDATE $this->useTable SET updtbyid = '".$_SESSION['userid']."', updtbyname = '".$_SESSION['username']."', updtdate= now() WHERE id='$id'");
         }
     }
@@ -664,13 +663,13 @@ public function apikey_session($apikey_in)
     public function set($id,$data)
     {
         // Validation
-        //var_dump($data);
+        var_dump($data);
         $id   = intval($id);
         $lang = preg_replace('/[^\w\s-.]/','',$data->language);
         $flds  = '';
         $flds .= '  gravatar = "'.preg_replace('/[^\w\s-.@]/','',$data->gravatar).'"';
-        $flds .= ', name     = "'.preg_replace('/[^\s\p{L}]/u','',$data->name).'"';
-        $flds .= ', location = "'.preg_replace('/[^\s\p{L}]/u','',$data->location).'"';
+        $flds .= ', name     = "'.preg_replace(REGEX_STRING_ACCENT,'',$data->name).'"';
+        $flds .= ', location = "'.preg_replace(REGEX_STRING_ACCENT,'',$data->location).'"';
         $flds .= ', timezone = "'.intval($data->timezone).'"';
         $flds .= ', language = "'.$lang.'"';
         $flds .= ', bio      = "'.preg_replace('/[^\w\s-.]/','',$data->bio).'"';
@@ -688,7 +687,7 @@ public function apikey_session($apikey_in)
         }
         $this->set_field($id,$flds);
         //refresh session
-        $result1 = $this->get($userid);
+        $result1 = $this->get($id);
         if ($result1->num_rows == 1) {
             $userData = $result1->fetch_object();
             //regenerate the session to inclue all modified params

@@ -25,10 +25,14 @@ define('MODULE','Modules');
 define('REGEX_SERVER_NAME' , '/\/[a-zA-Z0-9-+.]*\.php/');
 define('REGEX_STRING','/[^\w\s-]/');
 //                    '/[^\w\s-:()]/'  '/[^\w\s-:]/'
-define('REGEX_STRING_ACCENT','/[^\s\p{L}]/u');
+define('REGEX_STRING_ACCENT','/[^\s\p{L}0-9]-\'/u');
+//                            /[^\s\p{L}0-9]-\'/u
 define('REGEX_EXPRESSION','/[^\/\|\,\w\s-:]/');
+define('REGEX_CURRENCY','/[^\w\s£$€¥]/');
+
 define('REGEX_UNITS','/[^\w\s-°]/');
 define('REGEX_ALPHA_NUM','/[^.\/A-Za-z0-9-=_]/');
+//define('REGEX_ALPHA_NUM_ACCENT','/[^\p{L}.\/A-Za-z0-9-=_]/');
 /**
  * Load up required libs
  */

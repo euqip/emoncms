@@ -187,16 +187,16 @@ function module_event(){
     table.element = "#table";
 
     table.fields = {
-        'delete-action':{'title':'','tooltip':"<?php echo _('Suppress organisation'); ?>", 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
-        'edit-action':{'title':'','tooltip':"<?php echo _('Edit organisation attributes'); ?>",'alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes", 'colwidth':" style='width:30px;'"},
+        'delete-action' :{ 'title':'','tooltip':"<?php echo _('Suppress organisation'); ?>", 'type':"delete", 'display':"yes", 'colwidth':" style='width:30px;'"},
+        'edit-action'   :{ 'title':'','tooltip':"<?php echo _('Edit organisation attributes'); ?>",'alt':'<?php echo _("Save"); ?>', 'type':"edit", 'display':"yes", 'colwidth':" style='width:30px;'"},
 
-        'id':{'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage organisation details'); ?>", 'link':"setorg?id=", 'colwidth':" style='width:30px;'"},
-        'orgname':{'title':"<?php echo _('short Name'); ?>",'tooltip':"<?php echo _('Should be unique'); ?>", 'type':"fixed", 'colwidth':" style='width:100px;'"},
-        'country':{'title':"<?php echo _('Country'); ?>", 'type':"text", 'colwidth':" style='width:200px;'"},
-        'timezone':{'title':"<?php echo _('Time zone'); ?>",'tooltip':"<?php echo _('Default time zone for organisation users'); ?>", 'type':"tzone", 'colwidth':" style='width:200px;'"},
-        'longname':{'title':"<?php echo _('Company Name'); ?>",'tooltip':"<?php echo _('Organisation long name'); ?>", 'type':"text", 'colwidth':" style='width:300px;'"},
-        'language':{'title':"<?php echo _('Language'); ?>",'tooltip':"<?php echo _('Default language for organisation users'); ?>", 'type':'select', 'options':lang},
-        'lastuse':{'title':"<?php echo _('Last use'); ?>", 'type':"fixed"}
+        'id'            :{ 'title':"<?php echo _('Id'); ?>", 'type':"iconlink",'tooltip':"<?php echo _('Manage organisation details'); ?>", 'link':"setorg?id=", 'colwidth':" style='width:30px;'"},
+        'orgname'       :{ 'title':"<?php echo _('short Name'); ?>",'tooltip':"<?php echo _('Should be unique'); ?>", 'type':"fixed", 'colwidth':" style='width:100px;'"},
+        'country'       :{ 'title':"<?php echo _('Country'); ?>", 'type':"text", 'colwidth':" style='width:200px;'"},
+        'timezone'      :{ 'title':"<?php echo _('Time zone'); ?>",'tooltip':"<?php echo _('Default time zone for organisation users'); ?>", 'type':"tzone", 'colwidth':" style='width:200px;'"},
+        'longname'      :{ 'title':"<?php echo _('Company Name'); ?>",'tooltip':"<?php echo _('Organisation long name'); ?>", 'type':"text", 'colwidth':" style='width:300px;'"},
+        'language'      :{ 'title':"<?php echo _('Language'); ?>",'tooltip':"<?php echo _('Default language for organisation users'); ?>", 'type':'select', 'options':lang},
+        'lastuse'       :{ 'title':"<?php echo _('Last use'); ?>", 'type':"fixed"}
     }
 
     table.groupby = groupfield;
