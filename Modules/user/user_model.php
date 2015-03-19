@@ -529,7 +529,9 @@ public function apikey_session($apikey_in)
     public function get_id($name)
     {
         if (!ctype_alnum($name)) return false;
-        return $this->get_wcond('id',"username = '$name'");
+        $result = $this->get_wcond('id',"username = '$name'");
+        $result = $result->fetch_object();
+        return $result->id;
     }
 
 
