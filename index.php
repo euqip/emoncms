@@ -120,7 +120,8 @@
     // is returned from the controller.
     if (!$output['content'] && $public_profile_enabled && $route->controller!='admin')
     {
-        $userid = $user->get_id($route->controller);
+        //var_dump('route controller   '.$route->controller);
+         $userid = $user->get_id($route->controller);
         if ($userid) {
             $route->subaction = $route->action;
             $session['userid'] = $userid;
@@ -139,7 +140,6 @@
     {
         header('Content-Type: application/json; charset=utf-8');
 
-
         if ($route->controller=='time') {
             print $output['content'];
         } elseif ($route->controller=='input' && $route->action=='post') {
@@ -148,6 +148,7 @@
             print $output['content'];
         } else {
             //print_r ($output['content']);
+            //var_dump ($output['content']);
             print json_encode($output['content']);
         }
     }

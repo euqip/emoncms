@@ -171,18 +171,18 @@ class Org extends Model
         $flds .= '  logo      = "' .preg_replace('/[^\w\s-.@]/','',$data->logo).'"';
         $flds .= ', orgname   = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->orgname).'"';
         $flds .= ', longname  = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->longname).'"';
-        $flds .= ', address   = "' .preg_replace(REGEX_ALPHA_NUM,'',$data->address).'"';
+        $flds .= ', street    = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->street).'"';
         $flds .= ', zip       = "' .preg_replace(REGEX_ALPHA_NUM,'',$data->zip).'"';
         $flds .= ', city      = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->city).'"';
         $flds .= ', country   = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->country).'"';
         $flds .= ', state     = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->state).'"';
-        $flds .= ', location  = "' .preg_replace(REGEX_STRING_ACCENT,'',$data->location).'"';
+        $flds .= ', location  = "' .preg_replace(REGEX_NUMERIC,'',$data->location).'"';
         $flds .= ', timezone  = "' .intval($data->timezone).'"';
         $flds .= ', language  = "' .$lang.'"';
         //reserved action to the orgadmin and system admin
         $flds .= ', csvparam  = "' .intval($data->csvparam).'"';
-        //$flds .= ', csvdate = "' .intval($data->csvdate).'"';
-        //$flds .= ', csvtime = "' .intval($data->csvtime).'"';
+        $flds .= ', csvdate   = "' .intval($data->csvdate).'"';
+        $flds .= ', csvtime   = "' .intval($data->csvtime).'"';
         //change session language only if done by user!
         //check if $id == currentuser
         if($id==intval($_SESSION['userid']) && ($_SESSION['lang']<>$lang)){
@@ -190,13 +190,7 @@ class Org extends Model
         }
         $this->set($flds,$id);
         //refresh session
-        $result1 = $this->get($userid);
-        if ($result1->num_rows == 1) {
-            $userData = $result1->fetch_object();
-            //regenerate the session to inclue all modified params
-            //$this->generate_session($userData);
-        }
-
+        $result1 = $this->get($id);
     }
 
     private function set ($flds, $id){
@@ -217,6 +211,7 @@ class Org extends Model
     public function get_partial($id)
     {
         $flds= " id, orgname, apikey_write, apikey_read, lastuse, logo, longname, address, zip, city, state, country, location, timezone, language,csvparam";
+        $flds= " id, orgname, apikey_write, apikey_read, logo, longname, street, zip, city, state, country, location, timezone, language,csvparam,csvdate,csvtime";
         return $this->get ($id, $flds);
     }
 

@@ -73,6 +73,5 @@ function user_controller()
 
         if ($route->action == 'timezone' && $session['read']) $result = $user->get_timezone($session['userid']);
     }
-
     return array('content'=>$result);
 }

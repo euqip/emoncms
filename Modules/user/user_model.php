@@ -531,7 +531,10 @@ public function apikey_session($apikey_in)
         if (!ctype_alnum($name)) return false;
         $result = $this->get_wcond('id',"username = '$name'");
         $result = $result->fetch_object();
-        return $result->id;
+        if (!is_null($result)){
+            return $result->id;
+        }
+        return false;
     }
 
 
@@ -657,7 +660,6 @@ public function apikey_session($apikey_in)
     public function get_wcond($flds,$wcond)
     {
         $sql="SELECT $flds FROM $this->useTable WHERE $wcond;";
-        //var_dump($sql);
         $result = $this->mysqli->query($sql);
         return $result;
     }
@@ -665,7 +667,6 @@ public function apikey_session($apikey_in)
     public function set($id,$data)
     {
         // Validation
-        var_dump($data);
         $id   = intval($id);
         $lang = preg_replace('/[^\w\s-.]/','',$data->language);
         $flds  = '';
@@ -689,13 +690,8 @@ public function apikey_session($apikey_in)
         }
         $this->set_field($id,$flds);
         //refresh session
-        $result1 = $this->get($id);
-        if ($result1->num_rows == 1) {
-            $userData = $result1->fetch_object();
-            //regenerate the session to inclue all modified params
-            $this->generate_session($userData);
-        }
-
+        $result = $this->get($id);
+        $this->generate_session($this->usrdata);
     }
 
 /**

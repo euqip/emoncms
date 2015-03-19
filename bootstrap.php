@@ -32,6 +32,7 @@ define('REGEX_CURRENCY','/[^\w\s£$€¥]/');
 
 define('REGEX_UNITS','/[^\w\s-°]/');
 define('REGEX_ALPHA_NUM','/[^.\/A-Za-z0-9-=_]/');
+define('REGEX_NUMERIC','/[^.\/0-9,;.=_]/');
 //define('REGEX_ALPHA_NUM_ACCENT','/[^\p{L}.\/A-Za-z0-9-=_]/');
 /**
  * Load up required libs
