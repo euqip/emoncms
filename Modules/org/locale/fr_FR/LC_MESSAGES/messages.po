@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: emoncms3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-15 19:27+0100\n"
-"PO-Revision-Date: 2014-04-15 19:28+0100\n"
+"POT-Creation-Date: 2015-03-21 09:01+0100\n"
+"PO-Revision-Date: 2015-03-21 09:01+0100\n"
 "Last-Translator: Benoît Pique <benoit.pique@gmail.com>\n"
 "Language-Team: Baptiste Gaultier (Télécom Bretagne) <baptiste."
 "gaultier@telecom-bretagne.eu>\n"
@@ -17,33 +17,33 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
-#: ../../../org_model.php:39 ../../../org_model.php:40
+#: ../../../org_model.php:41 ../../../org_model.php:42
 msgid " organisation already exists"
 msgstr "Désolé, cet identifiant existe déjà, et doit être unique"
 
-#: ../../../org_model.php:51
+#: ../../../org_model.php:53
 msgid "Error when creating organisation"
 msgstr "Erreur lors de la création de l'organisation"
 
-#: ../../../org_model.php:53
+#: ../../../org_model.php:55
 msgid "New organisation "
 msgstr "Nouvelle organisation"
 
-#: ../../../org_model.php:68
-msgid "Error when deleting organisation"
-msgstr "Erreur lors de la supression de l'organisation"
-
-#: ../../../org_model.php:70
+#: ../../../org_model.php:69
 msgid "Organisation  deleted successfuly!"
 msgstr "Supression réussie"
 
-#: ../../../org_model.php:106
-msgid "Error when updating organisation"
-msgstr "Erreur lors de la mise  jour réussie"
+#: ../../../org_model.php:71
+msgid "Error when deleting organisation"
+msgstr "Erreur lors de la supression de l'organisation"
 
-#: ../../../org_model.php:108
+#: ../../../org_model.php:106
 msgid "Organisation  updated successfuly!"
 msgstr "Mise à jour réussie"
+
+#: ../../../org_model.php:108
+msgid "Error when updating organisation"
+msgstr "Erreur lors de la mise  jour réussie"
 
 #: ../../../org_view.php:22
 msgid "es_ES"
@@ -86,7 +86,9 @@ msgid "Username"
 msgstr "Nom d'utilisateur"
 
 #: ../../../org_view.php:48 ../../../org_view.php:49 ../../../org_view.php:63
-#: ../../../org_view.php:64
+#: ../../../org_view.php:64 ../../../Views/org_view.php:70
+#: ../../../Views/org_view.php:71 ../../../Views/org_view.php:85
+#: ../../../Views/org_view.php:86
 msgid "Edit"
 msgstr "Editer"
 
@@ -94,11 +96,11 @@ msgstr "Editer"
 msgid "Email"
 msgstr "Adresse email"
 
-#: ../../../org_view.php:76
+#: ../../../org_view.php:76 ../../../Views/org_view.php:98
 msgid "Write API Key"
 msgstr "Clé d'écriture"
 
-#: ../../../org_view.php:81
+#: ../../../org_view.php:81 ../../../Views/org_view.php:103
 msgid "Read API Key"
 msgstr "Clé d'accès en lecture"
 
@@ -158,21 +160,143 @@ msgstr "Gravatar"
 msgid "Name"
 msgstr "Nom"
 
-#: ../../../org_view.php:144
+#: ../../../org_view.php:144 ../../../Views/org_view.php:151
 msgid "Location"
-msgstr "Localisation"
+msgstr "Localisation géographique"
 
-#: ../../../org_view.php:145
+#: ../../../org_view.php:145 ../../../Views/org_view.php:152
 msgid "Timezone"
-msgstr "Timezone"
+msgstr "Fuseau horaire"
 
-#: ../../../org_view.php:146
+#: ../../../org_view.php:146 ../../../Views/org_view.php:153
 msgid "Language"
 msgstr "Langage"
 
 #: ../../../org_view.php:147
 msgid "Bio"
 msgstr "Bio"
+
+#: ../../../Views/org_view.php:42
+msgid "Welsh (United Kingdom)"
+msgstr ""
+
+#: ../../../Views/org_view.php:43
+msgid "Danish (Denmark)"
+msgstr "Danois (Danmark)"
+
+#: ../../../Views/org_view.php:44
+msgid "English"
+msgstr "Anglais"
+
+#: ../../../Views/org_view.php:45
+msgid "Spanish (Spain)"
+msgstr "Espagnol"
+
+#: ../../../Views/org_view.php:46
+msgid "French (France)"
+msgstr "Français (France - Belgique)"
+
+#: ../../../Views/org_view.php:47
+msgid "Italian (Italy)"
+msgstr "Italien"
+
+#: ../../../Views/org_view.php:48
+msgid "Dutch (Belgium)"
+msgstr "Flamand"
+
+#: ../../../Views/org_view.php:49
+msgid "Dutch (Netherlands)"
+msgstr "Néerlandais"
+
+#: ../../../Views/org_view.php:50
+msgid "German (Germany)"
+msgstr "Allemand"
+
+#: ../../../Views/org_view.php:65
+msgid "My organisation"
+msgstr "mon organisation"
+
+#: ../../../Views/org_view.php:69
+msgid "orgname"
+msgstr "Nom court (abbréviation)"
+
+#: ../../../Views/org_view.php:84
+msgid "Main Email"
+msgstr "Adresse mail principale"
+
+#: ../../../Views/org_view.php:116
+msgid "Organisation Profile"
+msgstr "Profil de l'organisation"
+
+#: ../../../Views/org_view.php:144
+msgid "Logo"
+msgstr "Logo"
+
+#: ../../../Views/org_view.php:145
+msgid "Full Name"
+msgstr "Nom complet"
+
+#: ../../../Views/org_view.php:145 ../../../Views/org_view.php:146
+#: ../../../Views/org_view.php:147 ../../../Views/org_view.php:148
+#: ../../../Views/org_view.php:149 ../../../Views/org_view.php:150
+msgid "Use letters (a-z) only, accented characters are allowed!"
+msgstr "N'utiliser que des lettres (a-z), accents acceptés"
+
+#: ../../../Views/org_view.php:146
+msgid "Street"
+msgstr "Rue ou avenue"
+
+#: ../../../Views/org_view.php:147
+msgid "Zip"
+msgstr "Code postal"
+
+#: ../../../Views/org_view.php:148
+msgid "City name"
+msgstr "Ville"
+
+#: ../../../Views/org_view.php:149
+msgid "State name"
+msgstr "Etat (US)"
+
+#: ../../../Views/org_view.php:150
+msgid "Country"
+msgstr "Pays"
+
+#: ../../../Views/org_view.php:151
+msgid "Geographical location lat,long"
+msgstr "Localisation géographique (Lat,long)"
+
+#: ../../../Views/org_view.php:152
+msgid "Choose your local time offset to UTC"
+msgstr "Ecart par rapport à UTC"
+
+#: ../../../Views/org_view.php:153
+msgid "System available languages"
+msgstr "Langues disponibles"
+
+#: ../../../Views/org_view.php:154
+msgid "CSV separators"
+msgstr "Séparateurs pour les fichiers CSV"
+
+#: ../../../Views/org_view.php:154
+msgid "Give here your CSV separators preferences, column, decimal, thousands."
+msgstr "Définir vos préférences CSV, colonnes, décimal et milliers"
+
+#: ../../../Views/org_view.php:155
+msgid "CSV date format"
+msgstr "Format de date dans CSV"
+
+#: ../../../Views/org_view.php:155
+msgid "Define your prefered CSV date format."
+msgstr "Préférence de format de dates"
+
+#: ../../../Views/org_view.php:156
+msgid "CSV time format"
+msgstr "Format des heures CSV"
+
+#: ../../../Views/org_view.php:156
+msgid "Define your prefered CSV time format."
+msgstr "Préférence pour le format des heures"
 
 #~ msgid "Missing username, password or email parameter"
 #~ msgstr ""
@@ -243,9 +367,6 @@ msgstr "Bio"
 
 #~ msgid "Account"
 #~ msgstr "Mon Compte"
-
-#~ msgid "Logout"
-#~ msgstr "Déconnexion"
 
 #~ msgid "Username:"
 #~ msgstr "Identifiant : "
@@ -757,9 +878,6 @@ msgstr "Bio"
 #~ msgid "Rename feed"
 #~ msgstr "Renommer le flux"
 
-#~ msgid "Rename"
-#~ msgstr "Renommer"
-
 #~ msgid "Notify"
 #~ msgstr "Notifier"
 
@@ -863,12 +981,6 @@ msgstr "Bio"
 
 #~ msgid "Bar graph view: "
 #~ msgstr "Vista de gráfico de barras:"
-
-#~ msgid "English"
-#~ msgstr "Inglés"
-
-#~ msgid "Spanish"
-#~ msgstr "Español"
 
 #~ msgid "Save current configuration"
 #~ msgstr "Guardar configuración actual"
