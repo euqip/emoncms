@@ -42,7 +42,7 @@ function user_controller()
         $myuser=intval($session['userid']);
         if (isset($_SESSION['showuserid'])) $myuser=intval($_SESSION['showuserid']);
         if ($route->action == 'login' && !$session['read']) $result = $user->login(post('username'),post('password'),post('rememberme'));
-        if ($route->action == 'register' && $allowusersregister) $result = $user->register(post('username'),post('password'),post('email'));
+        if ($route->action == 'register' && $allowusersregister) $result = $user->register(post('username'),post('password'),post('orgname'),post('email'));
         if ($route->action == 'logout' && $session['read']) $user->logout();
 
         if ($route->action == 'changeusername' && $session['write']) $result = $user->change_username($myuser,get('username'));

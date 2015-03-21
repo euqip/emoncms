@@ -18,13 +18,16 @@ var user = {
     return result;
   },
 
-  'register':function(username,password,email)
+  'register':function(username,password,email,orgname)
   {
+    //email address needs to be latest to avoid data missintrepretation
     var result = {};
+    var mydata = "&username="+username+"&password="+encodeURIComponent(password)+"&orgname="+orgname+"&email="+email;
+    console.log(mydata);
     $.ajax({
       type: "POST",
       url: path+"user/register.json",
-      data: "&username="+username+"&password="+encodeURIComponent(password)+"&email="+email,
+      data: mydata,
       dataType: 'json',
       async: false,
       success: function(data)

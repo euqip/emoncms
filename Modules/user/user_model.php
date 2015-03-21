@@ -185,7 +185,7 @@ public function apikey_session($apikey_in)
     }
 
 
-    public function register($username, $password, $email)
+    public function register($username, $password, $orgname, $email)
     {
         // Input validation, sanitisation and error reporting
         if (!$username || !$password || !$email){
@@ -195,9 +195,18 @@ public function apikey_session($apikey_in)
         if (!ctype_alnum($username)){
             return array('success'=>false, 'message'=>_("Username must only contain a-z and 0-9 characters"));
         }
+        $orgid = 0;
+        $admin = 0;
         $username = $this->mysqli->real_escape_string($username);
         $password = $this->mysqli->real_escape_string($password);
-
+        if($this->behavior['multiorg']){
+            $orgname = $this->mysqli->real_escape_string($orgname);
+            $orgid = $this->org->get_id($orgname);
+            //orgid will be used later when creating user
+            if ($orgid ==0){
+                return array('success'=>false, 'message'=>_("Unexisting organisation!"));
+            }
+        }
         if ($this->get_id($username) != 0){
             return array('success'=>false, 'message'=>_("Username already exists"));
         }
@@ -206,10 +215,10 @@ public function apikey_session($apikey_in)
             return array('success'=>false, 'message'=>_("Email address format error"));
         }
 
-        if (strlen($username) < 4 || strlen($username) > 30){
+        if (strlen($username) < $this->behavior['min_usernamelen'] || strlen($username) > $this->behavior['max_usernamelen']){
             return array('success'=>false, 'message'=>_("Username length error"));
         }
-        if (strlen($password) < 4 || strlen($password) > 30){
+        if (strlen($password) < $this->behavior['min_pwdlen'] || strlen($password) > $this->behavior['max_pwdlen']){
             return array('success'=>false, 'message'=>_("Password length error"));
         }
 
@@ -222,8 +231,6 @@ public function apikey_session($apikey_in)
 
         $apikey_write = md5(uniqid(mt_rand(), true));
         $apikey_read = md5(uniqid(mt_rand(), true));
-        $orgid = 0;
-        $admin = 0;
         $crby = $username.' auto register';
         if ((isset($_SESSION['admin']))  && $_SESSION['admin']==3) {
             $orgid=intval($_SESSION['orgid']);
@@ -231,6 +238,7 @@ public function apikey_session($apikey_in)
             $admin = 5;
         }
         $sql = "INSERT INTO $this->useTable ( username, password, email, salt ,apikey_read, apikey_write, admin, orgid, createdate, createbyname ) VALUES ( '$username' , '$hash', '$email', '$salt', '$apikey_read', '$apikey_write', '$admin', '$orgid', now(), '$crby' );";
+        var_dump($sql);
         if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error creating user"));
         }
@@ -239,6 +247,20 @@ public function apikey_session($apikey_in)
         $id = $this->mysqli->insert_id;
         //if ($userid == 1) $this->mysqli->query("UPDATE users SET admin = 1 WHERE id = '1'");
         if ($id == 1) $this->set_field($id,'admin = 1');
+
+        //if orgid <>0 then fill the default user settings
+        $data = $this->org->get_partial($orgid);
+        var_dump($data);
+        $flds  = '';
+        $flds .= '  location = "'.preg_replace(REGEX_STRING_ACCENT,'',$data['location']).'"';
+        $flds .= ', timezone = "'.intval($data['timezone']).'"';
+        $flds .= ', language = "'.preg_replace(REGEX_STRING,'',$data['language']).'"';
+        $flds .= ', csvparam = "'.intval($data['csvparam']).'"';
+        $flds .= ', csvdate  = "'.intval($data['csvdate']).'"';
+        $flds .= ', csvtime  = "'.intval($data['csvtime']).'"';
+
+        $this->set_field($id,$flds);
+
 
         return array('success'=>true, 'userid'=>$id, 'apikey_read'=>$apikey_read, 'apikey_write'=>$apikey_write);
         return array('success'=>true, get($id,'userid, apikey_read, apikey_write'));
@@ -576,7 +598,7 @@ public function apikey_session($apikey_in)
     {
         if (isset($_SESSION['cookielogin']) && $_SESSION['cookielogin']==true) return array('success'=>false, 'message'=>_("As your using a cookie based remember me login, please logout and log back in to change username"));
 
-        if (strlen($username) < 4 || strlen($username) > 30) return array('success'=>false, 'message'=>_("Username length error"));
+        if (strlen($username) < $behavior['min_usernamelen'] || strlen($username) > $behavior['max_usernamelen']) return array('success'=>false, 'message'=>_("Username length error"));
 
         if (!ctype_alnum($username)) return array('success'=>false, 'message'=>_("Username must only contain a-z and 0-9 characters"));
 
@@ -692,6 +714,7 @@ public function apikey_session($apikey_in)
         //refresh session
         $result = $this->get($id);
         $this->generate_session($this->usrdata);
+        return array('success'=>true, 'message'=>_("User profile updated"));
     }
 
 /**

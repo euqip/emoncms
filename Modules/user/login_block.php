@@ -12,7 +12,7 @@ http://openenergymonitor.org
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
 
-global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
+global $path, $allowusersregister, $enable_rememberme, $enable_password_reset, $behavior;
 
 ?>
 
@@ -32,7 +32,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
 
             <div class ="form-group login-item1" tabindex="1">
                 <label for="username" class="text-muted"><?php echo _('Username:'); ?></label>
-                <input type="text" class="form-control" id="username" placeholder="<?php echo _('Enter your Username'); ?>" />
+                <input type="text" class="form-control" id="username" placeholder="<?php echo _('Username minimum length').' '.$behavior['min_usernamelen'].' '._("signs"); ?>" />
             </div>
 
             <div class ="form-group register-item" tabindex="2"  style="display:none">
@@ -42,7 +42,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
 
             <div class ="form-group login-item1" tabindex="3">
                 <label for="password" class="text-muted"><?php echo _('Password:'); ?></label>
-                <input type="password" class="form-control" id="password" placeholder="<?php echo _('Enter your password'); ?>" />
+                <input type="password" class="form-control" id="password" placeholder="<?php echo _('Password length between').' '.$behavior['min_pwdlen']._(" and "). $behavior['max_pwdlen']." "._("signs"); ?>" />
             </div>
 
             <div class ="form-group register-item" style="display:none" tabindex="4">
@@ -50,6 +50,12 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
                 <input type="password" class="form-control" id="password-confirm" placeholder="<?php echo _('Confirm your password'); ?>" />
             </div>
 
+            <?php if ($behavior['multiorg']) { ?>
+            <div class ="form-group register-item" style="display:none" tabindex="4">
+                <label for="orgname" class="text-muted"><?php echo _('Which organisation:'); ?></label>
+                <input type="text" class="form-control" id="orgname" title="<?php echo _('Short name length between').' '.$behavior['min_orgnamelen'].' '._("and").' '.$behavior['max_orgnamelen'].' '._("signs"); ?>" placeholder="<?php echo _('Short organisation name'); ?>" />
+            </div>
+            <?php } ?>
 
             <div id="error" class="alert-danger" style="display:none;"><?php echo _('Password or user name do not match'); ?></div>
 
@@ -63,6 +69,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset;
 
             <p class="register-item" style="display:none">
                 <button id="register" class="btn btn-primary" type="button"><?php echo _('Register'); ?></button> <?php echo '&nbsp;'._('or').'&nbsp;' ?>
+                <a id="login-link"  href="#"><?php echo _('login'); ?></a>
                 <a id="cancel-link" href="#"><?php echo _('cancel'); ?></a>
             </p>
 
@@ -102,6 +109,10 @@ $("#register").click(register);
 $("#register-link").click(function(){
     $(".register-item").show();
     $(".login-item").hide();
+});
+$("#login-link").click(function(){
+    $(".register-item").hide();
+    $(".login-item").show();
 });
 $("#passwordreset-link").click(function(){
     $("#passwordreset-block").show();
@@ -171,6 +182,7 @@ function register(){
     var password = $("#password").val();
     var confirmpassword = $("#password-confirm").val();
     var email = $("#email").val();
+    var orgname = $("#orgname").val();
     $(".register-item").show();
     $(".login-item").hide();
 
@@ -180,7 +192,8 @@ function register(){
     }
     else
     {
-        var result = user.register(username,password,email);
+        console.log(orgname);
+        var result = user.register(username,password,email,orgname);
 
         if (result.success)
         {

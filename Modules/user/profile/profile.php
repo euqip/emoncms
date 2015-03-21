@@ -180,7 +180,8 @@ $(startprofile);
 list.init();
 
 $("#table").bind("onSave", function(e){
-    user.set(list.data);
+    //user.set(list.data);
+    list.init();
     // refresh the page if the language has been changed.
     if (list.data.language!=currentlanguage) window.location.href = path+"user/view";
     //window.location.href = path+"user/view";

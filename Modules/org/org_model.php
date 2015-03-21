@@ -64,8 +64,6 @@ class Org extends Model
     */
     public function delete_org($userid, $username, $id)
     {
-        //$id = $this->mysqli->real_escape_string($id);
-        //$sql="UPDATE  ".$this->tbl." SET  delflag = true, deldate= now(), delby= '$username', delbyid='$userid', apikey_write='' WHERE ID='$id' ;";
         $flds= "delflag = true, deldate= now(), delby= '$username', delbyid='$userid', apikey_write='xxx'";
         if ($this->set($flds,$id)){
             return array('success'=>true, 'message'=>_("Organisation "." deleted successfuly!"));
@@ -210,7 +208,6 @@ class Org extends Model
     }
     public function get_partial($id)
     {
-        $flds= " id, orgname, apikey_write, apikey_read, lastuse, logo, longname, address, zip, city, state, country, location, timezone, language,csvparam";
         $flds= " id, orgname, apikey_write, apikey_read, logo, longname, street, zip, city, state, country, location, timezone, language,csvparam,csvdate,csvtime";
         return $this->get ($id, $flds);
     }
@@ -244,10 +241,15 @@ class Org extends Model
         return $tmpdata;
     }
 
-    private function get_id($name)
+    public function get_id($name)
     {
         if (!ctype_alnum($name)) return false;
-        return $this->get_wcond('id',"orgname = '$name'");
+        $result = $this->get_wcond('id',"orgname = '$name'");
+        $result = $result->fetch_object();
+        if (!is_null($result)){
+            return $result->id;
+        }
+        return false;
     }
 
     public function get_wcond($flds,$wcond)
