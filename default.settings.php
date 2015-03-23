@@ -151,46 +151,50 @@ gmail example:
     // Log4PHP configuration
     $log4php_configPath = '/etc/emoncms/emoncms_log4j.xml';
     // interfaces behavior when running with multi organisations and multi users
-    $behavior=array(
-        'multiorg'=>true,
-        'userlist_expanded'=>FALSE,
-        'usergoup'=> "letter",
+        $behavior['multiorg'] =true;
+        $behavior['min_usernamelen'] =3;
+        $behavior['max_usernamelen'] =30;
+        $behavior['min_orgnamelen'] =3;
+        $behavior['max_orgnamelen'] =10;
+        $behavior['min_pwdlen'] =3;
+        $behavior['max_pwdlen'] =30;
+
+        $behavior['userlist_expanded'] =FALSE;
+        $behavior['usergoup'] = "letter";
         //usergroup may be '', than no groups are made, it is used in users list view
-        'userletter'=> "UCASE(LEFT(username,1)) as letter",
-        //'userletter'=> "1 as letter",
+        $behavior['userletter'] = "UCASE(LEFT(username,1)) as letter";
+        //'userletter'] = "1 as letter",
         //userletter MUST be present but may be a constant, the letter field is used in ORDER BY directive
-        //'userletter'=> "UCASE(LEFT(email,1)) as letter",
+        //'userletter'] = "UCASE(LEFT(email,1)) as letter",
         // grouping by email first letter is an other option
-        'orglist_expanded'=>FALSE,
-        'orggroup'=> "letter",
+        $behavior['orglist_expanded'] =FALSE;
+        $behavior['orggroup'] = "letter";
         //orggroup may be '', than no groups are made, it is used in organisations list view
-        'orgletter'=> "ucase(LEFT(orgname,1)) as letter",
+        $behavior['orgletter'] = "ucase(LEFT(orgname,1)) as letter";
         //orgletter MUST be present but may be a constant
         // see userletter  above and apply same rules, on countries for example
-        //'orgletter'=> "country as letter" will group organisations by countries
-        'inputgroup'=> "nodeid",
-        'inputinterval'=> 5000,
-        'inputlistexpanded'=>TRUE,
+        //'orgletter'] = "country as letter" will group organisations by countries
+        $behavior['inputgroup'] = "nodeid";
+        $behavior['inputinterval'] = 5000;
+        $behavior['inputlistexpanded'] =TRUE;
 
-        'feedgroup'=> "tag",
-        'feedinterval'=> 5000,
-        'feedlistexpanded'=>1,
+        $behavior['feedgroup'] = "tag";
+        $behavior['feedinterval'] = 5000;
+        $behavior['feedlistexpanded'] =1;
 
-        'dashlist_expanded'=>true,
-        'dashgroup'=> "letter",
+        $behavior['dashlist_expanded'] =true;
+        $behavior['dashgroup'] = "letter";
         //orggroup may be '', than no groups are made, it is used in organisations list view
-        'dashletter'=> "ucase(LEFT(name,1)) as letter",
+        $behavior['dashletter'] = "ucase(LEFT(name,1)) as letter";
 
-        'csv_parameters'=> array(
+        $behavior['csv_parameters'] = array(
           'csvdownloadlimit_mb' => 10,
           'csv_field_separator'=>";",
           'csv_decimal_place_separator'=>",",
           'csv_thousandsepar_separator'=>"",
           'csv_dateformat'=>"Y-m-d",
           'csv_timeformat'=>"H:i:s"
-          ),
-
-        );
+          );
     $author=array(
       'lamba'    => 0,
       'sysadmin' => 1,
