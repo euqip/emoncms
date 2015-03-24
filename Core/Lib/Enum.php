@@ -25,3 +25,11 @@
     const PHPFINA = 5;
     const PHPFIWA = 6;
   }
+
+  class Role{
+      const lamba    = 0;
+      const sysadmin = 1;
+      const orgadmin = 3;
+      const viewer   = 4;
+      const designer = 5;
+  }

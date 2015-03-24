@@ -484,13 +484,11 @@ class PHPFina
     public function csv_export($id,$start,$end,$outinterval)
     {
         global $behavior;
-        $csv_param     = $behavior['csv_parameters'];
-
-        $colsepar      = $csv_param['csv_field_separator'];
-        $decsepar      = $csv_param['csv_decimal_place_separator'];
-        $thousandsepar = $csv_param['csv_thousandsepar_separator'];
-        $dateformat    = $csv_param['csv_dateformat'];
-        $timeformat    = $csv_param['csv_timeformat'];
+        $colsepar      = $csv_parameters['csv_field_separator'];
+        $decsepar      = $csv_parameters['csv_decimal_place_separator'];
+        $thousandsepar = $csv_parameters['csv_thousandsepar_separator'];
+        $dateformat    = $csv_parameters['csv_dateformat'];
+        $timeformat    = $csv_parameters['csv_timeformat'];
 
         if (isset($_SESSION['csv_field_separator'])) $colsepar = $_SESSION['csv_field_separator'];
         if (isset($_SESSION['csv_decimal_place_separator'])) $decsepar = $_SESSION['csv_decimal_place_separator'];

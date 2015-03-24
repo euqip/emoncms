@@ -75,17 +75,16 @@ define('REGEX_NUMERIC','/[^.\/0-9,;.=_]/');
         'dashgroup'=> "letter",
         //orggroup may be '', than no groups are made, it is used in organisations list view
         'dashletter'=> "ucase(LEFT(name,1)) as letter",
+        );
 
-        'csv_parameters'=> array(
+        $csv_parameters= array(
           'csvdownloadlimit_mb' => 10,
           'csv_field_separator'=>";",
           'csv_decimal_place_separator'=>",",
           'csv_thousandsepar_separator'=>"",
           'csv_dateformat'=>"Y-m-d",
           'csv_timeformat'=>"H:i:s"
-          ),
-
-        );
+          );
 
 
 
@@ -102,6 +101,14 @@ require_once LIB  . 'route.php';
 require_once LIB  . 'locale.php';
 require_once CORE . 'Model' . DS            . 'ConnectionManager.php';
 require_once CORE . 'Model' . DS            . 'Model.php';
+
+//overwrite the defaults with the user settings in param array
+foreach($param as $k=> $v) {
+    if(!is_array($v)){
+        $behavior[$k]=$v;
+    }
+}
+$behavior['csv_parameters']= $csv_parameters;
 
 if (defined('EMON_TEST_ENV') && EMON_TEST_ENV) {
 	require_once CORE . 'TestSuite' . DS . 'EmonTestCase.php';
