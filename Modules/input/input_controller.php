@@ -185,7 +185,7 @@ function input_controller()
                             for ($i=2; $i<count($item); $i++)
                             {
                                 if (strlen($item[$i]))
-				                {
+                                {
                                     $value = (float) $item[$i];
                                     $inputs[$name] = $value;
                                 }
