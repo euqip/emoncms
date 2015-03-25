@@ -39,7 +39,7 @@ define('REGEX_NUMERIC','/[^.\/0-9,;.=_]/');
 //set default parameters, to avoid missing ones
 //these parameters will be overwritten with the settings.php file content
 //
-    $behavior=array(
+    $param=array(
         'multiorg'=>true,
         'min_usernamelen'=>3,
         'max_usernamelen'=>30,
@@ -108,7 +108,7 @@ foreach($param as $k=> $v) {
         $behavior[$k]=$v;
     }
 }
-$behavior['csv_parameters']= $csv_parameters;
+$param['csv_parameters']= $csv_parameters;
 
 if (defined('EMON_TEST_ENV') && EMON_TEST_ENV) {
 	require_once CORE . 'TestSuite' . DS . 'EmonTestCase.php';

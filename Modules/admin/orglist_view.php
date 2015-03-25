@@ -1,5 +1,5 @@
 <?php
-    global $path, $behavior;
+    global $path, $param;
     $languages = get_available_languages();
     //todo: a detailed org view to maintain address and details.
     //This view will be provided to the Org admin.
@@ -103,8 +103,8 @@
 
     var path = "<?php echo $path; ?>";
     var lang = <?php echo json_encode($languages); ?>;
-    var groupfield= "<?php echo $behavior['orggroup']; ?>";
-    var expanded= "<?php echo $behavior['orglist_expanded']; ?>";
+    var groupfield= "<?php echo $param['orggroup']; ?>";
+    var expanded= "<?php echo $param['orglist_expanded']; ?>";
     var firstrun   = true;
     var success    = "<?php echo _('Success'); ?>";
     var error      = "<?php echo _('Error'); ?>";

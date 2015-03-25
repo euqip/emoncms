@@ -1,5 +1,5 @@
 <?php
-global $path, $behavior;
+global $path, $param;
 $usergroupfield="";
 ?>
 
@@ -118,8 +118,8 @@ $usergroupfield="";
 <script>
     var path       = "<?php echo $path; ?>";
     var firstrun   = true;
-    var groupfield = "<?php echo $behavior['usergoup']; ?>";
-    var expanded   = "<?php echo $behavior['userlist_expanded']; ?>";
+    var groupfield = "<?php echo $param['usergoup']; ?>";
+    var expanded   = "<?php echo $param['userlist_expanded']; ?>";
     var success    = "<?php echo _('Success'); ?>";
     var error      = "<?php echo _('Error'); ?>";
 

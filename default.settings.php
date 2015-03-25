@@ -151,7 +151,7 @@ gmail example:
     // Log4PHP configuration
     $log4php_configPath = '/etc/emoncms/emoncms_log4j.xml';
     // interfaces behavior when running with multi organisations and multi users
-    $param=array(
+    $behavior=array(
         'multiorg'=>true,
         'userlist_expanded'=>FALSE,
         'usergoup'=> "letter",

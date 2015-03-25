@@ -1,5 +1,5 @@
 <?php
-    global $path, $behavior;
+    global $path, $param;
     $modpath = $path."".MODULE."/";
     $libpath = $path."Lib/";
 ?>
@@ -161,10 +161,10 @@
 
     var firstrun = true;
     var assoc_inputs = {};
-    var updateinterval ="<?php echo $behavior['inputinterval']; ?>";
+    var updateinterval ="<?php echo $param['inputinterval']; ?>";
     var updateinterval =10000;
-    var groupfield= "<?php echo $behavior['inputgroup']; ?>";
-    var expanded= <?php echo $behavior['inputlistexpanded']; ?>;
+    var groupfield= "<?php echo $param['inputgroup']; ?>";
+    var expanded= <?php echo $param['inputlistexpanded']; ?>;
 
 
     var moveup = "<?php echo _("Move Up"); ?>";

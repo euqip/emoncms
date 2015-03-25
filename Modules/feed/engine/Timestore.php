@@ -261,7 +261,7 @@ class Timestore
 
     public function csv_export($feedid,$start,$end,$outinterval)
     {
-        global $behavior,$csv_parameters;
+        global $param,$csv_parameters;
         $colsepar      = $csv_parameters['csv_field_separator'];
         $decsepar      = $csv_parameters['csv_decimal_place_separator'];
         $thousandsepar = $csv_parameters['csv_thousandsepar_separator'];

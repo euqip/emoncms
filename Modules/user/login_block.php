@@ -12,7 +12,7 @@ http://openenergymonitor.org
 // no direct access
 defined('EMONCMS_EXEC') or die('Restricted access');
 
-global $path, $allowusersregister, $enable_rememberme, $enable_password_reset, $behavior;
+global $path, $allowusersregister, $enable_rememberme, $enable_password_reset, $param;
 
 ?>
 
@@ -32,7 +32,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset, $
 
             <div class ="form-group login-item1" tabindex="1">
                 <label for="username" class="text-muted"><?php echo _('Username:'); ?></label>
-                <input type="text" class="form-control" id="username" placeholder="<?php echo _('Username minimum length').' '.$behavior['min_usernamelen'].' '._("signs"); ?>" />
+                <input type="text" class="form-control" id="username" placeholder="<?php echo _('Username minimum length').' '.$param['min_usernamelen'].' '._("signs"); ?>" />
             </div>
 
             <div class ="form-group register-item" tabindex="2"  style="display:none">
@@ -42,7 +42,7 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset, $
 
             <div class ="form-group login-item1" tabindex="3">
                 <label for="password" class="text-muted"><?php echo _('Password:'); ?></label>
-                <input type="password" class="form-control" id="password" placeholder="<?php echo _('Password length between').' '.$behavior['min_pwdlen']._(" and "). $behavior['max_pwdlen']." "._("signs"); ?>" />
+                <input type="password" class="form-control" id="password" placeholder="<?php echo _('Password length between').' '.$param['min_pwdlen']._(" and "). $param['max_pwdlen']." "._("signs"); ?>" />
             </div>
 
             <div class ="form-group register-item" style="display:none" tabindex="4">
@@ -50,10 +50,10 @@ global $path, $allowusersregister, $enable_rememberme, $enable_password_reset, $
                 <input type="password" class="form-control" id="password-confirm" placeholder="<?php echo _('Confirm your password'); ?>" />
             </div>
 
-            <?php if ($behavior['multiorg']) { ?>
+            <?php if ($param['multiorg']) { ?>
             <div class ="form-group register-item" style="display:none" tabindex="4">
                 <label for="orgname" class="text-muted"><?php echo _('Which organisation:'); ?></label>
-                <input type="text" class="form-control" id="orgname" title="<?php echo _('Short name length between').' '.$behavior['min_orgnamelen'].' '._("and").' '.$behavior['max_orgnamelen'].' '._("signs"); ?>" placeholder="<?php echo _('Short organisation name'); ?>" />
+                <input type="text" class="form-control" id="orgname" title="<?php echo _('Short name length between').' '.$param['min_orgnamelen'].' '._("and").' '.$param['max_orgnamelen'].' '._("signs"); ?>" placeholder="<?php echo _('Short organisation name'); ?>" />
             </div>
             <?php } ?>
 

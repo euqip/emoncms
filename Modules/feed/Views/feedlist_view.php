@@ -1,5 +1,5 @@
 <?php
-    global $session,$path,$behavior;
+    global $session,$path,$param;
     $modpath = $path."".MODULE."/";
     $libpath = $path."Lib/";
 ?>
@@ -197,9 +197,9 @@
 
     var path = "<?php echo $path; ?>";
     var firstrun = true;
-    var updateinterval ="<?php echo $behavior['feedinterval']; ?>";
-    var groupfield= "<?php echo $behavior['feedgroup']; ?>";
-    var expanded= <?php echo $behavior['feedlistexpanded']; ?>;
+    var updateinterval ="<?php echo $param['feedinterval']; ?>";
+    var groupfield= "<?php echo $param['feedgroup']; ?>";
+    var expanded= <?php echo $param['feedlistexpanded']; ?>;
     table.element = "#table";
     table.collapsetext= "<?php echo _("Collapse this Group"); ?>";
     table.expandtext= "<?php echo _("Expand this Group"); ?>";

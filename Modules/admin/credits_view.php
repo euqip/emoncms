@@ -1,5 +1,5 @@
 <?php
-    global $path, $behavior, $credits;
+    global $path, $param, $credits;
 ?>
 
 <div class="container">

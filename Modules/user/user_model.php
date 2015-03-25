@@ -21,14 +21,14 @@ class User extends Model
     private $redis;
     private $log;
     private $org;
-    private $behavior;
+    private $param;
     private $usrdata=array();
 
     public function __construct($mysqli,$redis,$rememberme,$org)
     {
         parent::__construct();
         //copy the settings value, otherwise the enable_rememberme will always be false.
-        global $enable_rememberme, $path, $behavior;
+        global $enable_rememberme, $path, $param;
         $this->enable_rememberme = $enable_rememberme;
 
         $this->mysqli = $mysqli;
@@ -38,7 +38,7 @@ class User extends Model
         $this->log = new EmonLogger(__FILE__);
 
         $this->org = $org;
-        $this->behavior = $behavior;
+        $this->behavior = $param;
         $this->userdate =array();
         $this->useTable = "users";
     }
@@ -598,7 +598,7 @@ public function apikey_session($apikey_in)
     {
         if (isset($_SESSION['cookielogin']) && $_SESSION['cookielogin']==true) return array('success'=>false, 'message'=>_("As your using a cookie based remember me login, please logout and log back in to change username"));
 
-        if (strlen($username) < $behavior['min_usernamelen'] || strlen($username) > $behavior['max_usernamelen']) return array('success'=>false, 'message'=>_("Username length error"));
+        if (strlen($username) < $param['min_usernamelen'] || strlen($username) > $param['max_usernamelen']) return array('success'=>false, 'message'=>_("Username length error"));
 
         if (!ctype_alnum($username)) return array('success'=>false, 'message'=>_("Username must only contain a-z and 0-9 characters"));
 

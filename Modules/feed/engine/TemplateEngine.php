@@ -103,8 +103,8 @@ class TemplateEngine
 
     public function csv_export($feedid,$start,$end,$outinterval)
     {
-        global $behavior;
-        $csv_param     = $behavior['csv_parameters'];
+        global $param;
+        $csv_param     = $param['csv_parameters'];
 
         $colsepar      = $csv_param['csv_field_separator'];
         $decsepar      = $csv_param['csv_decimal_place_separator'];

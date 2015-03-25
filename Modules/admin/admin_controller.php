@@ -16,7 +16,7 @@ function admin_controller()
 {
     $modulename = "admin";
     $basedir = MODULE.DS.$modulename.DS;
-    global $mysqli,$session, $user, $org, $route, $updatelogin, $behavior, $path;
+    global $mysqli,$session, $user, $org, $route, $updatelogin, $param, $path;
 
     // Allow for special admin session if updatelogin property is set to true in settings.php
     // Its important to use this with care and set updatelogin to false or remove from settings
@@ -81,7 +81,7 @@ function admin_controller()
                         $result = view($basedir."orglist_view.php", array());
                         break;
                     case 'orglist':
-                        $flds = "id,".$behavior['orgletter'].", orgname, longname, country, language, timezone, lastuse";
+                        $flds = "id,".$param['orgletter'].", orgname, longname, country, language, timezone, lastuse";
                         $result = $org->get_wcond($flds,"delflag=0  ORDER By letter");
                         while ($row = $result->fetch_object()) $data[] = $row;
                         $result = $data;
@@ -109,7 +109,7 @@ function admin_controller()
                                     break;
                             }
                         }
-                        $flds = "id, ".$behavior['userletter'].", username,email,language,lastlogin, orgid, not delflag as active";
+                        $flds = "id, ".$param['userletter'].", username,email,language,lastlogin, orgid, not delflag as active";
                         $result = $user->get_wcond($flds,$wherecond." ORDER By letter");
                         while ($row = $result->fetch_object()) $data[] = $row;
                         $result = $data;

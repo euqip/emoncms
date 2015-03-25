@@ -246,7 +246,7 @@ class MysqlTimeSeries
     public function csv_export($feedid,$start,$end,$outinterval)
     {
 
-        global $behavior;
+        global $param;
         // csv parameters are copied in shorter variables to facilitate code reading
 
         $decsepar      = $csv_param['csv_decimal_place_separator'];

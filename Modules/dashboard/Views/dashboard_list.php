@@ -1,5 +1,5 @@
 <?php
-global $path, $actions, $behavior;
+global $path, $actions, $param;
 $modpath = $path.MODULE
 ?>
 
@@ -65,8 +65,8 @@ $modpath = $path.MODULE
     <script>
 
     var path       = "<?php echo $path; ?>";
-    var groupfield = "<?php echo $behavior['dashgroup']; ?>";
-    var expanded   = "<?php echo $behavior['dashlist_expanded']; ?>";
+    var groupfield = "<?php echo $param['dashgroup']; ?>";
+    var expanded   = "<?php echo $param['dashlist_expanded']; ?>";
     var firstrun   = true;
     var success    = "<?php echo _('Success'); ?>";
     var error      = "<?php echo _('Error'); ?>";

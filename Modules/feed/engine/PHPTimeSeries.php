@@ -335,7 +335,7 @@ class PHPTimeSeries
 
     public function csv_export($feedid,$start,$end,$outinterval)
     {
-        global $behavior;
+        global $param;
         $colsepar      = $csv_parameters['csv_field_separator'];
         $decsepar      = $csv_parameters['csv_decimal_place_separator'];
         $thousandsepar = $csv_parameters['csv_thousandsepar_separator'];
