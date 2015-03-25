@@ -64,15 +64,16 @@
 </div>
 
 <script id="source" language="javascript" type="text/javascript">
-    var kwhd = <?php echo $kwhd; ?>;
-    var power = <?php echo $power; ?>;
+
+    var kwhd = <?php echo isset($kwhd)?$kwhd:0; ?>;
+    var power = <?php echo isset($power)?$power:0; ?>;
     var path = "<?php echo $path; ?>";
     var apikey = "<?php echo $apikey; ?>";
-    var embed = <?php echo $embed; ?>;
-    
+    var embed = <?php echo isset($embed)?$embed:0; ?>;
+
     var timeWindow = (3600000*24.0*365*5);   //Initial time window
     var start = +new Date - timeWindow;  //Get start time
-    var end = +new Date; 
+    var end = +new Date;
 
     $('#placeholder').width($('#test').width()-60);
     $('#placeholder').height($('#test').height()-120);

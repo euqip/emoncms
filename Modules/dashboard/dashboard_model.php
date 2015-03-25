@@ -29,7 +29,9 @@ class Dashboard
     public function create($userid)
     {
         $userid = (int) $userid;
-        $this->mysqli->query("INSERT INTO $this->reftbl (`userid`,`alias`) VALUES ('$userid','')");
+        $sql = "INSERT INTO $this->reftbl (userid,alias,orgid) VALUES ('$userid','','".$_SESSION['orgid']."')";
+        logitem ($sql.$cond);
+        $this->mysqli->query($sql);
         return $this->mysqli->insert_id;
     }
 
@@ -77,7 +79,6 @@ class Dashboard
         $org= "if(orgid = ".$orgid.", true, false) as myorg ";
         $sql = "SELECT *, ".$uid.", ".$org.", ucase(LEFT(name,1)) as letter FROM $this->reftbl WHERE ";
         //$sql="SELECT id, name,  ucase(LEFT(name,1)) as letter, alias, description, main, published, public, menu, showdescription,".$owner." FROM dashboard WHERE ".$cond.$qB.$qC;
-        logitem ($sql.$cond);
         $result = $this->mysqli->query($sql.$cond);
         $list = array();
         while ($row = $result->fetch_object())

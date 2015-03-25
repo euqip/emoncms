@@ -23,11 +23,10 @@
 
 <?php
     global $path, $embed;
-    if (!$feedid) $feedid = 0;
-    if (!$barwidth) $barwidth = 50;
-
-    if (!$start) $start = 0;
-    if (!$end) $end = 0;
+    $barwidth = isset($barwidth)?$barwidth:50;
+    $feedid   = isset($feedid)?$feedid:0;
+    $start    = isset($start)?$start:0;
+    $end      = isset($end)?$end:0;
 ?>
 
 <!--[if IE]><script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/excanvas.min.js"></script><![endif]-->
@@ -44,16 +43,16 @@
 
 <script id="source" language="javascript" type="text/javascript">
     //--------------------------------------------------------------------------------------
-    var barwidth = <?php echo $barwidth; ?>;             //Fetch table name
-    var feedid = "<?php echo $feedid; ?>";               //Fetch table name
-    var path = "<?php echo $path; ?>";
-    var apikey = "<?php echo $apikey; ?>";
-    var valid = "<?php echo $valid; ?>";
+    var barwidth   = <?php echo $barwidth; ?>;
+    var feedid     = <?php echo $feedid; ?>;
+    var path       = "<?php echo $path; ?>";
+    var apikey     = "<?php echo $apikey; ?>";
+    var valid      = "<?php echo $valid; ?>";
     // Eventually We can store the plot colors in the DB, and use a php command to stick it here
     var plotColour = null;
-
-    var start = <?php echo $start ?>;
-    var end = <?php echo $end ?>;
+    // it may be necessary to set a different default value for start and for end
+    var start      = <?php echo $start; ?>;
+    var end        = <?php echo $end; ?>;
 
     $(function () {
 

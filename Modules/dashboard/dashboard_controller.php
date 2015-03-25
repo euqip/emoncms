@@ -25,7 +25,7 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 function dashboard_controller()
 {
-    global $mysqli, $path, $session, $route, $user, $author, $actions;
+    global $mysqli, $path, $session, $route, $user, $actions;
     $modulename = "dashboard";
     $basedir = MODULE.DS.$modulename.DS;
     require $basedir.$modulename."_model.php";
@@ -44,19 +44,26 @@ function dashboard_controller()
         'published' => 'yes',
         'mine'      => 'yes',
         );
+/*
+      const LAMBDA   = 0;
+      const SYSADMIN = 1;
+      const ORGADMIN = 3;
+      const VIEWER   = 4;
+      const DESIGNER = 5;
+*/
 
     switch ($session['admin']){
-    case $author['sysadmin']:
+    case Role::SYSADMIN:
         // sysadmin reads and updates all
         $cond = "1";
         $condrd = "1";
         break;
-    case $author['orgadmin']:
+    case Role::ORGADMIN:
         //orgadmin reads and updates all within his organisation
         $cond = "orgid='".$session['orgid']."'";
         $condrd = "orgid='".$session['orgid']."'";
         break;
-    case $author['viewer']:
+    case Role::VIEWER:
         //viewer sees all withi organisation but is not allowed to update
         $cond = "orgid=0 and userid='".$session['userid']."'";
         $condrd = "orgid='".$session['orgid']."'";
@@ -67,7 +74,7 @@ function dashboard_controller()
             $actions['published']= 'no';
             $actions['mine']= 'no';
         break;
-    case $author['designer']:
+    case Role::DESIGNER:
         //designer updates own and reads all (dashbords)
         $cond = "orgid='".$session['orgid']."' and userid='".$session['userid']."'";
         $condrd = "orgid='".$session['orgid']."'";
@@ -106,7 +113,7 @@ function dashboard_controller()
             $submenu = view($viewpath."menu.php", array('id'=>$dash['id'], 'menu'=>$menu, 'type'=>"view"));
         }
 
-        if ($route->action == "edit" && $session['write']  and ($session['admin']<>$author['viewer']))
+        if ($route->action == "edit" && $session['write']  and ($session['admin']<>Role::VIEWER))
         {
             //if ($route->subaction) $dash = $dashboard->get_from_alias($session['userid'],$route->subaction,false,false);
             if (isset($_GET['id'])) $dash = $dashboard->get($session['userid'],get('id'),false,false);

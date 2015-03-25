@@ -43,7 +43,7 @@
 
     <script id="source" language="javascript" type="text/javascript">
     //--------------------------------------------------------------------------------------
-    var feedid = <?php echo $feedid; ?>;				//Fetch table name
+    var feedid = <?php echo isset($feedid)?$feedid:0; ?>;				//Fetch table name
     var path = "<?php echo $path; ?>";
     var apikey = "<?php echo $apikey; ?>";
     var embed = <?php echo $embed; ?>;

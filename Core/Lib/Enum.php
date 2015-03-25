@@ -27,9 +27,9 @@
   }
 
   class Role{
-      const lamba    = 0;
-      const sysadmin = 1;
-      const orgadmin = 3;
-      const viewer   = 4;
-      const designer = 5;
+      const LAMBDA   = 0;
+      const SYSADMIN = 1;
+      const ORGADMIN = 3;
+      const VIEWER   = 4;
+      const DESIGNER = 5;
   }

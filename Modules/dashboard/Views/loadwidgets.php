@@ -37,7 +37,8 @@ for ($i=2; $i<count($dir); $i++)
 
 // Load module specific widgets
 
-$dir = scandir(MODULE_PATH);
+//$dir = scandir(MODULE_PATH);
+$dir = scandir(MODULE);
 for ($i=2; $i<count($dir); $i++)
 {
     if (filetype(MODULE_PATH_EXT.$dir[$i])=='dir')
