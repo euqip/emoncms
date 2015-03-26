@@ -10,9 +10,12 @@
 
 <?php
     global $path, $embed;
-
+/*
     if (isset($_GET['powerx'])) $powerx = $_GET['powerx']; else $powerx = 0;
     if (isset($_GET['powery'])) $powery = $_GET['powery']; else $powery = 0;
+*/
+    $powerx= isset($_GET['powerx']) ? $_GET['powerx']: 0;
+    $powerY= isset($_GET['powerY']) ? $_GET['powerY']: 0;
 ?>
 
  <!--[if IE]><script language="javascript" type="text/javascript" src="<?php echo $path;?>Lib/flot/excanvas.min.js"></script><![endif]-->

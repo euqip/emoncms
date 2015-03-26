@@ -30,7 +30,7 @@ class Dashboard
     {
         $userid = (int) $userid;
         $sql = "INSERT INTO $this->reftbl (userid,alias,orgid) VALUES ('$userid','','".$_SESSION['orgid']."')";
-        logitem ($sql.$cond);
+        //logitem ($sql.$cond);
         $this->mysqli->query($sql);
         return $this->mysqli->insert_id;
     }
@@ -253,10 +253,10 @@ class Dashboard
     }
 }
 
-
+/*
 function logitem($str){
     $handle = fopen("/home/bp/emoncmsdata/db_log.txt", "a");
     fwrite ($handle, $str."\n");
     fclose ($handle);
 }
-
+*/

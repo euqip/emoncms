@@ -189,11 +189,3 @@ gmail example:
         'csv_dateformat'=>"Y-m-d",
         'csv_timeformat'=>"H:i:s"
         );
-
-    $author=array(
-      'lamba'    => 0,
-      'sysadmin' => 1,
-      'orgadmin' => 3,
-      'viewer'   => 4,
-      'designer' => 5
-      );

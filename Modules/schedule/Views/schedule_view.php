@@ -1,6 +1,6 @@
 <?php
     global $path;
-    $Moduletitle=_("Schedules");
+    $moduletitle=_("Schedules");
 ?>
 
 <script type="text/javascript" src="<?php echo $path.MODULE; ?>/schedule/Views/schedule.js"></script>
@@ -15,7 +15,7 @@
 
 <div class="container">
     <div id="localheading">
-        <h2><?php $moduletitle; ?>
+        <h2><?php echo $moduletitle; ?>
            <small>
                 <a href="api">
                     <span class = "glyphicon glyphicon-info-sign" title = "<?php echo _('Schedule API Help'); ?>"></span>

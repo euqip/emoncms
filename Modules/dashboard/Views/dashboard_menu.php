@@ -9,7 +9,7 @@ Part of the OpenEnergyMonitor project:
 http://openenergymonitor.org
 */
 
-global $path, $session, $useckeditor, $author;
+global $path, $session, $useckeditor;
 ?>
 
 
@@ -25,7 +25,7 @@ global $path, $session, $useckeditor, $author;
 <div align="right" style="padding:4px;">
 -->
 <div class="menu-icon">
-    <?php if ($session['admin']<>$author['viewer'] ) { ?>
+    <?php if ($session['admin']<>Role::VIEWER ) { ?>
 
         <?php if ($type=="view" && isset($id)) { ?>
         <span href="<?php echo $path; ?>dashboard/edit?id=<?php echo $id; ?>" class="iconbutton" title="<?php echo _("Draw Editor"); ?>" >
@@ -43,7 +43,7 @@ global $path, $session, $useckeditor, $author;
         <?php } ?>
     <?php } ?>
 
-    <?php if ($session['admin']<>$author['viewer'] ) { ?>
+    <?php if ($session['admin']<>Role::VIEWER ) { ?>
     <span href="#" onclick="$.ajax({type : 'POST',url :  path + 'dashboard/create.json  ',data : '',dataType : 'json',success : location.reload()});" class="iconbutton" title="<?php echo _("New"); ?>">
         <span class="glyphicon glyphicon-plus-sign"></span>
     </span>

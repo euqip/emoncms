@@ -16,7 +16,7 @@ function input_controller()
 {
     //return array('content'=>"ok");
 
-    global $mysqli, $redis, $user, $org, $session, $route, $max_node_id_limit, $feed_settings, $author;
+    global $mysqli, $redis, $user, $org, $session, $route, $max_node_id_limit, $feed_settings;
     $modulename = "input";
     $basedir = MODULE.DS.$modulename.DS;
 
@@ -50,17 +50,17 @@ function input_controller()
 
 
     switch ($session['admin']){
-    case $author['sysadmin']:
+    case Role::SYSADMIN:
         // sysadmin reads and updates all
         $cond = "1";
         $condrd = "1";
         break;
-    case $author['orgadmin']:
+    case Role::ORGADMIN:
         //orgadmin reads and updates all within his organisation
         $cond = "orgid='".$session['orgid']."'";
         $condrd = "orgid='".$session['orgid']."'";
         break;
-    case $author['viewer']:
+    case Role::VIEWER:
         //viewer sees all withi organisation but is not allowed to update
         $cond = "orgid=0 and userid='".$session['userid']."'";
         $condrd = "orgid='".$session['orgid']."'";
@@ -69,7 +69,7 @@ function input_controller()
             $actions['draw']= 'no';
             $actions['mine']= 'no';
         break;
-    case $author['designer']:
+    case Role::DESIGNER:
         //designer updates own and reads all (dashbords)
         $cond = "orgid='".$session['orgid']."' and userid='".$session['userid']."'";
         $condrd = "orgid='".$session['orgid']."'";
