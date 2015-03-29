@@ -53,12 +53,10 @@ function user_controller()
         //if ($route->action == 'changeemail' && $session['write']) $result = $user->change_email($session['userid'],get('email'));
         //if ($route->action == 'changepassword' && $session['write']) $result = $user->change_password($session['userid'],get('old'),get('new'));
 
-        if ($route->action == 'passwordreset') $result = $user->passwordreset(get('username'),get('email'));
         // Apikey
         if ($route->action == 'newapikeyread' && $session['write']) $result = $user->new_apikey_read($session['userid']);
         if ($route->action == 'newapikeywrite' && $session['write']) $result = $user->new_apikey_write($session['userid']);
 
-        if ($route->action == 'auth' && !$session['read']) $result = $user->get_apikeys_from_login(post('username'),post('password'));
 
         // Get and set - user by profile client
         if ($route->action == 'get' && $session['write']) $result = $user->get_partial($myuser);
@@ -69,9 +67,14 @@ function user_controller()
 
         //if ($route->action == 'getconvert' && $session['write']) $result = $user->get_convert_status($session['userid']);
         //if ($route->action == 'setconvert' && $session['write']) $result = $user->set_convert_status($session['userid']);
+        if ($route->action == 'passwordreset') $result = $user->passwordreset(get('username'),get('email'));
 
 
-        if ($route->action == 'timezone' && $session['read']) $result = $user->get_timezone($session['userid']);
+        if ($route->action == 'auth' && !$session['read']) $result = $user->get_apikeys_from_login(post('username'),post('password'));
+        if ($route->action == 'timezone' && $session['read']) $result = $user->get_timezone_offset($session['userid']); // to maintain compatibility but in seconds
+        if ($route->action == 'gettimezone' && $session['read']) $result = $user->get_timezone($session['userid']);
+    // /user/gettimezones.json
+        if ($route->action == 'gettimezones' && $session['read']) $result = $user->get_timezones();
     }
     return array('content'=>$result);
 }

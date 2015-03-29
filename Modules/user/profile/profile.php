@@ -34,21 +34,14 @@ $separ         = $user -> get_available_separators();
     $languages_name= array_values($languages_name);
 
 
-function languagecode_to_name($lang){
-
-    foreach ($lang as $key=>$val){
-      //echo $key.'-'.$val;
-      switch($val) {
-              case 'cy_GB': $lang[$key]=_('Welsh (United Kingdom)'); break;
-              case 'da_DK': $lang[$key]=_('Danish (Denmark)'); break;
-              case 'en_EN': $lang[$key]=_('English'); break;
-              case 'es_ES': $lang[$key]=_('Spanish (Spain)'); break;
-              case 'fr_FR': $lang[$key]=_('French (France)'); break;
-              case 'it_IT': $lang[$key]=_('Italian (Italy)'); break;
-              case 'nl_BE': $lang[$key]=_('Dutch (Belgium)'); break;
-              case 'nl_NL': $lang[$key]=_('Dutch (Netherlands)'); break;
-              case 'de_DE': $lang[$key]=_('German (Germany)'); break;
-      }
+function languagecode_to_name($langs) {
+    static $lang_names = null;
+    if ($lang_names === null) {
+        $json_data = file_get_contents(__DIR__.'/language_country.json');
+        $lang_names = json_decode($json_data, true);
+    }
+    foreach ($langs as $key=>$val){
+      $lang[$key]=$lang_names[$val];
     }
    asort($lang);
    return $lang;
@@ -144,13 +137,14 @@ function languagecode_to_name($lang){
 
 <script>
 
-var path  = "<?php echo $path; ?>";
-var lang  = <?php echo json_encode($languages); ?>;
-var role  = <?php echo json_encode($roles); ?>;
-var orgs  = <?php echo json_encode($organisations); ?>;
-var dates = <?php echo json_encode($dates); ?>;
-var times = <?php echo json_encode($times); ?>;
-var separ = <?php echo json_encode($separ); ?>;
+var path      = "<?php echo $path; ?>";
+var lang      = <?php echo json_encode($languages); ?>;
+var lang_name = <?php echo json_encode($languages_name); ?>;
+var role      = <?php echo json_encode($roles); ?>;
+var orgs      = <?php echo json_encode($organisations); ?>;
+var dates     = <?php echo json_encode($dates); ?>;
+var times     = <?php echo json_encode($times); ?>;
+var separ     = <?php echo json_encode($separ); ?>;
 
 list.data = user.get();
 
@@ -176,11 +170,14 @@ list.fields = {
     'csvdate'  :{ 'title':"<?php echo _('CSV date format'); ?>", 'type':'idselect','tooltip':"<?php echo _('Define your prefered CSV date format.')?>",'options':dates},
     'csvtime'  :{ 'title':"<?php echo _('CSV time format'); ?>", 'type':'idselect','tooltip':"<?php echo _('Define your prefered CSV time format.')?>",'options':times},
 };
-$(startprofile);
-list.init();
+    $.ajax({ url: path+"user/gettimezones.json", dataType: 'json', async: false, success: function(result) {
+        list.timezones = result;
+    }});
+
+    list.init();
 
 $("#table").bind("onSave", function(e){
-    //user.set(list.data);
+    user.set(list.data);
     list.init();
     // refresh the page if the language has been changed.
     if (list.data.language!=currentlanguage) window.location.href = path+"user/view";

@@ -2,7 +2,7 @@
 <?php global $path;
 
 $apikey = get('apikey');
-$modpath = $path."/".MODULUE."/";
+$modpath = $path."/".MODULE."/";
 $libpath = $path."/";
 
 ?>

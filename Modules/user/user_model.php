@@ -548,6 +548,40 @@ public function apikey_session($apikey_in)
     // Get by other paramater methods
     //---------------------------------------------------------------------------------------
 
+    public function get_timezone_offset($userid)
+    {
+        $userid = intval($userid);
+        $result = $this->mysqli->query("SELECT timezone FROM users WHERE id = '$userid';");
+        $row = $result->fetch_object();
+        $now = new DateTime();
+        $now->setTimezone(new DateTimeZone($row->timezone));
+        return intval($now->getOffset()); // Will return seconds offset from GMT
+    }
+
+    // List supported PHP timezones
+    public function get_timezones()
+    {
+        static $timezones = null;
+        if ($timezones === null) {
+            $timezones = [];
+            $now = new DateTime();
+
+            foreach (DateTimeZone::listIdentifiers() as $timezone) {
+                $now->setTimezone(new DateTimeZone($timezone));
+                $offset = $now->getOffset();
+                $hours = intval($offset / 3600);
+                $minutes = abs(intval($offset % 3600 / 60));
+                $gmt_offset_text = 'GMT ' . ($offset ? sprintf('%+03d:%02d', $hours, $minutes) : '+00:00');
+                $timezones[] =  array('id'=>$timezone, 'gmt_offset_secs'=>$offset, 'gmt_offset_text'=>$gmt_offset_text);
+            }
+        }
+        return $timezones;
+    }
+
+    //---------------------------------------------------------------------------------------
+    // Get by other paramater methods
+    //---------------------------------------------------------------------------------------
+
     public function get_id($name)
     {
         if (!ctype_alnum($name)) return false;
@@ -695,7 +729,7 @@ public function apikey_session($apikey_in)
         $flds .= '  gravatar = "'.preg_replace('/[^\w\s-.@]/','',$data->gravatar).'"';
         $flds .= ', name     = "'.preg_replace(REGEX_STRING_ACCENT,'',$data->name).'"';
         $flds .= ', location = "'.preg_replace(REGEX_STRING_ACCENT,'',$data->location).'"';
-        $flds .= ', timezone = "'.intval($data->timezone).'"';
+        $flds .= ', timezone = "'.preg_replace(REGEX_STRING,'',$data->timezone).'"';
         $flds .= ', language = "'.$lang.'"';
         $flds .= ', bio      = "'.preg_replace('/[^\w\s-.]/','',$data->bio).'"';
         //reserved action to system admin

@@ -20,7 +20,7 @@ function node_controller()
 
     require MODULE.DS."input".DS."process_model.php"; // 886
     $process = new Process($mysqli,$input,$feed);
-    $process->set_timezone_offset($user->get_timezone($session['userid']));
+    //$process->set_timezone_offset($user->get_timezone($session['userid']));
 
     include $basedir."node_model.php";
     $node = new Node($mysqli,$redis,$process);
