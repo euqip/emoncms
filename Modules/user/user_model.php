@@ -238,7 +238,7 @@ public function apikey_session($apikey_in)
             $admin = 5;
         }
         $sql = "INSERT INTO $this->useTable ( username, password, email, salt ,apikey_read, apikey_write, admin, orgid, createdate, createbyname ) VALUES ( '$username' , '$hash', '$email', '$salt', '$apikey_read', '$apikey_write', '$admin', '$orgid', now(), '$crby' );";
-        var_dump($sql);
+        //var_dump($sql);
         if (!$this->mysqli->query($sql)) {
             return array('success'=>false, 'message'=>_("Error creating user"));
         }
@@ -250,7 +250,7 @@ public function apikey_session($apikey_in)
 
         //if orgid <>0 then fill the default user settings
         $data = $this->org->get_partial($orgid);
-        var_dump($data);
+        //var_dump($data);
         $flds  = '';
         $flds .= '  location = "'.preg_replace(REGEX_STRING_ACCENT,'',$data['location']).'"';
         $flds .= ', timezone = "'.intval($data['timezone']).'"';

@@ -112,6 +112,7 @@
       'language':
         {
           'draw':function(value) {
+            // the label parameter comes in the drop down list
             for (i in list.fields['language'].options)
             {
               if (list.fields['language'].options[i] == value) return list.fields['language'].label[i];
@@ -124,10 +125,11 @@
             var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
             for (i in fld.options)
             {
-              var selected = ""; if (fld.options[i] == value) selected = 'selected';
+              var selected = "";
+              if (fld.options[i] == value) selected = 'selected';
               options += "<option value="+fld.options[i]+" "+selected+">"+fld.label[i]+"</option>";
             }
-            return "<select>"+options+"</select>";
+            return "<select class='form-control' title='"+tooltip+"'>"+options+"</select>";
           },
           'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
         },
@@ -192,36 +194,6 @@
               return $(list.element+' tr[field='+field+'] td[type=value] select').val();
             }
         },
-
-        'timezone_old':        {
-          'draw':function(value)
-            {
-              var sign = value >= 0 ? '+' : '';
-              return "UTC "+sign+(value||0)+":00";
-            },
-            'edit':function(field,value)
-            {
-                var select = $('<select class="form-control"/>'),
-                selectedIndex = null,
-                sign;
-
-                for (var i=-12; i<=14; i++) {
-                  var selected = "";
-                  if (value == i) {
-                    selected = 'selected';
-                    selectedIndex = i;
-                    }
-                  sign = i >= 0 ? '+' : '';
-                  select.append("<option value="+i+" "+selected+">UTC "+sign+i+":00</option>");
-                  }
-                  //If no selected index were set, then default to 0
-                  if ( selectedIndex === null ) {
-                      select.find("option[value='0']").attr('selected', 'selected');
-                  }
-                  return select.wrap('<p>').parent().html();  //return HTML-string
-            },
-            'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] select').val();}
-            },
 
         'timezone':
         {

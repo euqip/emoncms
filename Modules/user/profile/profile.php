@@ -15,7 +15,6 @@ defined('EMONCMS_EXEC') or die('Restricted access');
 
 global $path, $user, $org;
 
-$languages     = get_available_languages();
 $roles         = $user -> get_available_roles();
 $organisations = $org  -> list_orgnames();
 $dates         = $user -> get_available_dateformats();
@@ -162,7 +161,7 @@ list.fields = {
     'name'     :{ 'title':"<?php echo _('Name'); ?>", 'type':'text','tooltip':"<?php echo _('Use letters (a-z) only, accented characters are allowed!')?>"},
     'location' :{ 'title':"<?php echo _('Location'); ?>", 'type':'text','tooltip':"<?php echo _('Use letters (a-z) only, accented characters are allowed!')?>"},
     'timezone' :{ 'title':"<?php echo _('Timezone'); ?>", 'type':'timezone','tooltip':"<?php echo _('Choose your local time offset to UTC')?>"},
-    'language' :{ 'title':"<?php echo _('Language'); ?>", 'type':'select','tooltip':"<?php echo _('System available languages')?>", 'options':lang},
+    'language' :{ 'title':"<?php echo _('Language'); ?>", 'type':'language','tooltip':"<?php echo _('System available languages')?>", 'options':lang,'label':lang_name },
     'bio'      :{ 'title':"<?php echo _('Bio'); ?>", 'type':'text'},
     'orgid'    :{ 'title':"<?php echo _('Organisation'); ?>", 'type':'tblselect','tooltip':"<?php echo _('Associate user to an Organisation')?>", 'options':orgs},
     'admin'    :{ 'title':"<?php echo _('User role'); ?>", 'type':'idselect','tooltip':"<?php echo _('Specify the user role')?>", 'options':role},
