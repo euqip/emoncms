@@ -5,7 +5,7 @@
 
 class PHPFina
 {
-    private $dir = "/var/lib/phpfina/";
+    private $dir = "phpfina";
     private $log;
 
     /**
@@ -16,8 +16,7 @@ class PHPFina
 
     public function __construct($settings)
     {
-        if (isset($settings['datadir'])) $this->dir = $settings['datadir'];
-
+        if (isset($settings['datadir'])) $this->dir =ROOT.$settings['datadir'].DS;
         $this->log = new EmonLogger(__FILE__);
     }
 
@@ -176,7 +175,7 @@ class PHPFina
         $outinterval= (int) $outinterval;
         if ($outinterval<1) $outinterval = 1;
         if ($end<=$start) return false;
-        
+
         $numdp = (($end - $start) / $outinterval);
         if ($numdp>5000) return false;
         if ($outinterval<5) $outinterval = 5;
@@ -217,8 +216,8 @@ class PHPFina
         }
         return $data;
     }
-    
-    
+
+
     public function get_data($id,$start,$end,$outinterval)
     {
         $id = intval($id);

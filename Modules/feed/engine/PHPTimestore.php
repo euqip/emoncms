@@ -2,12 +2,12 @@
 
 class PHPTimestore
 {
-    private $dir = "/var/lib/timestore/";
+    private $dir = "timestore";
     private $log;
 
     public function __construct($settings)
     {
-        if (isset($settings['datadir'])) $this->dir = $settings['datadir'];
+        if (isset($settings['datadir'])) $this->dir = ROOT.$settings['datadir'];
         $this->log = new EmonLogger(__FILE__);
     }
 

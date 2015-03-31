@@ -100,15 +100,15 @@
         for(var i in feedlist) {
             if (timeWindowChanged) feedlist[i].plot.data = null;
             if (feedlist[i].selected) {
-                
+
                 if (!feedlist[i].plot.data) {
                     //feedlist[i].plot.data = get_feed_data(feedlist[i].id,start,end,500);
-                    
+
                     if (feedlist[i].interval!=undefined && feedlist[i].interval>0)
                     {
                         interval = feedlist[i].interval;
                         intervalms = interval * 1000;
-                        
+
                         var d = new Date()
                         var n = d.getTimezoneOffset();
                         var offset = n / -60;
@@ -122,16 +122,16 @@
                         dataend = end;
                         interval = Math.round(((end-start)/500)*0.001);
                     }
-                    
-                    $.ajax({                                      
-                        url: path+'feed/average.json',                         
+
+                    $.ajax({
+                        url: path+'feed/average.json',
                         data: "id="+feedlist[i].id+"&start="+datastart+"&end="+dataend+"&interval="+interval,
                         dataType: 'json',
-                        async: false,                      
-                        success: function(data_in) { feedlist[i].plot.data = data_in; } 
+                        async: false,
+                        success: function(data_in) { feedlist[i].plot.data = data_in; }
                     });
                 }
-                
+
                 if ( feedlist[i].plot.data) plotdata.push(feedlist[i].plot);
             }
         }

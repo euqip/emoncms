@@ -12,12 +12,12 @@ class PHPTimeSeries
 
     private $timestoreApi;
 
-    private $dir = "/var/lib/phptimeseries/";
+    private $dir = "phptimeseries";
     private $log;
 
     public function __construct($settings)
     {
-        if (isset($settings['datadir'])) $this->dir = $settings['datadir'];
+        if (isset($settings['datadir'])) $this->dir = ROOT.$settings['datadir'];
         $this->log = new EmonLogger(__FILE__);
     }
 

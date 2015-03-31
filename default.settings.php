@@ -26,6 +26,7 @@ defined('EMONCMS_EXEC') or die('Restricted access');
     // Enable this to try out the experimental MQTT Features:
     // - updated to feeds are published to topic: emoncms/feed/feedid
     $mqtt_enabled = false;
+    $feddatadir="data".DS."engine".DS;
 
     $feed_settings = array(
 
@@ -44,6 +45,19 @@ defined('EMONCMS_EXEC') or die('Restricted access');
         // Make sure that emoncms has write permission's to the datadirectory folders
 
         'phpfiwa'=>array(
+            'datadir'=>$feddatadir."phpfiwa"
+        ),
+        'phpfina'=>array(
+            'datadir'=>$feddatadir."phpfina"
+        ),
+        'phptimeseries'=>array(
+            'datadir'=>$feddatadir."phptimeseries"
+        ),
+        'phptimestore'=>array(
+            'datadir'=>$feddatadir.'phptimestore'
+        )
+/*
+        'phpfiwa'=>array(
             'datadir'=>'/var/lib/phpfiwa/'
         ),
         'phpfina'=>array(
@@ -55,6 +69,7 @@ defined('EMONCMS_EXEC') or die('Restricted access');
         'phptimestore'=>array(
             'datadir'=>'/var/lib/phptimestore/'
         )
+*/
     );
 
     // (OPTIONAL) Used by password reset feature

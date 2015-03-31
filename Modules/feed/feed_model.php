@@ -52,6 +52,8 @@ class Feed
             global $timestore_adminkey;
             $settings['timestore'] = array('adminkey'=>$timestore_adminkey);
         }
+        //$settings['basedir'] = isset($settings['basedir'])? $settings['basedir']:ROOT.DS.'data'.DS;
+        if (!isset($settings['basedir'])) $settings['basedir'] = ROOT.DS.'data'.DS;
         if (!isset($settings['graphite'])) $settings['graphite'] = array('host'=>"", 'port'=>0);
         if (!isset($settings['phpfiwa'])) $settings['phpfiwa'] = array();
         if (!isset($settings['phpfina'])) $settings['phpfina'] = array();

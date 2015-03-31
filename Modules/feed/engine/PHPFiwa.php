@@ -5,7 +5,7 @@
 
 class PHPFiwa
 {
-    private $dir = "/var/lib/phpfiwa/";
+    private $dir = "phpfiwa";
     private $log;
     /**
      * Constructor.
@@ -14,7 +14,7 @@ class PHPFiwa
     */
     public function __construct($settings)
     {
-        if (isset($settings['datadir'])) $this->dir = $settings['datadir'];
+        if (isset($settings['datadir'])) $this->dir =ROOT.$settings['datadir'];
         $this->log = new EmonLogger(__FILE__);
     }
 
