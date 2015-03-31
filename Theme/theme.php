@@ -30,7 +30,7 @@
         <script src="<?php echo $path; ?>Lib/jquery-1.11.0.js"></script>
          -->
 
-        <script src="<?php echo $path; ?>Lib/jquery-2.1.1.js"></script>
+        <script src="<?php echo $path; ?>Lib/jquery-2.1.3.min.js"></script>
 
         <title>Emoncms</title>
     </head>
