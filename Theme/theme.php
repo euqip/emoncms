@@ -26,10 +26,6 @@
         <link rel="apple-touch-startup-image" href="<?php echo $path; ?>Theme/ios_load.png">
         <link rel="apple-touch-icon" href="<?php echo $path; ?>Theme/logo_normal.png">
         <link href="<?php echo $path; ?>Theme/theme.css" rel="stylesheet">
-        <!--  
-        <script src="<?php echo $path; ?>Lib/jquery-1.11.0.js"></script>
-         -->
-
         <script src="<?php echo $path; ?>Lib/jquery-2.1.3.min.js"></script>
 
         <title>Emoncms</title>
@@ -106,11 +102,6 @@
             </div>
         </div>
         <!-- end of footer -->
-
-<!--
-    <script type="text/javascript" src="<?php echo $path; ?>Lib/jquery-1.9.1.min.js"></script>
--->
-
 
         <script src="<?php echo $path; ?>Lib/bootstrap/js/bootstrap.js"></script>
         <script type="text/javascript">
