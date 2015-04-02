@@ -14,7 +14,7 @@
 // Global variables
 var img = null,
 	needle = null;
-	
+
 function leddisplay_widgetlist()
 {
   var widgets = {
@@ -75,11 +75,11 @@ function leddisplay_draw()
       if (val  > caution) color = "amber";
       if (val  > warning) color = "red";
     if (warning <caution){
-      goingup =false; 
+      goingup =false;
       color = "green";
       if (val  < caution) color = "amber";
       if (val  < warning) color = "red";
-    } 
+    }
 
     if (val=="NaN") val="0";
     var oustring= "0000000"+Math.abs(val);
@@ -121,7 +121,7 @@ function leddisplay_draw()
     }
     html +='<span class="panelunit">'+unit+'</span>';
     html +='<div class="panelfeed">'+feed+'</div>';
-     
+
     html +='</div>';
     $(this).html(html);
   });}

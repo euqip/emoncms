@@ -329,33 +329,17 @@ class PHPTimeSeries extends PHPengine
 
     }
 
-    public function csv_export($feedid,$start,$end,$outinterval)
+    public function csv_export($id,$start,$end,$outinterval)
     {
-        global $param;
-        $colsepar      = $csv_parameters['csv_field_separator'];
-        $decsepar      = $csv_parameters['csv_decimal_place_separator'];
-        $thousandsepar = $csv_parameters['csv_thousandsepar_separator'];
-        $dateformat    = $csv_parameters['csv_dateformat'];
-        $timeformat    = $csv_parameters['csv_timeformat'];
-
-        if (isset($_SESSION['csv_field_separator'])) $colsepar = $_SESSION['csv_field_separator'];
-        if (isset($_SESSION['csv_decimal_place_separator'])) $decsepar = $_SESSION['csv_decimal_place_separator'];
-        if (isset($_SESSION['csv_thousandsepar_separator'])) $thousandsepar = $_SESSION['csv_thousandsepar_separator'];
-        if (isset($_SESSION['csvdate'])) $dateformat = $_SESSION['csvdate'];
-        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $timeformat;
-
-        $feedid = (int) $feedid;
-        $start = (int) $start;
-        $end = (int) $end;
-        $outinterval = (int) $outinterval;
+        $this->csvstart($id,$start,$end,$outinterval);
 
         if ($outinterval<1) $outinterval = 1;
         $dp = ceil(($end - $start) / $outinterval);
         $end = $start + ($dp * $outinterval);
         if ($dp<1) return false;
 
-        $fh = fopen($this->dir."feed_$feedid.MYD", 'rb');
-        $filesize = filesize($this->dir."feed_$feedid.MYD");
+        $fh = fopen($this->dir."feed_$id.MYD", 'rb');
+        $filesize = filesize($this->dir."feed_$id.MYD");
 
         $pos = $this->binarysearch($fh,$start,$filesize);
 
@@ -371,6 +355,7 @@ class PHPTimeSeries extends PHPengine
         $data = array();
         $time = 0;
 
+        $filename = _("Feed")."-".$id."_".date ("YmdHis" , time()).".csv";
         // There is no need for the browser to cache the output
         header("Cache-Control: no-cache, no-store, must-revalidate");
 
@@ -378,7 +363,6 @@ class PHPTimeSeries extends PHPengine
         header('Content-Description: File Transfer');
         header("Content-type: application/octet-stream");
         //date ( string $format [, int $timestamp = time() ] )
-        $filename = _("Feed")."-".$feedid."_".date ("YmdHis" , time()).".csv";
         header("Content-Disposition: attachment; filename={$filename}");
 
         header("Expires: 0");
@@ -406,11 +390,13 @@ class PHPTimeSeries extends PHPengine
 
             // $last_time = 0 only occur in the first run
             if (($time!=$last_time && $time>$last_time) || $last_time==0) {
-                $humanDate = date(str_replace('%','',$dateformat),$time);
-                $humanTime=gmdate($timeformat, $time);
+                $hd = date(str_replace('%','',$this->csvparam['df']),$timestamp);
+                $ht = date($this->csvparam['tf'],$timestamp);
                 //fwrite($exportfh, $time.",".number_format($array['value'],2)."\n");
-                $dataValue=number_format($array['value'],2,$decsepar,$thousandsepar);
-                fwrite($exportfh, $time.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.$dataValue."\n");
+                $dataValue=number_format($array['value'],2,$this->csvparam['ds'],$this->csvparam['ts']);
+                fwrite($exportfh, $time.$this->csvparam['cs'].$hd.$this->csvparam['cs'].$ht.$this->csvparam['cs'].$dataValue."\n");
+
+            //fwrite($exportfh, $time.$colsepar.$hd.$colsepar.$ht.$colsepar.number_format($val[1],2,$decsepar,$thousandsepar)."\n");
             }
         }
         fclose($exportfh);

@@ -15,11 +15,6 @@ class PHPFina extends PHPengine
     public function __construct($s)
     {
         parent::__construct($s);
-        //$this->dir = "phpfina";
-/*
-        if (isset($settings['datadir'])) $this->dir =ROOT.$settings['datadir'].DS;
-        $this->log = new EmonLogger(__FILE__);
-*/
     }
 
     /**
@@ -168,7 +163,7 @@ class PHPFina extends PHPengine
      * @param integer $end The unix timestamp in ms of the end of the data range
      * @param integer $dp The number of data points to return (used by some engines)
     */
-
+/* use from main class
     public function get_data_exact($name,$start,$end,$outinterval)
     {
         $name = (int) $name;
@@ -218,7 +213,7 @@ class PHPFina extends PHPengine
         }
         return $data;
     }
-
+*/
 
     public function get_data($id,$start,$end,$outinterval)
     {
@@ -288,6 +283,7 @@ class PHPFina extends PHPengine
      *
      * @param integer $id The id of the feed
     */
+    /* use from main PHPengine class
     public function lastvalue($id)
     {
         $id = (int) $id;
@@ -313,7 +309,9 @@ class PHPFina extends PHPengine
             return array('time'=>0, 'value'=>0);
         }
     }
+*/
 
+/* use from man PHP engine class
     public function export($id,$start)
     {
         $id = (int) $id;
@@ -369,7 +367,7 @@ class PHPFina extends PHPengine
         exit;
 
     }
-
+*/
     public function delete($id)
     {
         if (!$meta = $this->get_meta($id)) return false;
@@ -485,24 +483,8 @@ class PHPFina extends PHPengine
 
     public function csv_export($id,$start,$end,$outinterval)
     {
-        global $param;
-        $colsepar      = $csv_parameters['csv_field_separator'];
-        $decsepar      = $csv_parameters['csv_decimal_place_separator'];
-        $thousandsepar = $csv_parameters['csv_thousandsepar_separator'];
-        $dateformat    = $csv_parameters['csv_dateformat'];
-        $timeformat    = $csv_parameters['csv_timeformat'];
 
-        if (isset($_SESSION['csv_field_separator'])) $colsepar = $_SESSION['csv_field_separator'];
-        if (isset($_SESSION['csv_decimal_place_separator'])) $decsepar = $_SESSION['csv_decimal_place_separator'];
-        if (isset($_SESSION['csv_thousandsepar_separator'])) $thousandsepar = $_SESSION['csv_thousandsepar_separator'];
-        if (isset($_SESSION['csvdate'])) $dateformat = $_SESSION['csvdate'];
-        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $timeformat;
-
-        $id = intval($id);
-        $start = intval($start);
-        $end = intval($end);
-        $outinterval= (int) $outinterval;
-
+        $this->csvstart($id,$start,$end,$outinterval);
         // If meta data file does not exist then exit
         if (!$meta = $this->get_meta($id)) return false;
 
@@ -533,13 +515,13 @@ class PHPFina extends PHPengine
         $data = array();
         $time = 0; $i = 0;
 
+        $filename = $id.".csv";
         // There is no need for the browser to cache the output
         header("Cache-Control: no-cache, no-store, must-revalidate");
 
         // Tell the browser to handle output as a csv file to be downloaded
         header('Content-Description: File Transfer');
         header("Content-type: application/octet-stream");
-        $filename = $id.".csv";
         header("Content-Disposition: attachment; filename={$filename}");
 
         header("Expires: 0");
@@ -565,13 +547,16 @@ class PHPFina extends PHPengine
             $val = unpack("f",fread($fh,4));
 
             // calculate the datapoint time
-            $time = $meta->start_time + $pos * $meta->interval;
+            $timestamp = $meta->start_time + $pos * $meta->interval;
 
             // add to the data array if its not a nan value
-            $humandate = date(str_replace('%','',$dateformat),$time);
-            $humantime = date($timeformat,$time);
+            $hd = date(str_replace('%','',$this->csvparam['df']),$timestamp);
+            $ht = date($this->csvparam['tf'],$timestamp);
 
-            if (!is_nan($val[1])) fwrite($exportfh, $time.$colsepar.$humandate.$colsepar.$humantime.$colsepar.number_format($val[1],2,$decsepar,$thousandsepar)."\n");
+            if (!is_nan($val[1])){
+                fwrite($exportfh, $timestamp.$this->csvparam['cs'].$hd.$this->csvparam['cs'].$ht.$this->csvparam['cs'].number_format($average,2,$this->csvparam['ds'],$this->csvparam['ts'])."\n");
+            }
+            //fwrite($exportfh, $time.$colsepar.$hd.$colsepar.$ht.$colsepar.number_format($val[1],2,$decsepar,$thousandsepar)."\n");
 
             $i++;
         }

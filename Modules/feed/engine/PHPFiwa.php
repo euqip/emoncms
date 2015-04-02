@@ -318,58 +318,10 @@ class PHPFiwa extends PHPengine
         return $data;
     }
 
-    public function get_data_exact($name,$start,$end,$outinterval)
+
+    public function get_data($id,$start,$end,$outinterval)
     {
-        $name = (int) $name;
-        $start = floatval($start)/1000;
-        $end = floatval($end)/1000;
-        $outinterval= (int) $outinterval;
-        if ($outinterval<1) $outinterval = 1;
-        if ($end<=$start) return false;
-
-        $numdp = (($end - $start) / $outinterval);
-        if ($numdp>5000) return false;
-        if ($outinterval<5) $outinterval = 5;
-
-        // If meta data file does not exist then exit
-        if (!$meta = $this->get_meta($name)) return false;
-        // $meta->npoints = $this->get_npoints($name);
-
-        $data = array();
-        $time = 0; $i = 0;
-
-        // The datapoints are selected within a loop that runs until we reach a
-        // datapoint that is beyond the end of our query range
-        $fh = fopen($this->dir.$name."_0.dat", 'rb');
-        while($time<=$end)
-        {
-            $time = $start + ($outinterval * $i);
-            $pos = round(($time - $meta->start_time) / $meta->interval[0]);
-
-            $value = null;
-
-            if ($pos>=0 && $pos < $meta->npoints[0])
-            {
-                // read from the file
-                fseek($fh,$pos*4);
-                $val = unpack("f",fread($fh,4));
-                // add to the data array if its not a nan value
-                if (!is_nan($val[1])) {
-                    $value = $val[1];
-                } else {
-                    $value = null;
-                }
-            }
-            $data[] = array($time*1000,$value);
-
-            $i++;
-        }
-        return $data;
-    }
-
-    public function get_data($feedid,$start,$end,$outinterval)
-    {
-        $feedid = intval($feedid);
+        $id = intval($id);
         $start = intval($start/1000);
         $end = intval($end/1000);
         $outinterval = (int) $outinterval;
@@ -377,7 +329,7 @@ class PHPFiwa extends PHPengine
         $layer = 0;
 
         // If meta data file does not exist then exit
-        if (!$meta = $this->get_meta($feedid)) return false;
+        if (!$meta = $this->get_meta($id)) return false;
 
 
 
@@ -470,91 +422,6 @@ class PHPFiwa extends PHPengine
         return $data;
     }
 
-    /**
-     * Get the last value from a feed
-     *
-     * @param integer $feedid The id of the feed
-    */
-    public function lastvalue($id)
-    {
-        $id = (int) $id;
-
-        // If meta data file does not exist then exit
-        if (!$meta = $this->get_meta($id)) return false;
-        if ($meta->npoints[0]>0)
-        {
-            $fh = fopen($this->dir.$meta->id."_0.dat", 'rb');
-            $size = $meta->npoints[0]*4;
-            fseek($fh,$size-4);
-            $d = fread($fh,4);
-            fclose($fh);
-
-            $val = unpack("f",$d);
-            $time = date("Y-n-j H:i:s", $meta->start_time + $meta->interval[0] * $meta->npoints[0]);
-
-            return array('time'=>$time, 'value'=>$val[1]);
-        }
-        else
-        {
-            return array('time'=>0, 'value'=>0);
-        }
-    }
-
-    public function export($id,$start,$layer)
-    {
-        $id = (int) $id;
-        $start = (int) $start;
-        $layer = (int) $layer;
-
-        $feedname = $id."_$layer.dat";
-
-        // If meta data file does not exist then exit
-        if (!$meta = $this->get_meta($id)) {
-            $this->log->warn("PHPFiwa:post failed to fetch meta id=$id");
-            return false;
-        }
-
-        // There is no need for the browser to cache the output
-        header("Cache-Control: no-cache, no-store, must-revalidate");
-
-        // Tell the browser to handle output as a csv file to be downloaded
-        header('Content-Description: File Transfer');
-        header("Content-type: application/octet-stream");
-        header("Content-Disposition: attachment; filename={$feedname}");
-
-        header("Expires: 0");
-        header("Pragma: no-cache");
-
-        // Write to output stream
-        $fh = @fopen( 'php://output', 'w' );
-
-        $primary = fopen($this->dir.$feedname, 'rb');
-        $primarysize = filesize($this->dir.$feedname);
-
-        $localsize = $start;
-        $localsize = intval($localsize / 4) * 4;
-        if ($localsize<0) $localsize = 0;
-
-        // Get the first point which will be updated rather than appended
-        if ($localsize>=4) $localsize = $localsize - 4;
-
-        fseek($primary,$localsize);
-        $left_to_read = $primarysize - $localsize;
-        if ($left_to_read>0){
-            do
-            {
-                if ($left_to_read>8192) $readsize = 8192; else $readsize = $left_to_read;
-                $left_to_read -= $readsize;
-
-                $data = fread($primary,$readsize);
-                fwrite($fh,$data);
-            }
-            while ($left_to_read>0);
-        }
-        fclose($primary);
-        fclose($fh);
-        exit;
-    }
 
     public function delete($id)
     {
@@ -829,30 +696,14 @@ class PHPFiwa extends PHPengine
         return $meta;
     }
 
-    public function csv_export($feedid,$start,$end,$outinterval)
+    public function csv_export($id,$start,$end,$outinterval)
     {
-        global $param;
-        $colsepar      = $csv_parameters['csv_field_separator'];
-        $decsepar      = $csv_parameters['csv_decimal_place_separator'];
-        $thousandsepar = $csv_parameters['csv_thousandsepar_separator'];
-        $dateformat    = $csv_parameters['csv_dateformat'];
-        $timeformat    = $csv_parameters['csv_timeformat'];
-
-        if (isset($_SESSION['csv_field_separator'])) $colsepar = $_SESSION['csv_field_separator'];
-        if (isset($_SESSION['csv_decimal_place_separator'])) $decsepar = $_SESSION['csv_decimal_place_separator'];
-        if (isset($_SESSION['csv_thousandsepar_separator'])) $thousandsepar = $_SESSION['csv_thousandsepar_separator'];
-        if (isset($_SESSION['csvdate'])) $dateformat = $_SESSION['csvdate'];
-        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $timeformat;
-
-        $feedid = (int) $feedid;
-        $start = (int) $start;
-        $end = (int) $end;
-        $outinterval = (int) $outinterval;
+        $this->csvstart($id,$start,$end,$outinterval);
 
         $layer = 0;
 
         // If meta data file does not exist then exit
-        if (!$meta = $this->get_meta($feedid)) return false;
+        if (!$meta = $this->get_meta($id)) return false;
 
         if ($outinterval<$meta->interval[0]) $outinterval = $meta->interval[0];
         $dp = floor(($end - $start) / $outinterval);
@@ -891,13 +742,13 @@ class PHPFiwa extends PHPengine
             $startpos = 0;
         }
 
+        $filename = $id.".csv";
         // There is no need for the browser to cache the output
         header("Cache-Control: no-cache, no-store, must-revalidate");
 
         // Tell the browser to handle output as a csv file to be downloaded
         header('Content-Description: File Transfer');
         header("Content-type: application/octet-stream");
-        $filename = $feedid.".csv";
         header("Content-Disposition: attachment; filename={$filename}");
 
         header("Expires: 0");
@@ -939,10 +790,10 @@ class PHPFiwa extends PHPengine
                 $timestamp = $start_time_avl + ($meta->interval[$layer] * ($startpos+$i-1));
                 $average = $point_sum / $points_in_sum;
                 //$data[] = array($timestamp*1000,$average);
-                $humandate = date(str_replace('%','',$dateformat),$timestamp);
-                $humantime = date($timeformat,$timestamp);
+                $humandate = date(str_replace('%','',$this->csvparam['df']),$timestamp);
+                $humantime = date($this->csvparam['tf'],$timestamp);
 
-                fwrite($exportfh, $timestamp.$colsepar.$humandate.$colsepar.$humantime.$colsepar.number_format($average,2,$decsepar,$thousandsepar)."\n");
+                fwrite($exportfh, $timestamp.$this->csvparam['cs'].$humandate.$this->csvparam['cs'].$humantime.$this->csvparam['cs'].number_format($average,2,$this->csvparam['ds'],$this->csvparam['ts'])."\n");
                 //fwrite($exportfh, $timestamp.$colsepar.$humandate.$colsepar.$humantime.$colsepar.$average."\n");
             }
         }

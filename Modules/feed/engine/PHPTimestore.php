@@ -677,29 +677,13 @@ class PHPTimestore extends PHPengine
         unlink($this->dir.str_pad($feedid, 16, '0', STR_PAD_LEFT)."_5_.dat");
     }
 
-    public function csv_export($feedid,$start,$end,$outinterval)
+    public function csv_export($id,$start,$end,$outinterval)
     {
-        global $param;
-        $colsepar      = $csv_parameters['csv_field_separator'];
-        $decsepar      = $csv_parameters['csv_decimal_place_separator'];
-        $thousandsepar = $csv_parameters['csv_thousandsepar_separator'];
-        $dateformat    = $csv_parameters['csv_dateformat'];
-        $timeformat    = $csv_parameters['csv_timeformat'];
-
-        if (isset($_SESSION['csv_field_separator'])) $colsepar = $_SESSION['csv_field_separator'];
-        if (isset($_SESSION['csv_decimal_place_separator'])) $decsepar = $_SESSION['csv_decimal_place_separator'];
-        if (isset($_SESSION['csv_thousandsepar_separator'])) $thousandsepar = $_SESSION['csv_thousandsepar_separator'];
-        if (isset($_SESSION['csvdate'])) $dateformat = $_SESSION['csvdate'];
-        if (isset($_SESSION['csvtime'])) $session['csvtime'] = $timeformat;
-
-        $feedid = (int) $feedid;
-        $start = (int) $start;
-        $end = (int) $end;
-        $outinterval = (int) $outinterval;
+        $this->csvstart($id,$start,$end,$outinterval);
 
         if ($end == 0) $end = time();
 
-        if (!$meta = $this->get_meta($feedid)) return false;
+        if (!$meta = $this->get_meta($id)) return false;
 
         $start = round($start/$meta->interval)*$meta->interval;
 
@@ -758,7 +742,7 @@ class PHPTimestore extends PHPengine
         // Tell the browser to handle output as a csv file to be downloaded
         header('Content-Description: File Transfer');
         header("Content-type: application/octet-stream");
-        $filename = $feedid.".csv";
+        $filename = $id.".csv";
         header("Content-Disposition: attachment; filename={$filename}");
 
         header("Expires: 0");
@@ -770,7 +754,7 @@ class PHPTimestore extends PHPengine
         $data = array();
 
         // Open the timestore layer file for reading in data in range between start and end
-        $feedname = str_pad($meta->feedid, 16, '0', STR_PAD_LEFT)."_".$layer."_.dat";
+        $feedname = str_pad($meta->id, 16, '0', STR_PAD_LEFT)."_".$layer."_.dat";
         $primaryfeedname = $this->dir.$feedname;
         $fh = fopen($primaryfeedname, 'rb');
 
@@ -828,11 +812,17 @@ class PHPTimestore extends PHPengine
                 $timestamp = $meta->start + $layer_interval * ($point+$i-1);
                 $average = $point_sum / $points_in_sum;
                 //fwrite($exportfh, $timestamp.",".number_format($average,2)."\n");
-                $humanDate=gmdate($dateformat, $timestamp);
-                $humanTime=gmdate($timeformat, $timestamp);
-                $dataValue=number_format($average,2,$decsepar,$thousandsepar);
-                fwrite($exportfh, $time.$colsepar.$humanDate.$colsepar.$humanTime.$colsepar.$dataValue."\n");
+                //$humanDate=gmdate($dateformat, $timestamp);
+                //$humanTime=gmdate($timeformat, $timestamp);
+                $hd = gmdate(str_replace('%','',$this->csvparam['df']),$timestamp);
+                $ht = gmdate($this->csvparam['tf'],$timestamp);
+                $dataValue=number_format($average,2,$this->csvparam['ds'],$this->csvparam['ts']);
+                fwrite($exportfh, $time.$this->csvparam['cs'].$hd.$this->csvparam['cs'].$ht.$this->csvparam['cs'].$dataValue."\n");
                 //print "--".$average."<br>";
+                //fwrite($exportfh, $time.",".number_format($array['value'],2)."\n");
+
+
+
             }
 
         }

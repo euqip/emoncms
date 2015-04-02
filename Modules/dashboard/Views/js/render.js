@@ -11,7 +11,7 @@ http://openenergymonitor.org
   and inserts the dials, visualisations to be displayed inside the element.
   see designer.js for more information on the html element widget box model.
 
-  render.js calls the render scripts of all the widgets which is where all the 
+  render.js calls the render scripts of all the widgets which is where all the
   individual widget render code is located.
 */
 
@@ -63,7 +63,7 @@ function update()
     url : query,
     dataType : 'json',
     success : function(data)
-    { 
+    {
 
       for (z in data)
       {
@@ -87,7 +87,7 @@ function update()
 function fast_update()
 {
   if (redraw)
-  { 
+  {
     for (z in widget)
     {
       var fname = widget[z]+"_init";
