@@ -42,7 +42,7 @@
             <p><?php echo _('Inputs is the main entry point for your monitoring device. Configure your device to post values here, you may want to follow the <a href="api">Input API helper</a> as a guide for generating your request.'); ?></p>
     </div>
 
-    <div class="modal fade  emoncms-dialog type-primary modal-wide" id="processlist-ui" data-backdrop="static">
+    <div class="modal fade  emoncms-dialog type-primary modal-wide" role="dialog" id="processlist-ui" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -62,7 +62,6 @@
                         </tr>
 
                         <tbody id="variableprocesslist"></tbody>
-
                     </table>
                     <div class="bs-example">
                         <?php echo _("Add process:"); ?>
@@ -153,7 +152,6 @@
         <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo _('Cancel'); ?></button>
         <button id="confirmdelete" class="btn btn-primary"><?php echo _('Delete'); ?></button>
     </div>
-</div>
 </div>
 <script>
 
@@ -333,13 +331,13 @@
 
         $("#processlist-ui #process-select").change();  // Force a refresh
 
-        $("#processlist-ui").show();
+        $("#processlist-ui").modal('show');
         window.scrollTo(0,0);
 
     };
 
     $("#processlist-ui").on('click', '.close', function() {
-        $("#processlist-ui").hide();
+        $('#processlist-ui').modal('hide');
     });
 
 function load_all()

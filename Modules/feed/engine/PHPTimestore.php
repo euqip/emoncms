@@ -1,14 +1,12 @@
 <?php
 
-class PHPTimestore
+class PHPTimestore extends PHPengine
 {
-    private $dir = "timestore";
-    private $log;
 
-    public function __construct($settings)
+
+    public function __construct($s)
     {
-        if (isset($settings['datadir'])) $this->dir = ROOT.$settings['datadir'];
-        $this->log = new EmonLogger(__FILE__);
+        parent::__construct($s);
     }
 
     public function create($feedid,$options)

@@ -3,10 +3,8 @@
 // This timeseries engine implements:
 // Fixed Interval No Averaging
 
-class PHPFina
+class PHPFina extends PHPengine
 {
-    private $dir = "phpfina";
-    private $log;
 
     /**
      * Constructor.
@@ -14,10 +12,14 @@ class PHPFina
      * @api
     */
 
-    public function __construct($settings)
+    public function __construct($s)
     {
+        parent::__construct($s);
+        //$this->dir = "phpfina";
+/*
         if (isset($settings['datadir'])) $this->dir =ROOT.$settings['datadir'].DS;
         $this->log = new EmonLogger(__FILE__);
+*/
     }
 
     /**
@@ -422,6 +424,7 @@ class PHPFina
         $id = (int) $id;
 
         $feedname = "$id.meta";
+        // generates an undefined error when not writable
         $metafile = fopen($this->dir.$feedname, 'wb');
 
         if (!$metafile) {

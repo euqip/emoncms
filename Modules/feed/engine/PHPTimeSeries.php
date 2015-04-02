@@ -1,6 +1,6 @@
 <?php
 
-class PHPTimeSeries
+class PHPTimeSeries extends PHPengine
 {
 
     /**
@@ -12,13 +12,9 @@ class PHPTimeSeries
 
     private $timestoreApi;
 
-    private $dir = "phptimeseries";
-    private $log;
-
-    public function __construct($settings)
+    public function __construct($s)
     {
-        if (isset($settings['datadir'])) $this->dir = ROOT.$settings['datadir'];
-        $this->log = new EmonLogger(__FILE__);
+        parent::__construct($s);
     }
 
     public function create($feedid,$options)

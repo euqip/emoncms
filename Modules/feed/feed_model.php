@@ -35,6 +35,7 @@ class Feed
         $this->enginespath= MODULE.DS."feed".DS."engine".DS;
 
         // Load different storage engines
+        require $this->enginespath."PHPengine.php";
         require $this->enginespath."MysqlTimeSeries.php";
         require $this->enginespath."Timestore.php";
         require $this->enginespath."PHPTimestore.php";

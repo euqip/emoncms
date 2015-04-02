@@ -56,20 +56,6 @@ defined('EMONCMS_EXEC') or die('Restricted access');
         'phptimestore'=>array(
             'datadir'=>$feddatadir.'phptimestore'
         )
-/*
-        'phpfiwa'=>array(
-            'datadir'=>'/var/lib/phpfiwa/'
-        ),
-        'phpfina'=>array(
-            'datadir'=>'/var/lib/phpfina/'
-        ),
-        'phptimeseries'=>array(
-            'datadir'=>'/var/lib/phptimeseries/'
-        ),
-        'phptimestore'=>array(
-            'datadir'=>'/var/lib/phptimestore/'
-        )
-*/
     );
 
     // (OPTIONAL) Used by password reset feature
@@ -164,7 +150,7 @@ gmail example:
     $dbtest = TRUE;
 
     // Log4PHP configuration
-    $log4php_configPath = '/etc/emoncms/emoncms_log4j.xml';
+    $log4php_configPath = ROOT.'emoncms_log4j.xml';
     // interfaces behavior when running with multi organisations and multi users
     $behavior=array(
         'multiorg'=>true,

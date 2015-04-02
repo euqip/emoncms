@@ -3,19 +3,16 @@
 // This timeseries engine implements:
 // Fixed Interval With Averaging
 
-class PHPFiwa
+class PHPFiwa extends PHPengine
 {
-    private $dir = "phpfiwa";
-    private $log;
     /**
      * Constructor.
      *
      * @api
     */
-    public function __construct($settings)
+    public function __construct($s)
     {
-        if (isset($settings['datadir'])) $this->dir =ROOT.$settings['datadir'];
-        $this->log = new EmonLogger(__FILE__);
+        parent::__construct ($s);
     }
 
     /**
@@ -320,7 +317,7 @@ class PHPFiwa
         }
         return $data;
     }
-    
+
     public function get_data_exact($name,$start,$end,$outinterval)
     {
         $name = (int) $name;
@@ -329,7 +326,7 @@ class PHPFiwa
         $outinterval= (int) $outinterval;
         if ($outinterval<1) $outinterval = 1;
         if ($end<=$start) return false;
-        
+
         $numdp = (($end - $start) / $outinterval);
         if ($numdp>5000) return false;
         if ($outinterval<5) $outinterval = 5;

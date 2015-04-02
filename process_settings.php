@@ -19,7 +19,11 @@ if (!defined('EMONCMS_EXEC')){
   header ('Location:'.$redir);
 }
 
-// Check if settings.php file exists
+// Check if settings.php files exist
+// use first the default version, and than the personnal version
+if(file_exists(dirname(__FILE__)."/default_settings.php")){
+    require_once('settings.php');
+}
 if(file_exists(dirname(__FILE__)."/settings.php"))
 {
     // Load settings.php
