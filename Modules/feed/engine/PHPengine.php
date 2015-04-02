@@ -2,7 +2,7 @@
 
 class PHPengine
 {
-    private $log;
+    protected $log;
     protected $dir;
 
     public function __construct($settings)
