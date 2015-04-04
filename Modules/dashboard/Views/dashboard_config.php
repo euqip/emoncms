@@ -24,15 +24,15 @@
                 <form role="form">
                     <div class="form-group">
                         <label for="dash_name" ><?php echo _('Dashboard name').' :'; ?></label>
-                        <input type="email" class="form-control" id="dash_name" placeholder="<?php echo _('Name'); ?>"  value="<?php echo $dashboard['name']; ?>">
+                        <input type="text" class="form-control" id="dash_name" placeholder="<?php echo _('Name'); ?>"  value="<?php echo $dashboard['name']; ?>">
                     </div>
                     <div class="form-group">
                         <label for="dash_alias" ><?php echo _('Menu name (lowercase a-z only)').' :'; ?></label>
-                        <input type="email" class="form-control" id="dash_alias" placeholder="<?php echo _('Name'); ?>"  value="<?php echo $dashboard['alias']; ?>">
+                        <input type="text" class="form-control" id="dash_alias" placeholder="<?php echo _('Name'); ?>"  value="<?php echo $dashboard['alias']; ?>">
                     </div>
                     <div class="form-group">
                         <label for="dash_description" ><?php echo _('Description').' :'; ?></label>
-                        <input type="email" class="form-control" id="dash_description" placeholder="<?php echo _('Name'); ?>"  value="<?php echo $dashboard['description']; ?>">
+                        <input type="text" class="form-control" id="dash_description" placeholder="<?php echo _('Name'); ?>"  value="<?php echo $dashboard['description']; ?>">
                     </div>
 
                     <div class="checkbox">
