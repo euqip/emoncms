@@ -1,8 +1,196 @@
 ﻿var SteelseriesObjects = [];
+/*
+var framelist=          ["BLACK_METAL","METAL","SHINY_METAL","BRASS","STEEL","CHROME","GOLD","ANTHRACITE","TILTED_GRAY","TILTED_BLACK","GLOSSY_METAL"];
+var backgroundcolour=   ["DARK_GRAY","SATIN_GRAY","LIGHT_GRAY","WHITE","BLACK","BEIGE","BROWN","RED","GREEN","BLUE","ANTHRACITE","MUD","PUNCHED_SHEET","CARBON","STAINLESS","BRUSHED_METAL","BRUSHED_STAINLESS","TURNED"];
+var pointercolour=      ["RED","GREEN","BLUE","ORANGE","YELLOW","CYAN","MAGENTA","WHITE","GRAY","BLACK","RAITH","GREEN_LCD","JUG_GREEN"];
+var LcdColor=           ["BEIGE","BLUE","ORANGE","RED","YELLOW","WHITE","GRAY","BLACK","GREEN","BLUE2","BLUE_BLACK","BLUE_DARKBLUE","BLUE_GRAY","STANDARD","STANDARD_GREEN","BLUE_BLUE","RED_DARKRED","DARKBLUE","LILA","BLACKRED","DARKGREEN" ];
+var LedColor=           ["RED","GREEN","BLUE","ORANGE","YELLOW","CYAN","MAGENTA"];
+var LinearTypeArray =   ["Linear","LinearBargraph","LinearThermoStat"];
+var RadialTypeArray =   ["Radial","RadialBargraph","RadialVertical"];
+var GenericTypeArray =  ["Compass","WindDirection","Level","Horizon","Led","Clock","Battery","Altimeter","Odometer","LightBulb","gradientWrapper","StopWatch"];
 
+var selected_edges = {none : 0, left : 1, right : 2, top : 3, bottom : 4, center : 5};
+
+    addOption(widgets["SSGeneric"], "feed",        "feed",          _Tr("Feed"),            _Tr("Feed value"),                                                                  []);
+    addOption(widgets["SSGeneric"], "frame",       "dropbox",       _Tr("Frame"),           _Tr("Frame style"),                                                                 framelist);
+    addOption(widgets["SSGeneric"], "scale",       "value",         _Tr("Scale"),           _Tr("Value is multiplied by scale before display. Defaults to 1"),                  []);
+    addOption(widgets["SSGeneric"], "units",       "value",         _Tr("Units"),           _Tr("Unit type to show after value. Ex : <br>\"{Reading}{unit-string}\""),           []);
+    addOption(widgets["SSGeneric"], "offset",      "value",         _Tr("Offset"),          _Tr("Static offset. Subtracted from value before computing position (default 0)"),  []);
+    addOption(widgets["SSGeneric"], "colour",      "colour_picker", _Tr("Colour"),          _Tr("Colour to draw bar in"),                                                       []);
+    addOption(widgets["SSGeneric"], "graduations", "dropbox",       _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             graduationDropBoxOptions);
+    addOption(widgets["SSGeneric"], "gradNumber",  "value",         _Tr("Num Graduations"), _Tr("How many graduation lines to draw (only relevant if graduations are on)"),     []);
+
+*/
+
+function addOption(widget, optionKey, optionType, optionName, optionHint, optionData){
+    widget["options"    ].push(optionKey);
+    widget["optionstype"].push(optionType);
+    widget["optionsname"].push(optionName);
+    widget["optionshint"].push(optionHint);
+    widget["optionsdata"].push(optionData);
+}
 
 
 function SSGeneric_widgetlist()
+{
+    var widgets =
+    {
+    "SSGeneric"                                                                                                                    :
+        {
+    "offsetx"                                                                                                                      : -80,"offsety"                                    : -80,"width" : 160,"height" : 160,
+    "menu"                                                                                                                         : "Widgets",
+    "options"                                                                                                                      : [],
+    "optionstype"                                                                                                                  : [],
+    "optionsname"                                                                                                                  : [],
+    "optionshint"                                                                                                                  : [],
+    "optionsdata"                                                                                                                  : []
+
+        }
+    };
+
+
+var framelist=          [
+                        ["BLACK_METAL","Black metal"],
+                        ["METAL","metal"],
+                        ["SHINY_METAL","Shiny metal"],
+                        ["BRASS","Brass"],
+                        ["STEEL","Steel"],
+                        ["CHROME","Chrome"],
+                        ["GOLD","Gold"],
+                        ["ANTHRACITE","Anthracite"],
+                        ["TILTED_GRAY","Tilted grey"],
+                        ["TILTED_BLACK","Tilted black"],
+                        ["GLOSSY_METAL","Glossy metal"]
+                        ];
+var backgroundcolour=   [
+                        ["DARK_GRAY","Dark Grey"],
+                        ["SATIN_GRAY","Satin Grey"],
+                        ["LIGHT_GRAY","Light Grey"],
+                        ["WHITE","White"],
+                        ["BLACK","Black"],
+                        ["BEIGE","Beige"],
+                        ["BROWN","Brown"],
+                        ["RED","Red"],
+                        ["GREEN","Green"],
+                        ["BLUE","Blue"],
+                        ["ANTHRACITE","Anthracite"],
+                        ["MUD","Mud"],
+                        ["PUNCHED_SHEET","Punched sheet"],
+                        ["CARBON","Carbon"],
+                        ["STAINLESS","Stainless"],
+                        ["BRUSHED_METAL","Brushed metal"],
+                        ["BRUSHED_STAINLESS","Brushed stainless"],
+                        ["TURNED","Turned"]
+                        ];
+var pointercolour=      [
+                        ["RED","RED"],
+                        ["GREEN","Green"],
+                        ["BLUE","Blue"],
+                        ["ORANGE","Orange"],
+                        ["YELLOW","Yellow"],
+                        ["CYAN","Cyan"],
+                        ["MAGENTA","Magenta"],
+                        ["WHITE","White"],
+                        ["GRAY","Grey"],
+                        ["BLACK","Black"],
+                        ["RAITH","Raith"],
+                        ["GREEN_LCD","Green LCD"],
+                        ["JUG_GREEN","Jug Green"]
+                        ];
+var LcdColor=           [
+                        ["BEIGE","Beige"],
+                        ["BLUE","Blue"],
+                        ["ORANGE","Orange"],
+                        ["RED","Red"],
+                        ["YELLOW","Yellow"],
+                        ["WHITE","White"],
+                        ["GRAY","Grey"],
+                        ["BLACK","Black"],
+                        ["GREEN","Green"],
+                        ["BLUE2","Blue2"],
+                        ["BLUE_BLACK","Blue Black"],
+                        ["BLUE_DARKBLUE","Blue Dark blue"],
+                        ["BLUE_GRAY","Blue grey"],
+                        ["STANDARD","Standard"],
+                        ["STANDARD_GREEN","Standard Green"],
+                        ["BLUE_BLUE","Blue Blue"],
+                        ["RED_DARKRED","Red Darked"],
+                        ["DARKBLUE","Dark blue"],
+                        ["LILA","LILA"],
+                        ["BLACKRED","Black redr"],
+                        ["DARKGREEN","Dark green" ]
+                        ];
+var LinearTypeArray =   [
+                        ["Linear","Linear"],
+                        ["LinearBargraph","Linear Bargraph"],
+                        ["LinearThermoStat","Linear Thermosat"]
+                        ];
+var RadialTypeArray =   [
+                        ["Radial","Radial"],
+                        ["RadialBargraph","Radial Bargraph"],
+                        ["RadialVertical","Radial Vertical"]
+                        ];
+var GenericTypeArray =  [
+                        ["Compass","Compass"],
+                        ["WindDirection","Wind direction"],
+                        ["Level","Level"],
+                        ["Horizon","Horizon"],
+                        ["Led","Led"],
+                        ["Clock","Clock"],
+                        ["Battery","Battery"],
+                        ["Altimeter","Altimeter"],
+                        ["Odometer","Odometer"],
+                        ["LightBulb","Light bulb"],
+                        ["gradientWrapper","Gradient Wrapper"],
+                        ["StopWatch","stopwatch"],
+                        ["DisplaySingle","Single LCD Display"],
+                        ["DisplayMulti","Dual LCD Display"],
+                        ["TrafficLight","Trafic lights"]
+                        ];
+var LedColor=           [
+                        ["RED","Red"],
+                        ["GREEN","Green"],
+                        ["BLUE","Blue"],
+                        ["ORANGE","Orange"],
+                        ["YELLOW","Yellow"],
+                        ["CYAN","Cyan"],
+                        ["MAGENTA","Magenta"]
+                        ];
+
+
+    addOption(widgets["SSGeneric"] , "feed"             , "feed"    , _Tr("Feed")                , _Tr("Feed value")                   , []);
+    addOption(widgets["SSGeneric"] , "generictype"      , "dropbox" , _Tr("Instr layout")        , _Tr("The instrument layout")        , GenericTypeArray);
+    addOption(widgets["SSGeneric"] , "frame"            , "dropbox" , _Tr("Frame")               , _Tr("frame style")                  , framelist);
+    addOption(widgets["SSGeneric"] , "backgroundcolour" , "dropbox" , _Tr("Background colour")   , _Tr("Instrument background colour") , backgroundcolour);
+    addOption(widgets["SSGeneric"] , "pointercolour"    , "dropbox" , _Tr("Pointer colour")      , _Tr("Pointer colour\"")             , pointercolour);
+    addOption(widgets["SSGeneric"] , "LcdColor"         , "dropbox" , _Tr("LCD Colour")          , _Tr("LCD display colour")           , LcdColor);
+    addOption(widgets["SSGeneric"] , "ledcolor"         , "dropbox" , _Tr("LED Colour")          , _Tr("The led color")                , LedColor);
+    addOption(widgets["SSGeneric"] , "LinearTypeArray"  , "dropbox" , _Tr("Linear Type")         , _Tr("Linear type of array")         , LinearTypeArray);
+    addOption(widgets["SSGeneric"] , "minvalue"         , "value"   , _Tr("Minimal scale value") , _Tr("Min scale value")              , []);
+    addOption(widgets["SSGeneric"] , "maxvalue"         , "value"   , _Tr("Maximal scale value") , _Tr("Max scale value")              , []);
+    addOption(widgets["SSGeneric"] , "lcddecimals"      , "value"   , _Tr("LCD decimals")        , _Tr("LCD decimals")                 , []);
+    addOption(widgets["SSGeneric"] , "threshold"        , "value"   , _Tr("Threshold value")     , _Tr("threshold value")              , []);
+    addOption(widgets["SSGeneric"] , "titel"            , "value"   , _Tr("Titel - Header")      , _Tr("Titel value")                  , []);
+    addOption(widgets["SSGeneric"] , "unit"             , "value"   , _Tr("Units to display")    , _Tr("unit to display")              , []);
+
+
+
+    return widgets;
+}
+/*
+var LedColor=           ["RED","GREEN","BLUE","ORANGE","YELLOW","CYAN","MAGENTA"];
+var framelist=          ["BLACK_METAL","METAL","SHINY_METAL","BRASS","STEEL","CHROME","GOLD","ANTHRACITE","TILTED_GRAY","TILTED_BLACK","GLOSSY_METAL"];
+var backgroundcolour=   ["DARK_GRAY","SATIN_GRAY","LIGHT_GRAY","WHITE","BLACK","BEIGE","BROWN","RED","GREEN","BLUE","ANTHRACITE","MUD","PUNCHED_SHEET","CARBON","STAINLESS","BRUSHED_METAL","BRUSHED_STAINLESS","TURNED"];
+var pointercolour=      ["RED","GREEN","BLUE","ORANGE","YELLOW","CYAN","MAGENTA","WHITE","GRAY","BLACK","RAITH","GREEN_LCD","JUG_GREEN"];
+var LcdColor=           ["BEIGE","BLUE","ORANGE","RED","YELLOW","WHITE","GRAY","BLACK","GREEN","BLUE2","BLUE_BLACK","BLUE_DARKBLUE","BLUE_GRAY","STANDARD","STANDARD_GREEN","BLUE_BLUE","RED_DARKRED","DARKBLUE","LILA","BLACKRED","DARKGREEN" ];
+var LinearTypeArray =   ["Linear","LinearBargraph","LinearThermoStat"];
+var RadialTypeArray =   ["Radial","RadialBargraph","RadialVertical"];
+var GenericTypeArray =  ["Compass","WindDirection","Level","Horizon","Led","Clock","Battery","Altimeter","Odometer","LightBulb","gradientWrapper","StopWatch"];
+*/
+
+
+
+function SSGeneric_widgetlist1()
 {
   var widgets = {
     "SSGeneric":
@@ -99,6 +287,9 @@ function SSGeneric_draw()
              SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
          }
          else if (generictype=="Battery"){
+             SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
+         }
+         else if (generictype=="SingleDisplay"){
              SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
          }
          else if (generictype=="Altimeter"){
@@ -275,14 +466,14 @@ function setup_steelseries_object(elementclass){
                 lcdDecimals = 2;
             }
             SteelseriesObjects[$(this).attr("id")] = new steelseries.DisplaySingle(id, {
-            width               : $(this).width(),
-            unitStringVisible   : unitstringbool,
-            unitString          : unitstring,
-            headerString        : headerString,
-            headerStringVisible : headerStringbool,
-            valuesNumeric       : true,
-            digitalFont         : true,
-            lcdDecimals         : lcdDecimals
+    width                                                                                                                          : $(this).width(),
+    unitStringVisible                                                                                                              : unitstringbool,
+    unitString                                                                                                                     : unitstring,
+    headerString                                                                                                                   : headerString,
+    headerStringVisible                                                                                                            : headerStringbool,
+    valuesNumeric                                                                                                                  : true,
+    digitalFont                                                                                                                    : true,
+    lcdDecimals                                                                                                                    : lcdDecimals
                 });
               //End of SingleDisplay Object Init
         } else if (elementclass=="SSMultiDisplay"){
@@ -316,17 +507,17 @@ function setup_steelseries_object(elementclass){
             }
 
             SteelseriesObjects[$(this).attr("id")] = new steelseries.DisplayMulti(id, {
-            width               : $(this).width(),
-            unitStringVisible   : unitstringbool,
-            unitString          : unitstring,
-            headerString        : headerString,
-            headerStringVisible : headerStringbool,
-            detailString        : detailString,
-            detailStringVisible : detailStringbool,
-            valuesNumeric       : true,
-            digitalFont         : true,
-            linkAltValue        : false,
-            lcdDecimals         : lcdDecimals
+    width                                                                                                                          : $(this).width(),
+    unitStringVisible                                                                                                              : unitstringbool,
+    unitString                                                                                                                     : unitstring,
+    headerString                                                                                                                   : headerString,
+    headerStringVisible                                                                                                            : headerStringbool,
+    detailString                                                                                                                   : detailString,
+    detailStringVisible                                                                                                            : detailStringbool,
+    valuesNumeric                                                                                                                  : true,
+    digitalFont                                                                                                                    : true,
+    linkAltValue                                                                                                                   : false,
+    lcdDecimals                                                                                                                    : lcdDecimals
                 });
             //End of MultiDisplay Object Init
         } else if (elementclass=="SSLinear"){
@@ -481,16 +672,16 @@ function setup_steelseries_object(elementclass){
                 });
             } else if (generictype=="Clock"){
               SteelseriesObjects[$(this).attr("id")] = new steelseries.Clock(id, {
-                width               : $(this).width(),
-                unitStringVisible   : unitstringbool,
-                unitString          : unitstring,
-                headerString        : headerString,
-                headerStringVisible : headerStringbool,
-                valuesNumeric       : true,
-                digitalFont         : true,
-                lcdDecimals         : lcdDecimals,
-                lcdVisible          : true,
-                autoScroll          : true
+                width                                                                                                                          : $(this).width(),
+                unitStringVisible                                                                                                              : unitstringbool,
+                unitString                                                                                                                     : unitstring,
+                headerString                                                                                                                   : headerString,
+                headerStringVisible                                                                                                            : headerStringbool,
+                valuesNumeric                                                                                                                  : true,
+                digitalFont                                                                                                                    : true,
+                lcdDecimals                                                                                                                    : lcdDecimals,
+                lcdVisible                                                                                                                     : true,
+                autoScroll                                                                                                                     : true
                   });
             } else if (generictype=="Battery"){
               SteelseriesObjects[$(this).attr("id")] = new steelseries.Battery(id, {
@@ -570,7 +761,60 @@ function setup_steelseries_object(elementclass){
                 lcdVisible          : true,
                 autoScroll          : true
                 });
+             } else if (generictype=="DisplaySingle"){
+            var unitstringbool=true;
+            var unitstring = $(this).attr("unit");
+                if (unitstring == undefined||unitstring ==""){
+                    unitstring = "";
+                    unitstringbool=false;
+                }
+              SteelseriesObjects[$(this).attr("id")] = new steelseries.DisplaySingle(id, {
+                width               : $(this).width(),
+                unitStringVisible   : unitstringbool,
+                unitString          : unitstring,
+                headerString        : headerString,
+                headerStringVisible : headerStringbool,
+                valuesNumeric       : true,
+                digitalFont         : true,
+                lcdDecimals         : lcdDecimals,
+                lcdVisible          : true,
+                autoScroll          : true
+                });
+             } else if (generictype=="DisplayMulti"){
+                var unitstringbool=true;
+                var unitstring = $(this).attr("unit");
+                if (unitstring == undefined||unitstring ==""){
+                    unitstring = "";
+                    unitstringbool=false;
+                }
+              SteelseriesObjects[$(this).attr("id")] = new steelseries.DisplayMulti(id, {
+                width               : $(this).width(),
+                unitStringVisible   : unitstringbool,
+                unitString          : unitstring,
+                headerString        : headerString,
+                headerStringVisible : headerStringbool,
+                valuesNumeric       : true,
+                digitalFont         : true,
+                lcdDecimals         : lcdDecimals,
+                lcdVisible          : true,
+                autoScroll          : true
+                });
+             } else if (generictype=="TrafficLight"){
+              SteelseriesObjects[$(this).attr("id")] = new steelseries.TrafficLight(id, {
+                width               : $(this).width(),
+                unitStringVisible   : unitstringbool,
+                unitString          : unitstring,
+                headerString        : headerString,
+                headerStringVisible : headerStringbool,
+                valuesNumeric       : true,
+                digitalFont         : true,
+                lcdDecimals         : lcdDecimals,
+                lcdVisible          : true,
+                autoScroll          : true
+                });
             }
+//
+
         }
         // End of SSGeneric
 
