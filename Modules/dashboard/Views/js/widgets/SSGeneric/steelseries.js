@@ -9266,11 +9266,12 @@ var steelseries = (function () {
             // Calculate angles from current hour and minute values
             calculateAngles(hour, minute, second);
 
+            self.repaint();
+
             if (isAutomatic) {
                 tickTimer = setTimeout(tickTock, tickInterval);
             }
 
-            self.repaint();
         };
 
         // **************   Initialization  ********************
@@ -9515,7 +9516,6 @@ var steelseries = (function () {
 
             //mainCtx.save();
             mainCtx.clearRect(0, 0, mainCtx.canvas.width, mainCtx.canvas.height);
-
             // Draw frame
             if (frameVisible) {
                 mainCtx.drawImage(frameBuffer, 0, 0);

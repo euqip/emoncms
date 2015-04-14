@@ -26,13 +26,12 @@ for ($i=2; $i<count($dir); $i++)
     if (is_file(WIDGETS_PATH_EXT.$dir[$i].DS.$dir[$i]."_widget.php"))
     {
         require_once WIDGETS_PATH_EXT.$dir[$i].DS.$dir[$i]."_widget.php";
-        $widgets[] = $dir[$i];
     }
-    if (is_file(WIDGETS_PATH_EXT.$dir[$i].DS.$dir[$i]."_render.js"))
+    else if (is_file(WIDGETS_PATH_EXT.$dir[$i].DS.$dir[$i]."_render.js"))
     {
         echo "<script type='text/javascript' src='".$path.WIDGETS_PATH_EXT.$dir[$i].DS.$dir[$i]."_render.js'></script>";
-        $widgets[] = $dir[$i];
     }
+    $widgets[] = $dir[$i];
 }
 
 // Load module specific widgets
@@ -55,3 +54,4 @@ for ($i=2; $i<count($dir); $i++)
         }
     }
 }
+

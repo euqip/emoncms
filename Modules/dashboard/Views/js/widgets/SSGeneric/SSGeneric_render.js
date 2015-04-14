@@ -1,5 +1,5 @@
-﻿var SteelseriesObjects = [];
-/* Possible SteelseriesObjects 
+﻿var SObjects = [];
+/* Possible SObjects 
 Altimeter: function (canvas, parameters) {
 BackgroundColor: Object
 Battery: function (canvas, parameters) {
@@ -153,7 +153,7 @@ var GenericTypeArray =  [
                         ["Led","Led"],
                         ["Clock","Clock"],
                         ["Battery","Battery"],
-                        ["Altimeter","Altimeter"],
+                        //["altimeter","Altimeter"],
                         ["Odometer","Odometer"],
                         ["LightBulb","Light bulb"],
                         ["gradientWrapper","Gradient Wrapper"],
@@ -163,7 +163,8 @@ var GenericTypeArray =  [
                         ["TrafficLight","Trafic lights"],
                         ['LinearBargraph','Linear Bar Graph'],
                         //['LinearThermoStat', 'Linear Thermostat'],
-                        ["RadialBargraph","Radial bar graph"]
+                        ["RadialBargraph","Radial bar graph"],
+                        ["Radial","Radial"]
                         ];
 var LedColor=           [
                         ["RED","Red"],
@@ -184,7 +185,7 @@ var LedColor=           [
     addOption(widgets["SSGeneric"] , "pointercolour"    , "dropbox" , _Tr("Pointer colour")      , _Tr("Pointer colour\"")             , pointercolour);
     addOption(widgets["SSGeneric"] , "LcdColor"         , "dropbox" , _Tr("LCD Colour")          , _Tr("LCD display colour")           , LcdColor);
     addOption(widgets["SSGeneric"] , "ledcolor"         , "dropbox" , _Tr("LED Colour")          , _Tr("The led color")                , LedColor);
-    addOption(widgets["SSGeneric"] , "LinearTypeArray"  , "dropbox" , _Tr("Linear Type")         , _Tr("Linear type of array")         , LinearTypeArray);
+    //addOption(widgets["SSGeneric"] , "LinearTypeArray"  , "dropbox" , _Tr("Linear Type")         , _Tr("Linear type of array")         , LinearTypeArray);
     addOption(widgets["SSGeneric"] , "minvalue"         , "value"   , _Tr("Minimal scale value") , _Tr("Min scale value")              , []);
     addOption(widgets["SSGeneric"] , "maxvalue"         , "value"   , _Tr("Maximal scale value") , _Tr("Max scale value")              , []);
     addOption(widgets["SSGeneric"] , "lcddecimals"      , "value"   , _Tr("LCD decimals")        , _Tr("LCD decimals")                 , []);
@@ -195,6 +196,9 @@ var LedColor=           [
 
 
     return widgets;
+}
+function defaultInstrument(){
+    return "DisplaySingle";
 }
 
 function SSGeneric_init()
@@ -208,164 +212,90 @@ function SSGeneric_draw()
 {
 	$('.SSGeneric').each(function(index){
 	//REVISE
-	var feed = $(this).attr("feed");
-	if (feed==undefined){feed=0;}
-
-	var val = assoc[feed];
-  if (val==undefined) val = 0;
-
+    var feed        =($(this).attr("feed") === undefined) ? 0 : $(this).attr("feed");
+    var generictype =($(this).attr("generictype") === undefined) ? defaultInstrument() : $(this).attr("generictype");
+    var val         =(assoc[feed] === undefined) ? 0 : assoc[feed];
+    var id          = $(this).attr("id");
 
 	if (val != temp){//redraw?
         try {
-          var generictype = $(this).attr("generictype");
-          if (generictype == undefined)  {  generictype="Compass"  };
               // Per ogni tipologia di controllo Steel esistente
-              if (generictype=="Compass"){
-                 if (val < 0)  val = 0;
-                 val = val % 360;
-                 SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
-             }
-             else if (generictype=="WindDirection"){
-                 if (val < 0)  val = 0;
-                 val = val % 360;
-                 SteelseriesObjects[$(this).attr("id")].setValueAnimatedLatest(val);
-                 SteelseriesObjects[$(this).attr("id")].setValueAnimatedAverage(val);
-             }
-             else if (generictype=="Level"){
-                 if (val < 0)  val = 0;
-                 val = val % 360;
-                 SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
-             }
-             else if (generictype=="Horizon"){
-                 if (val < -50)  val = -50;
-                 val = val % 100;
-                 SteelseriesObjects[$(this).attr("id")].setPitchAnimated(val);
-                 SteelseriesObjects[$(this).attr("id")].setRollAnimated(val+10);
-             }
-             else if (generictype=="Led"){
-                 if (val < 0)  val = 0;
-                 val = val % 7;
-                 var colore = "";
-                 switch (val) {
-                   case 0:
-                   colore = "RED_LED";
-                   break;
-                   case 1:
-                   colore = "GREEN_LED";
-                   break;
-                   case 2:
-                   colore = "BLUE_LED";
-                   break;
-                   case 3:
-                   colore = "ORANGE_LED";
-                   break;
-                   case 4:
-                   colore = "YELLOW_LED";
-                   break;
-                   case 5:
-                   colore = "CYAN_LED";
-                   break;
-                   case 6:
-                   colore = "MAGENTA_LED";
-                   break;
-                   default:
-                   colore = "RED_LED";
-               }
-               SteelseriesObjects[$(this).attr("id")].setLedColor(colore);
-           }
-           else if (generictype=="Clock"){
-             SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
-         }
-         else if (generictype=="Battery"){
-             SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
-         }
-         else if (generictype=="DisplaySingle"){
-             SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
-         }
-         else if (generictype=="DisplayMulti"){
-             SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
-         }
-         else if (generictype=="Altimeter"){
-             SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
-         }
-         else if (generictype=="Odometer"){
-             SteelseriesObjects[$(this).attr("id")].setValue(val);
-         }
-         else if (generictype=="LightBulb"){
-                 //SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
-                 SteelseriesObjects[$(this).attr("id")].setOn(val > 0);
-                 SteelseriesObjects[$(this).attr("id")].setAlpha(val % 100);
-             }
-             else if (generictype=="gradientWrapper"){
-               SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
-           }
-           else if (generictype=="StopWatch"){
-               SteelseriesObjects[$(this).attr("id")].setValueAnimated(val);
-           }
-
-       }
-       catch (err)
-       {
-          err = err;
-      }
-      var temp =val;
-  }
-});
+              // Sets the animated value as the default behavior
+            switch (generictype){
+                case "Compass":
+                    val = (val <0)?0:val %360;
+                    SObjects[id].setValueAnimated(val);
+                    break;
+                case "WindDirection":
+                    val = (val <0)?0:val %360;
+                    SObjects[id].setValueAnimatedLatest(val);
+                    SObjects[id].setValueAnimatedAverage(val);
+                    break;
+                case "Level":
+                    val = (val <0)?0:val %360;
+                    SObjects[id].setValueAnimated(val);
+                    break;
+                case "Horizon":
+                    val = (val <-50)?-50:val %100;
+                    SObjects[id].setPitchAnimated(val);
+                    SObjects[id].setRollAnimated(val+10);
+                    break;
+                case "Led":
+                    val = (val <0)?0:val %7;
+                    var LedColorvalues=     ["RED","GREEN","BLUE","ORANGE","YELLOW","CYAN","MAGENTA"];
+                    SObjects[id].setLedColor(LedColorvalues[val]+"_LED");
+                    break;
+                case "Odometer":
+                    SObjects[id].setValue(val);
+                    break;
+                case "LightBulb":
+                     //SObjects[id].setValueAnimated(val);
+                    SObjects[id].setOn(val > 0);
+                    SObjects[id].setAlpha(val % 100);
+                case "Clock":
+                    console.log(generictype);
+                     break;
+                default:
+                    SObjects[id].setValueAnimated(val);
+                }
+            }
+            catch (err){
+                err = err;
+            }
+            var temp =val;
+        }
+    });
 }
 
 function draw_SSGeneric(){
 
 }
 
-function SSGeneric_slowupdate()
-{
-
+function SSGeneric_slowupdate(){
+    //SSGeneric_draw();
 }
 
-function SSGeneric_fastupdate()
-{
-  SSGeneric_draw();
+function SSGeneric_fastupdate(){
+    SSGeneric_draw();
 }
 
 
 //TODO
 // Values, render only on change
 //MIN MAX VALUES
-//Single JS load for steelseries.js
+//Single JS load for steelseries.js DONE
 //linear scale lock?
 
 function setup_steelseries_object(elementclass){
     $('.'+elementclass).each(function(index){
         var id = "can-"+$(this).attr("id"); //Canvas
-        var title =$(this).attr("title");
-        if (type == undefined){
-            type = "";
-        }
+        var MinValue = ($(this).attr("MinValue")===undefined)? 0:$(this).attr("MinValue");
+        var MaxValue = ($(this).attr("MaxValue")===undefined)? 100:$(this).attr("MaxValue");
+        var title = ($(this).attr("title")===undefined)? "":$(this).attr("title");
+        var units = ($(this).attr("unit")===undefined)? "":$(this).attr("unit");
+        var threshold = ($(this).attr("threshold")===undefined)? 80:$(this).attr("threshold");
 
-        var MinValue = new Number($(this).attr("MinValue"));
-        if (MinValue == ""){
-            MinValue = 0;
-        }
-
-        var MaxValue = new Number($(this).attr("MaxValue"));
-        if (MaxValue == ""){
-            MaxValue = 100;
-        }
-
-        var units =$(this).attr("unit");
-        if (units == undefined){
-            type = "";
-        }
-
-        var threshold = $(this).attr("threshold");
-        if (threshold == undefined){
-            threshold = 80;
-        }
-
-        var type = $(this).attr("type");
-        if (type == undefined){
-            type = "TYPE4";
-        }
+        var type = ($(this).attr("type")===undefined)? "TYPE4":$(this).attr("type");
 
         //set section colours :D
         var sections = [
@@ -377,148 +307,10 @@ function setup_steelseries_object(elementclass){
         // Define one area colour :P
         var areas = Array(steelseries.Section(75, 100, 'rgba(220, 0, 0, 0.3)'));
 
-        if (elementclass=="SSRadial"){
-            //Checks Selection: "Radial","RadialBargraph","RadialVertical"
-            var radialtype = $(this).attr("radialtype");
-            if (radialtype == undefined){
-                radialtype="Radial";
-            }
-
-            SteelseriesObjects[$(this).attr("id")] = new steelseries[radialtype](id, {
-                gaugeType                 : steelseries.GaugeType[type],
-                section                   : sections,
-                size                      : $(this).width(),
-                digitalFont               : true,
-                area                      : areas,
-                titleString               : title,
-                unitString                : units,
-                threshold                 : threshold,
-                lcdVisible                : true,
-                //fullScaleDeflectionTime : 0.5
-                //minValue                : $(this).attr("minvalue"),
-                //maxValue                : $(this).attr("maxvalue"),
-                });
-
-
-                //Pointer Exception Handle
-            if (radialtype=="RadialBargraph"){
-                var pointercolour = $(this).attr("pointercolour");
-                if (pointercolour == undefined){
-                    pointercolour = "RED";
-                }
-                SteelseriesObjects[$(this).attr("id")].setValueColor(steelseries.ColorDef[pointercolour]);
-            } else {
-                var PointerType = $(this).attr("pointertype");
-                if (PointerType == undefined){
-                    PointerType = "TYPE1";
-                }
-                SteelseriesObjects[$(this).attr("id")].setPointerType(steelseries.PointerType[PointerType]);
-
-                var pointercolour = $(this).attr("pointercolour");
-                if (pointercolour == undefined){
-                    pointercolour = "RED";
-                }
-                SteelseriesObjects[$(this).attr("id")].setPointerColor(steelseries.ColorDef[pointercolour]);
-
-                var ForegroundType = $(this).attr("ForegroundType");
-                if (ForegroundType == undefined){
-                    ForegroundType = "TYPE1";
-                }
-                SteelseriesObjects[$(this).attr("id")].setForegroundType(steelseries.ForegroundType[ForegroundType]);
-            }
-                  //End Exception Handle
-
-            if (radialtype=="RadialVertical"){
-                //Skip LCD Colour
-            } else {
-                var LcdColor = $(this).attr("LcdColor");
-                if (LcdColor == undefined){
-                    LcdColor = "STANDARD";
-                }
-                SteelseriesObjects[$(this).attr("id")].setLcdColor(steelseries.LcdColor[LcdColor]);
-            }
-        } else if (elementclass=="SSLinear"){
-            //Start of SSLinear Object Init
-            var LinearTypeSelector = $(this).attr("LinearType");
-            if (LinearTypeSelector == undefined){
-                LinearTypeSelector = "Linear";
-            }
-
-            if (LinearTypeSelector=="Linear"){
-              SteelseriesObjects[$(this).attr("id")] = new steelseries.Linear(id, {
-                titleString : title,
-                unitString  : units,
-                width       : $(this).width(),
-                height      : $(this).height(),
-                unitString  : units,
-                lcdVisible  : true,
-                threshold   : threshold
-                });
-            } else if (LinearTypeSelector=="LinearBargraph"){
-              SteelseriesObjects[$(this).attr("id")] = new steelseries.LinearBargraph(id, {
-                titleString: title,
-                unitString : units,
-                width      : $(this).width(),
-                height     : $(this).height(),
-                unitString : units,
-                lcdVisible : true,
-                threshold  : threshold
-                });
-            } else if (LinearTypeSelector=="LinearThermoStat"){
-              SteelseriesObjects[$(this).attr("id")] = new steelseries.Linear(id, {
-                gaugeType               : steelseries.GaugeType.TYPE2, //ThermoStat Property
-                unitString              : units,
-                titleString             : title,
-                width                   : $(this).width(),
-                height                  : $(this).height(),
-                unitString              : units,
-                lcdVisible              : true,
-                threshold               : threshold,
-                minValue                : MinValue,
-                maxValue                : MaxValue,
-                fullScaleDeflectionTime : 0.8
-                });
-            }
-
-            var pointercolour = $(this).attr("pointercolour");
-            if (pointercolour == undefined){
-                pointercolour = "RED";
-            }
-            SteelseriesObjects[$(this).attr("id")].setValueColor(steelseries.ColorDef[pointercolour]);
-        }
-        //End of SSLinear Object Init
-        if (elementclass=="SSSingleDisplay"||elementclass=="SSMultiDisplay"){
-            var LcdColor = $(this).attr("LcdColor");
-            if (LcdColor == undefined){
-                LcdColor = "STANDARD";
-            }
-            SteelseriesObjects[$(this).attr("id")].setLcdColor(steelseries.LcdColor[LcdColor]);
-        }
-
-        if (elementclass=="SSLinear" || elementclass=="SSRadial"){
-            var framedesign = $(this).attr("framedesign");
-            if (framedesign == undefined) {
-                framedesign = "METAL";
-            }
-            SteelseriesObjects[$(this).attr("id")].setFrameDesign(steelseries.FrameDesign[framedesign]);
-
-            var backgroundcolour = $(this).attr("backgroundcolour");
-            if (backgroundcolour == undefined) {
-                backgroundcolour = "DARK_GRAY";
-            }
-            SteelseriesObjects[$(this).attr("id")].setBackgroundColor(steelseries.BackgroundColor[backgroundcolour]);
-
-            var LedColor = $(this).attr("LedColor");
-            if (LedColor == undefined) {
-                LedColor = "RED";
-            }
-            SteelseriesObjects[$(this).attr("id")].setLedColor(steelseries.LedColor[LedColor+"_LED"]);
-        }
-
         // Start of SSGeneric
         if (elementclass=="SSGeneric"){
             //var lcdcolors       = new steelseries.LcdColor
-            var generictype     =($(this).attr("generictype") === undefined) ? "DisplaySingle" : $(this).attr("generictype");
+            var generictype     =($(this).attr("generictype") === undefined) ? defaultInstrument() : $(this).attr("generictype");
             var myLcdColor      =($(this).attr("lcdcolor") === undefined) ? "STANDARD" : $(this).attr("lcdcolor");
             var lcdDecimals     =($(this).attr("lcddecimals") === undefined) ? 2 : $(this).attr("lcddecimals");
             lcdDecimals         =(lcdDecimals === ""||lcdDecimals>10||lcdDecimals<0) ? 2 : $(this).attr("lcdDecimals");
@@ -526,9 +318,20 @@ function setup_steelseries_object(elementclass){
             var unitstringbool  =(unitstring==="") ? false : true;
             var headerString    =($(this).attr("title") === undefined) ? "" : $(this).attr("title");
             var headerStringbool=(headerString==="") ? false : true;
+            var pt   = ($(this).attr("pointertype")=== undefined)?"TYPE1":$(this).attr("pointertype");
+            var pc   = ($(this).attr("pointercolour")=== undefined)?"RED":$(this).attr("pointercolour");
+            var fgt  = ($(this).attr("ForegroundType")=== undefined)?"TYPE1":$(this).attr("ForegroundType");
+            var frame= ($(this).attr("frame") === undefined) ? "METAL" : $(this).attr("frame");
+            var bgc  = ($(this).attr("backgroundcolour") === undefined) ? "DARK_GRAY" : $(this).attr("backgroundcolour");
+
+            var ssid = $(this).attr("id");
+            width = ($(this).width()<40)?40:$(this).width();
+            height = ($(this).height()<40)?40:$(this).height();
+
 
             var params= {
-                width               : $(this).width(),
+                width               : width,
+                height              : height,
                 unitStringVisible   : unitstringbool,
                 unitString          : unitstring,
                 headerString        : headerString,
@@ -537,19 +340,55 @@ function setup_steelseries_object(elementclass){
                 digitalFont         : true,
                 lcdDecimals         : lcdDecimals,
                 lcdVisible          : true,
-                //lcdColor            : lcdcolors[myLcdColor]
                 };
 
-            SteelseriesObjects[$(this).attr("id")] = new steelseries[generictype](id, params);
+            SObjects[ssid] = new steelseries[generictype](id, params);
+            console.log(generictype);
+            /*
+            if(generictype=="Horizon"){
+                console.log(generictype);
+            }
+            */
             switch (generictype){
-            case "DisplaySingle":
-                SteelseriesObjects[$(this).attr("id")].setLcdColor(steelseries.LcdColor[myLcdColor]);
-                break;
-            case "DisplayMulti":
-                SteelseriesObjects[$(this).attr("id")].setLcdColor(steelseries.LcdColor[myLcdColor]);
-                break;
+                case "DisplaySingle":
+                case "DisplayMulti":
+                    SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
+                    break;
+                case "LinearBargraph":
+                    SObjects[ssid].setBackgroundColor(steelseries.BackgroundColor[bgc]);
+                    SObjects[ssid].setFrameDesign(steelseries.FrameDesign[frame]);
+                    SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
+                    break;
+                case "trafficlight":
+                    break;
+
+
+                case "compass":
+                    SObjects[ssid].setPointerType(steelseries.PointerType[PointerType]);
+                    SObjects[ssid].setPointerColor(steelseries.ColorDef[pointercolour]);
+                    SObjects[ssid].setForegroundType(steelseries.ForegroundType[ForegroundType]);
+                case "WindDirection":
+                    SObjects[ssid].setPointerType(steelseries.PointerType[pt]);
+                    SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
+
+                case "altimeter":
+                case "Altimeter":
+                case "RadialBargraph":
+                case "linear":
+                case "RadialVertical":
+                case "Radial":
+                    SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
+                case "Clock":
+                case "Level":
+                case "StopWatch":
+                    SObjects[ssid].setForegroundType(steelseries.ForegroundType[fgt]);
+                    SObjects[ssid].setBackgroundColor(steelseries.BackgroundColor[bgc]);
+                case "Horizon":
+                    SObjects[ssid].setFrameDesign(steelseries.FrameDesign[frame]);
+
             default:
-           }
+                    break;
+            }
         }
         // End of SSGeneric
 
