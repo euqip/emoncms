@@ -18,14 +18,15 @@ global $session,$path;
 if (!$dashboard['height']) $dashboard['height'] = 400;
 ?>
   <link href="<?php echo $path; ?>Modules/dashboard/Views/js/widget.css" rel="stylesheet">
-<!-- comment in the dashboard edit view fil -->
+<!-- comment in the dashboard edit view file
 
-
+-->
   <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/dashboard_langjs.php?lang=<?php echo $session['lang']; ?>"></script>
   <script type="text/javascript" src="<?php echo $path; ?>Lib/flot/jquery.flot.min.js"></script>
   <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/Views/js/widgetlist.js"></script>
   <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/Views/js/render.js"></script>
   <script type="text/javascript" src="<?php echo $path; ?>Modules/feed/feed.js"></script>
+  <script type="text/javascript" src="<?php echo $path; ?>Lib/bootstrap/js/context_menu.js"></script>
 
   <?php require_once "Modules/dashboard/Views/loadwidgets.php"; ?>
 
@@ -44,7 +45,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
 
 <div id="page-container" style="height:<?php echo $dashboard['height']; ?>px; position:relative;">
   <div id="page"><?php echo $dashboard['content']; ?></div>
-  <canvas id="can" width="940px" height="<?php echo $dashboard['height']; ?>px" style="position:absolute; top:0px; left:0px; margin:0; padding:0;"></canvas>
+  <canvas id="can" class="context" data-toggle="context" data-target="#contextmenu" width="940px" height="<?php echo $dashboard['height']; ?>px" style="z-index:200; position:absolute; top:0px; left:0px; margin:0; padding:0;"></canvas>
 </div>
 
 <div class="modal fade emoncms-dialog type-primary" id="widget_options" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -67,7 +68,16 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
     </div>
 </div>
 
-
+<div id = "contextmenu">
+  <ul class="dropdown-menu" role="menu" class="dropdown clearfix" style = "z-index:9999;">
+      <li><a tabindex="-1" href="fw"><span class="glyphicon glyphicon-chevron-up"></span><?php echo _("Move Foreward"); ?></a></li>
+      <li><a tabindex="-1" href="bw"><span class="glyphicon glyphicon-chevron-down"></span><?php echo _("Move Backward"); ?></a></li>
+      <li><a tabindex="-1" href="sv"><span class="glyphicon glyphicon-save"></span><?php echo _("Save Dashboard"); ?></a></li>
+      <li><a tabindex="-1" href="set"><span class="glyphicon glyphicon-wrench"></span><?php echo _("Widget settings"); ?></a></li>
+      <li class="divider"></li>
+      <li><a tabindex="-1" href="del"><span class="glyphicon glyphicon-trash"></span><?php echo _("Delete widget"); ?></a></li>
+  </ul>
+</div>
 
 <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/Views/js/designer.js"></script>
 <script type="application/javascript">
@@ -78,6 +88,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   var feedlist = feed.list();
   var userid = <?php echo $session['userid']; ?>;
   var lang = '<?php echo $session['lang']; ?>';
+  var saved = '<?php echo _("Saved") ?>';
 
   $("#testo").hide();
 
@@ -105,22 +116,33 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   show_dashboard();
 
   setInterval(function() { update(); }, 10000);
-  setInterval(function() { fast_update(); }, 30);
+  setInterval(function() { fast_update(); }, 3000);
 
+  $('#can').contextmenu({
+    target: '#contextmenu',
+    onItem: function (context, e) {
+    //console.log ($(e.target).attr("href"));
+    switch ($(e.target).attr("href")){
+      case "fw":
+        designer.zindex(1);
+        break;
+      case "bw":
+        designer.zindex(-1);
+        break;
+      case "sv":
+        designer.savedashboard();
+        break;
+      case "set":
+        showsettings();
+        break;
+      default:
+        break;
+      }
+    }
+  });
 
   $("#save-dashboard").click(function (){
-    //recalculate the height so the page_height is shrunk to the minimum but still wrapping all components
-    //otherwise a user can drag a component far down then up again and a too high value will be stored to db.
-    designer.page_height = 0;
-    designer.scan();
-    $.ajax({
-      type: "POST",
-      url :  path+"dashboard/setcontent.json",
-      data : "&id="+dashid+'&content='+encodeURIComponent($("#page").html())+'&height='+designer.page_height,
-      dataType: 'json',
-      success : function(data) { console.log(data); if (data.success==true) $("#save-dashboard").attr('class','btn btn-success').text('<?php echo _("Saved") ?>');
-      }
-    });
+    designer.savedashboard();
   });
 
 
@@ -130,10 +152,15 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
 
 
   $("#options-button").click(function(event) {
+    showsettings();
+  })
+
+  function showsettings(){
       html= designer.draw_options($("#"+designer.selected_box).attr("class"));
       $('#msgcontent').html(html);
       $('#widget_options').modal('show');
-  })
+
+  }
 
   $('#saveconfig').click(function (e){
     saveoptions();
@@ -153,26 +180,4 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
       }
     })
 
-/*
-function saveoptions(){
-            $(".options").each(function() {
-                if ($(this).attr("id")=="html")
-                {
-                    $("#"+designer.selected_box).html($(this).val());
-                }
-                else if ($(this).attr("id")=="colour")
-                {
-                    // Since colour values are generally prefixed with "#", and "#" isn't valid in URLs, we strip out the "#".
-                    // It will be replaced by the value-checking in the actual plot function, so this won't cause issues.
-                    var colour = $(this).val();
-                    colour = colour.replace("#","");
-                    $("#"+designer.selected_box).attr($(this).attr("id"), colour);
-                }
-                else
-                {
-                    $("#"+designer.selected_box).attr($(this).attr("id"), $(this).val());
-                }
-            });
-        }
-*/
 </script>

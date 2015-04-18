@@ -81,6 +81,27 @@ var designer = {
         return box;
     },
 
+    'zindex': function(move){
+        move = parseInt(move);
+        console.log ('Move '+move);
+        if (designer.selected_box==null){
+        } else {
+            var x = $('#'+designer.selected_box);
+            if (x.css("z-index")==="auto"){
+                var zindex= 0;
+            } else{
+                 var zindex= x.css("z-index");
+            }
+            zindex = parseInt(zindex)+parseInt(move);
+            if ((zindex <= $("#can").css("z-index")-1) && (zindex>0)){
+                x.css("z-index",zindex);
+                //x.css("position",absolute);
+
+            }
+        }
+        return true;
+    },
+
     'scan': function()
     {
         for (z in widgets)
@@ -319,6 +340,20 @@ var designer = {
         designer.scan();
         redraw = 1;
         designer.edit_mode = true;
+    },
+    'savedashboard': function(){
+        //recalculate the height so the page_height is shrunk to the minimum but still wrapping all components
+        //otherwise a user can drag a component far down then up again and a too high value will be stored to db.
+        designer.page_height = 0;
+        designer.scan();
+        $.ajax({
+          type: "POST",
+          url :  path+"dashboard/setcontent.json",
+          data : "&id="+dashid+'&content='+encodeURIComponent($("#page").html())+'&height='+designer.page_height,
+          dataType: 'json',
+          success : function(data) { console.log(data); if (data.success==true) $("#save-dashboard").attr('class','btn btn-success').text(saved);
+          }
+        });
     },
 
     'add_events': function()
