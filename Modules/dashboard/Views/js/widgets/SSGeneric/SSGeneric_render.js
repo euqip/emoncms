@@ -151,7 +151,7 @@ var GenericTypeArray =  [
                         ["Level","Level"],
                         ["Horizon","Horizon"],
                         ["Led","Led"],
-                        ["Clock","Clock"],
+                        ["Clock","Analog Clock"],
                         ["Battery","Battery"],
                         //["altimeter","Altimeter"],
                         ["Odometer","Odometer"],
@@ -175,6 +175,13 @@ var LedColor=           [
                         ["CYAN","Cyan"],
                         ["MAGENTA","Magenta"]
                         ];
+var ForegroundStyle=    [
+                        ["TYPE1","Type1, Neutral"],
+                        ["TYPE2","Type2 Grey Top Bottom"],
+                        ["TYPE3","Type3"],
+                        ["TYPE4","Type4 Top left reflection"],
+                        ["TYPE5","Type5 Top right reflection"],
+                        ];
 
 
     addOption(widgets["SSGeneric"] , "feed"             , "feed"    , _Tr("Main Feed")           , _Tr("Main Feed value")              , []);
@@ -182,7 +189,8 @@ var LedColor=           [
     addOption(widgets["SSGeneric"] , "generictype"      , "dropbox" , _Tr("Instr layout")        , _Tr("The instrument layout")        , GenericTypeArray);
     addOption(widgets["SSGeneric"] , "frame"            , "dropbox" , _Tr("Frame")               , _Tr("frame style")                  , framelist);
     addOption(widgets["SSGeneric"] , "backgroundcolour" , "dropbox" , _Tr("Background colour")   , _Tr("Instrument background colour") , backgroundcolour);
-    addOption(widgets["SSGeneric"] , "pointercolour"    , "dropbox" , _Tr("Pointer colour")      , _Tr("Pointer colour\"")             , pointercolour);
+    addOption(widgets["SSGeneric"] , "pointercolour"    , "dropbox" , _Tr("Pointer colour")      , _Tr("Pointer colour")               , pointercolour);
+    addOption(widgets["SSGeneric"] , "ForegroundType"   , "dropbox" , _Tr("light effects")       , _Tr("The bezel light refections")   , ForegroundStyle);
     addOption(widgets["SSGeneric"] , "LcdColor"         , "dropbox" , _Tr("LCD Colour")          , _Tr("LCD display colour")           , LcdColor);
     addOption(widgets["SSGeneric"] , "ledcolor"         , "dropbox" , _Tr("LED Colour")          , _Tr("The led color")                , LedColor);
     //addOption(widgets["SSGeneric"] , "LinearTypeArray"  , "dropbox" , _Tr("Linear Type")         , _Tr("Linear type of array")         , LinearTypeArray);
@@ -210,14 +218,14 @@ function SSGeneric_init()
 
 function SSGeneric_draw()
 {
-	$('.SSGeneric').each(function(index){
-	//REVISE
+    $('.SSGeneric').each(function(index){
+    //REVISE
     var feed        =($(this).attr("feed") === undefined) ? 0 : $(this).attr("feed");
     var generictype =($(this).attr("generictype") === undefined) ? defaultInstrument() : $(this).attr("generictype");
     var val         =(assoc[feed] === undefined) ? 0 : assoc[feed];
     var id          = $(this).attr("id");
 
-	if (val != temp){//redraw?
+    if (val != temp){//redraw?
         try {
               // Per ogni tipologia di controllo Steel esistente
               // Sets the animated value as the default behavior
@@ -340,7 +348,10 @@ function setup_steelseries_object(elementclass){
                 digitalFont         : true,
                 lcdDecimals         : lcdDecimals,
                 lcdVisible          : true,
-                };
+                pointercolour       : pc,
+                foregroundtype      : fgt,
+
+                        };
 
             SObjects[ssid] = new steelseries[generictype](id, params);
             console.log(generictype);
@@ -365,11 +376,11 @@ function setup_steelseries_object(elementclass){
 
                 case "compass":
                     SObjects[ssid].setPointerType(steelseries.PointerType[PointerType]);
-                    SObjects[ssid].setPointerColor(steelseries.ColorDef[pointercolour]);
-                    SObjects[ssid].setForegroundType(steelseries.ForegroundType[ForegroundType]);
+                    SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
+                    SObjects[ssid].setForegroundType(steelseries.ForegroundType[fgt]);
                 case "WindDirection":
                     SObjects[ssid].setPointerType(steelseries.PointerType[pt]);
-                    SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
+                    //SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
 
                 case "altimeter":
                 case "Altimeter":
@@ -381,6 +392,7 @@ function setup_steelseries_object(elementclass){
                 case "Clock":
                 case "Level":
                 case "StopWatch":
+                    SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
                     SObjects[ssid].setForegroundType(steelseries.ForegroundType[fgt]);
                     SObjects[ssid].setBackgroundColor(steelseries.BackgroundColor[bgc]);
                 case "Horizon":

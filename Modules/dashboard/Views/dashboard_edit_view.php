@@ -70,8 +70,8 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
 
 <div id = "contextmenu">
   <ul class="dropdown-menu" role="menu" class="dropdown clearfix" style = "z-index:9999;">
-      <li class = "needwidget" ><a tabindex="-1" href="fw"><span class="glyphicon glyphicon-chevron-up"></span><?php echo _("needwidget Foreward"); ?></a></li>
-      <li class = "needwidget" ><a tabindex="-1" href="bw"><span class="glyphicon glyphicon-chevron-down"></span><?php echo _("needwidget Backward"); ?></a></li>
+      <li class = "needwidget" ><a tabindex="-1" href="fw"><span class="glyphicon glyphicon-chevron-up"></span><?php echo _("Move Foreward"); ?></a></li>
+      <li class = "needwidget" ><a tabindex="-1" href="bw"><span class="glyphicon glyphicon-chevron-down"></span><?php echo _("Move Backward"); ?></a></li>
       <li><a tabindex="-1" href="sv"><span class="glyphicon glyphicon-save"></span><?php echo _("Save Dashboard"); ?></a></li>
       <li class = "needwidget" ><a tabindex="-1" href="set"><span class="glyphicon glyphicon-wrench"></span><?php echo _("Widget settings"); ?></a></li>
       <li class="divider"></li>
@@ -122,11 +122,11 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
     target: '#contextmenu',
     before: function (e,context){
       // use the .desable class when menu item is desabled (ex no widget selected)
+      var classname = "disabled";
       if (designer.selected_box ===null){
-        console.log($("#contextmenu"));
-        $(".needwidget").addClass("disabled");
+        $(".needwidget").addClass(classname);
       } else {
-        $(".needwidget").removeClass("disabled");
+        $(".needwidget").removeClass(classname);
       }
       return true;
     },
