@@ -40,8 +40,8 @@ function feed_controller()
         if ($route->action == "list")
         {
             if (!isset($_GET['userid']) && $session['read']) $result = $feed->get_user_feeds($session['userid'],$session['orgid'],$wcond);
-            if (isset($_GET['userid']) && $session['read'] && $_GET['userid'] == $session['userid']) $result = $feed->get_user_feeds($session['userid'],$session['orgid'],$wcod);
-            if (isset($_GET['userid']) && $session['read'] && $_GET['userid'] != $session['userid']) $result = $feed->get_user_public_feeds(get('userid',$session['orgid'],$wcod));
+            if (isset($_GET['userid']) && $session['read'] && $_GET['userid'] == $session['userid']) $result = $feed->get_user_feeds($session['userid'],$session['orgid'],$wcond);
+            if (isset($_GET['userid']) && $session['read'] && $_GET['userid'] != $session['userid']) $result = $feed->get_user_public_feeds(get('userid',$session['orgid'],$wcond));
             if (isset($_GET['userid']) && !$session['read']) $result = $feed->get_user_public_feeds(get('userid'));
 
         } elseif ($route->action == "getid" && $session['read']) {
