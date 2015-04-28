@@ -49,7 +49,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   <canvas id="canvas" class="context" data-toggle="context" data-target="#contextmenu" width="940px" height="<?php echo $dashboard['height']; ?>px" style="z-index:200; position:absolute; top:0px; left:0px; margin:0; padding:0;"></canvas>
   -->
   <div id="can" class="dotted-10" style = "z-index:200; border:none; position: absolute; margin: 0px; top: 0px; left: 0px; width: 1000px; height: 600px;"></div>
-  <div id="ghost" class="resizable draggable " style="z-index: 201; position: absolute; margin: 0px; top: 0px; left: 0px; width: 0px; height: 20px;"></div>
+  <div id="ghost" class="resizable draggable " style="z-index: 201; display: none; position: absolute; margin: 0px; top: 0px; left: 0px; width: 0px; height: 20px;"></div>
 </div>
 
 <div class="modal fade emoncms-dialog type-primary" id="widget_options" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
