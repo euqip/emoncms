@@ -32,7 +32,7 @@ var designer = {
 
     'cnvs':null,
     'canvas':null,
-    'designer.ctx':null,
+    //'designer.ctx':null,
     'widgets':null,
 
     'boxlist': {},
