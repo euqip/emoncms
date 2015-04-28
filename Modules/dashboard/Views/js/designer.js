@@ -382,12 +382,12 @@ var designer = {
             if (designer.edit_mode) designer.selected_box = designer.onbox(mx,my);
             if (!designer.selected_box) $("#when-selected").hide();
 
+            // designer.draw was used to redraw grid and get widgets dims
             designer.draw()
         });
-
+        // will have to be replaced with jquery resize and drag api
         $(this.canvas).mousedown(function(event) {
             designer.mousedown = true;
-
             var mx = 0, my = 0;
             if(event.offsetX==undefined) // this works for Firefox
             {
@@ -397,6 +397,17 @@ var designer = {
                 mx = event.offsetX;
                 my = event.offsetY;
             }
+            if (designer.create)
+            {
+                designer.add_widget(mx,my,designer.create);
+                designer.create = null;
+                //  $('option:selected', 'select').removeAttr('selected');
+                //  $('option[title=1]').attr('selected','selected');
+                $("#when-selected").show();
+            }
+        });
+        /*
+
 
             if (designer.edit_mode)
             {
@@ -428,16 +439,9 @@ var designer = {
             }
             else
             {
-                if (designer.create)
-                {
-                    designer.add_widget(mx,my,designer.create);
-                    designer.create = null;
-                    //  $('option:selected', 'select').removeAttr('selected');
-                    //  $('option[title=1]').attr('selected','selected');
-                    $("#when-selected").show();
-                }
             }
         });
+*/
 
         $(this.canvas).mouseup(function(event) {
             designer.mousedown = false;

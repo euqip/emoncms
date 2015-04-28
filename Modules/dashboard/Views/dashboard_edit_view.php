@@ -157,6 +157,24 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
     }
   });
 
+$('.resizable').resizable({
+    aspectRatio: false,
+    handles: 'se',
+    alsoResize: "#2",
+    grid: [ 10, 10 ],
+    maxWidth: 500,
+    maxHeight: 500,
+    minWidth: 40,
+    minHeight: 40,
+});
+
+$('.draggable').draggable({
+    cursor: "crosshair",
+    alsoDrag : "#2",
+    grid: [ 10, 10 ]
+});
+
+
   $("#save-dashboard").click(function (){
     designer.savedashboard();
   });
