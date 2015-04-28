@@ -13,7 +13,7 @@
 
 // Global variables
 var img = null,
-	needle = null;
+	oldval = null;
 
 function leddisplay_widgetlist()
 {
@@ -63,68 +63,71 @@ function leddisplay_draw()
     if (feed==undefined) val = 0;
     if (units==undefined) units = '';
     if (val==undefined) val = 0;
-    //check for negative value
-    if(val <0) negative = true;
-    //check for value overflow
-    var maxval = "999999999999";
-    maxval = maxval.slice(0,digitcount-1);
-    var ol = parseInt (maxval);
-    var color = "green";
+    if(val !=oldval) {
+      //check for negative value
+      if(val <0) negative = true;
+      //check for value overflow
+      var maxval = "999999999999";
+      maxval = maxval.slice(0,digitcount-1);
+      var ol = parseInt (maxval);
+      var color = "green";
 
-    var goingup=true;
-      if (val  > caution) color = "amber";
-      if (val  > warning) color = "red";
-    if (warning <caution){
-      goingup =false;
-      color = "green";
-      if (val  < caution) color = "amber";
-      if (val  < warning) color = "red";
+      var goingup=true;
+        if (val  > caution) color = "amber";
+        if (val  > warning) color = "red";
+      if (warning <caution){
+        goingup =false;
+        color = "green";
+        if (val  < caution) color = "amber";
+        if (val  < warning) color = "red";
+      }
+
+      if (val=="NaN") val="0";
+      var oustring= "0000000"+Math.abs(val);
+
+      /*split value to characters
+      */
+      var parts = oustring.split(".");
+      var len=parts[0].length-digitcount;
+      var num = parts[0].slice(len,len+digitcount);
+      var res = num.split("");
+      var notzero = false;
+  		var html='';
+      html +='<div class = "digit-display" >';
+      if (Math.abs(val)<ol){
+          var index;
+          var dot = "";
+          for (index = 0; index < res.length; ++index) {
+              if(index==digitcount-1) dot = " dot";
+              if (res[index]>"0") notzero = true;
+              if (notzero==false) res[index] = "blank";
+              if(negative) res[0]='-';
+              html +='<span class="sprites sprites-sm '+color+ dot+' num'+res[index]+'"></span>';
+          }
+          if (parts[1]==undefined) parts[1]="0"
+          parts[1]=parts[1]+"0000000";
+          var num = parts[1].slice(0,decimal);
+          var res = num.split("");
+          for (index = 0; index < decimal; ++index) {
+              html +='<span class="sprites sprites-sm '+color+' num'+res[index]+'"></span>';
+          }
+
+      }else{
+          html +='<span class="sprites sprites-sm green numblank" ></span>';
+          html +='<span class="sprites sprites-sm green numblank" ></span>';
+          html +='<span class="sprites sprites-sm green numo" ></span>';
+          html +='<span class="sprites sprites-sm green numl" ></span>';
+          html +='<span class="sprites sprites-sm green numblank" ></span>';
+          html +='<span class="sprites sprites-sm green numblank" ></span>';
+      }
+      html +='<span class="panelunit">'+unit+'</span>';
+      html +='<div class="panelfeed">'+feed+'</div>';
+
+      html +='</div>';
+      $(this).html(html);
     }
-
-    if (val=="NaN") val="0";
-    var oustring= "0000000"+Math.abs(val);
-
-    /*split value to characters
-    */
-    var parts = oustring.split(".");
-    var len=parts[0].length-digitcount;
-    var num = parts[0].slice(len,len+digitcount);
-    var res = num.split("");
-    var notzero = false;
-		var html='';
-    html +='<div class = "digit-display" >';
-    if (Math.abs(val)<ol){
-        var index;
-        var dot = "";
-        for (index = 0; index < res.length; ++index) {
-            if(index==digitcount-1) dot = " dot";
-            if (res[index]>"0") notzero = true;
-            if (notzero==false) res[index] = "blank";
-            if(negative) res[0]='-';
-            html +='<span class="sprites sprites-sm '+color+ dot+' num'+res[index]+'"></span>';
-        }
-        if (parts[1]==undefined) parts[1]="0"
-        parts[1]=parts[1]+"0000000";
-        var num = parts[1].slice(0,decimal);
-        var res = num.split("");
-        for (index = 0; index < decimal; ++index) {
-            html +='<span class="sprites sprites-sm '+color+' num'+res[index]+'"></span>';
-        }
-
-    }else{
-        html +='<span class="sprites sprites-sm green numblank" ></span>';
-        html +='<span class="sprites sprites-sm green numblank" ></span>';
-        html +='<span class="sprites sprites-sm green numo" ></span>';
-        html +='<span class="sprites sprites-sm green numl" ></span>';
-        html +='<span class="sprites sprites-sm green numblank" ></span>';
-        html +='<span class="sprites sprites-sm green numblank" ></span>';
-    }
-    html +='<span class="panelunit">'+unit+'</span>';
-    html +='<div class="panelfeed">'+feed+'</div>';
-
-    html +='</div>';
-    $(this).html(html);
-  });}
+  });
+}
 
 function leddisplay_slowupdate()
 {

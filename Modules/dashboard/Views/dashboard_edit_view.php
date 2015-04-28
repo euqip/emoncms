@@ -45,7 +45,8 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
 
 <div id="page-container" style="height:<?php echo $dashboard['height']; ?>px; position:relative;">
   <div id="page"><?php echo $dashboard['content']; ?></div>
-  <canvas id="can" class="context" data-toggle="context" data-target="#contextmenu" width="940px" height="<?php echo $dashboard['height']; ?>px" style="z-index:200; position:absolute; top:0px; left:0px; margin:0; padding:0;"></canvas>
+  <canvas id="can-old" class="context" data-toggle="context" data-target="#contextmenu" width="940px" height="<?php echo $dashboard['height']; ?>px" style="z-index:200; position:absolute; top:0px; left:0px; margin:0; padding:0;"></canvas>
+  <div id="can" class="context dotted-10" data-toggle="context" data-target="#contextmenu" width="940px" height="<?php echo $dashboard['height']; ?>px" style="z-index:201; position:absolute; top:0px; left:0px; margin:0; padding:0;"></div>
 </div>
 
 <div class="modal fade emoncms-dialog type-primary" id="widget_options" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

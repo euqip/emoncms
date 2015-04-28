@@ -131,7 +131,7 @@ function setup_widget_canvas(elementclass)
     // 1) Create canvas if it does not exist
     if (!canvas[0])
     {
-      $(this).html('<canvas id="'+canvasid+'"></canvas>');
+      $(this).html('<canvas id="'+canvasid+'" width="'+width+'" height="'+height+'"></canvas>');
     }
 
     // 2) Resize canvas if it needs resizing

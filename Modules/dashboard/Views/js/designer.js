@@ -49,8 +49,8 @@ var designer = {
 
     'init': function()
     {
-        designer.cnvs = document.getElementById("can");
-        designer.ctx = designer.cnvs.getContext("2d");
+        //designer.cnvs = document.getElementById("can");
+        //designer.ctx = designer.cnvs.getContext("2d");
 
         $("#when-selected").hide();
         designer.scan();
@@ -70,13 +70,17 @@ var designer = {
 
     'onbox': function(x,y)
     {
+        var oldbox = designer.selected_box;
         var box = null;
+        // each click on a box will refresh the selected box
         for (z in designer.boxlist) {
-        if (x>designer.boxlist[z]['left'] && x<(designer.boxlist[z]['left']+designer.boxlist[z]['width'])) {
-            if (y>designer.boxlist[z]['top'] && y<(designer.boxlist[z]['top']+designer.boxlist[z]['height'])) {
-            box = z;
+            if (x>designer.boxlist[z]['left'] && x<(designer.boxlist[z]['left']+designer.boxlist[z]['width'])) {
+                if (y>designer.boxlist[z]['top'] && y<(designer.boxlist[z]['top']+designer.boxlist[z]['height'])) {
+                    //console.log("possible boxes:"+z)
+                    box = z;
+                    //if (box >oldbox) return box;
+                }
             }
-        }
         }
         return box;
     },
@@ -126,6 +130,7 @@ var designer = {
     {
         designer.page_width = parseInt($('#dashboardpage').width());
         $('#can').width($('#dashboardpage').width());
+        /*
         designer.cnvs.setAttribute('width', designer.page_width);
         designer.ctx = designer.cnvs.getContext("2d");
 
@@ -136,16 +141,18 @@ var designer = {
         //--------------------------------------------------------------------
       designer.ctx.fillStyle    = "rgba(0,0,0, 0.1)";
       designer.ctx.strokeStyle    = "rgba(0,0,0, 0.87)";
+      var i = 0
 
         for (var x=1; x<parseInt(designer.page_width/designer.grid_size); x++)
         {
             for (var y=1; y<parseInt(designer.page_height/designer.grid_size); y++)
             {
                 designer.ctx.fillRect((x*designer.grid_size)-1,(y*designer.grid_size)-1,2,2);
+                i=i+1;
+                console.log (i);
             }
         }
         designer.ctx.strokeRect(0,0,designer.page_width,designer.page_height);
-
         //--------------------------------------------------------------------
         // Draw selected box points
         //--------------------------------------------------------------------
@@ -168,6 +175,7 @@ var designer = {
         designer.ctx.fillRect(left+(width/2)-5,top+(height/2)-5,10,10);
         }
 
+*/
         //--------------------------------------------------------------------
         // Update position and dimentions of elements
         //--------------------------------------------------------------------
@@ -192,10 +200,10 @@ var designer = {
 
         // Used for defining data to be pre-loaded into the relevant selector
         var optionsdata = widgets[widget]["optionsdata"];
-        var helptext = widgets[widget]["helptext"];  
+        var helptext = widgets[widget]["helptext"];
         if  (helptext== undefined){
-           helptext = '';   
-        } 
+           helptext = '';
+        }
             // Build options table html
         var options_html = "<table>";
         for (z in box_options)
@@ -295,9 +303,9 @@ var designer = {
 
         options_html += "</table>";
         options_html += "<p>"+helptext+"</p>";
-              
+
         // Fill the modal configuration window with options
-        //$("#widget_options_body").html(options_html);      
+        //$("#widget_options_body").html(options_html);
         return options_html;
     },
 

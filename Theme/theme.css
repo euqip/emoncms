@@ -285,6 +285,109 @@ login block flags size style
  pointer-events: none;
 }
 /* end of used in the dashboard design context menu*/
+/*
+
+jquery UI scc rules resizable - draggable
+
+ */
+.draggable
+{
+    position: relative; 
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;   
+
+    cursor: hand; 
+    cursor: pointer;       
+    z-index:200;
+}
+
+.resizable
+{
+    width: 100px;   
+    border: 1px solid #bb0000;   
+}
+.resizable img
+{
+    width: 100%;   
+}
+
+.ui-resizable-handle 
+{
+    background: #f5dc58;
+    border: 1px solid #FFF;
+    width: 9px;
+    height: 9px;
+    
+    z-index: 200;
+}
+.ui-resizable-se
+{
+    right: -5px;
+    bottom: -5px;
+}
+
+.ui-rotatable-handle 
+{
+    background: #f5dc58;
+    cursor: pointer;
+}
+
+.ui-rotatable-handle {
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    cursor: move;
+    background-size: 100%;
+    left: 10px;
+    top: 10px;
+    border: 2px solid #f5dc58;
+    border-radius: 10px;
+}
+.ui-rotatable-handle.ui-draggable-dragging
+{
+    visibility:  hidden;
+}
+
+/*
+    end of jquery UI css rules
+ */
+
+/*
+    dashboard design rules (dot grid 10x10)
+    inspired from http://codepen.io/aleprieto/pen/nAmIy
+ */
+
+.dotted-10 {
+  /* dot grid to position the widgets*/
+  padding: 9px 9px;
+  background-image: repeating-radial-gradient(9px 9px , rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+  background-image: -webkit-repeating-radial-gradient(9px 9px, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+  background-image: -moz-repeating-radial-gradient(9px 9px, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+  background-image: -ms-repeating-radial-gradient(9px 9px, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+
+
+  -webkit-background-size: 10px 10px;
+  -moz-background-size: 10px 10px;
+  background-size: 10px 10px;
+  }
+
+.dotted-20 {
+  /* dot grid to position the widgets*/
+  padding: 19px 19px;
+  background-image: repeating-radial-gradient(19px 19px , rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+  background-image: -webkit-repeating-radial-gradient(19px 19px, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+  background-image: -moz-repeating-radial-gradient(19px 19px, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+  background-image: -ms-repeating-radial-gradient(19px 19px, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
+
+
+  -webkit-background-size: 20px 20px;
+  -moz-background-size: 20px 20px;
+  background-size: 20px 20px;
+  }
+
 
 
 .modal.modal-wide .modal-dialog {
