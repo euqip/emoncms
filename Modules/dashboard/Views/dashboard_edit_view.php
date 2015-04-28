@@ -18,6 +18,7 @@ global $session,$path;
 if (!$dashboard['height']) $dashboard['height'] = 400;
 ?>
   <link href="<?php echo $path; ?>Modules/dashboard/Views/js/widget.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/jquery-ui-1-9-git.css">
 <!-- comment in the dashboard edit view file
 
 -->
@@ -83,6 +84,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   </ul>
 </div>
 
+<script src="https://code.jquery.com/ui/jquery-ui-1-9-git.js"></script>
 <script type="text/javascript" src="<?php echo $path; ?>Modules/dashboard/Views/js/designer.js"></script>
 <script type="application/javascript">
 
