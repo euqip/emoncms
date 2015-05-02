@@ -95,6 +95,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   var userid = <?php echo $session['userid']; ?>;
   var lang = '<?php echo $session['lang']; ?>';
   var saved = '<?php echo _("Saved") ?>';
+  var tobesaved = '<?php echo _("Changed, click to save") ?>'
 
   $("#testo").hide();
 
@@ -151,6 +152,9 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
       case "set":
         showsettings();
         break;
+      case "del":
+        designer.delwidget();
+        break;
       default:
         break;
       }
@@ -160,7 +164,6 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
 $('.resizable').resizable({
     aspectRatio: false,
     handles: 'se',
-    alsoResize: "#2",
     grid: [ 10, 10 ],
     maxWidth: 500,
     maxHeight: 500,
@@ -170,7 +173,6 @@ $('.resizable').resizable({
 
 $('.draggable').draggable({
     cursor: "crosshair",
-    alsoDrag : "#2",
     grid: [ 10, 10 ]
 });
 

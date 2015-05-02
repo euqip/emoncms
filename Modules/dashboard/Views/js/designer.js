@@ -65,7 +65,7 @@ var designer = {
     'snap': function(pos) {return Math.round(pos/designer.grid_size)*designer.grid_size;},
 
     'modified': function() {
-        $("#save-dashboard").attr('class','btn btn-warning').text(_Tr("Changed, press to save"));
+        $("#save-dashboard").attr('class','btn btn-warning').text(tobesaved);
     },
 
     'onbox': function(x,y)
@@ -73,6 +73,8 @@ var designer = {
         var oldbox = designer.selected_box;
         var box = null;
         // each click on a box will refresh the selected box
+        // if ghost is visible and the same box is selected then do nothing, except if an other box can be selected
+        if(designer.selected_box) designer.unsurround();
         for (z in designer.boxlist) {
             if (x>designer.boxlist[z]['left'] && x<(designer.boxlist[z]['left']+designer.boxlist[z]['width'])) {
                 if (y>designer.boxlist[z]['top'] && y<(designer.boxlist[z]['top']+designer.boxlist[z]['height'])) {
@@ -110,6 +112,9 @@ var designer = {
     {
         for (z in widgets)
         {
+            // make sure the different boxes does not overflow container
+            // if it is the case, the the container box is made larger
+            // Why not the same for thee width?
             $("."+z).each(function()
             {
                 var id = 1*($(this).attr("id"));
@@ -126,8 +131,20 @@ var designer = {
         }
     },
 
-    'draw': function()
-    {
+    'delwidget': function(){
+        if (designer.selected_box) {
+            delete designer.boxlist[designer.selected_box];
+            $("#"+designer.selected_box).remove();
+            designer.selected_box = 0;
+            //designer.draw();
+            designer.modified();
+            $("#when-selected").hide();
+            $("#ghost").hide();
+        }
+
+    },
+
+    'draw': function(){
         designer.page_width = parseInt($('#dashboardpage').width());
         $('#can').width($('#dashboardpage').width());
         /*
@@ -175,7 +192,6 @@ var designer = {
         designer.ctx.fillRect(left+(width/2)-5,top+(height/2)-5,10,10);
         }
 
-*/
         //--------------------------------------------------------------------
         // Update position and dimentions of elements
         //--------------------------------------------------------------------
@@ -188,6 +204,7 @@ var designer = {
                 $(element).css("height", designer.boxlist[z]['height']+"px");
             }
         }
+*/
         redraw = 1;
     },
 
@@ -338,8 +355,7 @@ var designer = {
 
     },
 
-    'add_widget': function(mx,my,type)
-    {
+    'add_widget': function(mx,my,type)    {
         designer.boxi++;
         var html = widgets[type]['html'];
         if (html == undefined) html = "";
@@ -353,7 +369,9 @@ var designer = {
         //recalculate the height so the page_height is shrunk to the minimum but still wrapping all components
         //otherwise a user can drag a component far down then up again and a too high value will be stored to db.
         designer.page_height = 0;
+        //adjust page height
         designer.scan();
+        // store the HTML content
         $.ajax({
           type: "POST",
           url :  path+"dashboard/setcontent.json",
@@ -362,6 +380,42 @@ var designer = {
           success : function(data) { console.log(data); if (data.success==true) $("#save-dashboard").attr('class','btn btn-success').text(saved);
           }
         });
+    },
+    'surround' : function(boxid){
+        var ghost= $("#ghost");
+        var mybox = $("#"+boxid);
+        ghost.css("top",mybox.css("top"));
+        ghost.css("left",mybox.css("left"));
+        ghost.css("width",mybox.css("width"));
+        ghost.css("height",mybox.css("height"));
+        //link ghost to mybox to drag & resize them together use options
+        //$( ".selector" ).resizable( "option", "alsoResize", "#mirror" );
+        $("#ghost").resizable( "option", "alsoResize", "#can-"+boxid );
+        $("#ghost").draggable( "option", "alsoDrag", "#"+boxid );
+        ghost.show();
+    },
+    'unsurround' : function(boxid){
+        var ghost= $("#ghost");
+        var mybox = $("#"+boxid);
+        var can = $("#can-"+boxid);
+        //jquery UI changes style, not width & height
+        can.attr({
+            width : ghost.css("width"),
+            height : ghost.css("height"),
+            style : ""
+        });
+
+        mybox.css("top",ghost.css("top"));
+        mybox.css("left",ghost.css("left"));
+        mybox.css("width",ghost.css("width"));
+        mybox.css("height",ghost.css("height"));
+        //link ghost to mybox to drag & resize them together use options
+        //$( ".selector" ).resizable( "option", "alsoResize", "#mirror" );
+        //$("#ghost").resizable( "option", "alsoResize", "#can-"+boxid );
+        designer.modified();
+        designer.selected_box = null;
+        ghost.hide();
+        designer.scan();
     },
 
     'add_events': function()
@@ -378,12 +432,18 @@ var designer = {
                 mx = event.offsetX;
                 my = event.offsetY;
             }
-
+            var oldbox = designer.selected_box;
             if (designer.edit_mode) designer.selected_box = designer.onbox(mx,my);
-            if (!designer.selected_box) $("#when-selected").hide();
-
+            if (!designer.selected_box){
+                $("#when-selected").hide();
+                designer.unsurround(oldbox);
+            } else {
             // designer.draw was used to redraw grid and get widgets dims
-            designer.draw()
+                designer.draw()
+                designer.surround (designer.selected_box);
+                $("#when-selected").show();
+            }
+
         });
         // will have to be replaced with jquery resize and drag api
         $(this.canvas).mousedown(function(event) {
@@ -406,43 +466,10 @@ var designer = {
                 $("#when-selected").show();
             }
         });
-        /*
 
 
-            if (designer.edit_mode)
-            {
-                // If its not yet selected check if a box is selected now
-                if (!designer.selected_box) designer.selected_box = designer.onbox(mx,my);
-
-                if (designer.selected_box) {
-                    $("#when-selected").show();
-                    resize = designer.boxlist[designer.selected_box];
-
-                    var rightedge = resize['left']+resize['width'];
-                    var bottedge = resize['top']+resize['height'];
-                    var midx = resize['left']+(resize['width']/2);
-                    var midy = resize['top']+(resize['height']/2);
-
-                    if (Math.abs(mx - rightedge)<20)
-                        selected_edge = selected_edges.right;
-                    else if (Math.abs(mx - resize['left'])<20)
-                        selected_edge = selected_edges.left;
-                    else if (Math.abs(my - bottedge)<20)
-                        selected_edge = selected_edges.bottom;
-                    else if (Math.abs(my - resize['top'])<20)
-                        selected_edge = selected_edges.top;
-                    else if (Math.abs(my - midy)<20 && Math.abs(mx - midx)<20)
-                        selected_edge = selected_edges.center;
-                    else
-                        selected_edge = selected_edges.none;
-                }
-            }
-            else
-            {
-            }
-        });
-*/
-
+    }
+}
         $(this.canvas).mouseup(function(event) {
             designer.mousedown = false;
             selected_edge = selected_edges.none;
@@ -526,15 +553,7 @@ var designer = {
         });
 
          $("#delete-button").click(function(event) {
-            if (designer.selected_box)
-            {
-                delete designer.boxlist[designer.selected_box];
-                $("#"+designer.selected_box).remove();
-                designer.selected_box = 0;
-                designer.draw();
-                designer.modified();
-                $("#when-selected").hide();
-            }
+            designer.delwidget();
         });
 
         $("#options-button").click(function(event) {
@@ -542,5 +561,62 @@ var designer = {
                 designer.draw_options($("#"+designer.selected_box).attr("class"));
             }
         });
+
+
+// found here  :  https://forum.jquery.com/topic/dragging-a-group-of-items-alsodrag-like-alsoresize
+$.ui.plugin.add("draggable", "alsoDrag", {
+    start: function() {
+        var that = $(this).data("ui-draggable"),
+            o = that.options,
+            _store = function (exp) {
+                $(exp).each(function() {
+                    var el = $(this);
+                    el.data("ui-draggable-alsoDrag", {
+                        top: parseInt(el.css("top"), 10),
+                        left: parseInt(el.css("left"), 10)
+                    });
+                });
+            };
+
+        if (typeof(o.alsoDrag) === "object" && !o.alsoDrag.parentNode) {
+            if (o.alsoDrag.length) { o.alsoDrag = o.alsoDrag[0]; _store(o.alsoDrag); }
+            else { $.each(o.alsoDrag, function (exp) { _store(exp); }); }
+        }else{
+            _store(o.alsoDrag);
+        }
+    },
+    drag: function () {
+        var that = $(this).data("ui-draggable"),
+            o = that.options,
+            os = that.originalSize,
+            op = that.originalPosition,
+            delta = {
+                top: (that.position.top - op.top) || 0,
+                left: (that.position.left - op.left) || 0
+            },
+
+            _alsoDrag = function (exp, c) {
+                $(exp).each(function() {
+                    var el = $(this), start = $(this).data("ui-draggable-alsoDrag"), style = {},
+                        css = ["top", "left"];
+
+                    $.each(css, function (i, prop) {
+                        var sum = (start[prop]||0) + (delta[prop]||0);
+                        style[prop] = sum || null;
+                    });
+
+                    el.css(style);
+                });
+            };
+
+        if (typeof(o.alsoDrag) === "object" && !o.alsoDrag.nodeType) {
+            $.each(o.alsoDrag, function (exp, c) { _alsoDrag(exp, c); });
+        }else{
+            _alsoDrag(o.alsoDrag);
+        }
+    },
+    stop: function() {
+        $(this).removeData("draggable-alsoDrag");
     }
-}
+});
+
