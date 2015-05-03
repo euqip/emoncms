@@ -292,35 +292,35 @@ jquery UI scc rules resizable - draggable
  */
 .draggable
 {
-    position: relative; 
+    position: relative;
     display: -moz-inline-stack;
     display: inline-block;
     vertical-align: top;
     zoom: 1;
-    *display: inline;   
+    *display: inline;
 
-    cursor: hand; 
-    cursor: pointer;       
+    cursor: hand;
+    cursor: pointer;
     z-index:200;
 }
 
 .resizable
 {
-    width: 100px;   
-    border: 1px solid #bb0000;   
+    width: 100px;
+    border: 1px solid #bb0000;
 }
 .resizable img
 {
-    width: 100%;   
+    width: 100%;
 }
 
-.ui-resizable-handle 
+.ui-resizable-handle
 {
     background: #f5dc58;
     border: 1px solid #FFF;
     width: 9px;
     height: 9px;
-    
+
     z-index: 200;
 }
 .ui-resizable-se
@@ -329,7 +329,7 @@ jquery UI scc rules resizable - draggable
     bottom: -5px;
 }
 
-.ui-rotatable-handle 
+.ui-rotatable-handle
 {
     background: #f5dc58;
     cursor: pointer;

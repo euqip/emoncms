@@ -51,6 +51,9 @@ var designer = {
     {
         //designer.cnvs = document.getElementById("can");
         //designer.ctx = designer.cnvs.getContext("2d");
+        designer.canvas = "#can";
+        designer.grid_size = grid_size;
+        designer.widgets = widgets;
 
         $("#when-selected").hide();
         designer.scan();
@@ -62,7 +65,9 @@ var designer = {
     },
 
 
-    'snap': function(pos) {return Math.round(pos/designer.grid_size)*designer.grid_size;},
+    'snap': function(pos) {
+        return Math.round(pos/designer.grid_size)*designer.grid_size;
+    },
 
     'modified': function() {
         $("#save-dashboard").attr('class','btn btn-warning').text(tobesaved);
@@ -147,64 +152,6 @@ var designer = {
     'draw': function(){
         designer.page_width = parseInt($('#dashboardpage').width());
         $('#can').width($('#dashboardpage').width());
-        /*
-        designer.cnvs.setAttribute('width', designer.page_width);
-        designer.ctx = designer.cnvs.getContext("2d");
-
-        designer.ctx.clearRect(0,0,designer.page_width,designer.page_height);
-
-        //--------------------------------------------------------------------
-        // Draw grid
-        //--------------------------------------------------------------------
-      designer.ctx.fillStyle    = "rgba(0,0,0, 0.1)";
-      designer.ctx.strokeStyle    = "rgba(0,0,0, 0.87)";
-      var i = 0
-
-        for (var x=1; x<parseInt(designer.page_width/designer.grid_size); x++)
-        {
-            for (var y=1; y<parseInt(designer.page_height/designer.grid_size); y++)
-            {
-                designer.ctx.fillRect((x*designer.grid_size)-1,(y*designer.grid_size)-1,2,2);
-                i=i+1;
-                console.log (i);
-            }
-        }
-        designer.ctx.strokeRect(0,0,designer.page_width,designer.page_height);
-        //--------------------------------------------------------------------
-        // Draw selected box points
-        //--------------------------------------------------------------------
-        if (designer.selected_box)
-        {
-        designer.modified();
-        designer.ctx.fillStyle    = "rgba(255,155,65, 0.60)";
-
-        var top = designer.boxlist[designer.selected_box]['top'];
-        var left = designer.boxlist[designer.selected_box]['left'];
-        var width = designer.boxlist[designer.selected_box]['width'];
-        var height = designer.boxlist[designer.selected_box]['height'];
-
-        designer.ctx.fillRect(left-5,top+(height/2)-5,10,10);
-        designer.ctx.fillRect(left+width-5,top+(height/2)-5,10,10);
-
-        designer.ctx.fillRect(left+(width/2)-5,top-5,10,10);
-        designer.ctx.fillRect(left+(width/2)-5,top+height-5,10,10);
-
-        designer.ctx.fillRect(left+(width/2)-5,top+(height/2)-5,10,10);
-        }
-
-        //--------------------------------------------------------------------
-        // Update position and dimentions of elements
-        //--------------------------------------------------------------------
-        for (z in designer.boxlist) {
-            if (z){
-                var element = "#"+z
-                $(element).css("top", designer.boxlist[z]['top']+"px");
-                $(element).css("left", designer.boxlist[z]['left']+"px");
-                $(element).css("width", designer.boxlist[z]['width']+"px");
-                $(element).css("height", designer.boxlist[z]['height']+"px");
-            }
-        }
-*/
         redraw = 1;
     },
 
@@ -331,15 +278,12 @@ var designer = {
         var widget_html = "";
         var select = [];
 
-        for (z in widgets)
-        {
+        for (z in widgets) {
             var menu = widgets[z]['menu'];
-
-            if (typeof select[menu] === "undefined")
-                select[menu] = "<li><a id='"+z+"' class='widget-button'>"+z+"</a></li>";
-            else
-                select[menu] += "<li><a id='"+z+"' class='widget-button'>"+z+"</a></li>";
-        }
+            var displayname = (widgets[z]['itemname']===undefined)?z:widgets[z]['itemname'];
+            if (typeof select[menu] === "undefined") select[menu]="";
+            select[menu] += "<li><a id='"+z+"' class='widget-button'>"+displayname+"</a></li>";
+            }
 
         for (z in select)
         {
@@ -390,36 +334,43 @@ var designer = {
         ghost.css("height",mybox.css("height"));
         //link ghost to mybox to drag & resize them together use options
         //$( ".selector" ).resizable( "option", "alsoResize", "#mirror" );
-        $("#ghost").resizable( "option", "alsoResize", "#can-"+boxid );
+        var str = mybox.attr("class");
+        if (str.match(/html/)){
+            $("#ghost").resizable( "option", "alsoResize", "#"+boxid );
+            $("#ghost").resizable( "option", "aspectRatio", false );
+        } else{
+            $("#ghost").resizable( "option", "alsoResize", "#can-"+boxid );
+        }
         $("#ghost").draggable( "option", "alsoDrag", "#"+boxid );
         ghost.show();
     },
     'unsurround' : function(boxid){
-        var ghost= $("#ghost");
+        var ghost = $("#ghost");
         var mybox = $("#"+boxid);
-        var can = $("#can-"+boxid);
-        //jquery UI changes style, not width & height
+        var can   = $("#can-"+boxid);
+        var to    = designer.snap(parseInt(ghost.css("top")))+'px';
+        var le    = designer.snap(parseInt(ghost.css("left")))+'px';
+        var wi    = designer.snap(parseInt(ghost.css("width")))+'px';
+        var he    = designer.snap(parseInt(ghost.css("height")))+'px';
+        //jquery UI changes style, not width & height, it's not canvas convenient so:
         can.attr({
-            width : ghost.css("width"),
-            height : ghost.css("height"),
-            style : ""
+            width  : wi,
+            height : he,
+            style  : ""
         });
-
-        mybox.css("top",ghost.css("top"));
-        mybox.css("left",ghost.css("left"));
-        mybox.css("width",ghost.css("width"));
-        mybox.css("height",ghost.css("height"));
-        //link ghost to mybox to drag & resize them together use options
-        //$( ".selector" ).resizable( "option", "alsoResize", "#mirror" );
-        //$("#ghost").resizable( "option", "alsoResize", "#can-"+boxid );
+        mybox.css({
+            "top"    : to,
+            "left"   : le,
+            "width"  : wi,
+            "height" : he,
+        });
         designer.modified();
         designer.selected_box = null;
         ghost.hide();
         designer.scan();
     },
 
-    'add_events': function()
-    {
+    'add_events': function() {
         // Click to select
         $(this.canvas).click(function(event) {
 
@@ -468,8 +419,6 @@ var designer = {
         });
 
 
-    }
-}
         $(this.canvas).mouseup(function(event) {
             designer.mousedown = false;
             selected_edge = selected_edges.none;
@@ -524,6 +473,8 @@ var designer = {
                 designer.draw();
             }
         });
+    },
+}
 
         // On save click  save function is located in dashboard_edit_view.php
         $("#options-save").click(function()

@@ -49,7 +49,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   <!--
   <canvas id="canvas" class="context" data-toggle="context" data-target="#contextmenu" width="940px" height="<?php echo $dashboard['height']; ?>px" style="z-index:200; position:absolute; top:0px; left:0px; margin:0; padding:0;"></canvas>
   -->
-  <div id="can" class="dotted-10" style = "z-index:200; border:none; position: absolute; margin: 0px; top: 0px; left: 0px; width: 1000px; height: 600px;"></div>
+  <div id="can" class="dotted-20" style = "z-index:200; border-width:1px; border-style: solid; position: absolute; margin: 0px; top: 0px; left: 0px; width: 1000px; height: 600px;"></div>
   <div id="ghost" class="resizable draggable " style="z-index: 201; display: none; position: absolute; margin: 0px; top: 0px; left: 0px; width: 0px; height: 20px;"></div>
 </div>
 
@@ -111,12 +111,9 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   var redraw = 0;
   var reloadiframe = 0;
 
-  var grid_size = 10;
+  var grid_size = 20;
   $('#can').width($('#dashboardpage').width());
 
-  designer.canvas = "#can";
-  designer.grid_size = 10;
-  designer.widgets = widgets;
 
   designer.init();
 
@@ -125,7 +122,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   setInterval(function() { update(); }, 10000);
   setInterval(function() { fast_update(); }, 3000);
 
-  $('#can').contextmenu({
+  $('#ghost').contextmenu({
     target: '#contextmenu',
     before: function (e,context){
       // use the .desable class when menu item is desabled (ex no widget selected)
@@ -162,18 +159,18 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   });
 
 $('.resizable').resizable({
-    aspectRatio: false,
+    //aspectRatio: true,
     handles: 'se',
-    grid: [ 10, 10 ],
+    grid: [ grid_size, grid_size ],
     maxWidth: 500,
     maxHeight: 500,
-    minWidth: 40,
-    minHeight: 40,
+    minWidth: 2*grid_size,
+    minHeight: 2*grid_size,
 });
 
 $('.draggable').draggable({
     cursor: "crosshair",
-    grid: [ 10, 10 ]
+    grid: [ grid_size, grid_size ]
 });
 
 

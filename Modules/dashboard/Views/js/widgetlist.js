@@ -1,83 +1,81 @@
   var widgets = {
 
-    "paragraph": 
+    "html-paragraph":
     {
       "offsetx":0,"offsety":0,"width":100,"height":20,
-      "menu":"Text",
-      "itemname":_Tr("paragraph"),
+      "menu":_Tr("Text"),
+      "itemname":_Tr("Paragraph"),
       "options":["html"],"optionstype":["html"],"optionsname":["html"],"optionshint":["Html code to show"],"html":
       "Some text"
     },
 
-    "heading": 
+    "html-heading":
     {
       "offsetx":0,"offsety":0,"width":100,"height":40,
-      "menu":"Text",
-      "itemname":_Tr("heading"),
+      "menu":_Tr("Text"),
+      "itemname":_Tr("Heading"),
       "options":["html"],"optionstype":["html"],"optionsname":["html"],"optionshint":["Html code to show"],"html":
       "Title"
     },
 
-    "heading-center": 
+    "html-heading-center":
     {
       "offsetx":0,"offsety":0,"width":100,"height":40,
-      "menu":"Text",
-      "itemname":_Tr("html-center"),
+      "menu":_Tr("Text"),
+      "itemname":_Tr("Heading-Centered"),
       "options":["html"],"optionstype":["html"],"optionsname":["html"],"optionshint":["Html code to show"],"html":
       "Centered Title"
     },
 
-    "html-list": 
+    "html-list":
     {
       "offsetx":0,"offsety":0,"width":200,"height":60,
-      "menu":"Text",
-      "itemname":_Tr("html-list"),
+      "menu":_Tr("Text"),
+      "itemname":_Tr("List"),
       "options":["html"],"optionstype":["html"],"optionsname":["html"],"optionshint":["Html code to show"],
       "html":"<ul class='list-group'><li class='list-group-item'>Cras justo odio</li><li class='list-group-item'>Dapibus ac facilisis in</li>       </ul>"
     },
 
-      "html-image": 
+    "html-image":
     {
       "offsetx":0,"offsety":0,"width":100,"height":60,
-      "menu":"Text",
-      "itemname":_Tr("html-image"),
+      "menu":_Tr("Text"),
+      "itemname":_Tr("Image"),
       "options":["html"],"optionstype":["html"],"optionsname":["html"],"optionshint":["Html code to show"],
       "html":"<img src = '../img/logo_normal.png' alt='Alternate text image desciption' title='Image title used as tooltip' width=100% />"
     },
 
 
-    "Container-White": 
+    "html-cont-White":
     {
       "offsetx":0,"offsety":0,"width":200,"height":200,
-      "itemname":_Tr("Container-White"),
-      "menu":"Containers",
+      "itemname":_Tr("Plain_box_White"),
+      "menu":_Tr("Containers"),
       "html":""
     },
 
-    "Container-Grey": 
+    "html-cont-Grey":
     {
       "offsetx":0,"offsety":0,"width":200,"height":200,
-      "menu":"Containers",
-      "itemname":_Tr("Container-Grey"),
+      "menu":_Tr("Containers"),
+      "itemname":_Tr("Plain_box_Grey"),
       "html":""
     },
 
-    "Container-Black": 
+    "html-cont-Black":
     {
       "offsetx":0,"offsety":0,"width":200,"height":200,
-      "menu":"Containers",
-      "itemname":_Tr("Container-Black"),
+      "menu":_Tr("Containers"),
+      "itemname":_Tr("Plain_box_Black"),
       "html":""
     },
 
-    "Container-BlueLine": 
+    "html-cont-BlueLine":
     {
       "offsetx":0,"offsety":0,"width":200,"height":200,
-      "menu":"Containers",
-      "itemname":_Tr("Container-BlueLine"),
+      "menu":_Tr("Containers"),
+      "itemname":_Tr("Border_BlueLine"),
       "html":""
     }
- 
-  };
 
-  
+  };

@@ -30,7 +30,7 @@ function dial_widgetlist()
   {
     "dial":
     {
-      "offsetx":-80,"offsety":-80,"width":160,"height":160,
+      "offsetx":0,"offsety":0,"width":100,"height":100,"aspectRatio":true,
       "menu":"Widgets",
       "options":    [],
       "optionstype":[],

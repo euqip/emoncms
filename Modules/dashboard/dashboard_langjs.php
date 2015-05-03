@@ -2,9 +2,19 @@
 
 function set_lang_by_user($lang)
 {
-    putenv("LC_ALL=$lang".'.UTF8');
-    setlocale(LC_ALL,$lang.'.UTF8');
-
+    //putenv("LC_ALL=$lang");
+    putenv("LANG=".$lang);
+    //gettext did not work with this change (Upbuntu 13.10 php5)
+    setlocale(LC_ALL,$lang.'.UTF-8');
+    //Because the locales are relative to execution folder
+    //Language settings may be set once
+    //a different setting in module is always possible
+    $domain = "messages";
+    //bindtextdomain($domain, 'locale');
+    bindtextdomain($domain, dirname(__FILE__)."/locale");
+    bind_textdomain_codeset($domain, 'UTF-8');
+    putenv("LC_ALL=$lang");
+    setlocale(LC_ALL,$lang);
 }
 
 function lang_http_accept()
@@ -54,7 +64,8 @@ function set_lang($language)
             case 'fr': $lang='fr_FR'; break;
             case 'it': $lang='it_IT'; break;
             case 'nl': $lang='nl_NL'; break;
-            //case 'nl': $lang='nl_BE'; break;
+            case 'de': $lang='de_DE'; break;
+            default: $lang= 'en_EN'; break;
         }
 
         set_lang_by_user($lang);
@@ -67,10 +78,15 @@ function set_lang($language)
 
     
     // Loaded like JS File, so we need to specify domain for getText translation
-    $domain = "messages";
-    bindtextdomain($domain, "locale");
+
+    $lang = set_lang_by_user ($_GET['lang']);
+/*
+    $domain="messages";
+    bindtextdomain($domain, dirname(__FILE__)."/locale");
     bind_textdomain_codeset($domain, 'UTF-8');
     textdomain($domain);
+*/
+
 ?>
 
 // Create a Javascript associative array who contain all sentences from module
@@ -87,8 +103,19 @@ function _Tr(key)
 // paste source code below
 
 //START
-// designer.js
-LANG_JS["Changed, press to save"] = '<?php echo addslashes(_("Changed, press to save")); ?>';
+// text & containers
+LANG_JS["Text"] = '<?php echo addslashes(_("Text")); ?>';
+LANG_JS["Paragraph"] = '<?php echo addslashes(_("Paragraph")); ?>';
+LANG_JS["Heading"] = '<?php echo addslashes(_("Heading")); ?>';
+LANG_JS["Heading-Centered"] = '<?php echo addslashes(_("Heading-Centered")); ?>';
+LANG_JS["List"] = '<?php echo addslashes(_("List")); ?>';
+LANG_JS["Image"] = '<?php echo addslashes(_("Image")); ?>';
+
+LANG_JS["Containers"] = '<?php echo addslashes(_("Containers")); ?>';
+LANG_JS["Plain_box_White"] = '<?php echo addslashes(_("Plain_box_White")); ?>';
+LANG_JS["Plain_box_Grey"] = '<?php echo addslashes(_("Plain_box_Grey")); ?>';
+LANG_JS["Plain_box_Black"] = '<?php echo addslashes(_("Plain_box_Black")); ?>';
+LANG_JS["Border_Blue"] = '<?php echo addslashes(_("Border_Blue")); ?>';
 
 // bar_render.js
 LANG_JS["Colour"] = '<?php echo addslashes(_("Colour")); ?>';
