@@ -265,11 +265,12 @@ function SSGeneric_draw()
                     console.log(generictype);
                      break;
                 default:
-                    SObjects[id].setValueAnimated(val);
+                    SObjects[id].setValue(val);
                 }
             }
             catch (err){
                 err = err;
+                console.log("SSGeneric_draw "+generictype+" set value");
             }
             var temp =val;
         }
@@ -293,6 +294,7 @@ function SSGeneric_repaint(ssid){
                     SObjects[id].redraw();
             } catch (err){
                 err = err;
+                console.log("SSGeneric_repaint "+generictype+" id: "+id+" set value");
             }
         }
     });
@@ -336,6 +338,10 @@ function setup_steelseries_object(elementclass){
 
         // Start of SSGeneric
         if (elementclass=="SSGeneric"){
+            if ($(this).attr("generictype") === undefined){
+                $(this).attr("generictype", defaultInstrument());
+            }
+
             //var lcdcolors       = new steelseries.LcdColor
             var generictype     =($(this).attr("generictype") === undefined) ? defaultInstrument() : $(this).attr("generictype");
             var myLcdColor      =($(this).attr("lcdcolor") === undefined) ? "STANDARD" : $(this).attr("lcdcolor");
@@ -424,6 +430,8 @@ function setup_steelseries_object(elementclass){
             try {
                 SObjects[ssid].redraw();
             }catch(Err){
+                console.log("setup_steelseries_object "+generictype+" set value");
+
             }
 
         }
