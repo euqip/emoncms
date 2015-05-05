@@ -350,8 +350,8 @@ var designer = {
         var can   = $("#can-"+boxid);
         var to    = designer.snap(parseInt(ghost.css("top")))+'px';
         var le    = designer.snap(parseInt(ghost.css("left")))+'px';
-        var wi    = designer.snap(parseInt(ghost.css("width")))+'px';
-        var he    = designer.snap(parseInt(ghost.css("height")))+'px';
+        var wi    = designer.snap(parseInt(ghost.css("width")));
+        var he    = designer.snap(parseInt(ghost.css("height")));
         //jquery UI changes style, not width & height, it's not canvas convenient so:
         can.attr({
             width  : wi,
@@ -361,13 +361,35 @@ var designer = {
         mybox.css({
             "top"    : to,
             "left"   : le,
-            "width"  : wi,
-            "height" : he,
+            "width"  : wi+'px',
+            "height" : he+'px',
         });
         designer.modified();
         designer.selected_box = null;
         ghost.hide();
         designer.scan();
+        if (mybox.attr('class')===undefined){
+        } else {
+            var fname = mybox.attr('class')+"_repaint";
+            //var param = mybox.attr('generictype');
+            var param = mybox.attr('id');
+            //var fn = fname;
+            try {
+                var fn = window[fname];
+                fn(param);
+            } catch (err){
+                console.log (err);
+            }
+        }
+
+        //repaint steelseries widgets to avoid flickering
+        //steelseries.clock.repaint();
+        /*
+            var fname = widget[z]+"_fastupdate";
+            var fn = window[fname];
+            fn();
+
+         */
     },
 
     'add_events': function() {

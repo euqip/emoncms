@@ -1211,6 +1211,13 @@ var steelseries = (function () {
             return this;
         };
 
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
+
         this.repaint = function () {
             if (!initialized) {
                 init({frame: true,
@@ -2303,6 +2310,13 @@ var steelseries = (function () {
             return this;
         };
 
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
         this.repaint = function () {
             var activeLedAngle = ((value - minValue) / (maxValue - minValue)) * degAngleRange,
                 activeLedColor,
@@ -3217,6 +3231,13 @@ var steelseries = (function () {
             this.repaint();
             return this;
         };
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
 
         this.repaint = function () {
             if (!initialized) {
@@ -4430,6 +4451,13 @@ var steelseries = (function () {
 
         this.getMaxValue = function () {
             return maxValue;
+        };
+
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
         };
 
         this.repaint = function () {
@@ -5708,6 +5736,13 @@ var steelseries = (function () {
             return this;
         };
 
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
         this.repaint = function () {
             if (!initialized) {
                 init({frame: true,
@@ -6059,6 +6094,13 @@ var steelseries = (function () {
             return this;
         };
 
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
         this.repaint = function () {
             if (!initialized) {
                 init();
@@ -6262,6 +6304,13 @@ var steelseries = (function () {
         this.setLcdColor = function (newLcdColor) {
             lcdColor = newLcdColor;
             init();
+            this.repaint();
+            return this;
+        };
+
+
+        this.redraw = function () {
+            initialized=false;
             this.repaint();
             return this;
         };
@@ -6881,6 +6930,13 @@ var steelseries = (function () {
             return this;
         };
 
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
         this.repaint = function () {
             if (!initialized) {
                 init();
@@ -7455,6 +7511,13 @@ var steelseries = (function () {
             resetBuffers();
             pointSymbols = newPointSymbols;
             init();
+            this.repaint();
+            return this;
+        };
+
+
+        this.redraw = function () {
+            initialized=false;
             this.repaint();
             return this;
         };
@@ -8265,6 +8328,13 @@ var steelseries = (function () {
             return this;
         };
 
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
         this.repaint = function () {
             if (!initialized) {
                 init({frame: true,
@@ -8732,6 +8802,13 @@ var steelseries = (function () {
             resetBuffers();
             foregroundType = newForegroundType;
             init();
+            this.repaint();
+            return this;
+        };
+
+
+        this.redraw = function () {
+            initialized=false;
             this.repaint();
             return this;
         };
@@ -9506,6 +9583,12 @@ var steelseries = (function () {
             return this;
         };
 
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
         this.repaint = function () {
             if (!initialized) {
                 init({frame: true,
@@ -9514,7 +9597,7 @@ var steelseries = (function () {
                       foreground: true});
             }
 
-            //mainCtx.save();
+            mainCtx.save();
             mainCtx.clearRect(0, 0, mainCtx.canvas.width, mainCtx.canvas.height);
             // Draw frame
             if (frameVisible) {
@@ -9695,6 +9778,12 @@ var steelseries = (function () {
         this.getValue = function () {
             return value;
         };
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
 
         this.repaint = function () {
             mainCtx.clearRect(0, 0, mainCtx.canvas.width, mainCtx.canvas.height);
@@ -10133,6 +10222,13 @@ var steelseries = (function () {
             this.repaint();
             return this;
         };
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
 
         this.repaint = function () {
             if (!initialized) {
@@ -10697,6 +10793,13 @@ var steelseries = (function () {
             this.repaint();
             return this;
         };
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
 
         this.repaint = function () {
             if (!initialized) {
@@ -11366,6 +11469,13 @@ var steelseries = (function () {
             return greenOn;
         };
 
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
         this.repaint = function () {
             if (!initialized) {
                 init();
@@ -11746,6 +11856,13 @@ var steelseries = (function () {
             return glowColor;
         };
 
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
         // Component visualization
         this.repaint = function () {
             if (!initialized) {
@@ -11992,6 +12109,13 @@ var steelseries = (function () {
         this.getValue = function () {
             return value;
         };
+
+        this.redraw = function () {
+            initialized=false;
+            this.repaint();
+            return this;
+        };
+
 
         this.repaint = function () {
             if (!initialized) {

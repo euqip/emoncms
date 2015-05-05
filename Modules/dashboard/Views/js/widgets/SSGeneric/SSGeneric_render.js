@@ -54,6 +54,7 @@ function SSGeneric_widgetlist()
         "offsety"     : 0 ,
         "width"       : 60 ,
         "height"      : 60 ,
+        "aspectRatio" : true ,
         "menu"        : "Widgets" ,
         "options"     : [],
         "optionstype" : [],
@@ -275,8 +276,26 @@ function SSGeneric_draw()
     });
 }
 
-function draw_SSGeneric(){
+function SSGeneric_repaint(ssid){
+    $('.SSGeneric').each(function(index){
+        var generictype =($(this).attr("generictype") === undefined) ? defaultInstrument() : $(this).attr("generictype");
+        var id          = $(this).attr("id");
+        if(id==ssid){
+            width = ($(this).width()<40)?40:$(this).width();
+            height = ($(this).height()<40)?40:$(this).height();
 
+
+            var params= {
+                width               : width,
+                height              : height,
+            };
+            try {
+                    SObjects[id].redraw();
+            } catch (err){
+                err = err;
+            }
+        }
+    });
 }
 
 function SSGeneric_slowupdate(){
@@ -397,10 +416,16 @@ function setup_steelseries_object(elementclass){
                     SObjects[ssid].setBackgroundColor(steelseries.BackgroundColor[bgc]);
                 case "Horizon":
                     SObjects[ssid].setFrameDesign(steelseries.FrameDesign[frame]);
+                    //radial1.setFrameDesign(steelseries.FrameDesign.STEEL);
 
             default:
                     break;
             }
+            try {
+                SObjects[ssid].redraw();
+            }catch(Err){
+            }
+
         }
         // End of SSGeneric
 
