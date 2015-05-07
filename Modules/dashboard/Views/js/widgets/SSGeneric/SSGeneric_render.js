@@ -1,4 +1,5 @@
-﻿var SObjects = [];
+﻿'use strict';
+var SObjects = [];
 /* Possible SObjects 
 Altimeter: function (canvas, parameters) {
 BackgroundColor: Object
@@ -36,6 +37,13 @@ StopWatch: function (canvas, parameters) {
 
 
 function addOption(widget, optionKey, optionType, optionName, optionHint, optionData){
+/*
+    widget["options"    ].push(optionKey);
+    widget["optionstype"].push(optionType);
+    widget["optionsname"].push(optionName);
+    widget["optionshint"].push(optionHint);
+    widget["optionsdata"].push(optionData);
+*/
     widget["options"    ].push(optionKey);
     widget["optionstype"].push(optionType);
     widget["optionsname"].push(optionName);
@@ -224,10 +232,13 @@ function SSGeneric_draw()
     var feed        =($(this).attr("feed") === undefined) ? 0 : $(this).attr("feed");
     var generictype =($(this).attr("generictype") === undefined) ? defaultInstrument() : $(this).attr("generictype");
     var val         =(assoc[feed] === undefined) ? 0 : assoc[feed];
+    var temp        =($(this).attr("old") === undefined) ? 0 : $(this).attr("old");
     var id          = $(this).attr("id");
-
     if (val != temp){//redraw?
-        try {
+        //store present value as attribute
+        //bypass refresh if no change
+        $(this).attr("old",val);
+    try {
               // Per ogni tipologia di controllo Steel esistente
               // Sets the animated value as the default behavior
             switch (generictype){
@@ -263,16 +274,18 @@ function SSGeneric_draw()
                     SObjects[id].setAlpha(val % 100);
                 case "Clock":
                     console.log(generictype);
-                     break;
+                    break;
+                case "LinearBargraph":
+                    SObjects[id].setValueAnimated(val);
+                    break;
                 default:
                     SObjects[id].setValue(val);
                 }
             }
             catch (err){
                 err = err;
-                console.log("SSGeneric_draw "+generictype+" set value");
+                console.log("SSGeneric_draw Error"+generictype+" set value");
             }
-            var temp =val;
         }
     });
 }
@@ -294,7 +307,7 @@ function SSGeneric_repaint(ssid){
                     SObjects[id].redraw();
             } catch (err){
                 err = err;
-                console.log("SSGeneric_repaint "+generictype+" id: "+id+" set value");
+                console.log("SSGeneric_repaint Error"+generictype+" id: "+id+" set value");
             }
         }
     });
@@ -308,13 +321,13 @@ function SSGeneric_fastupdate(){
     SSGeneric_draw();
 }
 
-
-//TODO
+/*
+//TO DO
 // Values, render only on change
 //MIN MAX VALUES
 //Single JS load for steelseries.js DONE
 //linear scale lock?
-
+*/
 function setup_steelseries_object(elementclass){
     $('.'+elementclass).each(function(index){
         var id = "can-"+$(this).attr("id"); //Canvas
@@ -328,7 +341,7 @@ function setup_steelseries_object(elementclass){
 
         //set section colours :D
         var sections = [
-            steelseries.Section(00, 25, 'rgba(0, 0, 220, 0.3)'),
+            steelseries.Section(0, 25, 'rgba(0, 0, 220, 0.3)'),
             steelseries.Section(25, 50, 'rgba(0, 220, 0, 0.3)'),
             steelseries.Section(50, 75, 'rgba(220, 220, 0, 0.3)')
             ];
@@ -358,8 +371,8 @@ function setup_steelseries_object(elementclass){
             var bgc  = ($(this).attr("backgroundcolour") === undefined) ? "DARK_GRAY" : $(this).attr("backgroundcolour");
 
             var ssid = $(this).attr("id");
-            width = ($(this).width()<40)?40:$(this).width();
-            height = ($(this).height()<40)?40:$(this).height();
+            var width = ($(this).width()<40)?40:$(this).width();
+            var height = ($(this).height()<40)?40:$(this).height();
 
 
             var params= {
@@ -391,6 +404,7 @@ function setup_steelseries_object(elementclass){
                     SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
                     break;
                 case "LinearBargraph":
+                case "RadialBargraph":
                     SObjects[ssid].setBackgroundColor(steelseries.BackgroundColor[bgc]);
                     SObjects[ssid].setFrameDesign(steelseries.FrameDesign[frame]);
                     SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
@@ -400,7 +414,7 @@ function setup_steelseries_object(elementclass){
 
 
                 case "compass":
-                    SObjects[ssid].setPointerType(steelseries.PointerType[PointerType]);
+                    //SObjects[ssid].setPointerType(steelseries.PointerType[PointerType]);
                     SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
                     SObjects[ssid].setForegroundType(steelseries.ForegroundType[fgt]);
                 case "WindDirection":
@@ -409,7 +423,6 @@ function setup_steelseries_object(elementclass){
 
                 case "altimeter":
                 case "Altimeter":
-                case "RadialBargraph":
                 case "linear":
                 case "RadialVertical":
                 case "Radial":
@@ -427,10 +440,11 @@ function setup_steelseries_object(elementclass){
             default:
                     break;
             }
+            // fully redraw widget after parameters changed, and logf it if errors
             try {
                 SObjects[ssid].redraw();
             }catch(Err){
-                console.log("setup_steelseries_object "+generictype+" set value");
+                console.log("setup_steelseries_object Error"+generictype+" set value");
 
             }
 

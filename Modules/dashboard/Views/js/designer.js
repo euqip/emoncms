@@ -21,7 +21,7 @@
  selector from options potentially specified in the widget lists.
 
 */
-
+'use strict';
 var selected_edges = {none : 0, left : 1, right : 2, top : 3, bottom : 4, center : 5};
 
 var designer = {
@@ -75,14 +75,17 @@ var designer = {
 
     'onbox': function(x,y)
     {
+        var z;
         var oldbox = designer.selected_box;
         var box = null;
         // each click on a box will refresh the selected box
         // if ghost is visible and the same box is selected then do nothing, except if an other box can be selected
-        if(designer.selected_box) designer.unsurround();
+        if(designer.selected_box){
+            designer.unsurround();
+        }
         for (z in designer.boxlist) {
-            if (x>designer.boxlist[z]['left'] && x<(designer.boxlist[z]['left']+designer.boxlist[z]['width'])) {
-                if (y>designer.boxlist[z]['top'] && y<(designer.boxlist[z]['top']+designer.boxlist[z]['height'])) {
+            if (x>designer.boxlist[z].left && x<(designer.boxlist[z].left+designer.boxlist[z].width)) {
+                if (y>designer.boxlist[z].top && y<(designer.boxlist[z].top+designer.boxlist[z].height)) {
                     //console.log("possible boxes:"+z)
                     box = z;
                     //if (box >oldbox) return box;
@@ -93,21 +96,18 @@ var designer = {
     },
 
     'zindex': function(move){
+        var zindex;
         move = parseInt(move);
-        console.log ('Move '+move);
-        if (designer.selected_box==null){
-        } else {
+        if (designer.selected_box!=null){
             var x = $('#'+designer.selected_box);
             if (x.css("z-index")==="auto"){
-                var zindex= 0;
+                zindex= 0;
             } else{
-                 var zindex= x.css("z-index");
+                zindex= x.css("z-index");
             }
             zindex = parseInt(zindex)+parseInt(move);
             if ((zindex <= $("#can").css("z-index")-1) && (zindex>0)){
                 x.css("z-index",zindex);
-                //x.css("position",absolute);
-
             }
         }
         return true;
