@@ -37,13 +37,6 @@ StopWatch: function (canvas, parameters) {
 
 
 function addOption(widget, optionKey, optionType, optionName, optionHint, optionData){
-/*
-    widget["options"    ].push(optionKey);
-    widget["optionstype"].push(optionType);
-    widget["optionsname"].push(optionName);
-    widget["optionshint"].push(optionHint);
-    widget["optionsdata"].push(optionData);
-*/
     widget["options"    ].push(optionKey);
     widget["optionstype"].push(optionType);
     widget["optionsname"].push(optionName);

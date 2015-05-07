@@ -23,7 +23,7 @@
  */
 /*globals Tween */
 /*jshint onevar:false,plusplus:false,nomen:false,bitwise:false*/
-'use strict';
+"use strict";
 var steelseries = (function() {
     // Constants
     var HALF_PI = Math.PI * 0.5,
@@ -4675,19 +4675,21 @@ var steelseries = (function() {
             }
 
             // Draw min measured value indicator
+                    var yOffset, yRange, valuePos, minMaxX, minMaxY;
+
             if (minMeasuredValueVisible) {
                 if (vertical) {
-                    var yOffset = (gaugeType.type === 'type1') ? 0.856796 : 0.7475;
-                    var yRange = (yOffset - 0.128640);
-                    var valuePos = imageHeight * yOffset - (imageHeight * yRange) * (minMeasuredValue - minValue) / (maxValue - minValue);
-                    var minMaxX = imageWidth * 0.34 - minMeasuredValueBuffer.width;
-                    var minMaxY = valuePos - minMeasuredValueBuffer.height / 2;
+                    yOffset = (gaugeType.type === 'type1') ? 0.856796 : 0.7475;
+                    yRange = (yOffset - 0.128640);
+                    valuePos = imageHeight * yOffset - (imageHeight * yRange) * (minMeasuredValue - minValue) / (maxValue - minValue);
+                    minMaxX = imageWidth * 0.34 - minMeasuredValueBuffer.width;
+                    minMaxY = valuePos - minMeasuredValueBuffer.height / 2;
                 } else {
-                    var yOffset = (gaugeType.type === 'type1') ? 0.871012 : 0.82;
-                    var yRange = yOffset - (gaugeType.type === 'type1' ? 0.142857 : 0.19857);
-                    var valuePos = (imageWidth * yRange) * (minMeasuredValue - minValue) / (maxValue - minValue);
-                    var minMaxX = imageWidth * (gaugeType.type === 'type1' ? 0.142857 : 0.19857) - minMeasuredValueBuffer.height / 2 + valuePos;
-                    var minMaxY = imageHeight * 0.65;
+                    yOffset = (gaugeType.type === 'type1') ? 0.871012 : 0.82;
+                    yRange = yOffset - (gaugeType.type === 'type1' ? 0.142857 : 0.19857);
+                    valuePos = (imageWidth * yRange) * (minMeasuredValue - minValue) / (maxValue - minValue);
+                    minMaxX = imageWidth * (gaugeType.type === 'type1' ? 0.142857 : 0.19857) - minMeasuredValueBuffer.height / 2 + valuePos;
+                    minMaxY = imageHeight * 0.65;
                 }
                 mainCtx.drawImage(minMeasuredValueBuffer, minMaxX, minMaxY);
             }
@@ -4799,23 +4801,20 @@ var steelseries = (function() {
         var vertical = width <= height;
 
         // Constants
-        //var ledPosX;
-        //var ledPosY;
+        var ledPosX, ledPosY, stdFont, lcdFont;
         var ledSize = Math.round((vertical ? height : width) * 0.05);
         var minMaxIndSize = Math.round((vertical ? width : height) * 0.05);
-        //var stdFont;
-        //var lcdFont;
 
         if (vertical) {
-            var ledPosX = imageWidth / 2 - ledSize / 2;
-            var ledPosY = 0.053 * imageHeight;
-            var stdFont = Math.floor(imageHeight / 22) + 'px ' + stdFontName;
-            var lcdFont = Math.floor(imageHeight / 22) + 'px ' + lcdFontName;
+            ledPosX = imageWidth / 2 - ledSize / 2;
+            ledPosY = 0.053 * imageHeight;
+            stdFont = Math.floor(imageHeight / 22) + 'px ' + stdFontName;
+            lcdFont = Math.floor(imageHeight / 22) + 'px ' + lcdFontName;
         } else {
-            var ledPosX = 0.89 * imageWidth;
-            var ledPosY = imageHeight / 1.95 - ledSize / 2;
-            var stdFont = Math.floor(imageHeight / 10) + 'px ' + stdFontName;
-            var lcdFont = Math.floor(imageHeight / 10) + 'px ' + lcdFontName;
+            ledPosX = 0.89 * imageWidth;
+            ledPosY = imageHeight / 1.95 - ledSize / 2;
+            stdFont = Math.floor(imageHeight / 10) + 'px ' + stdFontName;
+            lcdFont = Math.floor(imageHeight / 10) + 'px ' + lcdFontName;
         }
 
         var initialized = false;
@@ -5000,45 +4999,34 @@ var steelseries = (function() {
             var valueCounter = minValue;
             var majorTickCounter = maxNoOfMinorTicks - 1;
             var tickCounter;
-            var currentPos;
-            //var scaleBoundsX;
-            //var scaleBoundsY;
-            //var scaleBoundsW;
-            //var scaleBoundsH;
-            //var tickSpaceScaling = 1;
-
-            //var minorTickStart;
-            //var minorTickStop;
-            //var mediumTickStart;
-            //var mediumTickStop;
-            //var majorTickStart;
-            //var majorTickStop;
+            var currentPos, scaleBoundsX, scaleBoundsY, scaleBoundsW, scaleBoundsH, tickSpaceScaling = 1;
+            var minorTickStart, minorTickStop, mediumTickStart, mediumTickStop, majorTickStart,majorTickStop;
             if (vertical) {
-                var minorTickStart = (0.34 * imageWidth);
-                var minorTickStop = (0.36 * imageWidth);
-                var mediumTickStart = (0.33 * imageWidth);
-                var mediumTickStop = (0.36 * imageWidth);
-                var majorTickStart = (0.32 * imageWidth);
-                var majorTickStop = (0.36 * imageWidth);
+                minorTickStart = (0.34 * imageWidth);
+                minorTickStop = (0.36 * imageWidth);
+                mediumTickStart = (0.33 * imageWidth);
+                mediumTickStop = (0.36 * imageWidth);
+                majorTickStart = (0.32 * imageWidth);
+                majorTickStop = (0.36 * imageWidth);
                 ctx.textAlign = 'right';
-                var scaleBoundsX = 0;
-                var scaleBoundsY = imageHeight * 0.128640;
-                var scaleBoundsW = 0;
-                var scaleBoundsH = (imageHeight * 0.856796 - imageHeight * 0.128640);
-                var tickSpaceScaling = scaleBoundsH / (maxValue - minValue);
+                scaleBoundsX = 0;
+                scaleBoundsY = imageHeight * 0.128640;
+                scaleBoundsW = 0;
+                scaleBoundsH = (imageHeight * 0.856796 - imageHeight * 0.128640);
+                tickSpaceScaling = scaleBoundsH / (maxValue - minValue);
             } else {
-                var minorTickStart = (0.65 * imageHeight);
-                var minorTickStop = (0.63 * imageHeight);
-                var mediumTickStart = (0.66 * imageHeight);
-                var mediumTickStop = (0.63 * imageHeight);
-                var majorTickStart = (0.67 * imageHeight);
-                var majorTickStop = (0.63 * imageHeight);
+                minorTickStart = (0.65 * imageHeight);
+                minorTickStop = (0.63 * imageHeight);
+                mediumTickStart = (0.66 * imageHeight);
+                mediumTickStop = (0.63 * imageHeight);
+                majorTickStart = (0.67 * imageHeight);
+                majorTickStop = (0.63 * imageHeight);
                 ctx.textAlign = 'center';
-                var scaleBoundsX = imageWidth * 0.142857;
-                var scaleBoundsY = 0;
-                var scaleBoundsW = (imageWidth * 0.871012 - imageWidth * 0.142857);
-                var scaleBoundsH = 0;
-                var tickSpaceScaling = scaleBoundsW / (maxValue - minValue);
+                scaleBoundsX = imageWidth * 0.142857;
+                scaleBoundsY = 0;
+                scaleBoundsW = (imageWidth * 0.871012 - imageWidth * 0.142857);
+                scaleBoundsH = 0;
+                tickSpaceScaling = scaleBoundsW / (maxValue - minValue);
             }
 
             var labelCounter;
@@ -5368,47 +5356,36 @@ var steelseries = (function() {
         };
 
         var drawValue = function(ctx, imageWidth, imageHeight) {
-            // var top; // position of max value
-            // var bottom; // position of min value
+            var top; //position of max value
+            var bottom; //position of min value
             var labelColor = backgroundColor.labelColor;
-            // var fullSize;
-            // var valueSize;
-            // var valueTop;
-            // var valueBackgroundStartX;
-            // var valueBackgroundStartY;
-            // var valueBackgroundStopX;
-            // var valueBackgroundStopY;
-            // var valueBorderStartX;
-            // var valueBorderStartY;
-            // var valueBorderStopX;
-            // var valueBorderStopY;
-            var currentValue;
-            var gradRange;
-            var fraction;
+            var fullSize, valueSize, valueTop, valueBackgroundStartX, valueBackgroundStartY, valueBackgroundStopX;
+            var valueBackgroundStopY, valueBorderStartX, valueBorderStartY, valueBorderStopX, valueBorderStopY;
+            var currentValue, gradRange, fraction;
 
             // Orientation dependend definitions
             if (vertical) {
                 // Vertical orientation
-                var top = imageHeight * 0.128640; // position of max value
-                var bottom = imageHeight * 0.856796; // position of min value
-                var fullSize = bottom - top;
-                var valueSize = fullSize * (value - minValue) / (maxValue - minValue);
-                var valueTop = top + fullSize - valueSize;
-                var valueBackgroundStartX = 0;
-                var valueBackgroundStartY = top;
-                var valueBackgroundStopX = 0;
-                var valueBackgroundStopY = top + fullSize * 1.014;
+                top = imageHeight * 0.128640; // position of max value
+                bottom = imageHeight * 0.856796; // position of min value
+                fullSize = bottom - top;
+                valueSize = fullSize * (value - minValue) / (maxValue - minValue);
+                valueTop = top + fullSize - valueSize;
+                valueBackgroundStartX = 0;
+                valueBackgroundStartY = top;
+                valueBackgroundStopX = 0;
+                valueBackgroundStopY = top + fullSize * 1.014;
             } else {
                 // Horizontal orientation
-                var top = imageWidth * 0.856796; // position of max value
-                var bottom = imageWidth * 0.128640;
-                var fullSize = top - bottom;
-                var valueSize = fullSize * (value - minValue) / (maxValue - minValue);
-                var valueTop = bottom;
-                var valueBackgroundStartX = imageWidth * 0.13;
-                var valueBackgroundStartY = imageHeight * 0.435714;
-                var valueBackgroundStopX = valueBackgroundStartX + fullSize * 1.035;
-                var valueBackgroundStopY = valueBackgroundStartY;
+                top = imageWidth * 0.856796; // position of max value
+                bottom = imageWidth * 0.128640;
+                fullSize = top - bottom;
+                valueSize = fullSize * (value - minValue) / (maxValue - minValue);
+                valueTop = bottom;
+                valueBackgroundStartX = imageWidth * 0.13;
+                valueBackgroundStartY = imageHeight * 0.435714;
+                valueBackgroundStopX = valueBackgroundStartX + fullSize * 1.035;
+                valueBackgroundStopY = valueBackgroundStartY;
             }
 
             var darker = (backgroundColor === steelseries.BackgroundColor.CARBON ||
@@ -5433,19 +5410,18 @@ var steelseries = (function() {
             } else {
                 ctx.fillRect(valueBackgroundStartX, valueBackgroundStartY, fullSize * 1.035, imageHeight * 0.152857);
             }
-
             if (vertical) {
                 // Vertical orientation
-                var valueBorderStartX = 0;
-                var valueBorderStartY = top;
-                var valueBorderStopX = 0;
-                var valueBorderStopY = top + fullSize * 1.014;
+                valueBorderStartX = 0;
+                valueBorderStartY = top;
+                valueBorderStopX = 0;
+                valueBorderStopY = top + fullSize * 1.014;
             } else {
                 // Horizontal orientation                ;
-                var valueBorderStartX = valueBackgroundStartX;
-                var valueBorderStartY = 0;
-                var valueBorderStopX = valueBackgroundStopX;
-                var valueBorderStopY = 0;
+                valueBorderStartX = valueBackgroundStartX;
+                valueBorderStartY = 0;
+                valueBorderStopX = valueBackgroundStopX;
+                valueBorderStopY = 0;
             }
 
             var valueBorderGradient = ctx.createLinearGradient(valueBorderStartX, valueBorderStartY, valueBorderStopX, valueBorderStopY);
@@ -5466,38 +5442,28 @@ var steelseries = (function() {
                 ctx.fillRect(imageWidth * 0.13, imageHeight * 0.571428, fullSize * 1.035, imageHeight * 0.007142);
             }
 
-            // Prepare led specific variables
-            // var ledX;
-            // var ledY;
-            // var ledW;
-            // var ledH;
-            //  var ledCenterX;
-            // var ledCenterY;
-            var activeLeds;
-            var inactiveLeds;
+            // Prepare led specific variable,
+            var ledX, ledY, ledW, ledH,  ledCenterX, ledCenterY, activeLeds, inactiveLeds;
             if (vertical) {
                 // VERTICAL
-                var ledX = imageWidth * 0.45;
-                var ledY = imageHeight * 0.851941;
-                var ledW = imageWidth * 0.121428;
-                var ledH = imageHeight * 0.012135;
-                var ledCenterX = (ledX + ledW) / 2;
-                var ledCenterY = (ledY + ledH) / 2;
+                ledX = imageWidth * 0.45;
+                ledY = imageHeight * 0.851941;
+                ledW = imageWidth * 0.121428;
+                ledH = imageHeight * 0.012135;
+                ledCenterX = (ledX + ledW) / 2;
+                ledCenterY = (ledY + ledH) / 2;
             } else {
                 // HORIZONTAL
-                var ledX = imageWidth * 0.142857;
-                var ledY = imageHeight * 0.45;
-                var ledW = imageWidth * 0.012135;
-                var ledH = imageHeight * 0.121428;
-                var ledCenterX = (ledX + ledW) / 2;
-                var ledCenterY = (ledY + ledH) / 2;
+                ledX = imageWidth * 0.142857;
+                ledY = imageHeight * 0.45;
+                ledW = imageWidth * 0.012135;
+                ledH = imageHeight * 0.121428;
+                ledCenterX = (ledX + ledW) / 2;
+                ledCenterY = (ledY + ledH) / 2;
             }
 
-            var translateX, translateY;
-            var activeLedColor;
-            var lastActiveLedColor = valueColor;
-            var i;
-            // Draw the value
+            var i, translateX, translateY, activeLedColor, lastActiveLedColor = valueColor;
+               // Draw the value
             if (vertical) {
                 // Draw the inactive leds
                 inactiveLeds = fullSize;
@@ -10045,7 +10011,8 @@ var steelseries = (function() {
             return value;
         };
         this.redraw = function() {
-            initialized = false;
+            // battery is always fully repaiinted, redaw is present for compatibility purpose
+            //var initialized = false;
             this.repaint();
             return this;
         };
