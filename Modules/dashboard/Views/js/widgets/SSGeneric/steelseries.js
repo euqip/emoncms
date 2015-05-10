@@ -2052,7 +2052,7 @@ var steelseries = (function() {
                 }
                 if (!repainting) {
                     repainting = true;
-                    requestAnimFrame(this.repaint);
+                    requestAnimFrame(this.repaint());
                 }
             }
         };
@@ -2066,7 +2066,7 @@ var steelseries = (function() {
                 }
                 if (!repainting) {
                     repainting = true;
-                    requestAnimFrame(this.repaint);
+                    requestAnimFrame(this.repaint());
                 }
             }
         };
@@ -5350,7 +5350,7 @@ var steelseries = (function() {
                 }
                 if (!repainting) {
                     repainting = true;
-                    requestAnimFrame(this.repaint);
+                    requestAnimFrame(this.repaint());
                 }
             }
         };

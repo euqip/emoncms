@@ -596,5 +596,4 @@ $.ui.plugin.add("draggable", "alsoDrag", {
     stop: function() {
         $(this).removeData("draggable-alsoDrag");
     }
-    */
 });

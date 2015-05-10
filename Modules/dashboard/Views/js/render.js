@@ -18,6 +18,10 @@ http://openenergymonitor.org
 // Global page vars definition
 
 // Array that holds ID's of feeds of associative key
+// 
+/* jshint undef: true, unused: true */
+/* global $, widget,redraw, path, userid, redraw */
+"use strict";
 var feedids = [];
 // Array for exact values
 var assoc = [];
@@ -28,24 +32,22 @@ var widgetcanvas = {};
 var dialrate = 0.02;
 var browserVersion = 999;
 
-var Browser =
-{
-  Version : function()
-  {
-    var version = 999;
-    if (navigator.appVersion.indexOf("MSIE") != -1)
-      version = parseFloat(navigator.appVersion.split("MSIE")[1]);
-    return version;
-  }
-}
+var Browser =  {
+    Version : function()
+    {
+      var version = 999;
+      if (navigator.appVersion.indexOf("MSIE") != -1)
+        version = parseFloat(navigator.appVersion.split("MSIE")[1]);
+      return version;
+    }
+  };
 
 function show_dashboard()
 {
   browserVersion = Browser.Version();
   if (browserVersion < 9) dialrate = 0.2;
 
-  for (z in widget)
-  {
+  for (var z = 0; z < widget.length; z++) {
     var fname = widget[z]+"_init";
     var fn = window[fname];
     fn();
@@ -57,6 +59,7 @@ function show_dashboard()
 // update function
 function update()
 {
+  var z;
   var query = path + "feed/list.json?userid="+userid;
   $.ajax(
   {
@@ -65,17 +68,17 @@ function update()
     success : function(data)
     {
 
-      for (z in data)
-      {
-        var newstr = data[z]['name'].replace(/\s/g, '-');
-        var value = parseFloat(data[z]['value']);
+      //for (z in data) {
+      for (z = 0; z < data.length; z++) {
+        var newstr = data[z].name.replace(/\s/g, '-');
+        var value = parseFloat(data[z].value);
         $("." + newstr).html(value);
         assoc[newstr] = value * 1;
-        feedids[newstr] = data[z]['id'];
+        feedids[newstr] = data[z].id;
       }
 
-      for (z in widget)
-      {
+      //for (z in widget)      {
+      for (z = 0; z < widget.length; z++) {
         var fname = widget[z]+"_slowupdate";
         var fn = window[fname];
         fn();
@@ -86,21 +89,22 @@ function update()
 
 function fast_update()
 {
+  var  z, fname, fn;
   if (redraw)
   {
-    for (z in widget)
-    {
-      var fname = widget[z]+"_init";
-      var fn = window[fname];
+    //for (z in widget)    {
+    for (z = 0; z < widget.length; z++) {
+      fname = widget[z]+"_init";
+      fn = window[fname];
       fn();
     }
 
   }
 
-  for (z in widget)
-  {
-    var fname = widget[z]+"_fastupdate";
-    var fn = window[fname];
+  //for (z in widget)  {
+  for (z = 0; z < widget.length; z++) {
+    fname = widget[z]+"_fastupdate";
+    fn = window[fname];
     fn();
   }
     redraw = 0;
@@ -138,7 +142,7 @@ function setup_widget_canvas(elementclass)
     if (canvas.attr("width") != width) canvas.attr("width", width);
     if (canvas.attr("height") != height) canvas.attr("height", height);
 
-    var canvas = document.getElementById(canvasid);
+    canvas = document.getElementById(canvasid);
     if (browserVersion != 999)
     {
       canvas.setAttribute('width', width);
