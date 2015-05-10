@@ -21,7 +21,9 @@
  selector from options potentially specified in the widget lists.
 
 */
-'use strict';
+/* jshint undef: true, unused: true */
+/* global $,grid_size, widgets,redraw, feedlist,multigraphs, resize */
+"use strict";
 var selected_edges = {none : 0, left : 1, right : 2, top : 3, bottom : 4, center : 5};
 
 var designer = {
@@ -98,7 +100,7 @@ var designer = {
     'zindex': function(move){
         var zindex;
         move = parseInt(move);
-        if (designer.selected_box!=null){
+        if (designer.selected_box!==null){
             var x = $('#'+designer.selected_box);
             if (x.css("z-index")==="auto"){
                 zindex= 0;
@@ -115,11 +117,12 @@ var designer = {
 
     'scan': function()
     {
-        for (z in widgets)
+        for (var z in widgets)
         {
             // make sure the different boxes does not overflow container
             // if it is the case, the the container box is made larger
             // Why not the same for thee width?
+            // Avoid to use a function within a for loop
             $("."+z).each(function()
             {
                 var id = 1*($(this).attr("id"));
@@ -131,7 +134,7 @@ var designer = {
                     'height':parseInt($(this).css("height"))
                 };
 
-                if ((designer.boxlist[id]['top'] + designer.boxlist[id]['height'])>designer.page_height) designer.page_height = (designer.boxlist[id]['top'] + designer.boxlist[id]['height']);
+                if ((designer.boxlist[id].top + designer.boxlist[id].height)>designer.page_height) designer.page_height = (designer.boxlist[id].top + designer.boxlist[id].height);
             });
         }
     },
@@ -157,15 +160,16 @@ var designer = {
 
     'draw_options': function(widget)
     {
-        var box_options = widgets[widget]["options"];
-        var options_type = widgets[widget]["optionstype"];
-        var options_name = widgets[widget]["optionsname"];
-        var optionshint = widgets[widget]["optionshint"];
+        var box_options = widgets[widget].options;
+        var options_type = widgets[widget].optionstype;
+        var options_name = widgets[widget].optionsname;
+        var optionshint = widgets[widget].optionshint;
 
         // Used for defining data to be pre-loaded into the relevant selector
-        var optionsdata = widgets[widget]["optionsdata"];
-        var helptext = widgets[widget]["helptext"];
-        if  (helptext== undefined){
+        var optionsdata = widgets[widget].optionsdata;
+        var helptext = widgets[widget].helptext;
+        var i,z;
+        if  (helptext=== undefined){
            helptext = '';
         }
             // Build options table html
@@ -173,52 +177,52 @@ var designer = {
         for (z in box_options)
         {
             // look into the designer DOM to extract the div parameters from the selected widget.
+            var selected = "";
             var val = $("#"+designer.selected_box).attr(box_options[z]);
 
-            if (val == undefined) val="";
+            if (val === undefined) val="";
 
             options_html += "<tr><td class = 'option_name'>"+options_name[z]+":</td>";
 
             if (options_type && options_type[z] == "feed")
             {
                 options_html += "<td><select id='"+box_options[z]+"'' class='form-control options' >";
-                for (i in feedlist)
-                {
-                    var selected = "";
-                    if (val == feedlist[i]['name'].replace(/\s/g, '-'))
+                selected = "";
+                for (i in feedlist) {
+                    if (val == feedlist[i].name.replace(/\s/g, '-'))
                         selected = "selected";
-                    options_html += "<option value='"+feedlist[i]['name'].replace(/\s/g, '-')+"' "+selected+" >"+feedlist[i]['name']+"</option>";
+                    options_html += "<option value='"+feedlist[i].name.replace(/\s/g, '-')+"' "+selected+" >"+feedlist[i].name+"</option>";
                 }
             }
 
             else if (options_type && options_type[z] == "feedid")
             {
                 options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
+                selected = "";
                 for (i in feedlist)
                 {
-                    var selected = "";
-                    if (val == feedlist[i]['id'])
+                    if (val == feedlist[i].id)
                         selected = "selected";
-                    options_html += "<option value='"+feedlist[i]['id']+"' "+selected+" >"+feedlist[i]['id']+": "+feedlist[i]['name']+"</option>";
+                    options_html += "<option value='"+feedlist[i].id+"' "+selected+" >"+feedlist[i].id+": "+feedlist[i].name+"</option>";
                 }
             }
 
             else if (options_type && options_type[z] == "multigraph")
             {
                 options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
+                selected = "";
                 for (i in multigraphs)
                 {
-                    var selected = "";
-                    if (val == multigraphs[i]['id'])
+                    if (val == multigraphs[i].id)
                         selected = "selected";
-                    options_html += "<option value='"+multigraphs[i]['id']+"' "+selected+" >"+multigraphs[i]['id']+": "+multigraphs[i]['name']+"</option>";
+                    options_html += "<option value='"+multigraphs[i].id+"' "+selected+" >"+multigraphs[i].id+": "+multigraphs[i].name+"</option>";
                 }
             }
 
             else if (options_type && options_type[z] == "html")
             {
                 val = $("#"+designer.selected_box).html();
-                options_html += "<td><textarea class='form-control options' id='"+box_options[z]+"' >"+val+"</textarea>"
+                options_html += "<td><textarea class='form-control options' id='"+box_options[z]+"' >"+val+"</textarea>";
             }
 
             // Combobox for selecting options
@@ -227,7 +231,7 @@ var designer = {
                 options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
                 for (i in optionsdata[z])
                 {
-                    var selected = "";
+                    selected = "";
                     if (val == optionsdata[z][i][0])
                         selected = "selected";
                     options_html += "<option "+selected+" value=\""+optionsdata[z][i][0]+"\">"+optionsdata[z][i][1]+"</option>";
@@ -236,7 +240,7 @@ var designer = {
 
             else if (options_type && options_type[z] == "colour_picker")
             {
-                 options_html += "<td><input  type='color' class='form-control options' id='"+box_options[z]+"'  value='#"+val+"'/ >"
+                 options_html += "<td><input  type='color' class='form-control options' id='"+box_options[z]+"'  value='#"+val+"'/ >";
             }
 
 
@@ -257,7 +261,7 @@ var designer = {
 
             else
             {
-                options_html += "<td><input class='form-control options' id='"+box_options[z]+"' type='text' value='"+val+"'/ >"
+                options_html += "<td><input class='form-control options' id='"+box_options[z]+"' type='text' value='"+val+"'/ >";
             }
 
             options_html += "</td><td><small><p class='muted'>"+optionshint[z]+"</p></small></td></tr>";
@@ -277,10 +281,11 @@ var designer = {
     {
         var widget_html = "";
         var select = [];
+        var z;
 
         for (z in widgets) {
-            var menu = widgets[z]['menu'];
-            var displayname = (widgets[z]['itemname']===undefined)?z:widgets[z]['itemname'];
+            var menu = widgets[z].menu;
+            var displayname = (widgets[z].itemname===undefined)?z:widgets[z].itemname;
             if (typeof select[menu] === "undefined") select[menu]="";
             select[menu] += "<li><a id='"+z+"' class='widget-button'>"+displayname+"</a></li>";
             }
@@ -301,9 +306,9 @@ var designer = {
 
     'add_widget': function(mx,my,type)    {
         designer.boxi++;
-        var html = widgets[type]['html'];
-        if (html == undefined) html = "";
-        $("#page").append('<div id="'+designer.boxi+'" class="'+type+'" style="position:absolute; margin: 0; top:'+designer.snap(my+widgets[type]['offsety'])+'px; left:'+designer.snap(mx+widgets[type]['offsetx'])+'px; width:'+widgets[type]['width']+'px; height:'+widgets[type]['height']+'px;" >'+html+'</div>');
+        var html = widgets[type].html;
+        if (html === undefined) html = "";
+        $("#page").append('<div id="'+designer.boxi+'" class="'+type+'" style="position:absolute; margin: 0; top:'+designer.snap(my+widgets[type].offsety)+'px; left:'+designer.snap(mx+widgets[type].offsetx)+'px; width:'+widgets[type].width+'px; height:'+widgets[type].height+'px;" >'+html+'</div>');
 
         designer.scan();
         redraw = 1;
@@ -321,7 +326,7 @@ var designer = {
           url :  path+"dashboard/setcontent.json",
           data : "&id="+dashid+'&content='+encodeURIComponent($("#page").html())+'&height='+designer.page_height,
           dataType: 'json',
-          success : function(data) { console.log(data); if (data.success==true) $("#save-dashboard").attr('class','btn btn-success').text(saved);
+          success : function(data) { console.log(data); if (data.success===true) $("#save-dashboard").attr('class','btn btn-success').text(saved);
           }
         });
     },
@@ -397,7 +402,7 @@ var designer = {
         $(this.canvas).click(function(event) {
 
             var mx = 0, my = 0;
-            if(event.offsetX==undefined)
+            if(event.offsetX===undefined)
             {
                 mx = (event.pageX - $(event.target).offset().left);
                 my = (event.pageY - $(event.target).offset().top);
@@ -412,7 +417,7 @@ var designer = {
                 designer.unsurround(oldbox);
             } else {
             // designer.draw was used to redraw grid and get widgets dims
-                designer.draw()
+                designer.draw();
                 designer.surround (designer.selected_box);
                 $("#when-selected").show();
             }
@@ -422,7 +427,7 @@ var designer = {
         $(this.canvas).mousedown(function(event) {
             designer.mousedown = true;
             var mx = 0, my = 0;
-            if(event.offsetX==undefined) // this works for Firefox
+            if(event.offsetX===undefined) // this works for Firefox
             {
                 mx = (event.pageX - $(event.target).offset().left);
                 my = (event.pageY - $(event.target).offset().top);
@@ -440,18 +445,17 @@ var designer = {
             }
         });
 
-
+/*
         $(this.canvas).mouseup(function(event) {
             designer.mousedown = false;
             selected_edge = selected_edges.none;
         });
-
         $(this.canvas).mousemove(function(event) {
             // On resize
             if (designer.mousedown && designer.selected_box && selected_edge){
 
                 var mx = 0, my = 0;
-                if(event.offsetX==undefined) // this works for Firefox
+                if(event.offsetX===undefined) // this works for Firefox
                 {
                     mx = (event.pageX - $(event.target).offset().left);
                     my = (event.pageY - $(event.target).offset().top);
@@ -460,28 +464,28 @@ var designer = {
                     my = event.offsetY;
                 }
 
-                var rightedge = resize['left']+resize['width'];
-                var bottedge = resize['top']+resize['height'];
+                var rightedge = resize.left+resize.width;
+                var bottedge = resize.top+resize.height;
 
                 switch(selected_edge)
                 {
                     case selected_edges.right:
-                        designer.boxlist[designer.selected_box]['width'] = (designer.snap(mx)-resize['left']);
+                        designer.boxlist[designer.selected_box].width = (designer.snap(mx)-resize.left);
                         break;
                     case selected_edges.left:
-                        designer.boxlist[designer.selected_box]['left'] = (designer.snap(mx));
-                        designer.boxlist[designer.selected_box]['width'] = rightedge - designer.snap(mx);
+                        designer.boxlist[designer.selected_box].left = (designer.snap(mx));
+                        designer.boxlist[designer.selected_box].width = rightedge - designer.snap(mx);
                         break;
                     case selected_edges.bottom:
-                        designer.boxlist[designer.selected_box]['height'] = (designer.snap(my)-resize['top']);
+                        designer.boxlist[designer.selected_box].height = (designer.snap(my)-resize.top);
                         break;
                     case selected_edges.top:
-                        designer.boxlist[designer.selected_box]['top'] = (designer.snap(my));
-                        designer.boxlist[designer.selected_box]['height'] = bottedge - designer.snap(my);
+                        designer.boxlist[designer.selected_box].top = (designer.snap(my));
+                        designer.boxlist[designer.selected_box].height = bottedge - designer.snap(my);
                         break;
                     case selected_edges.center:
-                        designer.boxlist[designer.selected_box]['left'] = (designer.snap(mx-designer.boxlist[designer.selected_box]['width']/2));
-                        designer.boxlist[designer.selected_box]['top'] = (designer.snap(my-designer.boxlist[designer.selected_box]['height']/2));
+                        designer.boxlist[designer.selected_box].left = (designer.snap(mx-designer.boxlist[designer.selected_box].width/2));
+                        designer.boxlist[designer.selected_box].top = (designer.snap(my-designer.boxlist[designer.selected_box].height/2));
                         break;
                 }
 
@@ -495,8 +499,9 @@ var designer = {
                 designer.draw();
             }
         });
+*/
     },
-}
+};
 
         // On save click  save function is located in dashboard_edit_view.php
         $("#options-save").click(function()
@@ -519,7 +524,7 @@ var designer = {
                     $("#"+designer.selected_box).attr($(this).attr("id"), $(this).val());
                 }
             });
-            $('#widget_options').modal('hide')
+            $('#widget_options').modal('hide');
             redraw = 1;
             reloadiframe = designer.selected_box;
             $("#state").html("Changed");
@@ -561,7 +566,7 @@ $.ui.plugin.add("draggable", "alsoDrag", {
     drag: function () {
         var that = $(this).data("ui-draggable"),
             o = that.options,
-            os = that.originalSize,
+            //os = that.originalSize,
             op = that.originalPosition,
             delta = {
                 top: (that.position.top - op.top) || 0,
@@ -591,5 +596,5 @@ $.ui.plugin.add("draggable", "alsoDrag", {
     stop: function() {
         $(this).removeData("draggable-alsoDrag");
     }
+    */
 });
-
