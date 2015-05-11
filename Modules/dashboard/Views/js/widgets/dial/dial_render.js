@@ -11,6 +11,10 @@
     http://openenergymonitor.org/emon/forum
  */
 
+/* jshint undef: true, unused: true */
+/* global _Tr, setup_widget_canvas, $, dial_init, dial_slowupdate, dial_fastupdate */
+
+
 // Convenience function for shoving things into the widget object
 // I'm not sure about calling optionKey "optionKey", but I don't want to just use "options" (because that's what this whole function returns), and it's confusing enough as it is.
 function addOption(widget, optionKey, optionType, optionName, optionHint, optionData)
@@ -30,7 +34,7 @@ function dial_widgetlist()
   {
     "dial":
     {
-      "offsetx":0,"offsety":0,"width":100,"height":100,"aspectRatio":true,
+      "offsetx":-80,"offsety":-80,"width":160,"height":160,
       "menu":"Widgets",
       "options":    [],
       "optionstype":[],
@@ -59,15 +63,15 @@ function dial_widgetlist()
   var graduationDropBoxOptions = [
           [1, "Yes"],
           [0, "No"]
-        ]
+        ];
 
-  addOption(widgets["dial"], "feed",        "feed",    _Tr("Feed"),        _Tr("Feed value"),                                                            []);
-  addOption(widgets["dial"], "max",         "value",   _Tr("Max value"),   _Tr("Max value to show"),                                                     []);
-  addOption(widgets["dial"], "scale",       "value",   _Tr("Scale"),       _Tr("Value is multiplied by scale before display"),                           []);
-  addOption(widgets["dial"], "units",       "value",   _Tr("Units"),       _Tr("Units to show"),                                                         []);
-  addOption(widgets["dial"], "offset",      "value",   _Tr("Offset"),      _Tr("Static offset. Subtracted from value before computing needle position"), []);
-  addOption(widgets["dial"], "type",        "dropbox", _Tr("Type"),        _Tr("Type to show"),                                                          typeDropBoxOptions);
-  addOption(widgets["dial"], "graduations", "dropbox", _Tr("Graduations"), _Tr("Should the graduation limits be shown"),                                 graduationDropBoxOptions);
+  addOption(widgets.dial, "feed",        "feed",    _Tr("Feed"),        _Tr("Feed value"),                                                            []);
+  addOption(widgets.dial, "max",         "value",   _Tr("Max value"),   _Tr("Max value to show"),                                                     []);
+  addOption(widgets.dial, "scale",       "value",   _Tr("Scale"),       _Tr("Value is multiplied by scale before display"),                           []);
+  addOption(widgets.dial, "units",       "value",   _Tr("Units"),       _Tr("Units to show"),                                                         []);
+  addOption(widgets.dial, "offset",      "value",   _Tr("Offset"),      _Tr("Static offset. Subtracted from value before computing needle position"), []);
+  addOption(widgets.dial, "type",        "dropbox", _Tr("Type"),        _Tr("Type to show"),                                                          typeDropBoxOptions);
+  addOption(widgets.dial, "graduations", "dropbox", _Tr("Graduations"), _Tr("Should the graduation limits be shown"),                                 graduationDropBoxOptions);
 
 
 
@@ -117,7 +121,7 @@ function dial_fastupdate()
 
 function deg_to_radians(deg)
 {
-  return deg * (Math.PI / 180)
+  return deg * (Math.PI / 180);
 }
 function polar_to_cart(mag, ang, xOff, yOff)
 {
@@ -137,8 +141,8 @@ function draw_gauge(ctx,x,y,width,height,position,maxvalue,units,type, offset, g
   // if units == false: "". Else units
   units = units || "";
   offset = 1*offset || 0;
-  var val = position
-  position = position-offset
+  var val = position;
+  position = position-offset;
 
   var size = 0;
   if (width<height) size = width/2;
@@ -163,7 +167,7 @@ function draw_gauge(ctx,x,y,width,height,position,maxvalue,units,type, offset, g
   // Depending on dial's type start limit is either 0 or a negative value.
   // Note: Should consider a type which enables defiable min value in futur extension.  
   
-  if (type == 0) // Standard dial from 0 to maxvalue if offset is not set.
+  if (type === 0) // Standard dial from 0 to maxvalue if offset is not set.
   {
     // TODO: seperate between needle position at maximum/minimum and the value displayed.
     // TODO: Do we need to limit the value being displayed? Only needle position should be limited.
@@ -249,7 +253,8 @@ function draw_gauge(ctx,x,y,width,height,position,maxvalue,units,type, offset, g
   var inner = size * 0.48;
 
   // Segments
-  for (var z in segment)
+  //for (var z in segment)
+  for (var z;segment.length;++z)
   {
     ctx.fillStyle = segment[z];
     ctx.beginPath();
@@ -323,7 +328,7 @@ function draw_gauge(ctx,x,y,width,height,position,maxvalue,units,type, offset, g
     var posStrt = polar_to_cart(size/1.15, 90+spreadAngle, x, y);
     var posStop = polar_to_cart(size/1.15, 90-spreadAngle, x, y);
 
-    ctx.save()
+    ctx.save();
     ctx.translate(posStrt[0], posStrt[1]);
     ctx.rotate(deg_to_radians(-45));
    
@@ -342,13 +347,11 @@ function draw_gauge(ctx,x,y,width,height,position,maxvalue,units,type, offset, g
   
     
   function round1decimal(x) {
-    Ergebnis = Math.round(x * 10) / 10 ;
-    return Ergebnis;
+    return Math.round(x * 10) / 10 ;
   }
   
   function round2decimal(x) {
-    Ergebnis = Math.round(x * 100) / 100 ;
-    return Ergebnis;
+    return Math.round(x * 100) / 100 ;
   }
 
 }

@@ -10,6 +10,8 @@
     If you have any questions please get in touch, try the forums here:
     http://openenergymonitor.org/emon/forum
  */
+/* jshint undef: true, unused: true */
+/* global _Tr, setup_widget_canvas, $, dial_init, dial_slowupdate, dial_fastupdate, path */
 
 // Global variables
 var img = null,
@@ -29,7 +31,7 @@ function jgauge_widgetlist()
       "optionshint":[_Tr("Feed"),_Tr("Max value to show"),_Tr("Units to show")]
 
     }
-  }
+  };
   return widgets;
 }
 

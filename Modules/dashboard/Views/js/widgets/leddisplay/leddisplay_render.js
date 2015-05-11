@@ -10,10 +10,12 @@
     If you have any questions please get in touch, try the forums here:
     http://openenergymonitor.org/emon/forum
  */
+/* jshint undef: true, unused: true */
+/* global _Tr, setup_widget_canvas, $, dleddisplay_init, leddisplay_slowupdate, leddisplay_fastupdate, path */
 
 // Global variables
 var img = null,
-	oldval = null;
+  oldval = null;
 
 function leddisplay_widgetlist()
 {
@@ -30,13 +32,13 @@ function leddisplay_widgetlist()
       "helptext":_Tr("Green panel led display will change colour to AMBER when caution value is reached, or RED when warning is reached.  Behavior depends on values given to warning and caution thresholds. <br /> going up when Caution < Warning <br /> going down when Caution > Warning")
 
     }
-  }
+  };
   return widgets;
 }
 
 function leddisplay_init()
 {
-	setup_widget_canvas('leddisplay');
+  setup_widget_canvas('leddisplay');
 
 }
 
@@ -53,16 +55,16 @@ function leddisplay_draw()
     var caution = $(this).attr("cautionLimit");
     var warning = $(this).attr("warningLimit");
     var unit = $(this).attr("unit");
-    if (feed==undefined) feed = $(this).attr("feed");
-    if (unit==undefined) unit = '--';
+    if (feed===undefined) feed = $(this).attr("feed");
+    if (unit===undefined) unit = '--';
 
     var units = $(this).attr("units");
     var val = assoc[feed];
-    var negative=false
+    var negative=false;
 
-    if (feed==undefined) val = 0;
-    if (units==undefined) units = '';
-    if (val==undefined) val = 0;
+    if (feed===undefined) val = 0;
+    if (units===undefined) units = '';
+    if (val===undefined) val = 0;
     if(val !=oldval) {
       //check for negative value
       if(val <0) negative = true;
@@ -92,22 +94,22 @@ function leddisplay_draw()
       var num = parts[0].slice(len,len+digitcount);
       var res = num.split("");
       var notzero = false;
-  		var html='';
+      var html='';
       html +='<div class = "digit-display" >';
       if (Math.abs(val)<ol){
-          var index;
+          //var index;
           var dot = "";
           for (index = 0; index < res.length; ++index) {
               if(index==digitcount-1) dot = " dot";
               if (res[index]>"0") notzero = true;
-              if (notzero==false) res[index] = "blank";
+              if (notzero===false) res[index] = "blank";
               if(negative) res[0]='-';
               html +='<span class="sprites sprites-sm '+color+ dot+' num'+res[index]+'"></span>';
           }
-          if (parts[1]==undefined) parts[1]="0"
+          if (parts[1]===undefined) parts[1]="0";
           parts[1]=parts[1]+"0000000";
-          var num = parts[1].slice(0,decimal);
-          var res = num.split("");
+          num = parts[1].slice(0,decimal);
+          res = num.split("");
           for (index = 0; index < decimal; ++index) {
               html +='<span class="sprites sprites-sm '+color+' num'+res[index]+'"></span>';
           }
@@ -136,6 +138,5 @@ function leddisplay_slowupdate()
 
 function leddisplay_fastupdate()
 {
-	leddisplay_draw();
+  leddisplay_draw();
 }
-

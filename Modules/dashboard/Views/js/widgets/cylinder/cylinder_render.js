@@ -11,6 +11,8 @@
     http://openenergymonitor.org/emon/forum
  */
 
+/* jshint undef: true, unused: true */
+/* global _Tr, setup_widget_canvas, $, cylinder_init */
 
 function cylinder_widgetlist()
 {
@@ -25,7 +27,7 @@ function cylinder_widgetlist()
       "optionsname":[_Tr("Feed"),_Tr("Feed")],
       "optionshint":[_Tr("Top feed value"),_Tr("Bottom feed value")]
     }
-  }
+  };
   return widgets;
 }
 
@@ -127,6 +129,4 @@ function cylinder_fastupdate()
     var blue = (191-(temperature*3.65)).toFixed(0);
     return "rgb("+red+","+green+","+blue+")";
   }
-
-
 
