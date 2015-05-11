@@ -22,7 +22,7 @@
 
 */
 /* jshint undef: true, unused: true */
-/* global $,grid_size, widgets,redraw, feedlist,multigraphs, resize */
+/* global $,grid_size, widget, widgets, path,redraw, dashid,saved,redraw,feedlist,multigraphs, resize */
 "use strict";
 var selected_edges = {none : 0, left : 1, right : 2, top : 3, bottom : 4, center : 5};
 
@@ -85,7 +85,8 @@ var designer = {
         if(designer.selected_box){
             designer.unsurround();
         }
-        for (z in designer.boxlist) {
+        for (z = 0; z < designer.boxlist.length; z++) {
+        //for (z in designer.boxlist) {
             if (x>designer.boxlist[z].left && x<(designer.boxlist[z].left+designer.boxlist[z].width)) {
                 if (y>designer.boxlist[z].top && y<(designer.boxlist[z].top+designer.boxlist[z].height)) {
                     //console.log("possible boxes:"+z)
@@ -117,14 +118,13 @@ var designer = {
 
     'scan': function()
     {
-        for (var z in widgets)
-        {
+        for (var z = 0; z < widget.length; z++) {
+        //for (var z in widgets)        {
             // make sure the different boxes does not overflow container
             // if it is the case, the the container box is made larger
             // Why not the same for thee width?
             // Avoid to use a function within a for loop
-            $("."+z).each(function()
-            {
+            $("."+z).each(function(){
                 var id = 1*($(this).attr("id"));
                 if (id>designer.boxi) designer.boxi = id;
                 designer.boxlist[id] = {
@@ -174,8 +174,8 @@ var designer = {
         }
             // Build options table html
         var options_html = "<table>";
-        for (z in box_options)
-        {
+        for (z = 0; z < box_options.length; z++) {
+        //for (z in box_options)        {
             // look into the designer DOM to extract the div parameters from the selected widget.
             var selected = "";
             var val = $("#"+designer.selected_box).attr(box_options[z]);
@@ -188,7 +188,8 @@ var designer = {
             {
                 options_html += "<td><select id='"+box_options[z]+"'' class='form-control options' >";
                 selected = "";
-                for (i in feedlist) {
+                for (i = 0; i < feedlist.length; i++) {
+                //for (i in feedlist) {
                     if (val == feedlist[i].name.replace(/\s/g, '-'))
                         selected = "selected";
                     options_html += "<option value='"+feedlist[i].name.replace(/\s/g, '-')+"' "+selected+" >"+feedlist[i].name+"</option>";
@@ -199,47 +200,46 @@ var designer = {
             {
                 options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
                 selected = "";
-                for (i in feedlist)
-                {
+                for (i = 0; i < feedlist.length; i++) {
+                //for (i in feedlist) {
                     if (val == feedlist[i].id)
                         selected = "selected";
                     options_html += "<option value='"+feedlist[i].id+"' "+selected+" >"+feedlist[i].id+": "+feedlist[i].name+"</option>";
                 }
             }
 
-            else if (options_type && options_type[z] == "multigraph")
+            else if (options_type && options_type[z] === "multigraph")
             {
                 options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
                 selected = "";
-                for (i in multigraphs)
-                {
+                for (i = 0; i < multigraphs.length; i++) {
+                 //for (i in multigraphs)                {
                     if (val == multigraphs[i].id)
                         selected = "selected";
                     options_html += "<option value='"+multigraphs[i].id+"' "+selected+" >"+multigraphs[i].id+": "+multigraphs[i].name+"</option>";
                 }
             }
 
-            else if (options_type && options_type[z] == "html")
-            {
+            else if (options_type && options_type[z] === "html") {
                 val = $("#"+designer.selected_box).html();
                 options_html += "<td><textarea class='form-control options' id='"+box_options[z]+"' >"+val+"</textarea>";
             }
 
             // Combobox for selecting options
-            else if (options_type && options_type[z] == "dropbox" && optionsdata[z])  // Check we have optionsdata before deciding to draw a combobox
-            {
+             // Check we have optionsdata before deciding to draw a combobox
+            else if (options_type && options_type[z] == "dropbox" && optionsdata[z]){
                 options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
-                for (i in optionsdata[z])
-                {
+                for (i = 0; i < optionsdata[z].length; i++) {
+                //for (i in optionsdata[z])       {
                     selected = "";
-                    if (val == optionsdata[z][i][0])
-                        selected = "selected";
+                    if (val == optionsdata[z][i][0]){
+                          selected = "selected";
+                    }
                     options_html += "<option "+selected+" value=\""+optionsdata[z][i][0]+"\">"+optionsdata[z][i][1]+"</option>";
                 }
             }
 
-            else if (options_type && options_type[z] == "colour_picker")
-            {
+            else if (options_type && options_type[z] == "colour_picker") {
                  options_html += "<td><input  type='color' class='form-control options' id='"+box_options[z]+"'  value='#"+val+"'/ >";
             }
 
@@ -259,8 +259,7 @@ var designer = {
             //  }
             // }
 
-            else
-            {
+            else {
                 options_html += "<td><input class='form-control options' id='"+box_options[z]+"' type='text' value='"+val+"'/ >";
             }
 
@@ -277,21 +276,21 @@ var designer = {
         return options_html;
     },
 
-     'widget_buttons': function()
-    {
+     'widget_buttons': function()    {
         var widget_html = "";
         var select = [];
         var z;
 
-        for (z in widgets) {
+        for (z = 0; z < widgets.length; z++) {
+        //for (z in widgets) {
             var menu = widgets[z].menu;
             var displayname = (widgets[z].itemname===undefined)?z:widgets[z].itemname;
             if (typeof select[menu] === "undefined") select[menu]="";
             select[menu] += "<li><a id='"+z+"' class='widget-button'>"+displayname+"</a></li>";
             }
 
-        for (z in select)
-        {
+        for (z = 0; z < select.length; z++) {
+        //for (z in select)
             widget_html += "<div class='btn-group'><button class='btn dropdown-toggle widgetmenu' data-toggle='dropdown'>"+z+"&nbsp<span class='caret'></span></button>";
             widget_html += "<ul class='dropdown-menu' name='d'>"+select[z]+"</ul>";
         }
@@ -301,7 +300,6 @@ var designer = {
             designer.create = $(this).attr("id");
             designer.edit_mode = false;
         });
-
     },
 
     'add_widget': function(mx,my,type)    {
@@ -330,7 +328,7 @@ var designer = {
           }
         });
     },
-    'surround' : function(boxid){
+    "surround" : function(boxid){
         var ghost= $("#ghost");
         var mybox = $("#"+boxid);
         ghost.css("top",mybox.css("top"));
