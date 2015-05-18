@@ -1,4 +1,6 @@
-﻿'use strict';
+﻿/* jshint undef: true, unused: true */
+/* global _Tr, $, assoc, setup_widget_canvas, steelseries*/
+'use strict';
 var SObjects = [];
 /* Possible SObjects 
 Altimeter: function (canvas, parameters) {
@@ -37,11 +39,11 @@ StopWatch: function (canvas, parameters) {
 
 
 function addOption(widget, optionKey, optionType, optionName, optionHint, optionData){
-    widget["options"    ].push(optionKey);
-    widget["optionstype"].push(optionType);
-    widget["optionsname"].push(optionName);
-    widget["optionshint"].push(optionHint);
-    widget["optionsdata"].push(optionData);
+    widget.options.push(optionKey);
+    widget.optionstype.push(optionType);
+    widget.optionsname.push(optionName);
+    widget.optionshint.push(optionHint);
+    widget.optionsdata.push(optionData);
 }
 
 function SSGeneric_widgetlist()
@@ -186,22 +188,22 @@ var ForegroundStyle=    [
                         ];
 
 
-    addOption(widgets["SSGeneric"] , "feed"             , "feed"    , _Tr("Main Feed")           , _Tr("Main Feed value")              , []);
-    addOption(widgets["SSGeneric"] , "feed"             , "feed"    , _Tr("secondary Feed")      , _Tr("Secondary Feed value")         , []);
-    addOption(widgets["SSGeneric"] , "generictype"      , "dropbox" , _Tr("Instr layout")        , _Tr("The instrument layout")        , GenericTypeArray);
-    addOption(widgets["SSGeneric"] , "frame"            , "dropbox" , _Tr("Frame")               , _Tr("frame style")                  , framelist);
-    addOption(widgets["SSGeneric"] , "backgroundcolour" , "dropbox" , _Tr("Background colour")   , _Tr("Instrument background colour") , backgroundcolour);
-    addOption(widgets["SSGeneric"] , "pointercolour"    , "dropbox" , _Tr("Pointer colour")      , _Tr("Pointer colour")               , pointercolour);
-    addOption(widgets["SSGeneric"] , "ForegroundType"   , "dropbox" , _Tr("light effects")       , _Tr("The bezel light refections")   , ForegroundStyle);
-    addOption(widgets["SSGeneric"] , "LcdColor"         , "dropbox" , _Tr("LCD Colour")          , _Tr("LCD display colour")           , LcdColor);
-    addOption(widgets["SSGeneric"] , "ledcolor"         , "dropbox" , _Tr("LED Colour")          , _Tr("The led color")                , LedColor);
-    //addOption(widgets["SSGeneric"] , "LinearTypeArray"  , "dropbox" , _Tr("Linear Type")         , _Tr("Linear type of array")         , LinearTypeArray);
-    addOption(widgets["SSGeneric"] , "minvalue"         , "value"   , _Tr("Minimal scale value") , _Tr("Min scale value")              , []);
-    addOption(widgets["SSGeneric"] , "maxvalue"         , "value"   , _Tr("Maximal scale value") , _Tr("Max scale value")              , []);
-    addOption(widgets["SSGeneric"] , "lcddecimals"      , "value"   , _Tr("LCD decimals")        , _Tr("LCD decimals")                 , []);
-    addOption(widgets["SSGeneric"] , "threshold"        , "value"   , _Tr("Threshold value")     , _Tr("threshold value")              , []);
-    addOption(widgets["SSGeneric"] , "title"            , "value"   , _Tr("Title - Header")      , _Tr("Title value")                  , []);
-    addOption(widgets["SSGeneric"] , "unit"             , "value"   , _Tr("Units to display")    , _Tr("unit to display")              , []);
+    addOption(widgets.SSGeneric , "feed"             , "feed"    , _Tr("Main Feed")           , _Tr("Main Feed value")              , []);
+    addOption(widgets.SSGeneric , "feed"             , "feed"    , _Tr("secondary Feed")      , _Tr("Secondary Feed value")         , []);
+    addOption(widgets.SSGeneric , "generictype"      , "dropbox" , _Tr("Instr layout")        , _Tr("The instrument layout")        , GenericTypeArray);
+    addOption(widgets.SSGeneric , "frame"            , "dropbox" , _Tr("Frame")               , _Tr("frame style")                  , framelist);
+    addOption(widgets.SSGeneric , "backgroundcolour" , "dropbox" , _Tr("Background colour")   , _Tr("Instrument background colour") , backgroundcolour);
+    addOption(widgets.SSGeneric , "pointercolour"    , "dropbox" , _Tr("Pointer colour")      , _Tr("Pointer colour")               , pointercolour);
+    addOption(widgets.SSGeneric , "ForegroundType"   , "dropbox" , _Tr("light effects")       , _Tr("The bezel light refections")   , ForegroundStyle);
+    addOption(widgets.SSGeneric , "LcdColor"         , "dropbox" , _Tr("LCD Colour")          , _Tr("LCD display colour")           , LcdColor);
+    addOption(widgets.SSGeneric , "ledcolor"         , "dropbox" , _Tr("LED Colour")          , _Tr("The led color")                , LedColor);
+    //addOption(widgets.SSGeneric , "LinearTypeArray"  , "dropbox" , _Tr("Linear Type")         , _Tr("Linear type of array")         , LinearTypeArray);
+    addOption(widgets.SSGeneric , "minvalue"         , "value"   , _Tr("Minimal scale value") , _Tr("Min scale value")              , []);
+    addOption(widgets.SSGeneric , "maxvalue"         , "value"   , _Tr("Maximal scale value") , _Tr("Max scale value")              , []);
+    addOption(widgets.SSGeneric , "lcddecimals"      , "value"   , _Tr("LCD decimals")        , _Tr("LCD decimals")                 , []);
+    addOption(widgets.SSGeneric , "threshold"        , "value"   , _Tr("Threshold value")     , _Tr("threshold value")              , []);
+    addOption(widgets.SSGeneric , "title"            , "value"   , _Tr("Title - Header")      , _Tr("Title value")                  , []);
+    addOption(widgets.SSGeneric , "unit"             , "value"   , _Tr("Units to display")    , _Tr("unit to display")              , []);
 
 
 
@@ -276,7 +278,6 @@ function SSGeneric_draw()
                 }
             }
             catch (err){
-                err = err;
                 console.log("SSGeneric_draw Error"+generictype+" set value");
             }
         }
@@ -288,8 +289,8 @@ function SSGeneric_repaint(ssid){
         var generictype =($(this).attr("generictype") === undefined) ? defaultInstrument() : $(this).attr("generictype");
         var id          = $(this).attr("id");
         if(id==ssid){
-            width = ($(this).width()<40)?40:$(this).width();
-            height = ($(this).height()<40)?40:$(this).height();
+            var width = ($(this).width()<40)?40:$(this).width();
+            var height = ($(this).height()<40)?40:$(this).height();
 
 
             var params= {
@@ -299,8 +300,7 @@ function SSGeneric_repaint(ssid){
             try {
                     SObjects[id].redraw();
             } catch (err){
-                err = err;
-                console.log("SSGeneric_repaint Error"+generictype+" id: "+id+" set value");
+                 console.log("SSGeneric_repaint Error"+generictype+" id: "+id+" set value");
             }
         }
     });
@@ -445,4 +445,4 @@ function setup_steelseries_object(elementclass){
         // End of SSGeneric
 
     });
-};
+}

@@ -5,78 +5,78 @@
   function convert_to_plotlist(multigraph_feedlist)
   {
     var plotlist = [];
-    for (z in multigraph_feedlist)
-    {
-    if (multigraph_feedlist[z]['datatype']==1)
+    for (var z = 0; z < multigraph_feedlist.length; z++) {
+    //for (z in multigraph_feedlist)    {
+    if (multigraph_feedlist[z].datatype===1)
     {
       plotlist[z] = {
-        id: multigraph_feedlist[z]['id'],
+        id: multigraph_feedlist[z].id,
         selected: 1,
         plot:
         {
           data: null,
-          label: multigraph_feedlist[z]['name'],
+          label: multigraph_feedlist[z].name,
           lines:
           {
             show: true,
-            fill: multigraph_feedlist[z]['fill']
+            fill: multigraph_feedlist[z].fill
           }
         }
       };
     }
 
-    else if (multigraph_feedlist[z]['datatype']==2)
+    else if (multigraph_feedlist[z].datatype===2)
     {
       plotlist[z] = {
-        id: multigraph_feedlist[z]['id'],
+        id: multigraph_feedlist[z].id,
         selected: 1,
         plot:
         {
           data: null,
-          label: multigraph_feedlist[z]['name'],
+          label: multigraph_feedlist[z].name,
           bars:
           {
             show: true,
-            align: "left", barWidth: 3600*24*1000, fill: multigraph_feedlist[z]['fill']
+            align: "left", barWidth: 3600*24*1000, fill: multigraph_feedlist[z].fill
           }
         }
       };
     }
     else
     {
-      console.log("ERROR: Unknown plot datatype! Datatype: ", multigraph_feedlist[z]['datatype']);
+      console.log("ERROR: Unknown plot datatype! Datatype: ", multigraph_feedlist[z].datatype);
     }
 
-    if (multigraph_feedlist[z]['left']==true)
+    if (multigraph_feedlist[z].left===true)
     {
       plotlist[z].plot.yaxis = 1;
     }
-    else if (multigraph_feedlist[z]['right']==true)
+    else if (multigraph_feedlist[z].right===true)
     {
       plotlist[z].plot.yaxis = 2;
     }
     else
     {
-      console.log("ERROR: Unknown plot alignment! Alignment setting: ", multigraph_feedlist[z]['right']);
+      console.log("ERROR: Unknown plot alignment! Alignment setting: ", multigraph_feedlist[z].right);
     }
 
     // Only set the plotcolour variable if we have a value to set it with
-    if (multigraph_feedlist[z]["lineColour"])
+    if (multigraph_feedlist[z].lineColour)
     {
       // Some browsers really want the leading "#". It works without in chrome, not in IE and opera.
       // What the hell, people?
-      if (multigraph_feedlist[z]["lineColour"].indexOf("#") == -1)
+      if (multigraph_feedlist[z].lineColour.indexOf("#") == -1)
       {
-        plotlist[z].plot.color = "#" + multigraph_feedlist[z]["lineColour"];
+        plotlist[z].plot.color = "#" + multigraph_feedlist[z].lineColour;
       }
       else
       {
-        plotlist[z].plot.color = multigraph_feedlist[z]["lineColour"];
+        plotlist[z].plot.color = multigraph_feedlist[z].lineColour;
       }
     }
 
 
-    if (multigraph_feedlist[z]['left']==false && multigraph_feedlist[z]['right']==false)
+    if (multigraph_feedlist[z].left===false && multigraph_feedlist[z].right===false)
     {
       plotlist[z].selected = 0;
     }
@@ -101,29 +101,27 @@
     var plotlist = convert_to_plotlist(multigraph_feedlist);
     console.log(plotlist);
     plotdata = [];
-    for(var i in plotlist) {
+    for (var i = 0; i < multigraph_feedlist.length; i++) {
+    //for(var i in plotlist) {
     if (timeWindowChanged)
     {
       plotlist[i].plot.data = null;
     }
       if (plotlist[i].selected) {
-        if (!plotlist[i].plot.data)
-        {
-          
+        if (!plotlist[i].plot.data){
           var npoints = 400;
           interval = Math.round(((view.end - view.start)/npoints)/1000);
 
-          $.ajax({                                      
-              url: path+'feed/average.json',                         
+          $.ajax({
+              url: path+'feed/average.json',
               data: "id="+plotlist[i].id+"&start="+view.start+"&end="+view.end+"&interval="+interval,
               dataType: 'json',
-              async: false,                      
-              success: function(data_in) { plotlist[i].plot.data = data_in; } 
+              async: false,
+              success: function(data_in) { plotlist[i].plot.data = data_in; }
           });
         }
 
-        if ( plotlist[i].plot.data)
-        {
+        if ( plotlist[i].plot.data) {
           plotdata.push(plotlist[i].plot);
         }
       }
@@ -133,7 +131,7 @@
 
     timeWindowChanged=0;
 
-    if (multigraph_editmode==true)
+    if (multigraph_editmode===true)
     {
       //update_multigraph_feedlist();
     }
@@ -154,15 +152,15 @@ function multigraph_init(element)
   // Get start and end time of multigraph view
   // end time and timewindow is stored in the first multigraph_feedlist item.
   // start time is calculated from end - timewindow
-  
+
   var timeWindow = (3600000*24.0*7);
-  view.start = +new Date - timeWindow;
-  view.end = +new Date;
-  
-  if (multigraph_feedlist[0]!=undefined)
+  view.start = +new Date() - timeWindow;
+  view.end = +new Date();
+
+  if (multigraph_feedlist[0]!==undefined)
   {
     view.end = multigraph_feedlist[0].end;
-    if (view.end==0) view.end = (new Date()).getTime();
+    if (view.end===0) view.end = (new Date()).getTime();
     if (multigraph_feedlist[0].timeWindow) {
         view.start = view.end - multigraph_feedlist[0].timeWindow;
     }
@@ -219,7 +217,7 @@ function multigraph_init(element)
   //--------------------------------------------------------------------------------------
   $("#graph").bind("plotselected", function (event, ranges)
   {
-     view.start = ranges.xaxis.from; 
+     view.start = ranges.xaxis.from;
      view.end = ranges.xaxis.to;
      timeWindowChanged = 1; vis_feed_data();
   });

@@ -1,3 +1,5 @@
+/* jshint undef: true, unused: true */
+/* global $,  path, showfeedback */
 
 var input = {
 
@@ -11,7 +13,7 @@ var input = {
             })
             .done(function (data, textStatus, jqXHR){
                result= data;
-            })
+            });
         return result;
     },
 
@@ -25,10 +27,13 @@ var input = {
             })
             .done(function (data, textStatus, jqXHR){
                result= data;
-            })
+            });
 
         var inputs = {};
-        for (z in result) inputs[result[z].id] = result[z];
+        for (var z = 0; z < result.length; z++) {
+      //for (var z in result){
+        inputs[result[z].id] = result[z];
+      }
         return inputs;
     },
 
@@ -43,7 +48,7 @@ var input = {
             })
             .done(function (data, textStatus, jqXHR){
                result= data;
-            })
+            });
         return result;
     },
 
@@ -68,7 +73,7 @@ var input = {
             })
             .done(function (data, textStatus, jqXHR){
                result= data;
-            })
+            });
         return result;
     },
 
@@ -83,14 +88,14 @@ var input = {
         })
             .done(function (data, textStatus, jqXHR){
                result= data;
-            })
+            });
 
         var processlist = [];
-        if (result!="")
+        if (result!=="")
         {
             var tmp = result.split(",");
-            for (n in tmp)
-            {
+                for (var n = 0; n < tmp.length; n++) {
+            //for (n in tmp)            {
                 var process = tmp[n].split(":");
                 processlist.push(process);
             }
@@ -109,7 +114,7 @@ var input = {
         })
         .done(function (data, textStatus, jqXHR){
            result= data;
-        })
+        });
         return result;
     },
 
@@ -123,7 +128,7 @@ var input = {
         })
         .done(function (data, textStatus, jqXHR){
            result= data;
-        })
+        });
         return result;
     },
 
@@ -137,7 +142,7 @@ var input = {
         })
         .done(function (data, textStatus, jqXHR){
            result= data;
-        })
+        });
         return result;
     },
 
@@ -151,9 +156,8 @@ var input = {
         })
         .done(function (data, textStatus, jqXHR){
            result= data;
-        })
+        });
         return result;
     }
 
-}
-
+};

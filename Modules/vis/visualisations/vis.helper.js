@@ -1,3 +1,6 @@
+/* jshint undef: true, unused: true */
+/* global $ */
+
 var view =
 {
   'start':0,
@@ -39,10 +42,10 @@ var view =
 
   'timewindow':function(time)
   {
-    this.start = ((new Date()).getTime())-(3600000*24*time);	//Get start time
-    this.end = (new Date()).getTime();	//Get end time
+    this.start = ((new Date()).getTime())-(3600000*24*time);  //Get start time
+    this.end = (new Date()).getTime();  //Get end time
   }
-}
+};
 
 var stats = {
 
@@ -53,36 +56,36 @@ var stats = {
 
   'calc':function(data)
   {
-    var sum = 0, i=0;
+    var sum = 0, i=0, z;
     stats.min = 0;
     stats.max = 0;
-    for (z in data)
-    {
-      if (i==0) {
+    for (z = 0; z < data.length; z++) {
+    //for (z in data)    {
+      if (i===0) {
         stats.max = data[z][1];
         stats.min = data[z][1];
       }
-    
+
       if (data[z][1]>stats.max) stats.max = data[z][1];
       if (data[z][1]<stats.min) stats.min = data[z][1];
       sum +=data[z][1];
       i++;
     }
-    
+
     stats.mean = sum / i;
 
-    sum = 0, i=0;
-    for (z in data)
-    {
+    sum = 0; i=0;
+    for (z = 0; z < data.length; z++) {
+    //for (z in data)    {
       sum += (data[z][1] - stats.mean) * (data[z][1] - stats.mean);
       i++;
     }
-    
+
     stats.stdev = Math.sqrt(sum / i);
-    
+
   }
 
-}
+};
 
 // http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values/901144#901144
 var urlParams;
@@ -94,9 +97,9 @@ var urlParams;
         query = window.location.search.substring(1);
 
     urlParams = {};
-    while (match = search.exec(query))
+    while (match == search.exec(query))
        urlParams[decode(match[1])] = decode(match[2]);
-})();
+});
 
 function tooltip(x, y, contents, bgColour)
 {
@@ -117,4 +120,4 @@ function tooltip(x, y, contents, bgColour)
         top: y - elem.height() - offset,
         left: x - elem.width() - offset,
     });
-};
+}

@@ -7,6 +7,8 @@
     Part of the OpenEnergyMonitor project:
     http://openenergymonitor.org
   */
+/* jshint undef: true, unused: true */
+/* global $, year, path, apikey, data,kwhd,d3, xAxis, yAxis, price, currency */
 
 function plotChart(container, id, month) {
   //----------------------------------------------------------------------------------------
@@ -14,7 +16,6 @@ function plotChart(container, id, month) {
   //----------------------------------------------------------------------------------------
   var endDate = new Date(year, month, 31, 0, 0, 0, 0);
 
-  var startDate = new Date();
   var startDate = new Date(year, month, 1, 0, 0, 0, 0);
 
   //--------------------------------------------------------------
@@ -26,7 +27,7 @@ function plotChart(container, id, month) {
     dataType: 'json',
     success: function(data_in)
     {
-      data = data_in;
+      var data = data_in;
       var w = 500,
         h = 200,
         p = 30;
@@ -43,7 +44,7 @@ function plotChart(container, id, month) {
 
       // Scales and axes. Note the inverted domain for the y-scale: bigger is up!
       var x = d3.time.scale().domain([startDate, endDate]).range([0, w]),
-        y = d3.scale.linear().domain([0, ymax]).range([h, 0])
+        y = d3.scale.linear().domain([0, ymax]).range([h, 0]);
 
         xAxis = d3.svg.axis().scale(x).tickSubdivide(true).orient("bottom").ticks(6).tickFormat(d3.time.format("%d %B")),
         yAxis = d3.svg.axis().scale(y).ticks(10).orient("left");
@@ -127,8 +128,8 @@ function plotChart(container, id, month) {
 
 function render_daily_information(id, timestamp, kwhd) {
   var d = new Date(timestamp);
-  var out = '<table style="text-align:left; margin: auto;">'
-  out += '<tr><th>Date :</th><td id="date">' + d.toDateString()  + '</td></tr>'
+  var out = '<table style="text-align:left; margin: auto;">';
+  out += '<tr><th>Date :</th><td id="date">' + d.toDateString()  + '</td></tr>';
   out += '<tr><th>Energy :</th><td id="kwhd">' + parseFloat(kwhd).toFixed(2)  + ' kWh/d</td></tr>';
   out += '<tr><th>Cost :</th><td id="costd">'+ parseFloat(kwhd * price).toFixed(2) + currency + '/d, ' + parseFloat(kwhd * price * 365).toFixed(0) + currency + '/y</td></tr>';
   out += '</table>';
@@ -138,23 +139,23 @@ function render_daily_information(id, timestamp, kwhd) {
     $(this).hide().html(out).fadeIn();
   });
 
-  var orange = "#FF7D14"
+  var orange = "#FF7D14",
     green = "#C0E392";
 
   if (id == 1)
-    kwhd1 = kwhd;
+    var kwhd1 = kwhd;
   else
-    kwhd2 = kwhd;
+    var kwhd2 = kwhd;
 
   color = green;
 
-  if(kwhd1 != 0 && kwhd2 != 0) {
+  if(kwhd1 !== 0 && kwhd2 !== 0) {
     var result = kwhd2 - kwhd1;
     var result2;
     if (result > 0) {
       result = "+" +  parseFloat(result).toFixed(2);
       result2 = "+" + parseFloat(result * price).toFixed(2);
-      color = orange;
+      var color = orange;
     }
     else {
       result = parseFloat(result).toFixed(2);
@@ -171,5 +172,4 @@ function render_daily_information(id, timestamp, kwhd) {
     });
   }
 }
-
 

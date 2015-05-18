@@ -63,7 +63,7 @@ var dashboard = {
             })
             .done(function (data, textStatus, jqXHR){
                 showfeedback(data);
-            })
+            });
         return result;
     },
 
@@ -76,8 +76,8 @@ var dashboard = {
             })
             .done(function (data, textStatus, jqXHR){
                 showfeedback(data);
-            })
+            });
     }
 
-}
+};
 

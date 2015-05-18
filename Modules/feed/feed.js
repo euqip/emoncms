@@ -1,3 +1,5 @@
+/* jshint undef: true, unused: true */
+/* global $,  path, showfeedback */
 
 var feed = {
 
@@ -13,14 +15,16 @@ var feed = {
         })
             .done(function (data, textStatus, jqXHR){
             result = data;
-        })
+        });
         return result;
     },
 
     'list':function()    {
         var result = {};
         var apikeystr = "";
-        if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
+      if (feed.apikey!=="") {
+        apikeystr = "?apikey="+feed.apikey;
+      }
 
         $.ajax({
             url      : path+"feed/list.json"+apikeystr,
@@ -29,14 +33,14 @@ var feed = {
         })
             .done(function (data, textStatus, jqXHR){
             result = data;
-            })
+            });
         return result;
     },
 
     'list_assoc':function()    {
         var result = {};
         var apikeystr = "";
-        if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
+        if (feed.apikey!=="") apikeystr = "?apikey="+feed.apikey;
         $.ajax({
             url      : path+"feed/list.json"+apikeystr,
             dataType : 'json',
@@ -44,16 +48,19 @@ var feed = {
         })
             .done(function (data, textStatus, jqXHR){
             result = data;
-            })
+            });
             var feeds = {};
-            for (z in result) feeds[result[z].id] = result[z];
-                return feeds;
+        for (var z = 0; z < result.length; z++) {
+        //for (var z in result){
+        feeds[result[z].id] = result[z];
+      }
+      return feeds;
     },
 
     'list_by_id':function()    {
         var feeds = {};
         var apikeystr = "";
-        if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
+        if (feed.apikey!=="") apikeystr = "?apikey="+feed.apikey;
         $.ajax({
             url      : path+"feed/list.json"+apikeystr,
             dataType : 'json',
@@ -61,20 +68,20 @@ var feed = {
         })
             .done(function (data, textStatus, jqXHR){
             feeds = data;
-            })
+            });
         var tmp = {};
-        for (z in feeds)
-        {
-            tmp[feeds[z]['id']] = parseFloat(feeds[z]['value']);
+        for (var z = 0; z < feeds.length; z++) {
+        //for (z in feeds)        {
+            tmp[feeds[z].id] = parseFloat(feeds[z].value);
         }
-        var feeds = tmp;
+        feeds = tmp;
 
         return feeds;
     },
 
     'list_by_name':function()    {
         var feeds = {};
-        var apikeystr = ""; if (feed.apikey!="") apikeystr = "?apikey="+feed.apikey;
+        var apikeystr = ""; if (feed.apikey!=="") apikeystr = "?apikey="+feed.apikey;
 
         //$.ajax({ url: path+"feed/list.json"+apikeystr, dataType: 'json', async: false, success: function(data) {feeds = data;} });
         $.ajax({
@@ -84,13 +91,14 @@ var feed = {
         })
             .done(function (data, textStatus, jqXHR){
             feeds = data;
-            })
+            });
 
         var tmp = {};
-        for (z in feeds) {
-            tmp[feeds[z]['name']] = parseFloat(feeds[z]['value']);
+        for (var z = 0; z < feeds.length; z++) {
+        //for (z in feeds) {
+            tmp[feeds[z].name] = parseFloat(feeds[z].value);
             }
-        var feeds = tmp;
+        feeds = tmp;
 
         return feeds;
     },
@@ -108,7 +116,7 @@ var feed = {
             })
             .done(function (data, textStatus, jqXHR){
 
-            })
+            });
         return result;
     },
 
@@ -120,7 +128,7 @@ var feed = {
         })
         .done(function (data, textStatus, jqXHR){
             showfeedback(data);
-        })
+        });
 },
 
 
@@ -128,7 +136,7 @@ var feed = {
 'get_data':function(feedid,start,end,dp){
     var feedIn = [];
     var apikeystr = "";
-    if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
+    if (feed.apikey!=="") apikeystr = "&apikey="+feed.apikey;
     $.ajax({
         url      : path+'feed/data.json',
         data     : apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&dp="+dp,
@@ -138,13 +146,13 @@ var feed = {
     })
         .done(function (data, textStatus, jqXHR){
         feedIn = data;
-        })
+        });
     return feedIn;
 },
 
 'get_average':function(feedid,start,end,interval){
     var feedIn = [];
-    var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
+    var apikeystr = ""; if (feed.apikey!=="") apikeystr = "&apikey="+feed.apikey;
     $.ajax({
         url       : path+'feed/average.json',
         data      : apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&interval="+interval,
@@ -154,13 +162,13 @@ var feed = {
     })
         .done(function (data, textStatus, jqXHR){
         feedIn = data;
-        })
+        });
     return feedIn;
 },
 
 'get_kwhatpowers':function(feedid,points){
     var feedIn = [];
-    var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
+    var apikeystr = ""; if (feed.apikey!=="") apikeystr = "&apikey="+feed.apikey;
     $.ajax({
         url      : path+'feed/kwhatpowers.json',
         data     : apikeystr+"&id="+feedid+"&points="+JSON.stringify(points),
@@ -170,13 +178,13 @@ var feed = {
     })
         .done(function (data, textStatus, jqXHR){
         feedIn = data;
-        })
+        });
     return feedIn;
 },
 
 'histogram':function(feedid,start,end){
     var feedIn = [];
-    var apikeystr = ""; if (feed.apikey!="") apikeystr = "&apikey="+feed.apikey;
+    var apikeystr = ""; if (feed.apikey!=="") apikeystr = "&apikey="+feed.apikey;
     $.ajax({
         url      : path+'feed/histogram.json',
         data     : apikeystr+"&id="+feedid+"&start="+start+"&end="+end+"&res=1",
@@ -186,8 +194,8 @@ var feed = {
     })
         .done(function (data, textStatus, jqXHR){
         feedIn = data;
-        })
+        });
     return feedIn;
 }
 
-}
+};

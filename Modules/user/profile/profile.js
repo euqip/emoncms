@@ -1,3 +1,5 @@
+/* jshint undef: true, unused: true */
+/* global $, list, path, currentlanguage, user */
 function startprofile(){
 
     list.init();
@@ -12,8 +14,8 @@ if (list.data.language!=currentlanguage) window.location.href = path+"user/view"
 //------------------------------------------------------
 // Username
 //------------------------------------------------------
-$(".username").html(list.data['username']);
-$("#input-username").val(list.data['username']);
+$(".username").html(list.data.username);
+$("#input-username").val(list.data.username);
 
 $("#edit-username").click(function(){
     $("#username-view").hide();
@@ -65,8 +67,8 @@ $("#save-username").click(function(){
 //------------------------------------------------------
 // Email
 //------------------------------------------------------
-$(".email").html(list.data['email']);
-$("#input-email").val(list.data['email']);
+$(".email").html(list.data.email);
+$("#input-email").val(list.data.email);
 
 $("#edit-email").click(function(){
     $("#email-view").hide();
@@ -173,4 +175,3 @@ $("#change-password-cancel").click(function(){
 });
 
 }
-

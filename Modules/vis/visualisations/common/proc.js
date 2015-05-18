@@ -24,6 +24,6 @@ function power_stats(data)
         stats['kwh'] = 0;
         stats['average'] = 0;
     }
-      
+
     return stats;
 }
