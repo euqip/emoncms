@@ -7,6 +7,8 @@
   http://openenergymonitor.org
 
   */
+/* jshint undef: true, unused: true */
+/* global $, CryptoJS */
 
   var list = {
 
@@ -18,10 +20,10 @@
     'init':function()
     {
         var table = $('<table class="table table-hover" />'),
-        tr;
+        tr,  tooltip;
         for (field in list.fields) {
             var fld= list.fields[field];
-            var tooltip = 'Edit'; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
+            tooltip = (fld.tooltip!==undefined) ? fld.tooltip : 'Edit';
             tr = $("<tr />").attr("field", field);
             tr.append('  <td type="name" class="text-muted" style="width:150px;">'+fld.title+'</td>');
             tr.append('  <td type="edit" title = "'+tooltip+'" action="edit" style="width:40px;"> <span class="glyphicon glyphicon-pencil" style="display:none"> </span></td>');
@@ -37,7 +39,7 @@
 
             if (action=='edit')
             {
-              var tooltip = ''; if (fld.alt!=undefined) tooltip = fld.alt;
+              tooltip = (fld.tooltip!==undefined) ? fld.tooltip : '';
               $(list.element+" tr[field="+field+"] td[type=value]").html(list.fieldtypes[fld.type].edit(field,list.data[field]));
               $(this).html('<span class="glyphicon glyphicon-floppy-save"></span>').attr('action','save');
           }
@@ -45,14 +47,14 @@
           if (action=='save')
           {
               list.data[field] = list.fieldtypes[fld.type].save(field);
-              var tooltip = ''; if (fld.tooltip!=undefined) tooltip = fld.tooltip;
+              tooltip = (fld.tooltip!==undefined) ? fld.tooltip : '';
               //list.data[field] is a number in case of idselect, should be replaced by its representation
               $(list.element+" tr[field="+field+"] td[type=value]").html(list.fieldtypes[fld.type].draw(list.data[field]));
               $(this).html("<span class='glyphicon glyphicon-pencil'  title = '"+tooltip+"' style='display:none'></span>").attr('action','edit');
               $(list.element).trigger("onSave",[]);
               // in case of idselect the selected value is to be stored, but the corresponding text is to be shown
               //if (fld.type == 'idselect'){
-              if (fld.toshow != undefined){
+              if (fld.toshow !==undefined){
                 //$(list.element+" tr[field="+field+"] td[type=value]").html(fld.options[list.data[field]]);
                 $(list.element+" tr[field="+field+"] td[type=value]").html(fld.toshow);
               }
@@ -77,7 +79,7 @@
         },
         'edit':function(field,value) {
           var fld=list.fields[field];
-          var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
+          var tooltip = (fld.tooltip!==undefined) ? fld.tooltip : '';
           return "<input type='text' class='form-control' title='"+tooltip+"' value='"+(value||'')+"' / >"; },
         'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
       },
@@ -86,20 +88,21 @@
         'draw': function (value)  { return value; },
         'edit': function (field,value) {
           var fld=list.fields[field];
-          var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
+          var tooltip = (fld.tooltip!==undefined) ? fld.tooltip : '';
           return "<input type='checkbox' class='form-control' title='"+tooltip+"' value='"+(value||'')+"' / >";
         },
         'save': function (field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();},
       },
 
       'select':      {
-        'draw':function(value) { return value },
+        'draw':function(value) { return value; },
         'edit':function(field,value)
         {
           var options = '';
           var fld=list.fields[field];
-          var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
-          for (i in fld.options)
+          var tooltip = (fld.tooltip!==undefined) ? fld.tooltip : '';
+          for (var i=0; i< fld.options.length; i++)
+          //for (var i in fld.options)
           {
             var selected = "";  if (fld.options[i] == value) selected = 'selected';
             options += "<option value="+fld.options[i]+" "+selected+">"+fld.options[i]+"</option>";
@@ -113,17 +116,18 @@
         {
           'draw':function(value) {
             // the label parameter comes in the drop down list
-            for (i in list.fields['language'].options)
+            for (var i in list.fields.language.options)
             {
-              if (list.fields['language'].options[i] == value) return list.fields['language'].label[i];
+              if (list.fields.language.options[i] == value) return list.fields.language.label[i];
             }
           },
           'edit':function(field,value)
           {
             var options = '';
             var fld=list.fields[field];
-            var tooltip = '';if (fld.tooltip) tooltip = fld.tooltip;
-            for (i in fld.options)
+            var tooltip = (fld.tooltip!==undefined) ? fld.tooltip : '';
+            for (var i =0; i<fld.options.length; i++)
+            //for (var i in fld.options)
             {
               var selected = "";
               if (fld.options[i] == value) selected = 'selected';
@@ -142,7 +146,8 @@
         **  The model returned data are an ID and a display text
         **/
         'draw':function(value)        {
-            for (i in list.fields[field].options)
+            for (var i=0; i< list.fields[field].options.length; i++)
+            //for (var i in list.fields[field].options)
             {
               var fld= list.fields[field].options[i];
               if (fld.id==value){
@@ -153,9 +158,11 @@
         },
         'edit':function(field,value)        {
           var fld1=list.fields[field];
-          var tooltip = '';if (fld1.tooltip) tooltip = fld1.tooltip;
+          var tooltip = (fld1.tooltip!==undefined) ? fld1.tooltip : '';
           var options = '';
-          for (i in list.fields[field].options)
+          for (var i=0; i< fld1.options.length; i++)
+          //for (var i in list.fields[field].options)
+          //for (var i in fld1.options)
           {
             var fld= list.fields[field].options[i];
             var selected = ""; if (fld.id == value) selected = 'selected';
@@ -179,9 +186,10 @@
             'edit':function(field,value)    {
                 var options = '';
                 var fld1=list.fields[field];
-                for (i in fld1.options)
+                var tooltip   = (fld1.tooltip!==undefined) ? fld1.tooltip : '';
+                for (var i =0; i<fld1.options; i++)
+                //for (var i in fld1.options)
                 {
-                    var tooltip = '';if (fld1.tooltip) tooltip = fld1.tooltip;
                     var fld= fld1.options[i];
                     var selected = ""; if (i == value) selected = 'selected';
                     options += "<option value="+i+" "+selected+">"+fld+"</option>";
@@ -204,10 +212,11 @@
           'edit':function(field,value)
           {
           var fld1=list.fields[field];
-          var tooltip = '';if (fld1.tooltip) tooltip = fld1.tooltip;
+          var tooltip = (fld1.tooltip!==undefined) ? fld1.tooltip : '';
           var options = '';
-                selectedIndex = null;
-            for (i in list.timezones) {
+          var selectedIndex = null;
+            for (var i=0; i< list.timezones.length; i++) {
+            //for (var i in list.timezones) {
               var tz = list.timezones[i];
               var selected = "";
               if (value == tz.id) {
@@ -225,10 +234,9 @@
         },
 
         'gravatar':      {
-          'draw':function(value) { return "<img style='border: 1px solid #ccc; padding:2px;' src='http://www.gravatar.com/avatar/"+CryptoJS.MD5(value)+"'/ >" },
-          'edit':function(field,value) { return "<input class='form-control' type='text' value='"+value+"' / >" },
+          'draw':function(value) { return "<img style='border: 1px solid #ccc; padding:2px;' src='http://www.gravatar.com/avatar/"+CryptoJS.MD5(value)+"'/ >" ;},
+          'edit':function(field,value) { return "<input class='form-control' type='text' value='"+value+"' / >" ;},
           'save':function(field) { return $(list.element+' tr[field='+field+'] td[type=value] input').val();}
         }
       }
-    }
-
+    };
