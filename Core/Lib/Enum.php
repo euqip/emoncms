@@ -27,9 +27,9 @@
   }
 
   class Role{
-      const LAMBDA   = 0;
-      const SYSADMIN = 1;
-      const ORGADMIN = 3;
-      const VIEWER   = 4;
-      const DESIGNER = 5;
+      const LAMBDA   = 0; // can see published date from same organisation, or public data
+      const SYSADMIN = 1; // can manage, add and delete users and orgs independantly from his org
+      const ORGADMIN = 3; // can manage add and delete users from same org
+      const VIEWER   = 4; // can see dashboard from same org
+      const DESIGNER = 5; // can create / change dashboard from same org
   }

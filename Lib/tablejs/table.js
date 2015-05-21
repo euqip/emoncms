@@ -174,6 +174,7 @@ var table =
             var state = table.groupshow[group];
             if (state ===true) { $("#"+group).hide(); $(this).html(table.plus+table.groupprefix+group); table.groupshow[group] = false; }
             if (state ===false) { $("#"+group).show(); $(this).html(table.minus+table.groupprefix+group); table.groupshow[group] = true; }
+            update();
         });
         // Event: sort by field
         $(table.element).on('click', 'a[type=sort]', function() {
@@ -436,8 +437,13 @@ var table =
             {
                 var keyvalue = processPairs[z].split(":");
                 var key = parseInt(keyvalue[0]);
-                var type = "";
+                //var type = "";
                 var color = "";
+                // this mod enables to display process translations
+                // constants are defined with PHP
+                var type = ProcessPairs [key-1][1];
+                key  = ProcessPairs [key-1][0];
+                /*
                 switch(key)
                 {
                     case 1:
@@ -546,6 +552,7 @@ var table =
                     case 52:
                         key = 'GOTO'; type = 0; break;
                 }
+                */
                 value = keyvalue[1];
                 switch(type) {
                     case 0:

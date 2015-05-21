@@ -160,7 +160,6 @@
     var firstrun = true;
     var assoc_inputs = {};
     var updateinterval ="<?php echo $param['inputinterval']; ?>";
-    var updateinterval =10000;
     var groupfield= "<?php echo $param['inputgroup']; ?>";
     var expanded= <?php echo $param['inputlistexpanded']; ?>;
 
@@ -172,6 +171,64 @@
     var nodetext = "<?php echo _("Node"); ?>";
     var inputvalue= "<?php echo _("Input value"); ?>";
     var feedvalue= "<?php echo _("Feed Value"); ?>";
+
+var ProcessPairs =[
+    ["<?php echo _("log"); ?>", 2],
+    ["<?php echo _("x"); ?>", 0],
+    ["<?php echo _("+"); ?>", 0],
+    ["<?php echo _("kwh"); ?>", 2],
+    ["<?php echo _("kwhd"); ?>", 2],
+    ["<?php echo _("x inp"); ?>", 1],
+    ["<?php echo _("ontime"); ?>", 2],
+    ["<?php echo _("kwhinckwhd"); ?>", 2],
+    ["<?php echo _("kwhkwhd"); ?>", 2],
+    ["<?php echo _("update"); ?>", 2],
+    ["<?php echo _("+ inp"); ?>", 1],
+    ["<?php echo _("/ inp"); ?>", 1],
+    ["<?php echo _("phaseshift"); ?>",2],
+    ["<?php echo _("accumulate"); ?>", 2],
+    ["<?php echo _("rate"); ?>", 2],
+    ["<?php echo _("hist"); ?>", 2],
+    ["<?php echo _("average"); ?>", 2],
+    ["<?php echo _("flux"); ?>", 2],
+    ["<?php echo _("pwrgain"); ?>", 2],
+    ["<?php echo _("pulsdiff"); ?>", 2],
+    ["<?php echo _("kwhpwr"); ?>", 2],
+    ["<?php echo _("- inp"); ?>", 1],
+    ["<?php echo _("kwhkwhd"); ?>", 2],
+    ["<?php echo _("> 0"); ?>", 3],
+    ["<?php echo _("< 0"); ?>", 3],
+    ["<?php echo _("unsign"); ?>", 3],
+    ["<?php echo _("max"); ?>", 2],
+    ["<?php echo _("min"); ?>", 2],
+    ["<?php echo _("+ feed"); ?>", 4],
+    ["<?php echo _("- feed"); ?>", 4],
+    ["<?php echo _("x feed"); ?>", 4],
+    ["<?php echo _("/ feed"); ?>", 4],
+    ["<?php echo _("= 0"); ?>", 3],
+        // from chaveiro/emoncms merge 20150126
+    ["<?php echo _("whacc"); ?>", 2],
+    ["<?php echo _("MQTT"); ?>", 5],
+    ["<?php echo _("null"); ?>", 3],
+    ["<?php echo _("ori"); ?>", 3],
+    ["<?php echo _("!sched 0"); ?>", 6],
+    ["<?php echo _("!sched N"); ?>", 6],
+    ["<?php echo _("sched 0"); ?>", 6],
+    ["<?php echo _("sched N"); ?>", 6],
+    ["<?php echo _("0? skip"); ?>", 3],
+    ["<?php echo _("!0? skip"); ?>", 3],
+    ["<?php echo _("N? skip"); ?>", 3],
+    ["<?php echo _("!N? skip"); ?>", 3],
+    ["<?php echo _(">? skip"); ?>", 0],
+    ["<?php echo _(">=? skip"); ?>", 0],
+    ["<?php echo _("<? skip"); ?>", 0],
+    ["<?php echo _("<=? skip"); ?>", 0],
+    ["<?php echo _("=? skip"); ?>", 0],
+    ["<?php echo _("!=? skip"); ?>", 0],
+    ["<?php echo _("GOTO"); ?>", 0],
+];
+
+
 
     // Extend table library field types
     //for (z in customtablefields) table.fieldtypes[z] = customtablefields[z];

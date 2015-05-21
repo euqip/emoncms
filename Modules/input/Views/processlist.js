@@ -1,3 +1,4 @@
+/*globals $, createnew, process_info,moveup, movedown, path, delprocess, feed, input, table */
 
 var processlist_ui =
 {
@@ -17,41 +18,43 @@ var processlist_ui =
         // DRAW PROCESS SELECTOR
 
         var processgroups = [];
-        var i = 0;
-        for (z in this.processlist)
-        {
+        var i = 0, z, p;
+        for (z =0; z< this.processlist.length;z++)        {
+        //for (z in this.processlist)        {
             i++;
             var group = this.processlist[z][5];
             if (group!="Deleted") {
-                if (!processgroups[group]) processgroups[group] = []
-                this.processlist[z]['id'] = i;
+                if (!processgroups[group]) processgroups[group] = [];
+                this.processlist[z].id = i;
                 processgroups[group].push(this.processlist[z]);
             }
         }
 
         var out = "";
-        for (z in processgroups)
-        {
+        for (z =0; z< processgroups.length;z++)        {
+        //for (z in processgroups)        {
             out += "<optgroup label='"+z+"'>";
-            for (p in processgroups[z])
-            {
-                out += "<option value="+processgroups[z][p]['id']+">"+processgroups[z][p][0]+"</option>";
+            for (p =0; p< processgroups[z].length;p++)        {
+            //for (p in processgroups[z])            {
+                out += "<option value="+processgroups[z][p].id+">"+processgroups[z][p][0]+"</option>";
             }
             out += "</optgroup>";
         }
         $("#process-select").html(out);
 
         // Inputlist
-        var out = "";
-        for (i in processlist_ui.inputlist) {
+        out = "";
+        for (i =0; i< processlist_ui.inputlist.length;i++)        {
+        //for (i in processlist_ui.inputlist) {
           var input = processlist_ui.inputlist[i];
           out += "<option value="+input.id+">Node "+input.nodeid+":"+input.name+" "+input.description+"</option>";
         }
         $("#input-select").html(out);
 
         // Feedlist
-        var out = "<option value=-1>"+createnew+"</option>";
-        for (i in processlist_ui.feedlist) {
+        out = "<option value=-1>"+createnew+"</option>";
+        for (i =0; i< processlist_ui.feedlist.length;i++)        {
+        //for (i in processlist_ui.feedlist) {
           var feed = processlist_ui.feedlist[i];
           out += "<option value="+feed.id+">"+feed.name+"</option>";
         }
@@ -69,19 +72,19 @@ var processlist_ui =
 
     'draw':function()
     {
-        var i = 0;
+        var i = 0, z;
         var out="";
 
         console.log(this.variableprocesslist);
 
-        if (this.variableprocesslist.length==0) {
+        if (this.variableprocesslist.length===0) {
             $("#process-table").hide();
             $("#noprocess").show();
         } else {
             $("#process-table").show();
             $("#noprocess").hide();
-            for (z in this.variableprocesslist)
-            {
+            for (z =0; z< this.variableprocesslist.length;z++)        {
+            //for (z in this.variableprocesslist)            {
 
                 out += '<tr>';
 
@@ -112,22 +115,22 @@ var processlist_ui =
 
                     case 1: //INPUTID
                         var inpid = this.variableprocesslist[z][1];
-                        if (this.inputlist[inpid]!=undefined) {
+                        if (this.inputlist[inpid]!==undefined) {
                             arg += "<span class='label label-info' title='Input "+inpid+"'>";
                             arg += "<i class='icon-signal icon-white'></i> ";
                             arg += "Node "+this.inputlist[inpid].nodeid+":"+this.inputlist[inpid].name;
-                            if (this.inputlist[inpid].description!="") arg += " "+this.inputlist[inpid].description;
+                            if (this.inputlist[inpid].description!=="") arg += " "+this.inputlist[inpid].description;
                             arg += "</span>";
                             lastvalue = "<span style='color:#888; font-size:12px'>(input last value:"+this.inputlist[inpid].value+")</span>";
                         } else {
-                            arg += "<span class='label label-important'>Input "+schid+" does not exists or was deleted</span>"
+                            arg += "<span class='label label-important'>Input "+schid+" does not exists or was deleted</span>";
                             // does not exist or was deleted
                         }
                         break;
 
                     case 2: //FEEDID
                         var feedid = this.variableprocesslist[z][1];
-                        if (this.feedlist[feedid]!=undefined) {
+                        if (this.feedlist[feedid]!==undefined) {
                             arg += "<a class='label label-info' title='Feed "+feedid+"' href='"+path+"vis/auto?feedid="+feedid+"'>";
                             arg += "<i class='icon-list-alt icon-white'></i> ";
                             if (this.feedlist[feedid].tag) arg += this.feedlist[feedid].tag+": ";
@@ -135,7 +138,7 @@ var processlist_ui =
                             arg += "</a>";
                             lastvalue = "<span style='color:#888; font-size:12px'>(feed last value:"+this.feedlist[feedid].value+")</span>";
                         } else {
-                            arg += "<span class='label label-important'>Feedid "+feedid+" does not exists or was deleted</span>"
+                            arg += "<span class='label label-important'>Feedid "+feedid+" does not exists or was deleted</span>";
                           // does not exist or was deleted
                         }
                         break;
@@ -149,13 +152,13 @@ var processlist_ui =
 
                     case 5: // SCHEDULEID
                         var schid = this.variableprocesslist[z][1];
-                        if (this.schedulelist[schid]!=undefined) {
+                        if (this.schedulelist[schid]!==undefined) {
                             arg += "<span class='label label-info' title='Schedule "+schid+"' >";
                             arg += "<i class='icon-time icon-white'></i> ";
                             arg += this.schedulelist[schid].name;
                             arg += "</span>";
                         } else {
-                            arg += "<span class='label label-important'>Schedule "+schid+" does not exists or was deleted</span>"
+                            arg += "<span class='label label-important'>Schedule "+schid+" does not exists or was deleted</span>";
                             // does not exist or was deleted
                         }
                         //lastvalue = "<span style='color:#888; font-size:12px'>(input last value:"+this.schedulelist[schid].value+")</span>";
@@ -227,7 +230,7 @@ var processlist_ui =
                         var options = {};
                         options = {interval:$('#feed-interval').val()};
 
-                        if (feedname == '') {
+                        if (feedname === '') {
                             alert('ERROR: Please enter a feed name');
                             return false;
                         }
@@ -351,9 +354,9 @@ var processlist_ui =
 
         function update_main_list(inputid, processlist)
         {
-            var process_str = "";
-            for (z in processlist)
-            {
+            var process_str = "", z;
+            for (z=0; z<processlist.length;z++)            {
+            //for (z in processlist)            {
                 process_str += processlist[z].join(':') + ",";
             }
             process_str = process_str.slice(0, -1);
@@ -374,29 +377,35 @@ var processlist_ui =
         var prc = processlist_ui.processlist[processid][2];
         var engines = processlist_ui.processlist[processid][6];   // 5:PHPFINA, 6:PHPFIWA
         var datatype = processlist_ui.processlist[processid][4]; // 1:REALTIME, 2:DAILY, 3:HISTOGRAM
-
+        var e, i, f;
         if (this.enable_mysql_all) {
             var mysql_found = false;
-            for (e in engines) {
-                if (engines[e]==0) mysql_found = true;
+            for (e=0; e<engines.length;e++) {
+            //for (e in engines) {
+                if (engines[e]===0) mysql_found = true;
             }
             if (!mysql_found) engines.push(0);
         }
 
         var out = "<option value=-1>CREATE NEW:</option>";
-        for (i in processlist_ui.feedlist) {
+        for (i=0; i<processlist_ui.feedlist.length; i++) {
+        //for (i in processlist_ui.feedlist) {
           out += "<option value="+processlist_ui.feedlist[i].id+">"+processlist_ui.feedlist[i].name+"</option>";
         }
         $("#feed-select").html(out);
 
         $("#feed-select option").hide();    // Start by hiding all feeds
-        for (f in processlist_ui.feedlist) {
+        for (f=0; f<processlist_ui.feedlist.length; f++) {
+        //for (f in processlist_ui.feedlist) {
             if (processlist_ui.feedlist[f].datatype == datatype)
                 $("#feed-select option[value="+processlist_ui.feedlist[f].id+"]").show(); // Only show feeds of the supported datatype
         }
 
         $("#feed-engine option").hide();    // Start by hiding all feed engine options
-        for (e in engines) $("#feed-engine option[value="+engines[e]+"]").show();   // Show only the feed engine options that are available
+        for (e=0; e<engines.length;e++) {
+        //for (e in engines){
+            $("#feed-engine option[value="+engines[e]+"]").show();   // Show only the feed engine options that are available
+        }
 
         $("#feed-engine, .feed-engine-label").hide();
         if (typeof(engines) != "undefined") {
@@ -404,7 +413,8 @@ var processlist_ui =
             $("#feed-select option[value=-1]").show(); // enable create new feed
         } else {
             $("#feed-select option[value=-1]").hide(); // disable create new feed as we have no supported engines for this proccess
-            for (i in processlist_ui.feedlist) {
+            for (i=0;i < processlist_ui.feedlist.length;i++) {
+            //for (i in processlist_ui.feedlist) {
                 $("#feed-select").val(processlist_ui.feedlist[i].id); // select first feed
                 break;
             }
@@ -416,11 +426,12 @@ var processlist_ui =
     // Process list functions
     'decode':function(str)
     {
-        var processlist = [];
-        if (str!="")
+        var n, processlist = [];
+        if (str!=="")
         {
             var tmp = str.split(",");
-            for (n in tmp)
+            for (n=0; n<tmp.length; n++)
+            //for (n in tmp)
             {
                 var process = tmp[n].split(":");
                 processlist.push(process);
@@ -431,8 +442,11 @@ var processlist_ui =
 
     'encode':function(array)
     {
-        var parts = [];
-        for (z in array) parts.push(array[z][0]+":"+array[z][1]);
+        var z, parts = [];
+        for (z=0; z<array.length;z++)      {
+        //for (z in array)      {
+            parts.push(array[z][0]+":"+array[z][1]);
+        }
         return parts.join(",");
     },
 
@@ -449,4 +463,4 @@ var processlist_ui =
         return array; // for testing purposes
     }
 
-}
+};

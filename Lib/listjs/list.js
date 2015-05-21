@@ -14,15 +14,16 @@
 
     'data':{},
     'fields':{},
+    'field':{},
     'element':"#table",
     'timezones':{},
 
     'init':function()
     {
         var table = $('<table class="table table-hover" />'),
-        tr,  tooltip;
+        tr, fld, tooltip;
         for (field in list.fields) {
-            var fld= list.fields[field];
+            fld= list.fields[field];
             tooltip = (fld.tooltip!==undefined) ? fld.tooltip : 'Edit';
             tr = $("<tr />").attr("field", field);
             tr.append('  <td type="name" class="text-muted" style="width:150px;">'+fld.title+'</td>');
