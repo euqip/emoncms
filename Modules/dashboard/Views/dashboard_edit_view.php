@@ -33,8 +33,8 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
 
 <div id="dashboardpage">
 
-</div>
 
+</div>
 <div style="background-color:#ddd; padding:4px;">
   <span id="widget-buttons"></span>
   <span id="when-selected">

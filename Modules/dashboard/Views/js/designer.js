@@ -85,8 +85,8 @@ var designer = {
         if(designer.selected_box){
             designer.unsurround();
         }
-        for (z = 0; z < designer.boxlist.length; z++) {
-        //for (z in designer.boxlist) {
+        //for (z = 0; z < designer.boxlist.length; z++) {
+        for (z in designer.boxlist) {
             if (x>designer.boxlist[z].left && x<(designer.boxlist[z].left+designer.boxlist[z].width)) {
                 if (y>designer.boxlist[z].top && y<(designer.boxlist[z].top+designer.boxlist[z].height)) {
                     //console.log("possible boxes:"+z)
@@ -118,8 +118,8 @@ var designer = {
 
     'scan': function()
     {
-        for (var z = 0; z < widget.length; z++) {
-        //for (var z in widgets)        {
+        //for (var z = 0; z < widget.length; z++) {
+        for (var z in widgets)        {
             // make sure the different boxes does not overflow container
             // if it is the case, the the container box is made larger
             // Why not the same for thee width?
@@ -174,8 +174,8 @@ var designer = {
         }
             // Build options table html
         var options_html = "<table>";
-        for (z = 0; z < box_options.length; z++) {
-        //for (z in box_options)        {
+        //for (z = 0; z < box_options.length; z++) {
+        for (z in box_options)        {
             // look into the designer DOM to extract the div parameters from the selected widget.
             var selected = "";
             var val = $("#"+designer.selected_box).attr(box_options[z]);
@@ -188,8 +188,8 @@ var designer = {
             {
                 options_html += "<td><select id='"+box_options[z]+"'' class='form-control options' >";
                 selected = "";
-                for (i = 0; i < feedlist.length; i++) {
-                //for (i in feedlist) {
+                //for (i = 0; i < feedlist.length; i++) {
+                for (i in feedlist) {
                     if (val == feedlist[i].name.replace(/\s/g, '-'))
                         selected = "selected";
                     options_html += "<option value='"+feedlist[i].name.replace(/\s/g, '-')+"' "+selected+" >"+feedlist[i].name+"</option>";
@@ -200,8 +200,8 @@ var designer = {
             {
                 options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
                 selected = "";
-                for (i = 0; i < feedlist.length; i++) {
-                //for (i in feedlist) {
+                //for (i = 0; i < feedlist.length; i++) {
+                for (i in feedlist) {
                     if (val == feedlist[i].id)
                         selected = "selected";
                     options_html += "<option value='"+feedlist[i].id+"' "+selected+" >"+feedlist[i].id+": "+feedlist[i].name+"</option>";
@@ -212,8 +212,8 @@ var designer = {
             {
                 options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
                 selected = "";
-                for (i = 0; i < multigraphs.length; i++) {
-                 //for (i in multigraphs)                {
+                //for (i = 0; i < multigraphs.length; i++) {
+                 for (i in multigraphs)                {
                     if (val == multigraphs[i].id)
                         selected = "selected";
                     options_html += "<option value='"+multigraphs[i].id+"' "+selected+" >"+multigraphs[i].id+": "+multigraphs[i].name+"</option>";
@@ -229,8 +229,8 @@ var designer = {
              // Check we have optionsdata before deciding to draw a combobox
             else if (options_type && options_type[z] == "dropbox" && optionsdata[z]){
                 options_html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
-                for (i = 0; i < optionsdata[z].length; i++) {
-                //for (i in optionsdata[z])       {
+                //for (i = 0; i < optionsdata[z].length; i++) {
+                for (i in optionsdata[z])       {
                     selected = "";
                     if (val == optionsdata[z][i][0]){
                           selected = "selected";
@@ -281,16 +281,16 @@ var designer = {
         var select = [];
         var z;
 
-        for (z = 0; z < widgets.length; z++) {
-        //for (z in widgets) {
+        //for (z = 0; z < widgets.length; z++) {
+        for (z in widgets) {
             var menu = widgets[z].menu;
             var displayname = (widgets[z].itemname===undefined)?z:widgets[z].itemname;
             if (typeof select[menu] === "undefined") select[menu]="";
             select[menu] += "<li><a id='"+z+"' class='widget-button'>"+displayname+"</a></li>";
             }
 
-        for (z = 0; z < select.length; z++) {
-        //for (z in select)
+        //for (z = 0; z < select.length; z++) {
+        for (z in select){
             widget_html += "<div class='btn-group'><button class='btn dropdown-toggle widgetmenu' data-toggle='dropdown'>"+z+"&nbsp<span class='caret'></span></button>";
             widget_html += "<ul class='dropdown-menu' name='d'>"+select[z]+"</ul>";
         }
