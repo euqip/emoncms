@@ -48,8 +48,7 @@ function show_dashboard()
   if (browserVersion < 9) dialrate = 0.2;
 
   for (var z = 0; z < widget.length; z++) {
-    var fname = widget[z]+"_init";
-    var fn = window[fname];
+    var fn = window[widget[z]+"_init"];
     fn();
   }
 
@@ -68,7 +67,6 @@ function update()
     success : function(data)
     {
 
-      //for (z in data) {
       for (z = 0; z < data.length; z++) {
         var newstr = data[z].name.replace(/\s/g, '-');
         var value = parseFloat(data[z].value);
@@ -77,10 +75,8 @@ function update()
         feedids[newstr] = data[z].id;
       }
 
-      //for (z in widget)      {
       for (z = 0; z < widget.length; z++) {
-        var fname = widget[z]+"_slowupdate";
-        var fn = window[fname];
+        var fn = window[widget[z]+"_slowupdate"];
         fn();
       }
     }
@@ -89,22 +85,18 @@ function update()
 
 function fast_update()
 {
-  var  z, fname, fn;
+  var  z,  fn;
   if (redraw)
   {
-    //for (z in widget)    {
     for (z = 0; z < widget.length; z++) {
-      fname = widget[z]+"_init";
-      fn = window[fname];
+      fn = window[widget[z]+"_init"];
       fn();
     }
 
   }
 
-  //for (z in widget)  {
   for (z = 0; z < widget.length; z++) {
-    fname = widget[z]+"_fastupdate";
-    fn = window[fname];
+    fn = window[widget[z]+"_fastupdate"];
     fn();
   }
     redraw = 0;
@@ -123,7 +115,8 @@ function curve_value(feed,rate)
 
 function setup_widget_canvas(elementclass)
 {
-  $('.'+elementclass).each(function(index)
+  //$('.'+elementclass).each(function(index)
+  $('.emon_widget').each(function(index)
   {
     var widgetId = $(this).attr("id");
 

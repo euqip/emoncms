@@ -30,7 +30,7 @@ function bar_widgetlist()
 	{
 		"bar":
 		{
-			"offsetx":-80,"offsety":-80,"width":160,"height":160,
+			"offsetx":0,"offsety":0,"width":80,"height":160,
 			"menu":"Widgets",
 			"options":    [],
 			"optionstype":[],
@@ -53,7 +53,8 @@ function bar_widgetlist()
 	addOption(widgets["bar"], "units",       "value",         _Tr("Units"),           _Tr("Unit type to show after value. Ex: <br>\"{Reading}{unit-string}\""),           []);
 	addOption(widgets["bar"], "offset",      "value",         _Tr("Offset"),          _Tr("Static offset. Subtracted from value before computing position (default 0)"),  []);
 	addOption(widgets["bar"], "colour",      "colour_picker", _Tr("Colour"),          _Tr("Colour to draw bar in"),                                                       []);
-	addOption(widgets["bar"], "graduations", "dropbox",       _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             graduationDropBoxOptions);
+	//addOption(widgets["bar"], "graduations", "dropbox",       _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             graduationDropBoxOptions);
+	addOption(widgets["bar"], "graduations", "toggle",        _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             graduationDropBoxOptions);
 	addOption(widgets["bar"], "gradNumber",  "value",         _Tr("Num Graduations"), _Tr("How many graduation lines to draw (only relevant if graduations are on)"),     []);
 
 
@@ -116,6 +117,19 @@ function draw_bar(context,
 				graduationBool,
 				graduationQuant)
 {
+
+x_pos = (undefined === x_pos) ? 0: x_pos;
+y_pos = (undefined === y_pos) ? 0: y_pos;
+width = (undefined === width) ? 40: width;
+height = (undefined === height) ? 80: height;
+raw_value = (undefined === raw_value) ? 10: raw_value;
+max_value = (undefined === max_value) ? 100: max_value;
+units_string = (undefined === units_string) ? '': units_string;
+display_colour = (undefined === display_colour) ? '#000': display_colour;
+static_offset = (undefined === static_offset) ? 0: static_offset;
+graduationBool = (undefined === graduationBool) ? 0: graduationBool;
+graduationQuant = (undefined === graduationQuant) ? 5: graduationQuant;
+
 	if (!context)
 		return;
 

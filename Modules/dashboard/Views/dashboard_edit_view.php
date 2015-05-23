@@ -147,7 +147,7 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
         designer.savedashboard();
         break;
       case "set":
-        showsettings();
+        designer.widget_options();
         break;
       case "del":
         designer.delwidget();
@@ -183,8 +183,9 @@ $('.draggable').draggable({
     designer.draw();
   });
 
-
-  $("#options-button").click(function(event) {
+/*
+All is done in designer.js
+  $("#options-button").click(functtestion(event) {
     showsettings();
   })
 
@@ -194,7 +195,7 @@ $('.draggable').draggable({
       $('#widget_options').modal('show');
 
   }
-
+*/
   $('#saveconfig').click(function (e){
     saveoptions();
     update();
