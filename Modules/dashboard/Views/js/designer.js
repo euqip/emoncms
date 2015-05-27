@@ -175,7 +175,7 @@ var designer = {
             if (options_type){
                 switch (options_type[z]){
                     case "feed":
-                        html += "<td><select id='"+box_options[z]+"'' class='form-control options' >";
+                        html += "<td><select id='"+box_options[z]+"' class='form-control options' >";
                         for (i in feedlist) {
                             selected =  (val === feedlist[i].name.replace(/\s/g, '-'))? 'selected' : '';
                             html += "<option value='"+feedlist[i].name.replace(/\s/g, '-')+"' "+selected+" >"+feedlist[i].name+"</option>";
@@ -200,7 +200,10 @@ var designer = {
                         html += "<td><textarea class='form-control options' id='"+box_options[z]+"' >"+val+"</textarea>";
                         break;
                     case "toggle":
-                        html += "<td><input class='form-control options' id='"+box_options[z]+"' type='checkbox' value='"+val+"'/ >";
+                        val = (val ==="") ? false : true;
+                        var checked = (val) ? shown: hidden;
+                        var classname = (val) ? "shown": "notshown";
+                        html += '<td><a href="javascript:designer.toggle('+box_options[z]+','+val+')" class="form-control options btn btn-info btn-lg '+classname+' " id="'+box_options[z]+'" type = "toggle" state= "'+classname+'">'+checked+'</a>'
                         break;
                     case "dropbox":
                         if ( optionsdata[z]){
@@ -213,6 +216,7 @@ var designer = {
                         break;
                     case "colour_picker":
                         html += "<td><input  type='color' class='form-control options' id='"+box_options[z]+"'  value='#"+val+"'/ >";
+                        break;
                     default:
                         html += "<td><input class='form-control options' id='"+box_options[z]+"' type='text' value='"+val+"'/ >";
                         break;
@@ -225,6 +229,17 @@ var designer = {
         html += "</table>";
         html += "<p>"+helptext+"</p>";
         return html;
+    },
+    'toggle': function(elt,val){
+        val = !val;
+        var y = elt.href.split (",");
+        elt.href = y[0]+','+val+')';
+        elt.text = (val) ? shown : hidden;
+        var classname = (val) ? "shown" : "notshown";
+        $("#"+elt.id).removeClass("shown");
+        $("#"+elt.id).removeClass("notshown");
+        //$("#"+elt.id).addClass(classname);
+        elt.setAttribute("state", classname);
     },
 
     'widget_options': function(){
@@ -477,20 +492,22 @@ var designer = {
         $("#options-save").click(function()
         {
             $(".options").each(function() {
-                if ($(this).attr("id")=="html")
-                {
+                if ($(this).attr("id")==="html"){
                     $("#"+designer.selected_box).html($(this).val());
                 }
-                else if ($(this).attr("id")=="colour")
-                {
+                else if ($(this).attr("type")==="color"){
                     // Since colour values are generally prefixed with "#", and "#" isn't valid in URLs, we strip out the "#".
                     // It will be replaced by the value-checking in the actual plot function, so this won't cause issues.
                     var colour = $(this).val();
                     colour = colour.replace("#","");
                     $("#"+designer.selected_box).attr($(this).attr("id"), colour);
                 }
-                else
-                {
+                else if ($(this).attr("type")==="toggle"){
+                    var state = $(this).attr("state");
+                    state = (state ==="shown") ? "1" : "0";
+                    $("#"+designer.selected_box).attr($(this).attr("id"), state);
+                }
+                else {
                     $("#"+designer.selected_box).attr($(this).attr("id"), $(this).val());
                 }
             });

@@ -18,7 +18,7 @@ http://openenergymonitor.org
 // Global page vars definition
 
 // Array that holds ID's of feeds of associative key
-// 
+//
 /* jshint undef: true, unused: true */
 /* global $, widget,redraw, path, userid, redraw */
 "use strict";

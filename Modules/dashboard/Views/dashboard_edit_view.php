@@ -95,7 +95,9 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
   var userid = <?php echo $session['userid']; ?>;
   var lang = '<?php echo $session['lang']; ?>';
   var saved = '<?php echo _("Saved") ?>';
-  var tobesaved = '<?php echo _("Changed, click to save") ?>'
+  var tobesaved = '<?php echo _("Changed, click to save") ?>';
+  var hidden = '<?php echo _("NOT shown") ?>';
+  var shown =  '<?php echo _("Shown") ?>';
 
   $("#testo").hide();
 

@@ -53,17 +53,14 @@ function bar_widgetlist()
 	addOption(widgets["bar"], "units",       "value",         _Tr("Units"),           _Tr("Unit type to show after value. Ex: <br>\"{Reading}{unit-string}\""),           []);
 	addOption(widgets["bar"], "offset",      "value",         _Tr("Offset"),          _Tr("Static offset. Subtracted from value before computing position (default 0)"),  []);
 	addOption(widgets["bar"], "colour",      "colour_picker", _Tr("Colour"),          _Tr("Colour to draw bar in"),                                                       []);
+	addOption(widgets["bar"], "fontcolour",  "colour_picker", _Tr("Font olour"),      _Tr("Text font colour to draw bar in"),                                             []);
 	//addOption(widgets["bar"], "graduations", "dropbox",       _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             graduationDropBoxOptions);
-	addOption(widgets["bar"], "graduations", "toggle",        _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             graduationDropBoxOptions);
+	addOption(widgets["bar"], "graduations", "toggle",        _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             []);
 	addOption(widgets["bar"], "gradNumber",  "value",         _Tr("Num Graduations"), _Tr("How many graduation lines to draw (only relevant if graduations are on)"),     []);
-
-
-
 	return widgets;
 }
 
-function bar_init()
-{
+function bar_init(){
 	setup_widget_canvas('bar');
 }
 
@@ -86,6 +83,7 @@ function bar_draw()
 								 $(this).attr("max"),
 								 $(this).attr("units"),
 								 $(this).attr("colour"),
+								 $(this).attr("fontcolour"),
 								 $(this).attr("offset"),
 								 $(this).attr("graduations"),
 								 $(this).attr("gradNumber"));
@@ -93,13 +91,11 @@ function bar_draw()
 	});
 }
 
-function bar_slowupdate()
-{
+function bar_slowupdate(){
 
 }
 
-function bar_fastupdate()
-{
+function bar_fastupdate(){
 	bar_draw();
 }
 
@@ -113,6 +109,7 @@ function draw_bar(context,
 				max_value,
 				units_string,
 				display_colour,
+				font_colour,
 				static_offset,
 				graduationBool,
 				graduationQuant)
@@ -126,9 +123,10 @@ raw_value = (undefined === raw_value) ? 10: raw_value;
 max_value = (undefined === max_value) ? 100: max_value;
 units_string = (undefined === units_string) ? '': units_string;
 display_colour = (undefined === display_colour) ? '#000': display_colour;
+font_colour = (undefined === font_colour) ? '#555': font_colour;
 static_offset = (undefined === static_offset) ? 0: static_offset;
-graduationBool = (undefined === graduationBool) ? 0: graduationBool;
-graduationQuant = (undefined === graduationQuant) ? 5: graduationQuant;
+graduationBool = ((undefined === graduationBool) ? 0: graduationBool)* 1;
+graduationQuant = ((undefined === graduationQuant) ? 5: graduationQuant)* 1;
 
 	if (!context)
 		return;
@@ -145,19 +143,11 @@ graduationQuant = (undefined === graduationQuant) ? 5: graduationQuant;
 	display_value = display_value-static_offset
 
 	var scaled_value = (display_value/max_value);    // Produce a scaled 0-1 value corresponding to min-max
-	if (scaled_value < 0)
-		scaled_value = 0;
-
+	scaled_value = (scaled_value < 0) ? 0 : scaled_value;
 	var size = 0;
-	if (width<height)
-		size = width/2;
-	else
-		size = height/2;
+	size =  (width<height) ? width/2 : height/2
 
-	size = size;
-
-	if (graduationBool == 1)
-	{
+	if (graduationBool == 1)	{
 		height = height - (size/2)
 		width = width - (size)
 	}
@@ -179,7 +169,7 @@ graduationQuant = (undefined === graduationQuant) ? 5: graduationQuant;
 
 
 	context.lineWidth = 0;
-	if (display_colour.indexOf("#") == -1)			// Fix missing "#" on colour if needed
+	if (display_colour.indexOf("#") === -1)			// Fix missing "#" on colour if needed
 		display_colour = "#" + display_colour;
 
 	context.fillStyle = display_colour;
@@ -194,8 +184,11 @@ graduationQuant = (undefined === graduationQuant) ? 5: graduationQuant;
 					bar_top,
 					width-(bar_border_space*2),
 					(height-bar_border_space) - bar_top );
+	if (font_colour.indexOf("#") !== 1)			// Fix missing "#" on colour if needed
+		font_colour = "#" + font_colour;
 
-	if (graduationBool == 1)
+
+	if (graduationBool === 1)
 	{
 
 		// context.font = "bold "+(size*0.22)+"px arial";
@@ -216,11 +209,10 @@ graduationQuant = (undefined === graduationQuant) ? 5: graduationQuant;
 		// context.restore();
 
 
-
 		if (graduationQuant > 0)
 		{
 
-			context.fillStyle = "#000";
+			context.fillStyle = context.font_colour;
 			context.textAlign    = "start";
 			context.font = "bold "+(size*0.25)+"px arial";
 
@@ -244,43 +236,38 @@ graduationQuant = (undefined === graduationQuant) ? 5: graduationQuant;
 			}
 			context.fillText(static_offset+units_string, width+(size*0.1), height-10);
 
-			context.strokeStyle = "#888";
+			context.strokeStyle = context.fontStyle;
 			context.stroke();
 		}
 	}
 
 
-	context.fillStyle = "#000";
+//	context.fillStyle = "#555";
+	context.fillStyle = font_colour;
 	context.textAlign    = "center";
 	context.font = "bold "+(size*0.55)+"px arial";
-	if (raw_value>100)
-	{
-		raw_value = raw_value.toFixed(0);
-	}
-	else if (raw_value>10)
-	{
-		raw_value = raw_value.toFixed(1);
-	}
-	else
-	{
-		raw_value = raw_value.toFixed(2);
-	}
+    var decimal;
+    raw_value = (isNaN(raw_value)) ? 0 : raw_value;
+    decimal =  Math.abs(raw_value)>= 100 ? 0: 1;
+    decimal =  Math.abs(raw_value)>= 1 ? decimal: 2;
+    raw_value = raw_value.toFixed(decimal);
 
-
-	if (graduationBool == 1)
+	if (graduationBool === 1)
 	{
 		if (raw_value > 1000)		// Add additional offset to make alignment work for HUGE numbers
 			half_width += (size*0.20)
+		context.fillStyle=font_colour;
 		context.fillText(raw_value+units_string, half_width+(size*0.25), height + (size*0.45));
 	}
 	else
 	{
+		context.fillStyle=font_colour;
 		context.fillText(raw_value+units_string, half_width, height/2 + (size*0.2));
 	}
 
 
 
-	context.fillStyle = "#000";
+	context.fillStyle = context.fontStyle;
 	var spreadAngle = 32;
 
 
