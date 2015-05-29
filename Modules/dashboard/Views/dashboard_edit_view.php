@@ -138,18 +138,19 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
     },
     onItem: function (context, e) {
     //console.log ($(e.target).attr("href"));
+    var zindex = -1;
     switch ($(e.target).attr("href")){
       case "fw":
-        designer.zindex(1);
-        break;
+        zindex =1;
       case "bw":
-        designer.zindex(-1);
+        designer.zindex(zindex);
         break;
       case "sv":
         designer.savedashboard();
         break;
       case "set":
         designer.widget_options();
+        designer.modified();
         break;
       case "del":
         designer.delwidget();
@@ -183,6 +184,7 @@ $('.draggable').draggable({
 
   $(window).resize(function(){
     designer.draw();
+    designer.modified();
   });
 
 /*

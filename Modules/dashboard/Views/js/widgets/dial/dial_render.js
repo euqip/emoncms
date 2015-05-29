@@ -76,6 +76,9 @@ function dial_widgetlist()
   addOption(widgets.dial, "type",        "dropbox", _Tr("Type"),        _Tr("Type to show"),                                                          typeDropBoxOptions);
   //addOption(widgets.dial, "graduations", "dropbox", _Tr("Graduations"), _Tr("Should the graduation limits be shown"),                                 graduationDropBoxOptions);
   addOption(widgets.dial, "graduations", "toggle",  _Tr("Graduations"), _Tr("Should the graduation limits be shown"),                                 graduationDropBoxOptions);
+  addOption(widgets.dial, "fontcolour",  "colour_picker", _Tr("Font olour"),        _Tr("Text font colour"),                                             []);
+  addOption(widgets.dial, "needlecolour","colour_picker", _Tr("needle colour"),     _Tr("Text needle background colour"),                                             []);
+  addOption(widgets.dial, "needlefontcolour","colour_picker", _Tr("needle font colour"),_Tr("Text needle feed value font colour"),                                             []);
 
 
 
@@ -109,7 +112,10 @@ function dial_draw(){
                  $(this).attr("units"),
                  $(this).attr("type"),
                  $(this).attr("offset"),
-                 $(this).attr("graduations"));
+                 $(this).attr("graduations"),
+                 $(this).attr("fontcolour"),
+                 $(this).attr("needlecolour"),
+                 $(this).attr("needlefontcolour"));
     }
   });
 }
@@ -137,9 +143,27 @@ function polar_to_cart(mag, ang, xOff, yOff)
 }
 
 // X, Y are the center coordinates of the canvas
-function draw_gauge(ctx,x,y,width,height,position,maxvalue,units,type, offset, graduationBool)
+function draw_gauge(ctx,x,y,width,height,position,maxvalue,units,type, offset, graduationBool, font_colour, needlecolour, needlefont_colour)
 {
   if (!ctx) return;
+
+x = (undefined === x) ? 0: x;
+y = (undefined === y) ? 0: y;
+width = (undefined === width) ? 160: width;
+height = (undefined === height) ? 160: height;
+position = (undefined === position) ? 10: position;
+//raw_value = (undefined === raw_value) ? 10: raw_value;
+maxvalue = (undefined === maxvalue) ? 100: maxvalue;
+units = (undefined === units) ? '': units;
+type = (undefined === type) ? 0: type;
+type = type *1;
+offset = (undefined === offset) ? 0: offset;
+graduationBool = ((undefined === graduationBool) ? 0: graduationBool)* 1;
+//graduationQuant = ((undefined === graduationQuant) ? 5: graduationQuant)* 1;
+font_colour = (undefined === font_colour) ? '#555': font_colour;
+needlecolour = (undefined === needlecolour) ? '#666867': needlecolour;
+needlefont_colour = (undefined === needlefont_colour) ? '#fff': needlefont_colour;
+
 
   // if (1 * maxvalue) == false: 3000. Else 1 * maxvalue
   maxvalue = 1 * maxvalue || 3000;
@@ -265,7 +289,9 @@ position =  (position>maxvalue) ? maxvalue : position;
   ctx.closePath();
   ctx.stroke();
 
-  ctx.fillStyle = "#666867";
+  needlecolour = (needlecolour.indexOf("#") !== 1) ? "#" + needlecolour: needlecolour;
+  needlefont_colour = (needlefont_colour.indexOf("#") !== 1) ? "#" + needlefont_colour: needlefont_colour;
+  ctx.fillStyle = needlecolour;
   ctx.beginPath();
   ctx.arc(x,y,inner,0,Math.PI*2,true);
   ctx.closePath();
@@ -292,14 +318,15 @@ position =  (position>maxvalue) ? maxvalue : position;
   var dialtext = val+units;
   var textsize = (size / (dialtext.length+2)) * 6;
 
-  ctx.fillStyle = "#fff";
+  ctx.fillStyle = needlefont_colour;
   ctx.textAlign    = "center";
   ctx.font = "bold "+(textsize*0.26)+"px arial";
 
   ctx.fillText(val+units,x,y+(textsize*0.125));
 
 
-  ctx.fillStyle = "#000";
+//  ctx.fillStyle = font_colour;
+  var txt
   var spreadAngle = 32;
 
 
@@ -310,13 +337,16 @@ position =  (position>maxvalue) ? maxvalue : position;
 
     var posStrt = polar_to_cart(size/1.15, 90+spreadAngle, x, y);
     var posStop = polar_to_cart(size/1.15, 90-spreadAngle, x, y);
+    font_colour = (font_colour.indexOf("#") !== 1) ? "#" + font_colour: font_colour;
 
     ctx.save();
     ctx.translate(posStrt[0], posStrt[1]);
     ctx.rotate(deg_to_radians(-45));
 
     // graduation text - start limit
-    ctx.fillText(""+round1decimal( (2*angleOffset/3*1.5*maxvalue)+offset )+units, 0, 0);        // Since we've translated the entire context, the coords we want to draw at are now at [0,0]
+    txt = ""+round1decimal( (2*angleOffset/3*1.5*maxvalue)+offset )+units;
+    ctx.fillStyle=font_colour;
+    ctx.fillText(txt, 0, 0);        // Since we've translated the entire context, the coords we want to draw at are now at [0,0]
     ctx.restore();
 
     ctx.save(); // each ctx.save is only good for one restore, apparently.
@@ -324,7 +354,9 @@ position =  (position>maxvalue) ? maxvalue : position;
     ctx.rotate(deg_to_radians(45));
 
     // graduation text - end limit
-    ctx.fillText(""+round1decimal(offset+maxvalue)+units, 0, 0);
+    txt = ""+round1decimal(offset+maxvalue)+units;
+    ctx.fillStyle=font_colour;
+    ctx.fillText(txt, 0, 0);
     ctx.restore();
   }
 

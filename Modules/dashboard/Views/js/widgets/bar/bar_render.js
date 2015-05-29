@@ -47,16 +47,16 @@ function bar_widgetlist()
 					[0, "Off"]
 				]
 
-	addOption(widgets["bar"], "feed",        "feed",          _Tr("Feed"),            _Tr("Feed value"),                                                                  []);
-	addOption(widgets["bar"], "max",         "value",         _Tr("Max value"),       _Tr("Max value to show"),                                                           []);
-	addOption(widgets["bar"], "scale",       "value",         _Tr("Scale"),           _Tr("Value is multiplied by scale before display. Defaults to 1"),                  []);
-	addOption(widgets["bar"], "units",       "value",         _Tr("Units"),           _Tr("Unit type to show after value. Ex: <br>\"{Reading}{unit-string}\""),           []);
-	addOption(widgets["bar"], "offset",      "value",         _Tr("Offset"),          _Tr("Static offset. Subtracted from value before computing position (default 0)"),  []);
-	addOption(widgets["bar"], "colour",      "colour_picker", _Tr("Colour"),          _Tr("Colour to draw bar in"),                                                       []);
-	addOption(widgets["bar"], "fontcolour",  "colour_picker", _Tr("Font olour"),      _Tr("Text font colour to draw bar in"),                                             []);
-	//addOption(widgets["bar"], "graduations", "dropbox",       _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             graduationDropBoxOptions);
-	addOption(widgets["bar"], "graduations", "toggle",        _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             []);
-	addOption(widgets["bar"], "gradNumber",  "value",         _Tr("Num Graduations"), _Tr("How many graduation lines to draw (only relevant if graduations are on)"),     []);
+	addOption(widgets.bar, "feed",        "feed",          _Tr("Feed"),            _Tr("Feed value"),                                                                  []);
+	addOption(widgets.bar, "max",         "value",         _Tr("Max value"),       _Tr("Max value to show"),                                                           []);
+	addOption(widgets.bar, "scale",       "value",         _Tr("Scale"),           _Tr("Value is multiplied by scale before display. Defaults to 1"),                  []);
+	addOption(widgets.bar, "units",       "value",         _Tr("Units"),           _Tr("Unit type to show after value. Ex: <br>\"{Reading}{unit-string}\""),           []);
+	addOption(widgets.bar, "offset",      "value",         _Tr("Offset"),          _Tr("Static offset. Subtracted from value before computing position (default 0)"),  []);
+	addOption(widgets.bar, "colour",      "colour_picker", _Tr("Colour"),          _Tr("Colour to draw bar in"),                                                       []);
+	addOption(widgets.bar, "fontcolour",  "colour_picker", _Tr("Font olour"),      _Tr("Text font colour to draw bar in"),                                             []);
+	//addOption(widgets.bar, "graduations", "dropbox",       _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             graduationDropBoxOptions);
+	addOption(widgets.bar, "graduations", "toggle",        _Tr("Graduations"),     _Tr("Should the graduations be shown"),                                             []);
+	addOption(widgets.bar, "gradNumber",  "value",         _Tr("Num Graduations"), _Tr("How many graduation lines to draw (only relevant if graduations are on)"),     []);
 	return widgets;
 }
 
@@ -114,6 +114,8 @@ function draw_bar(context,
 				graduationBool,
 				graduationQuant)
 {
+	if (!context)
+		return;
 
 x_pos = (undefined === x_pos) ? 0: x_pos;
 y_pos = (undefined === y_pos) ? 0: y_pos;
@@ -128,8 +130,6 @@ static_offset = (undefined === static_offset) ? 0: static_offset;
 graduationBool = ((undefined === graduationBool) ? 0: graduationBool)* 1;
 graduationQuant = ((undefined === graduationQuant) ? 5: graduationQuant)* 1;
 
-	if (!context)
-		return;
 
 	context.clearRect(0,0,width+10,height+10); // Clear old drawing
 
@@ -242,10 +242,9 @@ graduationQuant = ((undefined === graduationQuant) ? 5: graduationQuant)* 1;
 	}
 
 
-//	context.fillStyle = "#555";
 	context.fillStyle = font_colour;
 	context.textAlign    = "center";
-	context.font = "bold "+(size*0.55)+"px arial";
+	context.font = "bold "+(size*0.50)+"px arial";
     var decimal;
     raw_value = (isNaN(raw_value)) ? 0 : raw_value;
     decimal =  Math.abs(raw_value)>= 100 ? 0: 1;
@@ -254,10 +253,13 @@ graduationQuant = ((undefined === graduationQuant) ? 5: graduationQuant)* 1;
 
 	if (graduationBool === 1)
 	{
-		if (raw_value > 1000)		// Add additional offset to make alignment work for HUGE numbers
-			half_width += (size*0.20)
+		// Add additional offset to make alignment work for HUGE numbers
+		//if (raw_value > 1000) half_width += (size*0.20)
+		//change alignment followinw string length.
+		var txt = raw_value+units_string;
+		half_width += size / txt.length;
 		context.fillStyle=font_colour;
-		context.fillText(raw_value+units_string, half_width+(size*0.25), height + (size*0.45));
+		context.fillText(raw_value+units_string, half_width+(size*0.20), height + (size*0.45));
 	}
 	else
 	{

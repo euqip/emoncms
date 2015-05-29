@@ -113,6 +113,7 @@ var designer = {
                 x.css("z-index",zindex);
             }
         }
+        designer.modified();
         return true;
     },
 
@@ -290,6 +291,7 @@ var designer = {
         designer.scan();
         redraw = 1;
         designer.edit_mode = true;
+        designer.modified();
     },
     'savedashboard': function(){
         //recalculate the height so the page_height is shrunk to the minimum but still wrapping all components
@@ -430,61 +432,6 @@ var designer = {
             }
         });
 
-/*
-        $(this.canvas).mouseup(function(event) {
-            designer.mousedown = false;
-            selected_edge = selected_edges.none;
-        });
-        $(this.canvas).mousemove(function(event) {
-            // On resize
-            if (designer.mousedown && designer.selected_box && selected_edge){
-
-                var mx = 0, my = 0;
-                if(event.offsetX===undefined) // this works for Firefox
-                {
-                    mx = (event.pageX - $(event.target).offset().left);
-                    my = (event.pageY - $(event.target).offset().top);
-                } else {
-                    mx = event.offsetX;
-                    my = event.offsetY;
-                }
-
-                var rightedge = resize.left+resize.width;
-                var bottedge = resize.top+resize.height;
-
-                switch(selected_edge)
-                {
-                    case selected_edges.right:
-                        designer.boxlist[designer.selected_box].width = (designer.snap(mx)-resize.left);
-                        break;
-                    case selected_edges.left:
-                        designer.boxlist[designer.selected_box].left = (designer.snap(mx));
-                        designer.boxlist[designer.selected_box].width = rightedge - designer.snap(mx);
-                        break;
-                    case selected_edges.bottom:
-                        designer.boxlist[designer.selected_box].height = (designer.snap(my)-resize.top);
-                        break;
-                    case selected_edges.top:
-                        designer.boxlist[designer.selected_box].top = (designer.snap(my));
-                        designer.boxlist[designer.selected_box].height = bottedge - designer.snap(my);
-                        break;
-                    case selected_edges.center:
-                        designer.boxlist[designer.selected_box].left = (designer.snap(mx-designer.boxlist[designer.selected_box].width/2));
-                        designer.boxlist[designer.selected_box].top = (designer.snap(my-designer.boxlist[designer.selected_box].height/2));
-                        break;
-                }
-
-                if (bottedge>parseInt($("#page-container").css("height")))
-                {
-                    $("#page-container").css("height",bottedge);
-                    $("#can").attr("height",bottedge);
-                    designer.page_height = bottedge;
-                }
-
-                designer.draw();
-            }
-        });
-*/
     },
 };
 
@@ -514,7 +461,8 @@ var designer = {
             $('#widget_options').modal('hide');
             redraw = 1;
             reloadiframe = designer.selected_box;
-            $("#state").html("Changed");
+            //$("#state").html("Changed");
+            designer.modified();
         });
 
          $("#delete-button").click(function(event) {
@@ -577,6 +525,7 @@ $.ui.plugin.add("draggable", "alsoDrag", {
         }else{
             _alsoDrag(o.alsoDrag);
         }
+        designer.modified();
     },
     stop: function() {
         $(this).removeData("draggable-alsoDrag");
