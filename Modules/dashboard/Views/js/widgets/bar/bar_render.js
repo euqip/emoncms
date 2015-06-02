@@ -61,7 +61,6 @@ function bar_widgetlist()
 }
 
 function bar_init(){
-	setup_widget_canvas('bar');
 }
 
 function bar_draw()

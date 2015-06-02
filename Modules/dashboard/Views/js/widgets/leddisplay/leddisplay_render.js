@@ -36,9 +36,7 @@ function leddisplay_widgetlist()
   return widgets;
 }
 
-function leddisplay_init()
-{
-  setup_widget_canvas('leddisplay');
+function leddisplay_init(){
 
 }
 

@@ -50,7 +50,6 @@ function button_events()
 
 function button_init()
 {
-  setup_widget_canvas('button');
 }
 
 function button_draw()

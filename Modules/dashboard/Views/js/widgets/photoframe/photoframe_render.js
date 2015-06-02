@@ -34,9 +34,7 @@ function photoframe_widgetlist()
   return widgets;
 }
 
-function photoframe_init()
-{
-	setup_widget_canvas('photoframe');
+function photoframe_init(){
 
 }
 

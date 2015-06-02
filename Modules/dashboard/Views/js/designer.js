@@ -119,6 +119,10 @@ var designer = {
 
     'scan': function()
     {
+        //ensure that the emon_widget class is set for all widget in dashboard
+        $("#page").children().addClass("emon_widget");
+        $("#page").children().attr("settime",0);
+
         //instead of scanning all displayed widgets, use a common class
         $(".emon_widget").each(function(){
             var id = 1*($(this).attr("id"));

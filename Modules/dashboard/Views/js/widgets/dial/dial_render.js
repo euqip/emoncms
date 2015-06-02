@@ -76,7 +76,7 @@ function dial_widgetlist()
   addOption(widgets.dial, "type",        "dropbox", _Tr("Type"),        _Tr("Type to show"),                                                          typeDropBoxOptions);
   //addOption(widgets.dial, "graduations", "dropbox", _Tr("Graduations"), _Tr("Should the graduation limits be shown"),                                 graduationDropBoxOptions);
   addOption(widgets.dial, "graduations", "toggle",  _Tr("Graduations"), _Tr("Should the graduation limits be shown"),                                 graduationDropBoxOptions);
-  addOption(widgets.dial, "fontcolour",  "colour_picker", _Tr("Font olour"),        _Tr("Text font colour"),                                             []);
+  addOption(widgets.dial, "fontcolour",  "colour_picker", _Tr("Font colour"),        _Tr("Text font colour"),                                             []);
   addOption(widgets.dial, "needlecolour","colour_picker", _Tr("needle colour"),     _Tr("Text needle background colour"),                                             []);
   addOption(widgets.dial, "needlefontcolour","colour_picker", _Tr("needle font colour"),_Tr("Text needle feed value font colour"),                                             []);
 
@@ -86,7 +86,6 @@ function dial_widgetlist()
 }
 
 function dial_init(){
-  setup_widget_canvas('dial');
 }
 
 function dial_repaint(){

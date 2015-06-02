@@ -28,13 +28,10 @@ function led_widgetlist()
   return widgets;
 }
 
-function led_init()
-{
-  setup_widget_canvas('led');
+function led_init(){
 }
 
-function led_draw()
-{
+function led_draw(){
   $('.led').each(function(index)
   {
     var feed = $(this).attr("feed");

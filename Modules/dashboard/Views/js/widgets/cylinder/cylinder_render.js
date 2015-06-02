@@ -33,7 +33,6 @@ function cylinder_widgetlist()
 
 function cylinder_init()
 {
-  setup_widget_canvas('cylinder');
 }
 
 function cylinder_draw()

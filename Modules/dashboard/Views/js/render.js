@@ -46,12 +46,8 @@ function show_dashboard()
 {
   browserVersion = Browser.Version();
   if (browserVersion < 9) dialrate = 0.2;
-
-  for (var z = 0; z < widget.length; z++) {
-    var fn = window[widget[z]+"_init"];
-    fn();
-  }
-
+// by using a common class for all widgets, the setup is made once for all
+  setup_widget_canvas('');
   update();
 }
 
@@ -86,6 +82,7 @@ function update()
 function fast_update()
 {
   var  z,  fn;
+  /*
   if (redraw)
   {
     for (z = 0; z < widget.length; z++) {
@@ -94,7 +91,8 @@ function fast_update()
     }
 
   }
-
+*/
+  setup_widget_canvas('');
   for (z = 0; z < widget.length; z++) {
     fn = window[widget[z]+"_fastupdate"];
     fn();
@@ -115,10 +113,22 @@ function curve_value(feed,rate)
 
 function setup_widget_canvas(elementclass)
 {
-  //$('.'+elementclass).each(function(index)
+  var widgetdone=[];
   $('.emon_widget').each(function(index)
   {
     var widgetId = $(this).attr("id");
+    var widgettype = $(this).attr("class").split(" ");
+    // call it only once for each type of widget
+    if ($.inArray(widgettype[0], widgetdone) === -1){
+      widgetdone.push(widgettype[0]);
+      var fn = window[widgettype[0]+"_init"];
+      try{
+        fn();
+      } catch(Err){
+        
+      }
+    }
+
 
     var width = $(this).width();
     var height = $(this).height();

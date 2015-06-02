@@ -215,7 +215,7 @@ function defaultInstrument(){
 
 function SSGeneric_init()
 {
-  setup_widget_canvas('SSGeneric');//add init
+  //setup_widget_canvas('SSGeneric');//add init
   setup_steelseries_object('SSGeneric');
 }
 
@@ -227,12 +227,13 @@ function SSGeneric_draw()
     var feed        =($(this).attr("feed") === undefined) ? 0 : $(this).attr("feed");
     var generictype =($(this).attr("generictype") === undefined) ? defaultInstrument() : $(this).attr("generictype");
     var val         =(assoc[feed] === undefined) ? 0 : assoc[feed];
-    var temp        =($(this).attr("old") === undefined) ? 0 : $(this).attr("old");
+    var temp        =($(this).attr("lastval") === undefined) ? 0 : $(this).attr("lastval");
     var id          = $(this).attr("id");
+    //console.log ("SSGeneric_draw "+ Date.now() + " value : " + val);
     if (val != temp){//redraw?
         //store present value as attribute
         //bypass refresh if no change
-        $(this).attr("old",val);
+        $(this).attr("lastval",val);
     try {
               // Per ogni tipologia di controllo Steel esistente
               // Sets the animated value as the default behavior
@@ -256,9 +257,17 @@ function SSGeneric_draw()
                     SObjects[id].setRollAnimated(val+10);
                     break;
                 case "Led":
-                    val = (val <0)?0:val %7;
+                    SObjects[id].setLedOnOff((val <0 || isNaN(val)) ? 0 : 1);
+                    break;
+/*
+ As made by Alezuin, the LED colour changes with value
+
+                    val = (val <0 || isNaN(val)) ? 0 : val %7;
                     var LedColorvalues=     ["RED","GREEN","BLUE","ORANGE","YELLOW","CYAN","MAGENTA"];
-                    SObjects[id].setLedColor(LedColorvalues[val]+"_LED");
+                    var newLedColor = LedColorvalues[val]+"_LED";
+                    SObjects[id].setLedColor(newLedColor);
+*/
+                    //SObjects[id].setLedColor(LedColor(LedColorvalues[val]+"_LED"));
                     break;
                 case "Odometer":
                     SObjects[id].setValue(val);
@@ -268,7 +277,7 @@ function SSGeneric_draw()
                     SObjects[id].setOn(val > 0);
                     SObjects[id].setAlpha(val % 100);
                 case "Clock":
-                    console.log(generictype);
+                    //console.log(generictype);
                     break;
                 case "LinearBargraph":
                     SObjects[id].setValueAnimated(val);
@@ -277,8 +286,8 @@ function SSGeneric_draw()
                     SObjects[id].setValue(val);
                 }
             }
-            catch (err){
-                console.log("SSGeneric_draw Error"+generictype+" set value");
+            catch (Err){
+                console.log("SSGeneric_draw Error"+generictype+" SSGeneric_draw  ---  "+ Err);
             }
         }
     });
@@ -298,9 +307,9 @@ function SSGeneric_repaint(ssid){
                 height              : height,
             };
             try {
-                    SObjects[id].redraw();
+                    SObjects[id].repaint();
             } catch (err){
-                 console.log("SSGeneric_repaint Error"+generictype+" id: "+id+" set value");
+                 console.log("SSGeneric_repaint Error "+generictype+" id: "+id+" set value");
             }
         }
     });
@@ -323,125 +332,133 @@ function SSGeneric_fastupdate(){
 */
 function setup_steelseries_object(elementclass){
     $('.'+elementclass).each(function(index){
-        var id = "can-"+$(this).attr("id"); //Canvas
-        var MinValue = ($(this).attr("MinValue")===undefined)? 0:$(this).attr("MinValue");
-        var MaxValue = ($(this).attr("MaxValue")===undefined)? 100:$(this).attr("MaxValue");
-        var title = ($(this).attr("title")===undefined)? "":$(this).attr("title");
-        var units = ($(this).attr("unit")===undefined)? "":$(this).attr("unit");
-        var threshold = ($(this).attr("threshold")===undefined)? 80:$(this).attr("threshold");
+        var setup  = ($(this).attr("settime")===undefined)? 0:$(this).attr("settime");
+        var mytime = Date.now();
+        if ((mytime-120000)>setup){
+            var delta = mytime-setup;
+            //console.log ("setup_steelseries_object -> "+ delta + "   -> time " + Date.now());
+            var id = "can-"+$(this).attr("id"); //Canvas
+            var MinValue = ($(this).attr("MinValue")===undefined)? 0:$(this).attr("MinValue");
+            var MaxValue = ($(this).attr("MaxValue")===undefined)? 100:$(this).attr("MaxValue");
+            var title = ($(this).attr("title")===undefined)? "":$(this).attr("title");
+            var units = ($(this).attr("unit")===undefined)? "":$(this).attr("unit");
+            var threshold = ($(this).attr("threshold")===undefined)? 80:$(this).attr("threshold");
 
-        var type = ($(this).attr("type")===undefined)? "TYPE4":$(this).attr("type");
+            var type = ($(this).attr("type")===undefined)? "TYPE4":$(this).attr("type");
 
-        //set section colours :D
-        var sections = [
-            steelseries.Section(0, 25, 'rgba(0, 0, 220, 0.3)'),
-            steelseries.Section(25, 50, 'rgba(0, 220, 0, 0.3)'),
-            steelseries.Section(50, 75, 'rgba(220, 220, 0, 0.3)')
-            ];
+            //set section colours :D
+            var sections = [
+                steelseries.Section(0, 25, 'rgba(0, 0, 220, 0.3)'),
+                steelseries.Section(25, 50, 'rgba(0, 220, 0, 0.3)'),
+                steelseries.Section(50, 75, 'rgba(220, 220, 0, 0.3)')
+                ];
 
-        // Define one area colour :P
-        var areas = Array(steelseries.Section(75, 100, 'rgba(220, 0, 0, 0.3)'));
+            // Define one area colour :P
+            var areas = Array(steelseries.Section(75, 100, 'rgba(220, 0, 0, 0.3)'));
 
-        // Start of SSGeneric
-        if (elementclass=="SSGeneric"){
-            if ($(this).attr("generictype") === undefined){
-                $(this).attr("generictype", defaultInstrument());
+            // Start of SSGeneric
+            if (elementclass=="SSGeneric"){
+                if ($(this).attr("generictype") === undefined){
+                    $(this).attr("generictype", defaultInstrument());
+                }
+
+                //var lcdcolors       = new steelseries.LcdColor
+                var generictype     =($(this).attr("generictype") === undefined) ? defaultInstrument() : $(this).attr("generictype");
+                var myLcdColor      =($(this).attr("lcdcolor") === undefined) ? "STANDARD" : $(this).attr("lcdcolor");
+                var myLedColor      =($(this).attr("ledcolor") === undefined) ? "RED" : $(this).attr("ledcolor");
+                var lcdDecimals     =($(this).attr("lcddecimals") === undefined) ? 2 : $(this).attr("lcddecimals");
+                lcdDecimals         =(lcdDecimals === ""||lcdDecimals>10||lcdDecimals<0) ? 2 : $(this).attr("lcdDecimals");
+                var unitstring      =($(this).attr("unit") === undefined) ? "" : $(this).attr("unit");
+                var unitstringbool  =(unitstring==="") ? false : true;
+                var headerString    =($(this).attr("title") === undefined) ? "" : $(this).attr("title");
+                var headerStringbool=(headerString==="") ? false : true;
+                var pt   = ($(this).attr("pointertype")=== undefined)?"TYPE1":$(this).attr("pointertype");
+                var pc   = ($(this).attr("pointercolour")=== undefined)?"RED":$(this).attr("pointercolour");
+                var fgt  = ($(this).attr("ForegroundType")=== undefined)?"TYPE1":$(this).attr("ForegroundType");
+                var frame= ($(this).attr("frame") === undefined) ? "METAL" : $(this).attr("frame");
+                var bgc  = ($(this).attr("backgroundcolour") === undefined) ? "DARK_GRAY" : $(this).attr("backgroundcolour");
+
+                var ssid = $(this).attr("id");
+                var width = ($(this).width()<40)?40:$(this).width();
+                var height = ($(this).height()<40)?40:$(this).height();
+
+
+                var params= {
+                    width               : width,
+                    height              : height,
+                    unitStringVisible   : unitstringbool,
+                    unitString          : unitstring,
+                    headerString        : headerString,
+                    headerStringVisible : headerStringbool,
+                    valuesNumeric       : true,
+                    digitalFont         : true,
+                    lcdDecimals         : lcdDecimals,
+                    lcdVisible          : true,
+                    LcdColor            : myLcdColor,
+                    pointercolour       : pc,
+                    foregroundtype      : fgt,
+                    //ledColor            : steelseries.LedColor[myLedColor],
+                    // the array is defined within the steelseries component
+                    singleledColor      : myLedColor+"",
+                    threshold           : threshold,
+                    titleString         : title
+                            };
+
+                SObjects[ssid] = new steelseries[generictype](id, params);
+                switch (generictype){
+                    case "Led":
+                        SObjects[ssid].setLedColor(steelseries.LedColor[myLedColor+"_LED"]);
+                        break;
+
+                    case "DisplaySingle":
+                    case "DisplayMulti":
+                        SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
+                        break;
+                    case "LinearBargraph":
+                    case "RadialBargraph":
+                        SObjects[ssid].setBackgroundColor(steelseries.BackgroundColor[bgc]);
+                        SObjects[ssid].setFrameDesign(steelseries.FrameDesign[frame]);
+                        SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
+                        break;
+                    case "TrafficLight":
+                        break;
+                    case "compass":
+                        //SObjects[ssid].setPointerType(steelseries.PointerType[PointerType]);
+                        SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
+                        SObjects[ssid].setForegroundType(steelseries.ForegroundType[fgt]);
+                    case "WindDirection":
+                        SObjects[ssid].setPointerType(steelseries.PointerType[pt]);
+                        SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
+
+                    case "altimeter":
+                    case "Altimeter":
+                    case "linear":
+                    case "RadialVertical":
+                    case "Radial":
+                        SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
+                    case "Clock":
+                    case "Level":
+                    case "StopWatch":
+                        SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
+                        SObjects[ssid].setForegroundType(steelseries.ForegroundType[fgt]);
+                        SObjects[ssid].setBackgroundColor(steelseries.BackgroundColor[bgc]);
+                    case "Horizon":
+                        //SObjects[ssid].setFrameDesign(steelseries.FrameDesign[frame]);
+                        //radial1.setFrameDesign(steelseries.FrameDesign.STEEL);
+
+                default:
+                        break;
+                }
+                // fully redraw widget after parameters changed, and logf it if errors
+                try {
+                    if (generictype !== "Led") SObjects[ssid].repaint();
+                    $(this).attr("settime",mytime);
+                } catch (Err){
+                    console.log("setup_steelseries_object Error ->"+generictype+" set value. "+Err);
+                }
             }
-
-            //var lcdcolors       = new steelseries.LcdColor
-            var generictype     =($(this).attr("generictype") === undefined) ? defaultInstrument() : $(this).attr("generictype");
-            var myLcdColor      =($(this).attr("lcdcolor") === undefined) ? "STANDARD" : $(this).attr("lcdcolor");
-            var lcdDecimals     =($(this).attr("lcddecimals") === undefined) ? 2 : $(this).attr("lcddecimals");
-            lcdDecimals         =(lcdDecimals === ""||lcdDecimals>10||lcdDecimals<0) ? 2 : $(this).attr("lcdDecimals");
-            var unitstring      =($(this).attr("unit") === undefined) ? "" : $(this).attr("unit");
-            var unitstringbool  =(unitstring==="") ? false : true;
-            var headerString    =($(this).attr("title") === undefined) ? "" : $(this).attr("title");
-            var headerStringbool=(headerString==="") ? false : true;
-            var pt   = ($(this).attr("pointertype")=== undefined)?"TYPE1":$(this).attr("pointertype");
-            var pc   = ($(this).attr("pointercolour")=== undefined)?"RED":$(this).attr("pointercolour");
-            var fgt  = ($(this).attr("ForegroundType")=== undefined)?"TYPE1":$(this).attr("ForegroundType");
-            var frame= ($(this).attr("frame") === undefined) ? "METAL" : $(this).attr("frame");
-            var bgc  = ($(this).attr("backgroundcolour") === undefined) ? "DARK_GRAY" : $(this).attr("backgroundcolour");
-
-            var ssid = $(this).attr("id");
-            var width = ($(this).width()<40)?40:$(this).width();
-            var height = ($(this).height()<40)?40:$(this).height();
-
-
-            var params= {
-                width               : width,
-                height              : height,
-                unitStringVisible   : unitstringbool,
-                unitString          : unitstring,
-                headerString        : headerString,
-                headerStringVisible : headerStringbool,
-                valuesNumeric       : true,
-                digitalFont         : true,
-                lcdDecimals         : lcdDecimals,
-                lcdVisible          : true,
-                pointercolour       : pc,
-                foregroundtype      : fgt,
-
-                        };
-
-            SObjects[ssid] = new steelseries[generictype](id, params);
-            console.log(generictype);
-            /*
-            if(generictype=="Horizon"){
-                console.log(generictype);
-            }
-            */
-            switch (generictype){
-                case "DisplaySingle":
-                case "DisplayMulti":
-                    SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
-                    break;
-                case "LinearBargraph":
-                case "RadialBargraph":
-                    SObjects[ssid].setBackgroundColor(steelseries.BackgroundColor[bgc]);
-                    SObjects[ssid].setFrameDesign(steelseries.FrameDesign[frame]);
-                    SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
-                    break;
-                case "trafficlight":
-                    break;
-
-
-                case "compass":
-                    //SObjects[ssid].setPointerType(steelseries.PointerType[PointerType]);
-                    SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
-                    SObjects[ssid].setForegroundType(steelseries.ForegroundType[fgt]);
-                case "WindDirection":
-                    SObjects[ssid].setPointerType(steelseries.PointerType[pt]);
-                    //SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
-
-                case "altimeter":
-                case "Altimeter":
-                case "linear":
-                case "RadialVertical":
-                case "Radial":
-                    SObjects[ssid].setLcdColor(steelseries.LcdColor[myLcdColor]);
-                case "Clock":
-                case "Level":
-                case "StopWatch":
-                    SObjects[ssid].setPointerColor(steelseries.ColorDef[pc]);
-                    SObjects[ssid].setForegroundType(steelseries.ForegroundType[fgt]);
-                    SObjects[ssid].setBackgroundColor(steelseries.BackgroundColor[bgc]);
-                case "Horizon":
-                    SObjects[ssid].setFrameDesign(steelseries.FrameDesign[frame]);
-                    //radial1.setFrameDesign(steelseries.FrameDesign.STEEL);
-
-            default:
-                    break;
-            }
-            // fully redraw widget after parameters changed, and logf it if errors
-            try {
-                SObjects[ssid].redraw();
-            }catch(Err){
-                console.log("setup_steelseries_object Error"+generictype+" set value");
-
-            }
-
         }
+
         // End of SSGeneric
 
     });
