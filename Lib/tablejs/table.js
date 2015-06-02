@@ -257,11 +257,10 @@ var table =
     'textlink':
     {
         'draw': function (row,field) { return "<a href='"+table.fields[field].link+table.data[row].id+"' >"+table.data[row][field]+"</a>" ;},
-    //'edit': function (row,field) { return "<input type='text' value='"+table.data[row][field]+"' / >" },
-    'edit': function (row,field) {
-        var html = "";
-        html+= "<input type='text' class='form-control' value='"+table.data[row][field]+"' / >";
-        return html;},
+        'edit': function (row,field) {
+            var html = "";
+            html+= "<input type='text' class='form-control' value='"+table.data[row][field]+"' / >";
+            return html;},
         'save': function (row,field) { return $("[row="+row+"][field="+field+"] input").val(); },
     },
     'select':
