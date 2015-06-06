@@ -188,6 +188,7 @@ var ForegroundStyle=    [
                         ];
 
 
+    addOption(widgets.SSGeneric , "title"            , "title"   , _Tr("Alias")               , _Tr("my widget alias name"),                                                            []);
     addOption(widgets.SSGeneric , "feed"             , "feed"    , _Tr("Main Feed")           , _Tr("Main Feed value")              , []);
     addOption(widgets.SSGeneric , "feed"             , "feed"    , _Tr("secondary Feed")      , _Tr("Secondary Feed value")         , []);
     addOption(widgets.SSGeneric , "generictype"      , "dropbox" , _Tr("Instr layout")        , _Tr("The instrument layout")        , GenericTypeArray);

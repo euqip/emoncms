@@ -47,6 +47,7 @@ function bar_widgetlist()
 					[0, "Off"]
 				]
 
+    addOption(widgets.bar, "title",       "title",         _Tr("Alias"),           _Tr("my widget alias name"),                                                            []);
 	addOption(widgets.bar, "feed",        "feed",          _Tr("Feed"),            _Tr("Feed value"),                                                                  []);
 	addOption(widgets.bar, "max",         "value",         _Tr("Max value"),       _Tr("Max value to show"),                                                           []);
 	addOption(widgets.bar, "scale",       "value",         _Tr("Scale"),           _Tr("Value is multiplied by scale before display. Defaults to 1"),                  []);

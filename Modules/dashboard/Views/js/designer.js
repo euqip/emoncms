@@ -44,6 +44,7 @@ var designer = {
     'selected_edge': selected_edges.none,
     'edit_mode': true,
     'create': null,
+    'selboxhtml': '',
 
     'boxi': 0,
 
@@ -72,10 +73,11 @@ var designer = {
     },
 
     'modified': function() {
+        $("#page").children().attr("settime",0);
         $("#save-dashboard").attr('class','btn btn-warning').text(tobesaved);
     },
 
-    'onbox': function(x,y)
+    'onbox1': function(x,y)
     {
         var z;
         var oldbox = designer.selected_box;
@@ -96,6 +98,44 @@ var designer = {
             }
         }
         return box;
+    },
+
+    'onbox': function(x,y) {
+        var oldbox = designer.selected_box,  box = [],html = "";
+        // each click on a box will refresh the selected box
+        // if ghost is visible and the same box is selected then do nothing, except if an other box can be selected
+        if(designer.selected_box) designer.unsurround();
+        var icon = '<span class="glyphicon glyphicon glyphicon-arrow-right"></span>';
+        $(".emon_widget").each(function(){
+            var obj =$(this),
+                bx = obj.position(),
+                id = 1*(obj.attr("id")),
+                a =(x> bx.left) && (x < bx.left + obj.width()),
+                b =(y> bx.top) && (y < bx.top + obj.height());
+            if ((a) && (b)) {
+                var classname = obj.attr("class").split(" ");
+                var title = (obj.attr("title")===undefined) ? '' : ' - '+obj.attr("title");
+                box.push (id);
+                html += '<li><a tabindex="-1" href="'+id+'">'+icon+id+ ' - '+classname[0]+title+'</a></li>';
+            }
+        //designer.selboxhtml = html;
+        $("#widgetselectorid").html(html);
+        })
+        return box[0];
+    },
+
+    'selabox': function(box) {
+        if (designer.edit_mode) designer.selected_box = box;
+
+        if (!designer.selected_box){
+            $("#when-selected").hide();
+            designer.unsurround(oldbox);
+        } else {
+        // designer.draw was used to redraw grid and get widgets dims
+            designer.draw();
+            designer.surround (designer.selected_box);
+            $("#when-selected").show();
+        }
     },
 
     'zindex': function(move){
@@ -259,7 +299,7 @@ var designer = {
 
     },
 
-     'widget_buttons': function()    {
+    'widget_buttons': function()    {
         var widget_html = "";
         var select = [];
         var z, menu, displayname;
@@ -402,17 +442,7 @@ var designer = {
                 my = event.offsetY;
             }
             var oldbox = designer.selected_box;
-            if (designer.edit_mode) designer.selected_box = designer.onbox(mx,my);
-            if (!designer.selected_box){
-                $("#when-selected").hide();
-                designer.unsurround(oldbox);
-            } else {
-            // designer.draw was used to redraw grid and get widgets dims
-                designer.draw();
-                designer.surround (designer.selected_box);
-                $("#when-selected").show();
-            }
-
+            designer.selabox  (designer.onbox(mx,my));
         });
         // will have to be replaced with jquery resize and drag api
         $(this.canvas).mousedown(function(event) {

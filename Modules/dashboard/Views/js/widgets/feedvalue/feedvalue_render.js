@@ -57,9 +57,10 @@ function feedvalue_widgetlist()
 		[6,    "6"]
 	];
 
-  addOption(widgets["feedvalue"], "feedname",   "feed",    _Tr("Feed"),     _Tr("Feed value"),		[]);
-  addOption(widgets["feedvalue"], "units",      "value",   _Tr("Units"),    _Tr("Units to show"),	[]);
-  addOption(widgets["feedvalue"], "decimals",   "dropbox", _Tr("Decimals"), _Tr("Decimals to show"),	decimalsDropBoxOptions);
+  addOption(widgets.feedvalue, "title",      "title",   _Tr("Alias"),    _Tr("my widget alias name"),                                                            []);
+  addOption(widgets.feedvalue, "feedname",   "feed",    _Tr("Feed"),     _Tr("Feed value"),		[]);
+  addOption(widgets.feedvalue, "units",      "value",   _Tr("Units"),    _Tr("Units to show"),	[]);
+  addOption(widgets.feedvalue, "decimals",   "dropbox", _Tr("Decimals"), _Tr("Decimals to show"),	decimalsDropBoxOptions);
 
   return widgets;
 }

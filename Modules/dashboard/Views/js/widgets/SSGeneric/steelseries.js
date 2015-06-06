@@ -11754,8 +11754,8 @@ var steelseries = (function () {
 
         // parameters
         var _context = (undefined === parameters._context ? null : parameters._context),  // If component used internally by steelseries
-            height = (undefined === parameters.height ? 0 : parameters.height),
-            digits = (undefined === parameters.digits ? 6 : parameters.digits),
+            height = (undefined === parameters.height ? 20 : parameters.height),
+            digits = (undefined === parameters.digits ? 5 : parameters.digits),
             decimals = (undefined === parameters.decimals ? 1 : parameters.decimals),
             decimalBackColor = (undefined === parameters.decimalBackColor ? '#F0F0F0' : parameters.decimalBackColor),
             decimalForeColor = (undefined === parameters.decimalForeColor ? '#F01010' : parameters.decimalForeColor),

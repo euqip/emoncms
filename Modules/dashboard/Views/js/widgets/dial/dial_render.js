@@ -68,6 +68,7 @@ function dial_widgetlist()
           [0, "No"]
         ];
 
+  addOption(widgets.dial, "title",       "title",   _Tr("Alias"),       _Tr("my widget alias name"),                                                            []);
   addOption(widgets.dial, "feed",        "feed",    _Tr("Feed"),        _Tr("Feed value"),                                                            []);
   addOption(widgets.dial, "max",         "value",   _Tr("Max value"),   _Tr("Max value to show"),                                                     []);
   addOption(widgets.dial, "scale",       "value",   _Tr("Scale"),       _Tr("Value is multiplied by scale before display"),                           []);

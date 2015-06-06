@@ -74,14 +74,23 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
 </div>
 
 <div id = "contextmenu">
-  <ul class="dropdown-menu" role="menu" class="dropdown clearfix" style = "z-index:9999;">
+  <ul class="dropdown-menu multi-level" role="menu" class="dropdown clearfix" style = "z-index:9999;">
       <li class = "needwidget" ><a tabindex="-1" href="fw"><span class="glyphicon glyphicon-chevron-up"></span><?php echo _("Move Foreward"); ?></a></li>
       <li class = "needwidget" ><a tabindex="-1" href="bw"><span class="glyphicon glyphicon-chevron-down"></span><?php echo _("Move Backward"); ?></a></li>
       <li><a tabindex="-1" href="sv"><span class="glyphicon glyphicon-save"></span><?php echo _("Save Dashboard"); ?></a></li>
       <li class = "needwidget" ><a tabindex="-1" href="set"><span class="glyphicon glyphicon-wrench"></span><?php echo _("Widget settings"); ?></a></li>
       <li class="divider"></li>
       <li class = "needwidget" ><a tabindex="-1" href="del"><span class="glyphicon glyphicon-trash"></span><?php echo _("Delete widget"); ?></a></li>
-  </ul>
+      <li class="divider"></li>
+      <li class = "dropdown-submenu" ><a tabindex="-1" href= "#" data-toggle="dropdown"><span class="glyphicon glyphicon-arrow-right"></span><?php echo _("An other widget"); ?></a>
+        <ul  id = "widgetselectorid" class="dropdown-menu">
+            <li class = "needwidget" ><a tabindex="-1" href="set"><span class="glyphicon glyphicon-wrench"></span><?php echo _("Widget settings"); ?></a></li>
+            <li class="divider"></li>
+            <li class = "needwidget" ><a tabindex="-1" href="del"><span class="glyphicon glyphicon-trash"></span><?php echo _("Delete widget"); ?></a></li>
+        </ul>
+      </li>
+  </ul
+  >
 </div>
 
 <script src="https://code.jquery.com/ui/jquery-ui-1-9-git.js"></script>
@@ -138,8 +147,9 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
     },
     onItem: function (context, e) {
     //console.log ($(e.target).attr("href"));
+    var href = $(e.target).attr("href");
     var zindex = -1;
-    switch ($(e.target).attr("href")){
+    switch (href){
       case "fw":
         zindex =1;
       case "bw":
@@ -156,10 +166,13 @@ if (!$dashboard['height']) $dashboard['height'] = 400;
         designer.delwidget();
         break;
       default:
+        designer.selabox (href);
+
         break;
       }
     }
   });
+
 
 $('.resizable').resizable({
     //aspectRatio: true,
